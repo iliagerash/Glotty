@@ -36,7 +36,12 @@ The LLM writes everything the learner reads and interprets everything the learne
 
 ## Build order and status
 
-&#91;embedded content: build order · 8 steps, 1 gate\]
+```mermaid
+flowchart LR
+  S0["0. Remove fakes ✓"] --> S1["1. Model gateway ✓"] --> S2["2. Evaluator<br/>(measuring)"]
+  S2 --> G{{"§25 gates on<br/>held-out human labels"}}
+  G --> S3["3. Items + sync path"] --> S4["4. Conversation +<br/>async labels"] --> S5["5. Learner model"] --> S6["6. Policy"] --> S7["7. Session + insights"]
+```
 
 Steps 0 and 1 are done, and step 2 is being measured. Steps 3–7 wait behind the evaluator gate, following the §49 dependency order.
 
@@ -48,7 +53,7 @@ Each step's exit criterion is a measurement or a structural guarantee, not a dem
 | --- | --- | --- |
 | 0. Remove fakes | Delete the simulated evaluator, scripted journey, demo dashboards and fake default user. Make `events` append-only. | Nothing in the codebase produces a label without a real model call. Done. |
 | 1. Model gateway | `src/lib/ai`: tiers, Cloudflare Workers AI + any OpenAI-compatible endpoint, zod-validated output, one retry on invalid JSON | Unit tests against a mocked fetch; every candidate model answers `ai:ping`. Done. |
-| 2. Evaluator | `prompts/evaluator/v1.md`, taxonomy with negative examples, abstention, UNKNOWN; gold tooling (`/annotate`, dev/held-out split, generator, bench) | All six §25 gates pass on the held-out human-labelled set. Built, not yet measured. |
+| 2. Evaluator | `prompts/evaluator/v2.md` (v1 kept for traceability), taxonomy with negative examples, abstention, UNKNOWN; gold tooling (`/annotate`, dev/held-out split, generator, bench) | All six §25 gates pass on the held-out human-labelled set. Built, not yet measured. |
 | 3. Items + sync path | Generated items stored with answer keys and distinguishing probes; sync evaluation by key matching (§22) | Sync path p95 under 200 ms with no LLM call. |
 | 4. Conversation + async labels | LLM conversation turns; evaluation moved to a background queue; versioned `labels` table (events → labels → learner state) | The learner never waits on the LLM; any label can be re-scored by version. |
 | 5. Learner model | Built from labels: §16 weights (uncertain ≈ 0.1), ordering constraint flagged rather than clamped, pooled prior (§17) | Learner state reproducible from events by replay; real gate inputs. |
@@ -191,7 +196,17 @@ A session has a planned shape (§41, §43). An insight is shown only when the de
 
 ## Data flow at a glance
 
-&#91;embedded content: data flow · one learner turn, sync and async paths\]
+```mermaid
+flowchart TD
+  L([Learner turn]) --> SYNC["Sync check against item key<br/>(code, under 200 ms)"]
+  L --> TUTOR["Tutor reply, streamed<br/>(LLM)"]
+  SYNC --> EV[("events<br/>append-only")]
+  EV --> Q["labels_jobs queue"] --> EVAL["Async evaluator<br/>(LLM)"] --> LAB[("labels<br/>versioned")]
+  LAB --> STATE["Learner model replay<br/>(code)"] --> POL["Policy<br/>(code)"]
+  STATE --> GATE{"Insight gate<br/>(code)"} --> PHRASE["Insight phrasing<br/>(LLM)"]
+  POL --> TUTOR
+  GEN["Item generation + validation<br/>(LLM, ahead of time)"] --> SYNC
+```
 
 Only four boxes call an LLM. The learner never waits on any of them except the tutor's streamed reply. Every decision that changes what the learner sees or what is recorded about them is code.
 
@@ -235,7 +250,9 @@ Before any annotation exists, `--against intent` screens models against the gene
 
 ## Model selection status
 
-All 13 Workers AI candidates in `src/lib/ai/config.ts` now return valid evaluator verdicts. A screen of all 13 on 84 dev items (2026-10-19) found no model that passes accuracy or precision on INCORRECT. That result is against the generator's unreviewed labels, not gold.
+All 13 Workers AI candidates in `src/lib/ai/config.ts` now return valid evaluator verdicts. The tiers are now set in the environment: **fast = `gpt-oss-20b#low`, strong = `kimi-k2.6#none`** (`GLOTTY_MODEL_*` plus `GLOTTY_EFFORT_*`).
+
+A screen of all 13 on 84 dev items (2026-10-19, prompt v1, scoring before 9ea1926) found no model that passes accuracy or precision on INCORRECT. That result is against the generator's unreviewed labels, not gold.
 
 | Model | Accuracy | Precision INCORRECT | Diagnosis top-1 | Uncertain | False accusations | Failed calls | p50 / p95 s | Tokens in / out |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -250,10 +267,21 @@ All 13 Workers AI candidates in `src/lib/ai/config.ts` now return valid evaluato
 | qwen3-30b-a3b | 0.803 | 0.833 | 0.650 | 0.048 | 4 | 0 | 5.8 / 15.1 | 2797 / 811 |
 | deepseek-v4-pro#low | 0.824 | 0.826 | 0.895 | 0.037 | 4 | 2 (budget) | 15.3 / 59.1 | 2784 / 852 |
 | gpt-oss-120b#low | 0.794 | 0.793 | 0.696 | 0.000 | 6 | 0 | 5.3 / 14.9 | 2690 / 343 |
-| llama-3.3-70b (current strong) | 0.757 | 0.710 | 0.864 | 0.000 | 9 | 0 | 4.7 / 7.2 | 2800 / 154 |
+| llama-3.3-70b (former strong) | 0.757 | 0.710 | 0.864 | 0.000 | 9 | 0 | 4.7 / 7.2 | 2800 / 154 |
 | mistral-small-3.1-24b | 0.750 | 0.639 | 0.739 | 0.000 | 13 | 0 | 5.6 / 8.1 | 2742 / 171 |
 
 Sorted by false accusations. Gates: accuracy ≥ 0.90, precision ≥ 0.95, diagnosis ≥ 0.65, uncertain ≤ 0.15. "Budget" = reasoning used all 4,096 tokens. Many top-ranked "false accusations" are generator mislabels (for example, `Siempre visité el Louvre…`, labelled ambiguous, is a real PI.04 error). Differences of one or two items are noise at this size.
+
+**Prompt v2 and the scoring fix** (9ea1926). The table above scores a `not_applicable` verdict on an applicable item as neither right nor wrong, so a model could skip items and raise its accuracy; gpt-oss-20b did this on 21 of 84 items. Since 9ea1926 such a verdict counts as a miss, and the report has a "Wrong N/A" column. Prompt v2 tightens four rules: scene-setting clauses in a narrative need the imperfect (PI.06), a speaker's doubt about facts is not intent ambiguity, missing accents don't change the tense judged, and any preterite/imperfect form or *por*/*para* makes a response applicable. Screen of the two tiers under the new scoring:
+
+| Model | Prompt | Accuracy | Precision INCORRECT | Diagnosis top-1 | Uncertain | False accusations | Wrong N/A |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| gpt-oss-20b#low | v1 | 0.500 | 0.762 | 0.750 | 0.000 | 5 | 21 |
+| gpt-oss-20b#low | v2 | 0.716 | 0.773 | 0.706 | 0.000 | 5 | 2 |
+| kimi-k2.6#none | v1 | 0.764 | 0.875 | 0.762 | 0.036 | 3 | 4 |
+| kimi-k2.6#none | v2 | 0.778 | 0.821 | 0.826 | 0.024 | 5 | 4 |
+
+v2 fixed the cases it targeted, but kimi gained two new false accusations, one probably from the PI.06 rule. Still a screen against generator intent, not gold.
 
 **Gateway fixes from real-world testing** (pushed in 2e49b20):
 
@@ -268,16 +296,17 @@ Sorted by false accusations. Gates: accuracy ≥ 0.90, precision ≥ 0.95, diagn
 | nemotron-3-120b-a12b | HTTP 408 timeouts; 84 s for a 400-token reply |
 | glm-4.7-flash | Reasoning exhausts the budget; rejects `reasoning_effort=none` |
 
-**Generator quality.** The first generator prompt produced mislabelled items, meta-text leaking into responses ("…falta un acento en el nombre del pueblo") and repetitive topics. The new prompt fixes the structure: a kind plan, rotating topics, and a rationale that must name the correction. With llama-3.3-70b as the generator, about 15 of 90 intended labels still look wrong. Treat them as drafts for annotators.
+**Generator quality.** The first generator prompt produced mislabelled items, meta-text leaking into responses ("…falta un acento en el nombre del pueblo") and repetitive topics. The new prompt fixes the structure: a kind plan, rotating topics, and a rationale that must name the correction. With llama-3.3-70b as the generator, about 15 of its 90 intended labels still look wrong. The gold pool is 116 items: those 90 plus 26 legacy items. Treat them as drafts for annotators.
 
 ## Open decisions and next actions
 
 The critical path is human annotation. No model choice is final until the gold set exists.
 
-- [ ] Rename the secret `CLOUDFLARE_AI_TOKEN` to `CLOUDFLARE_API_TOKEN` in the cloud environment, or tell the code to accept both. The code reads only `CLOUDFLARE_API_TOKEN`.
-- [ ] Pick fast and strong tier defaults once the screening bench finishes.
-- [ ] Regenerate gold candidates with the chosen strong model if it beats llama-3.3-70b. The current 90 have about 15 dubious intended labels.
-- [ ] Annotate the 116 candidates at `/annotate`, and add real learner writing.
+- [x] Rename the secret `CLOUDFLARE_AI_TOKEN` to `CLOUDFLARE_API_TOKEN` in the cloud environment. Done: `CLOUDFLARE_API_TOKEN` is set.
+- [x] Pick fast and strong tiers: fast = `gpt-oss-20b#low`, strong = `kimi-k2.6#none`, set through the environment (no built-in defaults).
+- [ ] Regenerate gold candidates with the chosen strong model if it beats llama-3.3-70b. The current 90 generated items have about 15 dubious intended labels.
+- [ ] Annotate the 116 candidates at `/annotate`, and add real learner writing. In progress: 49 of 116 labelled (`data/gold/annotations/illia.jsonl`).
+- [ ] Re-check Incorrect labels against `GUIDELINES.md`: errors outside the two clusters (gender, vocabulary, other prepositions, word order) are labelled Correct, and in-cluster errors get a code where one fits rather than `UNKNOWN`.
 - [ ] Recruit a second qualified annotator (a linguist, §48) so κ can be measured.
 - [ ] Have annotators check PP.04 items first: the generator marks duration-por ("estuve por tres horas") as an error, though the taxonomy accepts it.
 - [ ] Once a model passes on `dev`, run `--split heldout` once and report it. Then start step 3.
