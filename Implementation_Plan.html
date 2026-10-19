@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glotty - Phase 1 Implementation Plan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+      background-color: #0d1117;
+    }
+    .markdown-body {
+      color-scheme: dark;
+    }
+  </style>
+</head>
+<body class="markdown-body">
+  <div id="content"></div>
+  <pre id="raw-md" style="display:none;"># Implementation Plan: Glotty Phase 1 MVP
+
+## Goal Description
+Build the foundational architecture and Phase 1 MVP of **Glotty** as specified in [`Glotty_Concept.md`](file:///Users/webadmin/Work/Glotty/Glotty_Concept.md). 
+
+Glotty is an adaptive language learning system where *&quot;the learner is the curriculum&quot;* and the core product promise is earned insight: **&quot;We noticed something about you.&quot;** Phase 1 proves the dual-path evaluator and the insight discipline for B1 English speakers learning Spanish, targeting two concept clusters:
+1. **Preterite vs. Imperfect** (`es.gram.aspect.pret_imp`)
+2. **Por vs. Para** (`es.sem.por_para`)
+
+---
+
+## Approved Tech Stack &amp; Architecture Decisions
+
+&gt; [!IMPORTANT]
+&gt; **User-Approved Technical Configuration:**
+&gt; - **LLM Provider:** **Gemini 1.5 Flash** (`@google/genai` or `@google/generative-ai`) for asynchronous diagnostic evaluation and conversational generation.
+&gt; - **Database:** **Local PostgreSQL 17** (`postgresql@17` on port 5432, dedicated DB `glotty`). Strictly **no Docker** and **no SQLite**.
+&gt; - **ORM &amp; Migrations:** **Drizzle ORM** (`drizzle-orm` + `drizzle-kit`). All database schema changes and migrations must strictly run through `npx drizzle-kit generate` and `npx drizzle-kit migrate` (**no manual migrations**).
+&gt; - **Authentication:** **Better Auth** (`better-auth`) integrated with Next.js and Drizzle schema for user, account, and session management.
+&gt; - **Application Architecture:** **Next.js (App Router, TypeScript, Tailwind CSS)** for fullstack UI and server-side API routes (`/api/...`).
+&gt; - **Language Intelligence &amp; Morphology:** Morphological and fast NLP validation on the sync path utilizing Spanish linguistic rules + companion Python service/CLI (`spaCy` `es_core_news_md`) for gold-standard gate evaluation.
+
+---
+
+## Proposed Architecture &amp; Component Flow
+
+```mermaid
+flowchart TD
+    subgraph Client [&quot;Frontend (Next.js App Router)&quot;]
+        Chat[&quot;Conversation &amp; Story Turn Interface&quot;]
+        ModelView[&quot;Learner Model Inspector (§39)&quot;]
+        InsightCard[&quot;Post-Session Insights Card (§7, §10)&quot;]
+    end
+
+    subgraph Auth [&quot;Authentication&quot;]
+        BetterAuth[&quot;Better Auth (/api/auth/*)&quot;]
+    end
+
+    subgraph NextServer [&quot;Next.js Server API Routes&quot;]
+        TurnRoute[&quot;/api/turn (Streamed conversation turn)&quot;]
+        SessionRoute[&quot;/api/sessions (Start, Finish, Framing)&quot;]
+        InsightRoute[&quot;/api/insights/feedback (Useful / Wrong)&quot;]
+        ModelRoute[&quot;/api/learner/state (Materialized state)&quot;]
+        DrizzleClient[&quot;Drizzle ORM Client (postgres.js)&quot;]
+    end
+
+    subgraph EvaluationEngine [&quot;Dual-Path Evaluator (§22, §25)&quot;]
+        SyncPath[&quot;Sync Path (&lt;200ms): Normalized Matcher + Rule/Morphology&quot;]
+        AsyncPath[&quot;Async Diagnostic Path: Gemini 1.5 Flash + Taxonomy Rules (§26)&quot;]
+    end
+
+    subgraph LearnerCore [&quot;Learner Model &amp; Policy&quot;]
+        LearnerState[&quot;Probabilistic State (Uncertainty + Weights §16)&quot;]
+        PolicyBandit[&quot;Policy Action Selector + Exploration Engine (§29)&quot;]
+        InsightGate[&quot;Insight Gate (p&gt;=0.75, 4+ obs, counter-probe)&quot;]
+    end
+
+    subgraph Database [&quot;Local PostgreSQL 17 (DB: glotty)&quot;]
+        Events[(&quot;events (Appendix A, Immutable)&quot;)]
+        ConceptsTable[(&quot;concepts &amp; concept_edges&quot;)]
+        TaxonomyTable[(&quot;taxonomy_codes&quot;)]
+        SessionsTable[(&quot;sessions&quot;)]
+        UsersTable[(&quot;user, session, account (Better Auth)&quot;)]
+    end
+
+    Client --&gt; BetterAuth
+    BetterAuth --&gt; DrizzleClient
+    Chat --&gt; TurnRoute
+    TurnRoute --&gt; SyncPath
+    SyncPath --&gt; DrizzleClient
+    DrizzleClient --&gt; Events
+    
+    TurnRoute -.-&gt; AsyncPath
+    AsyncPath --&gt; DrizzleClient
+    DrizzleClient --&gt; Events
+    
+    Events --&gt; LearnerState
+    LearnerState --&gt; InsightGate
+    InsightGate --&gt; InsightRoute
+    InsightRoute --&gt; InsightCard
+    
+    SessionRoute --&gt; PolicyBandit
+    PolicyBandit --&gt; ConceptsTable
+    DrizzleClient --&gt; Database
+```
+
+---
+
+## Proposed Changes &amp; Build Milestones
+
+### Milestone 1: Next.js Setup, Local Postgres, Drizzle Schema &amp; Better Auth
+1. Create the local Postgres database `glotty` using `psql`.
+2. Initialize Next.js project with TypeScript, Tailwind CSS, App Router.
+3. Configure `drizzle-orm`, `drizzle-kit`, and `postgres` client in `src/db/`.
+4. Define Drizzle schema:
+   - Better Auth tables (`user`, `session`, `account`, `verification`).
+   - Appendix A `events` table with exact enums (`evaluation_result`, `activity_kind`, `exposure_kind`), UUIDs, and JSONB fields.
+   - Knowledge graph tables: `concepts`, `concept_edges`.
+   - `taxonomy_codes` table.
+5. Generate and apply migrations using:
+   ```bash
+   npx drizzle-kit generate
+   npx drizzle-kit migrate
+   ```
+6. Configure Better Auth (`src/lib/auth.ts`) using the Drizzle adapter.
+7. Seed the 15 Diagnostic Taxonomy codes (`PI.01`–`PI.08`, `PP.01`–`PP.07`, `UNKNOWN`) and MVP ~40 node Spanish concept graph.
+
+#### [NEW] `drizzle.config.ts`
+#### [NEW] `src/db/index.ts`
+#### [NEW] `src/db/schema.ts`
+#### [NEW] `src/lib/auth.ts`
+#### [NEW] `src/lib/seed/seed_data.ts`
+
+---
+
+### Milestone 2: Gold Standard Benchmark Suite &amp; Dual-Path Evaluator (§21–§26)
+1. Build Gold Standard benchmark dataset (`data/gold_set/spanish_b1_gold.json`) with annotated learner responses.
+2. Implement **Synchronous Evaluator** (&lt;200ms budget, zero LLM):
+   - Fast answer key match &amp; Unicode normalization.
+   - Morphological form validation for Spanish irregular &amp; regular preterite, imperfect, and por/para prepositions.
+   - Returns `CORRECT`, `INCORRECT`, or abstains to `UNCERTAIN`.
+3. Implement **Asynchronous Evaluator**:
+   - Server-side Gemini 1.5 Flash client with Appendix B diagnostic taxonomy definitions, negative examples, and contrastive checks.
+   - Charitable intent interpretation (§21).
+   - High-precision classifier: if model confidence &lt; 0.70 or intent is ambiguous, returns `UNCERTAIN` to enforce precision on `INCORRECT` $\ge 0.95$.
+4. Acceptance Gate Test Suite (`tests/evaluator_benchmark.test.ts`):
+   - Evaluates on held-out gold set: binary accuracy $\ge 0.90$, precision on INCORRECT $\ge 0.95$, diagnostic top-1 $\ge 0.65$, `UNCERTAIN` rate $\le 15\%$.
+
+#### [NEW] `src/lib/evaluator/sync.ts`
+#### [NEW] `src/lib/evaluator/gemini_async.ts`
+#### [NEW] `src/lib/evaluator/gate_check.ts`
+#### [NEW] `data/gold_set/spanish_b1_gold.json`
+
+---
+
+### Milestone 3: Probabilistic Learner Model &amp; Evidence Weighting (§13–§17, §35)
+1. Probabilistic state representation per concept across 5 competence levels:
+   - Recognition, Contextual Understanding, Recall, Production, Spontaneous Use (§14).
+2. Beta-distribution belief state tracking: mean $\mu$, variance $\sigma^2$, sample count $N$.
+3. Evidence weighting implementation (§16):
+   - Controlled item (1.0), Constrained production (0.8), Free conversation (0.4), Reading (0.6), Long gap (1.2), Uncertain eval (0.1).
+4. Deterministic state replay function: reconstructs any learner&#x27;s state at any historical timestamp $T$ purely from immutable `events`.
+
+#### [NEW] `src/lib/learner/state.ts`
+#### [NEW] `src/lib/learner/weights.ts`
+#### [NEW] `src/lib/learner/replay.ts`
+
+---
+
+### Milestone 4: Policy, Exploration Engine &amp; Propensity Logging (§27–§30)
+1. Rule-based action selector choosing next intervention (`review`, `explain`, `contrast`, `produce`, `read`, `conversation`, `nothing`).
+2. First-class exploration engine (§29):
+   - Near-tie action randomization within margin $\epsilon$.
+   - Randomized explanation styles: `rule_based`, `conceptual`, `contrastive`, `etymological`, `cross_linguistic`, `example_first`.
+   - Retention scheduling jitter ($\times 0.7$, $1.0$, $1.4$).
+   - Control cohort assignment (Arm A adaptive vs Arm B fixed sequence, §44).
+   - Strict requirement: Every event recorded in Postgres contains non-null `policy_candidates`, `propensity`, and `is_exploration`.
+
+#### [NEW] `src/lib/policy/bandit.ts`
+#### [NEW] `src/lib/policy/exploration.ts`
+
+---
+
+### Milestone 5: Insight Gate &amp; Hedging Engine (§8–§12)
+1. Rigorous implementation of §9 table:
+   - Posterior probability $p \ge 0.75$.
+   - Independent supporting observations $\ge 4$.
+   - Distinct activity types $\ge 2$.
+   - Distinct sessions spanned $\ge 2$.
+   - Leading counter-hypothesis actively probed $\ge 1$ time.
+   - Evaluator confidence on supporting items $\ge 0.7$.
+2. Register selection (§10):
+   - **Unhedged** ($p \ge 0.85$): direct observation.
+   - **Hedged** ($0.75 \le p &lt; 0.85$): tentative framing with verification probe.
+3. Safety circuit breaker (§11): halts insight surfacing if user ratings of &quot;this is wrong&quot; exceed 3%.
+
+#### [NEW] `src/lib/insight/gate.ts`
+#### [NEW] `src/lib/insight/formatter.ts`
+
+---
+
+### Milestone 6: Next.js UI &amp; Interactive Sessions
+1. Full Next.js user experience:
+   - Non-intrusive Spanish conversational chat turn UI (§6).
+   - Session lifecycle engine handling Beginning, Middle, and End (§41).
+   - Session 1 Cold-Start experience (§12, §43) offering linguistic framing rather than premature learner claims.
+   - Transparent Learner Model Inspector (§39) showing estimates and uncertainty bars.
+   - Post-session debriefing cards with hedged/unhedged insight presentation and 3 feedback buttons: *useful*, *not useful*, *this is wrong*.
+2. API Routes:
+   - `/api/auth/[...all]`: Better Auth handler.
+   - `/api/session/start`: begins session with goal setting.
+   - `/api/session/turn`: handles input, triggers sync evaluation (&lt;200ms), triggers async Gemini evaluation.
+   - `/api/session/end`: evaluates gate and precomputes post-session insights.
+   - `/api/learner/profile`: returns learner model state and uncertainty.
+   - `/api/insights/feedback`: records learner ratings.
+
+---
+
+## Verification Plan
+
+### Automated Tests
+1. **Migration Integrity:**
+   ```bash
+   npx drizzle-kit generate
+   npx drizzle-kit migrate
+   ```
+   * Verifies all schema DDL compiles and executes cleanly on local Postgres.
+2. **Acceptance Gates Benchmark:**
+   ```bash
+   npm run test:evaluator
+   ```
+   * Verifies binary accuracy $\ge 0.90$, precision on INCORRECT $\ge 0.95$, diagnostic top-1 $\ge 0.65$, and UNCERTAIN rate $\le 15\%$ using Gemini 1.5 Flash.
+3. **Synchronous Latency Test:**
+   ```bash
+   npm run test:latency
+   ```
+   * Asserts 100 evaluations finish with p95 $&lt; 200\text{ms}$ and zero external API calls.
+4. **Insight Gate Invariants:**
+   ```bash
+   npm run test:gate
+   ```
+   * Asserts gate strictly blocks assertions when observations $&lt; 4$, sessions $&lt; 2$, or counter-probe is missing.
+
+### Manual Verification
+1. **Auth &amp; Setup:**
+   - Sign up / sign in using Better Auth.
+2. **Cold Start Session 1 Walkthrough:**
+   - Start Session 1.
+   - Enter Spanish conversational turns (*&quot;El año pasado fui a México y estaba muy interesante...&quot;*).
+   - Verify smooth conversation turns without interrupting corrections.
+   - Verify session-end summary provides linguistic framing rather than unearned learner assertions.
+3. **Multi-Session Progression (Sessions 2 &amp; 3):**
+   - Provide utterances triggering `PI.01` and `PP.01`.
+   - Verify counter-hypothesis probes trigger automatically.
+   - Verify earned insight surfaces with *useful* / *not useful* / *this is wrong* feedback buttons.
+</pre>
+  <script>
+    mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+    const raw = document.getElementById('raw-md').textContent;
+    document.getElementById('content').innerHTML = marked.parse(raw);
+    mermaid.run({ nodes: document.querySelectorAll('.language-mermaid') });
+  </script>
+</body>
+</html>

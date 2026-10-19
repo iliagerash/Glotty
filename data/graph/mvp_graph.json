@@ -1,0 +1,280 @@
+{
+  "concepts": [
+    {
+      "id": "es.gram.tense_aspect_system",
+      "name": "Spanish Tense-Aspect System",
+      "domain": "grammar",
+      "cefr_level": "B1",
+      "description": "The fundamental framework for organizing time and aspect in the Spanish verb system."
+    },
+    {
+      "id": "es.gram.aspect.pret_imp",
+      "name": "Preterite vs. Imperfect Aspectual Contrast",
+      "domain": "grammar",
+      "cefr_level": "B1",
+      "description": "Distinguishing perfective (bounded, completed event) from imperfective (unbounded, ongoing, habitual, or background) past aspect."
+    },
+    {
+      "id": "es.gram.pret.regular_forms",
+      "name": "Preterite Regular Conjugations",
+      "domain": "morphology",
+      "cefr_level": "A2",
+      "description": "Morphological mastery of regular -ar, -er, -ir preterite endings."
+    },
+    {
+      "id": "es.gram.imp.regular_forms",
+      "name": "Imperfect Regular Conjugations",
+      "domain": "morphology",
+      "cefr_level": "A2",
+      "description": "Morphological mastery of -aba and -ía imperfect endings."
+    },
+    {
+      "id": "es.gram.pret.irregular_high_freq",
+      "name": "High-Frequency Irregular Preterites",
+      "domain": "morphology",
+      "cefr_level": "A2",
+      "description": "Irregular preterite stems: fui, estuve, tuve, hice, dije, pude, puse, supe, quise, vine."
+    },
+    {
+      "id": "es.gram.imp.irregular_forms",
+      "name": "Imperfect Irregular Forms",
+      "domain": "morphology",
+      "cefr_level": "A2",
+      "description": "The three irregular imperfect verbs: era (ser), iba (ir), veía (ver)."
+    },
+    {
+      "id": "es.gram.aspect.perfect",
+      "name": "Present Perfect (Pretérito Perfecto Compuesto)",
+      "domain": "grammar",
+      "cefr_level": "B1",
+      "description": "Events within an open time frame (he comido hoy), contrasting with simple preterite."
+    },
+    {
+      "id": "es.gram.aspect.background_foreground",
+      "name": "Narrative Scene Setting vs. Punctual Events",
+      "domain": "discourse",
+      "cefr_level": "B1",
+      "description": "Using imperfect to construct scene background and preterite to advance narrative chain."
+    },
+    {
+      "id": "es.gram.aspect.habitual",
+      "name": "Habitual & Iterative Past Actions",
+      "domain": "grammar",
+      "cefr_level": "B1",
+      "description": "Selecting imperfect for repeated past routines without specified endpoints."
+    },
+    {
+      "id": "es.gram.aspect.state_verbs",
+      "name": "State-Verb Aspectual Shift",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Aspect-dependent semantic shift in verbs like saber, conocer, querer, poder."
+    },
+    {
+      "id": "es.gram.aspect.durative_bounded",
+      "name": "Bounded Duration in Past",
+      "domain": "grammar",
+      "cefr_level": "B1",
+      "description": "Using preterite when a duration has an explicit beginning and end (viví dos años allí)."
+    },
+    {
+      "id": "es.gram.aspect.lexical_triggers",
+      "name": "Temporal Adverbial Interactions",
+      "domain": "syntax",
+      "cefr_level": "B1",
+      "description": "Understanding how temporal markers (ayer, siempre, mientras) interact with aspect without blindly dictating it."
+    },
+    {
+      "id": "es.disc.narrative_competence",
+      "name": "Spontaneous Past Narrative Competence",
+      "domain": "discourse",
+      "cefr_level": "B1",
+      "description": "Producing extended, coherent past narratives using integrated aspectual contrasts."
+    },
+    {
+      "id": "es.disc.temporal_connectors",
+      "name": "Temporal Discourse Connectors",
+      "domain": "discourse",
+      "cefr_level": "B1",
+      "description": "Connectors orchestrating past narratives: cuando, mientras, de repente, entonces, al final."
+    },
+    {
+      "id": "es.lex.time_expressions",
+      "name": "Past Time Lexical Expressions",
+      "domain": "vocabulary",
+      "cefr_level": "A2",
+      "description": "Temporal anchors: anoche, la semana pasada, hace dos días, en aquel entonces."
+    },
+    {
+      "id": "es.sem.prepositional_semantics",
+      "name": "Spanish Prepositional Semantic Space",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Conceptual boundaries and relations governing Spanish prepositions."
+    },
+    {
+      "id": "es.sem.por_para",
+      "name": "Por vs. Para Semantic Partition",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "The macro-contrast between retrospective/motive/path (por) and prospective/goal/recipient (para)."
+    },
+    {
+      "id": "es.sem.por_para.purpose",
+      "name": "Para: Objective and Purpose",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Forward-looking purpose, objective, or goal (para + infinitive)."
+    },
+    {
+      "id": "es.sem.por_para.recipient",
+      "name": "Para: Intended Recipient",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "The destination entity or beneficiary recipient of an object or action."
+    },
+    {
+      "id": "es.sem.por_para.destination",
+      "name": "Para: Spatial Destination",
+      "domain": "semantics",
+      "cefr_level": "A2",
+      "description": "Direction or physical terminus of motion (salimos para Barcelona)."
+    },
+    {
+      "id": "es.sem.por_para.deadline",
+      "name": "Para: Temporal Deadline",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Point in time by which an action must conclude (para el viernes)."
+    },
+    {
+      "id": "es.sem.por_para.comparison",
+      "name": "Para: Standard of Comparison",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Judged against a reference class (para un niño, habla muy bien)."
+    },
+    {
+      "id": "es.sem.por_para.cause",
+      "name": "Por: Cause and Motivation",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Backward-looking reason, antecedent cause, or motive (por la lluvia)."
+    },
+    {
+      "id": "es.sem.por_para.beneficiary",
+      "name": "Por: On Behalf Of / Substitution",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Acting in someone's place or for their sake (trabajé por ti hoy)."
+    },
+    {
+      "id": "es.sem.por_para.route",
+      "name": "Por: Spatial Path and Transit",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Movement through, along, or by a physical space (caminamos por la playa)."
+    },
+    {
+      "id": "es.sem.por_para.duration",
+      "name": "Por: Approximate Time and Duration",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Duration spanning an approximate period (por dos horas, por la tarde)."
+    },
+    {
+      "id": "es.sem.por_para.exchange",
+      "name": "Por: Economic Exchange and Trade",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Price, barter, or substitution of equivalent value (pagué diez euros por él)."
+    },
+    {
+      "id": "es.sem.por_para.means",
+      "name": "Por: Means and Medium",
+      "domain": "semantics",
+      "cefr_level": "B1",
+      "description": "Medium of communication or transportation (por teléfono, por correo)."
+    },
+    {
+      "id": "es.sem.por_para.fixed_expressions",
+      "name": "Por/Para Fixed Formulaic Chunks",
+      "domain": "lexicon",
+      "cefr_level": "A2",
+      "description": "Lexicalized collocations: por favor, por ejemplo, gracias por, por fin, para siempre."
+    },
+    {
+      "id": "es.sem.a_vs_en",
+      "name": "A vs. En Spatial Prepositions",
+      "domain": "semantics",
+      "cefr_level": "A2",
+      "description": "Motion toward (a) vs. static location (en), providing contrastive preposition baseline."
+    },
+    {
+      "id": "en.sem.for_undifferentiated",
+      "name": "English Undifferentiated 'For'",
+      "domain": "cross_linguistic",
+      "cefr_level": "L1",
+      "description": "English L1 concept mapping recipient, duration, purpose, and exchange to a single lexeme."
+    },
+    {
+      "id": "es.phon.stress.penultimate",
+      "name": "Penultimate Syllable Stress (Llanas)",
+      "domain": "phonology",
+      "cefr_level": "A1",
+      "description": "Natural stress on penultimate syllable for words ending in vowel, n, or s (preparatory node)."
+    },
+    {
+      "id": "es.phon.linking.vowel_sequences",
+      "name": "Inter-Word Vowel Linking (Sinalefa)",
+      "domain": "phonology",
+      "cefr_level": "B1",
+      "description": "Contraction of adjacent vowels across word boundaries in connected speech (preparatory node)."
+    },
+    {
+      "id": "es.phon.prosody.declarative",
+      "name": "Declarative Sentence Intonation",
+      "domain": "phonology",
+      "cefr_level": "A2",
+      "description": "Pitch contour across Spanish narrative assertions (preparatory node)."
+    }
+  ],
+  "edges": [
+    {"source": "es.gram.pret.regular_forms", "target": "es.gram.aspect.pret_imp", "type": "prerequisite"},
+    {"source": "es.gram.imp.regular_forms", "target": "es.gram.aspect.pret_imp", "type": "prerequisite"},
+    {"source": "es.gram.pret.irregular_high_freq", "target": "es.gram.aspect.pret_imp", "type": "prerequisite"},
+    {"source": "es.gram.imp.irregular_forms", "target": "es.gram.aspect.pret_imp", "type": "prerequisite"},
+    {"source": "es.gram.aspect.pret_imp", "target": "es.gram.tense_aspect_system", "type": "instance_of"},
+    {"source": "es.gram.aspect.pret_imp", "target": "es.gram.aspect.perfect", "type": "contrasts_with"},
+    {"source": "es.gram.aspect.pret_imp", "target": "es.disc.narrative_competence", "type": "prerequisite"},
+    {"source": "es.gram.aspect.background_foreground", "target": "es.disc.narrative_competence", "type": "prerequisite"},
+    {"source": "es.disc.temporal_connectors", "target": "es.disc.narrative_competence", "type": "prerequisite"},
+    {"source": "es.lex.time_expressions", "target": "es.disc.narrative_competence", "type": "prerequisite"},
+    {"source": "es.gram.aspect.background_foreground", "target": "es.gram.aspect.pret_imp", "type": "instance_of"},
+    {"source": "es.gram.aspect.habitual", "target": "es.gram.aspect.pret_imp", "type": "instance_of"},
+    {"source": "es.gram.aspect.state_verbs", "target": "es.gram.aspect.pret_imp", "type": "instance_of"},
+    {"source": "es.gram.aspect.durative_bounded", "target": "es.gram.aspect.pret_imp", "type": "instance_of"},
+    {"source": "es.gram.aspect.lexical_triggers", "target": "es.gram.aspect.pret_imp", "type": "instance_of"},
+
+    {"source": "es.sem.por_para", "target": "es.sem.prepositional_semantics", "type": "instance_of"},
+    {"source": "es.sem.por_para.purpose", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.recipient", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.destination", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.deadline", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.comparison", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.cause", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.beneficiary", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.route", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.duration", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.exchange", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.means", "target": "es.sem.por_para", "type": "instance_of"},
+    {"source": "es.sem.por_para.fixed_expressions", "target": "es.sem.por_para", "type": "instance_of"},
+
+    {"source": "en.sem.for_undifferentiated", "target": "es.sem.por_para", "type": "interferes_with"},
+    {"source": "es.sem.por_para.beneficiary", "target": "es.sem.por_para.recipient", "type": "contrasts_with"},
+    {"source": "es.sem.por_para.cause", "target": "es.sem.por_para.purpose", "type": "contrasts_with"},
+    {"source": "es.sem.por_para.route", "target": "es.sem.por_para.destination", "type": "contrasts_with"},
+    {"source": "es.sem.por_para.duration", "target": "es.sem.por_para.deadline", "type": "contrasts_with"},
+    {"source": "es.sem.por_para", "target": "es.sem.a_vs_en", "type": "contrasts_with"}
+  ]
+}

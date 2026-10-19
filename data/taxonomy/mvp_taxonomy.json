@@ -1,0 +1,258 @@
+[
+  {
+    "code": "PI.01",
+    "name": "Background/foreground inversion",
+    "domain": "es.gram.aspect.pret_imp",
+    "definition": "The learner selects the preterite for clauses providing background or descriptive context within a narrative, reserving no aspectual contrast for foregrounded events.",
+    "positive_examples": [
+      "*Cuando fui joven, jugué al fútbol todos los días.",
+      "*Hacía frío y llovió cuando salí."
+    ],
+    "negative_examples": [
+      "Ayer iba al supermercado y compré leche. (Correct: the trip is backgrounded and the purchase foregrounded)",
+      "La fiesta fue divertida. (Correct: bounded evaluation of a completed event, not background description)"
+    ],
+    "distinguishing_probe": "Present a two-clause item where background and foreground are both explicit: 'Mientras ___ (caminar) al trabajo, me ___ (llamar) Ana.' PI.01 fails the first blank; PI.06 fails both toward preterite.",
+    "intervention_family": "contrastive_narrative_construction"
+  },
+  {
+    "code": "PI.02",
+    "name": "Lexical trigger overgeneralization",
+    "domain": "es.gram.aspect.pret_imp",
+    "definition": "Lexical temporal markers such as 'ayer', 'anoche', or 'una vez' are mechanically treated as forcing the preterite, overriding imperfect aspect even when setting descriptive background.",
+    "positive_examples": [
+      "*Ayer cuando volví a casa, la puerta estuvo abierta.",
+      "*Anoche hubo mucho ruido y no pude dormir mientras estudié."
+    ],
+    "negative_examples": [
+      "Ayer salí a las seis. (Correct: single bounded completed event)",
+      "Anoche cené con Marta. (Correct: punctual event)"
+    ],
+    "distinguishing_probe": "Item combining a trigger with ongoing background: 'Ayer a las tres de la tarde, ___ (hacer) mucho sol cuando llegamos.' PI.02 forces preterite 'hizo' due to 'ayer'.",
+    "intervention_family": "temporal_anchor_debiasing"
+  },
+  {
+    "code": "PI.03",
+    "name": "Durative-verb default",
+    "domain": "es.gram.aspect.pret_imp",
+    "definition": "Inherently durative verbs (vivir, esperar, dormir) are mechanically conjugated in the imperfect regardless of explicit temporal bounding or completed duration.",
+    "positive_examples": [
+      "*Vivía en Sevilla durante tres años y luego me mudé a Madrid.",
+      "*Esperaba dos horas en el aeropuerto hasta que cancelaron el vuelo."
+    ],
+    "negative_examples": [
+      "Vivía en Sevilla cuando era estudiante. (Correct: unbounded past state)",
+      "Esperaba el autobús tranquilamente. (Correct: continuous unbounded action)"
+    ],
+    "distinguishing_probe": "Item with explicit bounded duration: 'Mis abuelos ___ (vivir) cincuenta años juntos antes de fallecer.' PI.03 erroneously selects 'vivían'.",
+    "intervention_family": "bounded_duration_drills"
+  },
+  {
+    "code": "PI.04",
+    "name": "Habitual past mapped to preterite",
+    "domain": "es.gram.aspect.pret_imp",
+    "definition": "Recurring or habitual past routines are expressed using the preterite instead of the imperfect.",
+    "positive_examples": [
+      "*De niño, todos los veranos fui a la playa con mi familia.",
+      "*Siempre comí a las dos cuando trabajaba allí."
+    ],
+    "negative_examples": [
+      "Fui tres veces al cine la semana pasada. (Correct: discrete quantified occurrences)",
+      "Ese verano fui a la playa todos los días pero un día llovió. (Preterite possible when framing total period as completed)"
+    ],
+    "distinguishing_probe": "Item highlighting indefinite routine: 'En aquella época, todos los domingos nosotros ___ (visitar) el museo.' PI.04 produces 'visitamos' (pret).",
+    "intervention_family": "iterative_habitual_framing"
+  },
+  {
+    "code": "PI.05",
+    "name": "State-verb aspect shift not acquired",
+    "domain": "es.gram.aspect.pret_imp",
+    "definition": "Failure to recognize the semantic shift in state verbs across aspects (conocer: conocía vs conocí; saber: sabía vs supe; querer: quería vs quiso; poder: podía vs pude).",
+    "positive_examples": [
+      "*Ayer finalmente sabía la verdad sobre el proyecto.",
+      "*Conocía a María anoche en la fiesta de cumpleaños."
+    ],
+    "negative_examples": [
+      "Ya sabía la respuesta antes de la clase. (Correct: continuous knowledge)",
+      "Conocía muy bien esa ciudad. (Correct: established acquaintance)"
+    ],
+    "distinguishing_probe": "Inception vs state contrast: 'Ayer en la conferencia, por fin ___ (conocer) al autor.' PI.05 produces 'conocía'.",
+    "intervention_family": "lexical_aspect_shift_pairs"
+  },
+  {
+    "code": "PI.06",
+    "name": "Narrative flattening",
+    "domain": "es.gram.aspect.pret_imp",
+    "definition": "Collapsing an entire past narrative into the preterite, eliminating all background descriptions, ongoing actions, and simultaneous states.",
+    "positive_examples": [
+      "*Ayer fui al parque, fue un día bonito, los pájaros cantaron y de repente vi un perro.",
+      "*Entré en la sala, hizo frío y la música sonó fuerte."
+    ],
+    "negative_examples": [
+      "Me levanté, me duché, desayuné y salí. (Correct: sequential foreground actions)",
+      "Llegó, vio el desorden y gritó. (Correct: sequence of punctual events)"
+    ],
+    "distinguishing_probe": "Multi-clause narrative elicitation requiring descriptive framing: 'Era medianoche, llovía a cántaros cuando sonó el teléfono.' PI.06 flattens all to preterite.",
+    "intervention_family": "camera_angle_framing"
+  },
+  {
+    "code": "PI.07",
+    "name": "L1 transfer: English past progressive mapped mechanically",
+    "domain": "es.gram.aspect.pret_imp",
+    "definition": "Mechanical 1-to-1 transfer mapping English 'was doing' exclusively to imperfect/progressive, and English simple past 'did' exclusively to preterite, missing Spanish aspectual nuances.",
+    "positive_examples": [
+      "*Cuando viví en Madrid (because English says 'When I lived in Madrid').",
+      "*Tenía un accidente ayer mientras conducía."
+    ],
+    "negative_examples": [
+      "Estaba comiendo cuando llamaron. (Correct use of past progressive)",
+      "Ayer comí una manzana. (Correct simple past mapping)"
+    ],
+    "distinguishing_probe": "English simple past with Spanish background: 'When I was small, I had a dog.' PI.07 produces 'tuve' instead of 'tenía'.",
+    "intervention_family": "cross_linguistic_aspect_mapping"
+  },
+  {
+    "code": "PI.08",
+    "name": "Bounded duration misread as ongoing",
+    "domain": "es.gram.aspect.pret_imp",
+    "definition": "The presence of a duration expression leads the learner to interpret the action as ongoing and choose imperfect, missing that the duration is complete and bounded.",
+    "positive_examples": [
+      "*La película duraba dos horas ayer.",
+      "*Estaba enfermo durante tres días la semana pasada."
+    ],
+    "negative_examples": [
+      "La película era larga y duraba mucho. (Imperfect valid for descriptive characteristic)",
+      "Estaba enfermo cuando me llamaste. (Correct: state holding at reference time)"
+    ],
+    "distinguishing_probe": "Contrast 'Estuve en París dos semanas' vs 'Estaba en París cuando empezó la huelga.'",
+    "intervention_family": "aspectual_bounding_contrast"
+  },
+  {
+    "code": "PP.01",
+    "name": "Beneficiary/purpose conflation",
+    "domain": "es.sem.por_para",
+    "definition": "The learner confuses acting on behalf of / in place of someone (por) with acting toward a recipient / destination (para), treating both as an undifferentiated beneficiary.",
+    "positive_examples": [
+      "*Hice el examen para ti porque estabas enfermo. (Intended substitution/on behalf of)",
+      "*Compré este regalo por ti. (Intended recipient/destination of gift)"
+    ],
+    "negative_examples": [
+      "Trabajo para una empresa tecnológica. (Correct: recipient/purpose of labour)",
+      "Lo hice por compasión. (Correct: motive/cause)"
+    ],
+    "distinguishing_probe": "Present items separating substitution and recipient: 'No puedo ir a la reunión; ¿puedes ir ___ mí?' vs 'Este paquete es ___ ti.' PP.01 produces 'para' on the first.",
+    "intervention_family": "substitution_vs_recipient_contrast"
+  },
+  {
+    "code": "PP.02",
+    "name": "Motion: route vs destination",
+    "domain": "es.sem.por_para",
+    "definition": "Conflating the path/transit through a space (por) with the final goal/destination of motion (para).",
+    "positive_examples": [
+      "*Caminamos para el parque durante una hora. (Intended: walking through the park)",
+      "*El tren sale por Barcelona a las diez. (Intended: destination)"
+    ],
+    "negative_examples": [
+      "Salimos para Madrid en el vuelo de la mañana. (Correct: destination)",
+      "El ladrón escapó por la ventana. (Correct: route/transit)"
+    ],
+    "distinguishing_probe": "Dual-trajectory item: 'Para ir a Sevilla, pasamos ___ Córdoba.' PP.02 selects 'para' for transit.",
+    "intervention_family": "spatial_trajectory_framing"
+  },
+  {
+    "code": "PP.03",
+    "name": "Cause vs goal conflation",
+    "domain": "es.sem.por_para",
+    "definition": "Collapsing antecedent motive/cause looking backward (por) into forward-looking purpose/objective (para).",
+    "positive_examples": [
+      "*Llegué tarde para el tráfico. (Intended: because of traffic)",
+      "*Estudio español por conseguir un mejor empleo. (Intended: in order to)"
+    ],
+    "negative_examples": [
+      "Llegué tarde por la lluvia. (Correct: cause)",
+      "Estudio para aprobar el examen. (Correct: purpose)"
+    ],
+    "distinguishing_probe": "Cause vs infinitive purpose: 'Cancelaron el vuelo ___ la tormenta' vs 'Viajó a Roma ___ aprender italiano.'",
+    "intervention_family": "temporal_vector_cause_vs_purpose"
+  },
+  {
+    "code": "PP.04",
+    "name": "Duration vs deadline conflation",
+    "domain": "es.sem.por_para",
+    "definition": "Confusing the time span over which an event extends (por) with the point in time marking a deadline (para).",
+    "positive_examples": [
+      "*Necesito este informe por el viernes. (Intended deadline)",
+      "*Estudiamos para tres horas ayer por la tarde. (Intended duration)"
+    ],
+    "negative_examples": [
+      "El proyecto debe estar listo para mañana. (Correct: deadline)",
+      "Vivió en Granada por dos años. (Acceptable duration)"
+    ],
+    "distinguishing_probe": "Item with deadline constraint: 'La tarea es ___ el lunes a primera hora.' PP.04 selects 'por'.",
+    "intervention_family": "time_span_vs_deadline_contrast"
+  },
+  {
+    "code": "PP.05",
+    "name": "Exchange/substitution unrecognized",
+    "domain": "es.sem.por_para",
+    "definition": "Failing to use 'por' to denote economic exchange, price, trade, or direct substitution.",
+    "positive_examples": [
+      "*Pagué cincuenta euros para estos zapatos.",
+      "*Te cambio mi manzana para tu bocadillo."
+    ],
+    "negative_examples": [
+      "Compré un libro para mi hermano por quince euros. (Correct use of both: para recipient, por price)",
+      "Pagué por adelantado. (Correct fixed usage)"
+    ],
+    "distinguishing_probe": "Financial exchange transaction: 'Te vendo mi bicicleta ___ cien euros.' PP.05 selects 'para'.",
+    "intervention_family": "commercial_exchange_frames"
+  },
+  {
+    "code": "PP.06",
+    "name": "Undifferentiated L1 'for'",
+    "domain": "es.sem.por_para",
+    "definition": "The learner has no coherent mental partition between por and para; choices are essentially random or governed by phonetic intuition due to English 'for' mapping to both.",
+    "positive_examples": [
+      "*Gracias para la ayuda.",
+      "*Estudio por ser médico.",
+      "*Caminamos para la playa por una hora.",
+      "*Este regalo es por ti."
+    ],
+    "negative_examples": [
+      "Consistent errors restricted only to recipient vs beneficiary (code as PP.01, not PP.06)"
+    ],
+    "distinguishing_probe": "Battery of three diagnostic items spanning cause, beneficiary, and purpose. PP.06 demonstrates erratic switching without semantic partition.",
+    "intervention_family": "semantic_partition_rebuild"
+  },
+  {
+    "code": "PP.07",
+    "name": "Fixed expression treated as rule-derived",
+    "domain": "es.sem.por_para",
+    "definition": "Treating high-frequency lexicalized fixed chunks ('gracias por', 'por favor', 'por ejemplo', 'por fin', 'para siempre') as if they required compositional grammatical reasoning, often selecting the wrong preposition.",
+    "positive_examples": [
+      "*Muchas gracias para todo.",
+      "*Para fin hemos llegado después de diez horas.",
+      "*Para ejemplo, podemos considerar esta opción."
+    ],
+    "negative_examples": [
+      "Gracias por invitarme. (Correct lexicalized chunk)",
+      "Por favor, siéntate. (Correct)"
+    ],
+    "distinguishing_probe": "Context requiring idiomatic chunk: '¡___ fin comprendo este concepto!' PP.07 selects 'para'.",
+    "intervention_family": "formulaic_chunk_lexicalization"
+  },
+  {
+    "code": "UNKNOWN",
+    "name": "Uncategorized misconception",
+    "domain": "all",
+    "definition": "Mandatory catch-all for learner errors that do not conform to any established diagnostic code in the taxonomy. Retained for human review and taxonomy version evolution.",
+    "positive_examples": [
+      "Novel or idiosyncratic syntactic structures not captured by PI.01-PI.08 or PP.01-PP.07."
+    ],
+    "negative_examples": [
+      "Any error matching defined criteria for PI.01-PI.08 or PP.01-PP.07."
+    ],
+    "distinguishing_probe": "N/A",
+    "intervention_family": "human_curation_queue"
+  }
+]
