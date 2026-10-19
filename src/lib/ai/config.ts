@@ -61,17 +61,9 @@ export const CLOUDFLARE_CANDIDATES = [
   "cloudflare:@cf/zai-org/glm-5.3#low",
 ];
 
-/**
- * Chosen from the 2026-10-19 screen against generator intent (not gold, so
- * provisional until the human-labelled bench). strong: fewest false
- * accusations with no failed calls, p95 ~11s. fast: p95 ~5s at ~1/5 the cost,
- * least accurate, so use it as a screen in front of strong, not alone.
- * Runner-up for strong: cloudflare:@cf/zai-org/glm-5.3#low (same precision,
- * better diagnosis, but p95 ~50s and rate-limited at concurrency 4).
- */
-const DEFAULT_TIERS: Record<Tier, string> = {
-  fast: "cloudflare:@cf/openai/gpt-oss-20b#low",
-  strong: "cloudflare:@cf/moonshotai/kimi-k2.6#none",
+const TIER_ENV: Record<Tier, string> = {
+  fast: "GLOTTY_MODEL_FAST",
+  strong: "GLOTTY_MODEL_STRONG",
 };
 
 export function parseModelRef(ref: string): ModelRef {
@@ -92,9 +84,17 @@ export function parseModelRef(ref: string): ModelRef {
     : { provider, model, reasoningEffort: effort as ReasoningEffort, ref };
 }
 
+/**
+ * Tiers have no built-in default: an unset variable fails loudly rather than
+ * silently running a model nobody chose. Recommended values are in .env.example.
+ */
 export function modelForTier(tier: Tier): ModelRef {
-  const envKey = tier === "fast" ? "GLOTTY_MODEL_FAST" : "GLOTTY_MODEL_STRONG";
-  return parseModelRef(process.env[envKey] || DEFAULT_TIERS[tier]);
+  const envKey = TIER_ENV[tier];
+  const ref = process.env[envKey];
+  if (!ref) {
+    throw new Error(`${envKey} is not set: map the ${tier} tier to a model ref (see .env.example)`);
+  }
+  return parseModelRef(ref);
 }
 
 /** Accepts a tier name or an explicit model reference. */

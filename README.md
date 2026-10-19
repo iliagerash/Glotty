@@ -27,7 +27,7 @@ The `events` table is append-only: a trigger rejects `UPDATE`, `DELETE` and `TRU
 
 ```bash
 npm install
-cp .env.example .env        # fill in DATABASE_URL and the Cloudflare credentials
+cp .env.example .env        # fill in DATABASE_URL and the Cloudflare credentials; GLOTTY_MODEL_FAST/STRONG are required
 npm run db:migrate && npm run db:seed
 npm run ai:models           # check which Workers AI models your account can use
 npm run ai:ping             # one evaluator call per tier
