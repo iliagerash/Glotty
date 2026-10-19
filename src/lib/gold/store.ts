@@ -41,6 +41,16 @@ export interface Annotation {
   annotated_at: string;
 }
 
+/** A decision on an item whose labels disagree. Stored in adjudications.jsonl. */
+export interface AdjudicationRecord extends Annotation {
+  /** True when no rule settles the item; it then has no gold label. */
+  contested?: boolean;
+  /** Id from data/gold/rules.json of the rule that decided it. */
+  rule?: string;
+  /** Whose label was upheld: an annotator or model label set name, or "other". */
+  chose?: string;
+}
+
 export interface GeneratorIntent {
   item_id: string;
   evaluation: Evaluation;
@@ -165,10 +175,25 @@ export function writeModelLabels(name: string, labels: Annotation[]): void {
   fs.writeFileSync(file, labels.map((l) => JSON.stringify(l)).join("\n") + "\n");
 }
 
-export function readAdjudications(): Map<string, Annotation> {
-  const latest = new Map<string, Annotation>();
-  for (const a of readJsonl<Annotation>(ADJUDICATIONS)) latest.set(a.item_id, a);
+export function readAdjudications(): Map<string, AdjudicationRecord> {
+  const latest = new Map<string, AdjudicationRecord>();
+  for (const a of readJsonl<AdjudicationRecord>(ADJUDICATIONS)) latest.set(a.item_id, a);
   return latest;
+}
+
+export function appendAdjudication(a: AdjudicationRecord): void {
+  appendJsonl(ADJUDICATIONS, [a]);
+}
+
+export interface Rule {
+  id: string;
+  cluster: string;
+  rule: string;
+  examples: string[];
+}
+
+export function readRules(): Rule[] {
+  return JSON.parse(fs.readFileSync(path.join(GOLD_DIR, "rules.json"), "utf-8"));
 }
 
 export function readGeneratorIntent(): Map<string, GeneratorIntent> {

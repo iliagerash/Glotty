@@ -10,7 +10,12 @@ export interface Label {
   diagnosis_code: string | null;
 }
 
-export type GoldStatus = "single" | "agreed" | "adjudicated" | "disagreed" | "unlabeled";
+/** An adjudicator's decision. `contested` means no rule settles the item: it has no gold label. */
+export interface Adjudication extends Label {
+  contested?: boolean;
+}
+
+export type GoldStatus = "single" | "agreed" | "adjudicated" | "disagreed" | "contested" | "unlabeled";
 
 /**
  * Resolves the gold label for one item from its annotations.
@@ -19,8 +24,9 @@ export type GoldStatus = "single" | "agreed" | "adjudicated" | "disagreed" | "un
  */
 export function resolveGold(
   labels: Label[],
-  adjudication?: Label,
+  adjudication?: Adjudication,
 ): { label: Label | null; status: GoldStatus } {
+  if (adjudication?.contested) return { label: null, status: "contested" };
   if (adjudication) return { label: adjudication, status: "adjudicated" };
   if (labels.length === 0) return { label: null, status: "unlabeled" };
   if (labels.length === 1) return { label: labels[0], status: "single" };
@@ -29,6 +35,30 @@ export function resolveGold(
     (l) => l.evaluation === first.evaluation && l.diagnosis_code === first.diagnosis_code,
   );
   return agree ? { label: first, status: "agreed" } : { label: null, status: "disagreed" };
+}
+
+/** Same evaluation, and the same code when both say incorrect. */
+export function sameLabel(a: Label, b: Label): boolean {
+  return a.evaluation === b.evaluation && (a.evaluation !== "incorrect" || a.diagnosis_code === b.diagnosis_code);
+}
+
+export type ConsensusStatus = "agreed" | "adjudicated" | "disputed" | "contested" | "unlabeled";
+
+/**
+ * Gold from a human label checked against an independent model label set,
+ * for use while only one human annotator is available. Agreement makes the
+ * label gold; a disagreement needs an adjudication, and stays out of gold
+ * until it has one. An adjudication always wins.
+ */
+export function resolveConsensus(
+  human: Label | null,
+  model: Label | undefined,
+  adjudication?: Adjudication,
+): { label: Label | null; status: ConsensusStatus } {
+  if (adjudication?.contested) return { label: null, status: "contested" };
+  if (adjudication) return { label: adjudication, status: "adjudicated" };
+  if (!human || !model) return { label: null, status: "unlabeled" };
+  return sameLabel(human, model) ? { label: human, status: "agreed" } : { label: null, status: "disputed" };
 }
 
 export interface ScoredRow {

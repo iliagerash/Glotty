@@ -307,7 +307,10 @@ The critical path is human annotation. No model choice is final until the gold s
 - [ ] Regenerate gold candidates with the chosen strong model if it beats llama-3.3-70b. The current 90 generated items have about 15 dubious intended labels.
 - [ ] Annotate the 116 candidates at `/annotate`, and add real learner writing. In progress: 49 of 116 labelled (`data/gold/annotations/illia.jsonl`).
 - [ ] Re-check Incorrect labels against `GUIDELINES.md`: errors outside the two clusters (gender, vocabulary, other prepositions, word order) are labelled Correct, and in-cluster errors get a code where one fits rather than `UNKNOWN`.
-- [ ] Label all items with ChatGPT (`npm run gold:model-export`, then `gold:model-import`) and check agreement with the human sample (`gold:model-compare`).
+- [x] Label all items with ChatGPT (`npm run gold:model-export`, then `gold:model-import`) and check agreement with the human labels (`gold:model-compare`). Result: κ 0.29–0.31 between human and ChatGPT, 0.90 between two ChatGPT runs.
+- [ ] Settle the human/ChatGPT disagreements at `/adjudicate` by rule (`data/gold/rules.json`); benchmark on consensus gold with `npm run bench -- --consensus chatgpt-v2`. Provisional: no native speaker is available yet.
+- [ ] Look into native-corrected learner corpora (e.g. COWS-L2H, CAES) and answer-keyed exercise sets as a source of native judgments; check licences first.
+- [ ] Native-speaker check of the gold set before any held-out result counts as a pass.
 - [ ] Recruit a second qualified annotator (a linguist, §48) so κ can be measured.
 - [ ] Have annotators check PP.04 items first: the generator marks duration-por ("estuve por tres horas") as an error, though the taxonomy accepts it.
 - [ ] Once a model passes on `dev`, run `--split heldout` once and report it. Then start step 3.

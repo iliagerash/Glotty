@@ -3,7 +3,8 @@
  * fallback. Writes predictions and a markdown report to reports/bench/<run>.
  *
  *   npm run bench -- [--models fast,strong,cloudflare:@cf/...] [--split dev|heldout|all]
- *                    [--against gold|intent|model:<name>] [--limit 50] [--concurrency 4]
+ *                    [--against gold|intent|model:<name>] [--consensus <name>]
+ *                    [--limit 50] [--concurrency 4]
  *
  * --against intent scores against what the candidate generator *meant* to
  * produce. Use it only to screen models before annotation exists; the report
@@ -12,6 +13,11 @@
  * --against model:<name> scores against an imported model label set
  * (data/gold/model_labels/<name>.jsonl). Use it for prompt iteration on dev
  * only after gold:model-compare shows the set agrees with human labels.
+ *
+ * --consensus <name> (with --against gold) is for when only one human
+ * annotator exists: an item is gold when the human label agrees with the
+ * model label set, or when a disagreement has been adjudicated at
+ * /adjudicate. Disputed and contested items are left out and counted.
  */
 import "dotenv/config";
 import fs from "fs";
@@ -34,7 +40,9 @@ import {
   evaluatorGates,
   evaluatorMetrics,
   percentile,
+  resolveConsensus,
   resolveGold,
+  type ConsensusStatus,
   type GoldStatus,
   type Label,
   type ScoredRow,
@@ -45,20 +53,21 @@ interface Labeled {
   gold: Label;
 }
 
-function goldLabels(items: GoldItem[]) {
+function goldLabels(items: GoldItem[], consensusModel?: string) {
   const annotators = listAnnotators();
   const byAnnotator = new Map(annotators.map((a) => [a, readAnnotations(a)]));
   const adjudications = readAdjudications();
-  const counts: Record<GoldStatus, number> = {
-    single: 0, agreed: 0, adjudicated: 0, disagreed: 0, unlabeled: 0,
-  };
+  const model = consensusModel ? readModelLabels(consensusModel) : null;
+  const counts: Partial<Record<GoldStatus | ConsensusStatus, number>> = {};
   const labeled: Labeled[] = [];
   for (const item of items) {
     const labels = annotators
       .map((a) => byAnnotator.get(a)!.get(item.id))
       .filter((a) => a !== undefined);
-    const { label, status } = resolveGold(labels, adjudications.get(item.id));
-    counts[status]++;
+    const { label, status } = model
+      ? resolveConsensus(resolveGold(labels).label, model.get(item.id), adjudications.get(item.id))
+      : resolveGold(labels, adjudications.get(item.id));
+    counts[status] = (counts[status] ?? 0) + 1;
     if (label) labeled.push({ item, gold: label });
   }
   return { labeled, counts, annotators, byAnnotator };
@@ -152,6 +161,7 @@ async function main() {
       against: { type: "string", default: "gold" },
       limit: { type: "string" },
       concurrency: { type: "string", default: "4" },
+      consensus: { type: "string" },
     },
   });
   const split = values.split as "dev" | "heldout" | "all";
@@ -183,14 +193,19 @@ async function main() {
       "",
     );
   } else {
-    const g = goldLabels(items);
+    const g = goldLabels(items, values.consensus);
     labeled = g.labeled;
     header.push(
       `Gold status of ${items.length} items in split: ${Object.entries(g.counts).map(([k, v]) => `${k} ${v}`).join(", ")}.`,
       "",
       ...agreementSection(items, g.annotators, g.byAnnotator),
     );
-    if (g.annotators.length < 2) {
+    if (values.consensus) {
+      header.push(
+        `> **Provisional gold.** One human annotator checked against model labels (\`${values.consensus}\`): items where they agree, plus adjudicated disagreements. Agreed items skew easier than disputed ones, so these numbers flatter the evaluator. No native-speaker check yet.`,
+        "",
+      );
+    } else if (g.annotators.length < 2) {
       header.push("> Gold labels come from a single annotator. Treat results as provisional until κ is measured.", "");
     }
   }
@@ -203,11 +218,12 @@ async function main() {
     console.log("Held-out run. Report these numbers; do not iterate prompts on them (§24).");
   }
 
-  const runId = `${new Date().toISOString().replace(/[:.]/g, "-")}-${split}-${against.replace(/[^a-zA-Z0-9.-]+/g, "_")}`;
+  const labelsTag = values.consensus ? `${against}+${values.consensus}` : against;
+  const runId = `${new Date().toISOString().replace(/[:.]/g, "-")}-${split}-${labelsTag.replace(/[^a-zA-Z0-9.-]+/g, "_")}`;
   const outDir = path.join(process.cwd(), "reports", "bench", runId);
   fs.mkdirSync(outDir, { recursive: true });
 
-  const report: string[] = [`# Evaluator benchmark ${runId}`, "", `Split: **${split}**. Labels: **${against}**. Items: ${labeled.length}.`, "", ...header];
+  const report: string[] = [`# Evaluator benchmark ${runId}`, "", `Split: **${split}**. Labels: **${labelsTag}**. Items: ${labeled.length}.`, "", ...header];
   const summary: string[] = [
     "## Summary",
     "",

@@ -1,6 +1,14 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { cohensKappa, evaluatorGates, evaluatorMetrics, percentile, resolveGold, type Label } from "../../src/lib/gold/metrics";
+import {
+  cohensKappa,
+  evaluatorGates,
+  evaluatorMetrics,
+  percentile,
+  resolveConsensus,
+  resolveGold,
+  type Label,
+} from "../../src/lib/gold/metrics";
 
 const L = (evaluation: Label["evaluation"], diagnosis_code: string | null = null): Label => ({ evaluation, diagnosis_code });
 
@@ -12,6 +20,24 @@ test("resolveGold: single, agreed, disagreed, adjudicated", () => {
   assert.equal(d.status, "disagreed");
   assert.equal(d.label, null);
   assert.equal(resolveGold([L("correct"), L("incorrect", "PI.01")], L("correct")).status, "adjudicated");
+  const c = resolveGold([L("correct"), L("incorrect", "PI.01")], { ...L("uncertain"), contested: true });
+  assert.equal(c.status, "contested");
+  assert.equal(c.label, null);
+});
+
+test("resolveConsensus: agreement is gold, disagreement waits for adjudication", () => {
+  assert.equal(resolveConsensus(L("correct"), L("correct")).status, "agreed");
+  assert.equal(resolveConsensus(L("incorrect", "PI.04"), L("incorrect", "PI.04")).status, "agreed");
+  // Same verdict, different code: the diagnosis is disputed.
+  const code = resolveConsensus(L("incorrect", "PI.03"), L("incorrect", "PI.04"));
+  assert.equal(code.status, "disputed");
+  assert.equal(code.label, null);
+  assert.equal(resolveConsensus(L("correct"), L("incorrect", "PP.05")).status, "disputed");
+  const adj = resolveConsensus(L("correct"), L("incorrect", "PP.05"), L("incorrect", "PP.05"));
+  assert.deepEqual([adj.status, adj.label?.diagnosis_code], ["adjudicated", "PP.05"]);
+  assert.equal(resolveConsensus(L("correct"), L("incorrect", "PP.05"), { ...L("uncertain"), contested: true }).status, "contested");
+  assert.equal(resolveConsensus(null, L("correct")).status, "unlabeled");
+  assert.equal(resolveConsensus(L("correct"), undefined).status, "unlabeled");
 });
 
 test("evaluatorMetrics counts false accusations against precision", () => {
