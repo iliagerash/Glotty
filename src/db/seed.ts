@@ -1,8 +1,7 @@
 import { db } from "./index";
-import { concepts, conceptEdges, taxonomyCodes, user } from "./schema";
+import { concepts, conceptEdges, taxonomyCodes } from "./schema";
 import fs from "fs";
 import path from "path";
-import { eq } from "drizzle-orm";
 
 async function runSeed() {
   console.log("🌱 Starting Glotty Database Seed...");
@@ -79,19 +78,6 @@ async function runSeed() {
       });
     }
     console.log("✓ Concept graph nodes and directed edges populated.");
-  }
-
-  // 3. Seed Default Test User
-  const testUserId = "usr_b1_learner_default";
-  const existingUser = await db.select().from(user).where(eq(user.id, testUserId));
-  if (existingUser.length === 0) {
-    await db.insert(user).values({
-      id: testUserId,
-      name: "Alex Rivera",
-      email: "alex.learner@glotty.ai",
-      emailVerified: true,
-    });
-    console.log("✓ Default test learner Alex Rivera created.");
   }
 
   console.log("✨ Seed finished successfully!");

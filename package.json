@@ -7,15 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test \"tests/**/*.test.ts\"",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/db/seed.ts",
-    "test:sync": "tsx tests/evaluator/sync.test.ts",
-    "test:benchmark": "tsx tests/evaluator/benchmark.test.ts"
+    "ai:models": "tsx scripts/ai-models.ts",
+    "ai:ping": "tsx scripts/ai-ping.ts",
+    "gold:generate": "tsx scripts/gold-generate.ts",
+    "bench": "tsx scripts/bench.ts"
   },
   "dependencies": {
-    "@google/genai": "^2.22.0",
-    "@google/generative-ai": "^0.24.1",
     "better-auth": "^1.1.18",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
@@ -25,7 +27,8 @@
     "postgres": "^3.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.0.1"
+    "tailwind-merge": "^3.0.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^22.13.4",

@@ -94,4 +94,5 @@ function testInsightGate() {
   console.log("✓ Insight gate 6-condition rule engine & hedging PASSED!");
 }
 
-testInsightGate();
+import { test } from "node:test";
+test("insight gate", testInsightGate);

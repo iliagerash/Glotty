@@ -26,3 +26,6 @@ yarn-error.log*
 
 # coverage
 coverage/
+
+# benchmark runs (reports are regenerated; commit one deliberately if needed)
+reports/
