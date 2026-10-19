@@ -3,7 +3,7 @@ import { db } from "@/db";
 import { events, learningSessions, user } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { evaluateSync } from "@/lib/evaluator/sync";
-import { evaluateAsync } from "@/lib/evaluator/gemini_async";
+import { evaluateAsync } from "@/lib/evaluator/async";
 import { selectPolicyAction } from "@/lib/policy/bandit";
 import { checkInsightGate, formatSurfacedInsight, CandidateInsight } from "@/lib/insight/gate";
 

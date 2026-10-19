@@ -44,7 +44,7 @@ export async function reconstructLearnerState(
         ev.evaluation as any,
         ev.activityType,
         ev.exposureContext,
-        ev.evalConfidence || 0.8,
+        ev.evalConfidence ?? 0,
         ev.diagnosisCode || null,
         ev.occurredAt
       );

@@ -2,13 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { evaluateSync } from "@/lib/evaluator/sync";
-import { evaluateAsync } from "@/lib/evaluator/gemini_async";
+import { evaluateAsync } from "@/lib/evaluator/async";
 import { computeGateMetrics, EvaluatedItem } from "@/lib/evaluator/gate_check";
+import { getEvaluatorProvider } from "@/lib/llm/gateway";
 
 export async function GET(req: NextRequest) {
   try {
+    const provider = getEvaluatorProvider();
+    if (!provider) {
+      return NextResponse.json(
+        { success: false, error: "No evaluator model configured; benchmark not run." },
+        { status: 503 }
+      );
+    }
+
+    const split = req.nextUrl.searchParams.get("split") ?? "heldout";
     const goldPath = path.join(process.cwd(), "data", "gold_set", "spanish_b1_gold.json");
-    const goldItems = JSON.parse(fs.readFileSync(goldPath, "utf-8"));
+    const allItems = JSON.parse(fs.readFileSync(goldPath, "utf-8"));
+    const goldItems = split === "all" ? allItems : allItems.filter((i: any) => i.split === split);
 
     // Measure sync path latency
     const syncLatencies: number[] = [];
@@ -20,9 +31,14 @@ export async function GET(req: NextRequest) {
 
     const evaluatedItems: EvaluatedItem[] = [];
     const itemDetails: any[] = [];
+    const failures: string[] = [];
 
     for (const item of goldItems) {
-      const res = await evaluateAsync(item.prompt, item.response, item.concept_id);
+      const res = await evaluateAsync(item.prompt, item.response, item.concept_id, provider);
+      if (res.status !== "ok") {
+        failures.push(`${item.id}: ${res.rationale}`);
+        continue;
+      }
       evaluatedItems.push({
         id: item.id,
         expectedEvaluation: item.expected_evaluation,
@@ -49,10 +65,20 @@ export async function GET(req: NextRequest) {
       });
     }
 
+    if (failures.length > 0) {
+      return NextResponse.json(
+        { success: false, error: "Evaluator calls failed; no metrics reported.", failures },
+        { status: 502 }
+      );
+    }
+
     const metrics = computeGateMetrics(evaluatedItems, syncLatencies);
 
     return NextResponse.json({
       success: true,
+      split,
+      evaluator: `${provider.id}:${provider.model}`,
+      synthetic: goldItems.some((i: any) => i.provenance === "synthetic_seed"),
       metrics,
       items: itemDetails,
     });

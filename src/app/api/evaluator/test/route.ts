@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { evaluateSync } from "@/lib/evaluator/sync";
-import { evaluateAsync } from "@/lib/evaluator/gemini_async";
+import { evaluateAsync } from "@/lib/evaluator/async";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     // 1. Synchronous Path
     const syncRes = evaluateSync(response, conceptId);
 
-    // 2. Asynchronous Path (Gemini 1.5 Flash)
+    // 2. Asynchronous Path (model gateway)
     const asyncRes = await evaluateAsync(prompt, response, conceptId);
 
     return NextResponse.json({

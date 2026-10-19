@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { events, learningSessions } from "@/db/schema";
 import { evaluateSync } from "@/lib/evaluator/sync";
-import { evaluateAsync } from "@/lib/evaluator/gemini_async";
+import { evaluateAsync } from "@/lib/evaluator/async";
 import { selectPolicyAction } from "@/lib/policy/bandit";
 import { reconstructLearnerState } from "@/lib/learner/replay";
 import { eq } from "drizzle-orm";
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     // 1. High-speed Synchronous Evaluation (<200ms budget, strictly NO LLM)
     const syncResult = evaluateSync(userMessage, conceptIds[0]);
 
-    // 2. Asynchronous Diagnostic Evaluation (Gemini 1.5 Flash)
+    // 2. Asynchronous Diagnostic Evaluation (model gateway; UNCERTAIN if unavailable)
     const asyncResult = await evaluateAsync(currentPrompt || "", userMessage, conceptIds[0]);
 
     // 3. Retrieve current learner state

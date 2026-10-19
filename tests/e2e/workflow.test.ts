@@ -1,7 +1,7 @@
 import { db } from "../../src/db";
 import { events, learningSessions, insightFeedbacks, user } from "../../src/db/schema";
 import { evaluateSync } from "../../src/lib/evaluator/sync";
-import { evaluateAsync } from "../../src/lib/evaluator/gemini_async";
+import { evaluateAsync } from "../../src/lib/evaluator/async";
 import { selectPolicyAction } from "../../src/lib/policy/bandit";
 import { reconstructLearnerState } from "../../src/lib/learner/replay";
 import { checkInsightGate, formatSurfacedInsight, CandidateInsight } from "../../src/lib/insight/gate";

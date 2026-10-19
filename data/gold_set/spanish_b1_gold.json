@@ -6,7 +6,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PI.01",
-    "notes": "Background/foreground inversion. Habitual background expressed with preterite fui and jugué."
+    "notes": "Background/foreground inversion. Habitual background expressed with preterite fui and jugué.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-002",
@@ -15,7 +17,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Negative case for PI.01: 'iba' legitimately backgrounds the journey, 'compré' and 'encontré' foreground the events. Must NOT be marked incorrect."
+    "notes": "Negative case for PI.01: 'iba' legitimately backgrounds the journey, 'compré' and 'encontré' foreground the events. Must NOT be marked incorrect.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-003",
@@ -24,7 +28,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Correct background weather (hacía, llovía) with punctual interruption (salí)."
+    "notes": "Correct background weather (hacía, llovía) with punctual interruption (salí).",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-004",
@@ -33,7 +39,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PI.02",
-    "notes": "Lexical trigger overgeneralization: 'ayer' mechanically forcing preterite 'estuvo' instead of descriptive 'estaba'."
+    "notes": "Lexical trigger overgeneralization: 'ayer' mechanically forcing preterite 'estuvo' instead of descriptive 'estaba'.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-005",
@@ -42,7 +50,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PI.03",
-    "notes": "Durative-verb default: 'vivir' forced into imperfect despite explicit bounded duration 'durante cincuenta años'."
+    "notes": "Durative-verb default: 'vivir' forced into imperfect despite explicit bounded duration 'durante cincuenta años'.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-006",
@@ -51,7 +61,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Correct bounded duration using preterite 'vivieron'."
+    "notes": "Correct bounded duration using preterite 'vivieron'.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-007",
@@ -60,7 +72,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PI.04",
-    "notes": "Habitual past routine expressed with preterite 'fui' instead of imperfect 'iba'."
+    "notes": "Habitual past routine expressed with preterite 'fui' instead of imperfect 'iba'.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-008",
@@ -69,7 +83,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PI.05",
-    "notes": "State-verb aspect shift: 'conocer' in inception meaning ('met for the first time') requires preterite 'conocí', not 'conocía'."
+    "notes": "State-verb aspect shift: 'conocer' in inception meaning ('met for the first time') requires preterite 'conocí', not 'conocía'.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-009",
@@ -78,7 +94,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Correct state knowledge using imperfect 'conocía'."
+    "notes": "Correct state knowledge using imperfect 'conocía'.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-010",
@@ -87,7 +105,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PI.06",
-    "notes": "Narrative flattening: all background atmospheric conditions collapsed into preterite."
+    "notes": "Narrative flattening: all background atmospheric conditions collapsed into preterite.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-011",
@@ -96,7 +116,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Correct sequential foreground narrative using preterite."
+    "notes": "Correct sequential foreground narrative using preterite.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-012",
@@ -105,7 +127,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Negative case: bounded evaluation of a past event correctly uses preterite 'fue'."
+    "notes": "Negative case: bounded evaluation of a past event correctly uses preterite 'fue'.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-013",
@@ -114,7 +138,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PI.08",
-    "notes": "Bounded duration misread as ongoing: duró rendered as duraba."
+    "notes": "Bounded duration misread as ongoing: duró rendered as duraba.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pi-014",
@@ -123,7 +149,9 @@
     "concept_id": "es.gram.aspect.pret_imp",
     "expected_evaluation": "uncertain",
     "expected_diagnosis": null,
-    "notes": "Ambiguous utterance where intent cannot be inferred with certainty. Evaluator must return UNCERTAIN."
+    "notes": "Ambiguous utterance where intent cannot be inferred with certainty. Evaluator must return UNCERTAIN.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-001",
@@ -132,7 +160,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PP.01",
-    "notes": "Beneficiary/purpose conflation: substitution/on behalf of requires 'por Carlos', learner produced 'para Carlos'."
+    "notes": "Beneficiary/purpose conflation: substitution/on behalf of requires 'por Carlos', learner produced 'para Carlos'.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-002",
@@ -141,7 +171,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Correct contrast: 'para' recipient, 'por' cause/celebration."
+    "notes": "Correct contrast: 'para' recipient, 'por' cause/celebration.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-003",
@@ -150,7 +182,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PP.02",
-    "notes": "Route vs destination: transit through Córdoba requires 'por Córdoba', learner used 'para'."
+    "notes": "Route vs destination: transit through Córdoba requires 'por Córdoba', learner used 'para'.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-004",
@@ -159,7 +193,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Correct destination with motion verb: 'salir para'."
+    "notes": "Correct destination with motion verb: 'salir para'.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-005",
@@ -168,7 +204,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PP.03",
-    "notes": "Cause vs goal: antecedent reason/motive requires 'por el tráfico', learner produced 'para'."
+    "notes": "Cause vs goal: antecedent reason/motive requires 'por el tráfico', learner produced 'para'.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-006",
@@ -177,7 +215,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Correct forward-looking goal/purpose with infinitive: 'para comunicarme'."
+    "notes": "Correct forward-looking goal/purpose with infinitive: 'para comunicarme'.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-007",
@@ -186,7 +226,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PP.04",
-    "notes": "Duration vs deadline: deadline requires 'para el viernes', learner used 'por'."
+    "notes": "Duration vs deadline: deadline requires 'para el viernes', learner used 'por'.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-008",
@@ -195,7 +237,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Acceptable duration expression: 'por tres horas'."
+    "notes": "Acceptable duration expression: 'por tres horas'.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-009",
@@ -204,7 +248,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PP.05",
-    "notes": "Exchange/price: commercial transaction requires 'por estos zapatos', learner produced 'para'."
+    "notes": "Exchange/price: commercial transaction requires 'por estos zapatos', learner produced 'para'.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-010",
@@ -213,7 +259,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "incorrect",
     "expected_diagnosis": "PP.07",
-    "notes": "Fixed expression treated as rule-derived: 'gracias por todo' corrupted to 'gracias para'."
+    "notes": "Fixed expression treated as rule-derived: 'gracias por todo' corrupted to 'gracias para'.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-011",
@@ -222,7 +270,9 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "correct",
     "expected_diagnosis": null,
-    "notes": "Correct formulaic chunk: 'gracias por'."
+    "notes": "Correct formulaic chunk: 'gracias por'.",
+    "split": "dev",
+    "provenance": "synthetic_seed"
   },
   {
     "id": "gold-pp-012",
@@ -231,6 +281,8 @@
     "concept_id": "es.sem.por_para",
     "expected_evaluation": "uncertain",
     "expected_diagnosis": null,
-    "notes": "Metalinguistic hesitation and ambiguous semantic intent. Must return UNCERTAIN."
+    "notes": "Metalinguistic hesitation and ambiguous semantic intent. Must return UNCERTAIN.",
+    "split": "heldout",
+    "provenance": "synthetic_seed"
   }
 ]

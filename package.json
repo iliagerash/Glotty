@@ -11,11 +11,12 @@
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/db/seed.ts",
     "test:sync": "tsx tests/evaluator/sync.test.ts",
-    "test:benchmark": "tsx tests/evaluator/benchmark.test.ts"
+    "test:benchmark": "tsx tests/evaluator/benchmark.test.ts",
+    "test:async": "tsx tests/evaluator/async.test.ts",
+    "test:unit": "npm run test:sync && npm run test:async && tsx tests/learner/state.test.ts && tsx tests/policy/bandit.test.ts && tsx tests/insight/gate.test.ts"
   },
   "dependencies": {
     "@google/genai": "^2.22.0",
-    "@google/generative-ai": "^0.24.1",
     "better-auth": "^1.1.18",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",

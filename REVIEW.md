@@ -113,3 +113,23 @@ Better Auth is configured in [src/lib/auth.ts](src/lib/auth.ts), but every API r
 5. **Real gate inputs.** Compute the posterior and counter-probe status from real events. Wire probe items, built from the taxonomy's distinguishing probes, into the policy.
 6. **Auth and causal logging.** Get `userId` from the Better Auth session on the server. Assign cohorts at sign-up. Log real propensities and explanation style. Call the guardrails in the live flow.
 7. **Freeze the demo dashboards** until steps 1–6 pass.
+
+---
+
+## Progress
+
+### Steps 1–2: honest evaluator and benchmark (done)
+
+- `evaluateSimulated` is deleted, along with `src/lib/evaluator/gemini_async.ts`. The async evaluator now lives in `src/lib/evaluator/async.ts`. With no model configured, or when a call fails, it returns `UNCERTAIN` at confidence 0 with `status: "unavailable" | "error"`. It never produces a heuristic label.
+- Model gateway in `src/lib/llm/`. Callers depend on `ModelProvider`, and the provider and model come from `GLOTTY_LLM_PROVIDER` / `GLOTTY_EVAL_MODEL` (default `gemini-2.5-flash` on `@google/genai`). The unused `@google/generative-ai` package is removed.
+- Model output is checked, not trusted:
+  - unknown labels become `UNCERTAIN`
+  - diagnosis codes must belong to the concept's taxonomy, otherwise `UNKNOWN`
+  - a missing confidence counts as 0
+  - `INCORRECT` below 0.7 confidence abstains
+- `evaluator_version` records provider, model and prompt version.
+- Gold items carry `split` (`dev` / `heldout`) and `provenance: "synthetic_seed"`. `npm run test:benchmark` scores `heldout` by default (`--split=dev|all`). It exits non-zero when no model is configured or any call fails. It labels results as a smoke test, not a §24/§25 acceptance result. `/api/evaluator/benchmark` returns 503/502 in the same cases.
+- Replay no longer bumps a missing `eval_confidence` up to 0.8.
+- Added `tests/evaluator/sync.test.ts` (the `test:sync` script target) and `tests/evaluator/async.test.ts`. They are run by `npm run test:unit`.
+
+Still open: no real evaluator has been measured yet, because that needs an API key. Real gold-set annotation (§24) still needs a linguist. Steps 3–7 are not started.
