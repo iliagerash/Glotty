@@ -8,6 +8,7 @@
  * A reasoning model's effort can be pinned with a "#<effort>" suffix, e.g.
  *   cloudflare:@cf/openai/gpt-oss-120b#low
  * The suffix is part of the ref, so it is recorded in evaluator versions.
+ * For tiers, set the effort in GLOTTY_EFFORT_FAST/STRONG instead (see below).
  *
  * Product code never names a model directly. It asks for a tier, and the
  * tier is mapped to a model reference through the environment, so routing
@@ -66,6 +67,16 @@ const TIER_ENV: Record<Tier, string> = {
   strong: "GLOTTY_MODEL_STRONG",
 };
 
+/**
+ * A tier's effort has its own variable because "#" starts a comment in .env
+ * files and environment settings that parse them, which silently drops the
+ * suffix.
+ */
+const TIER_EFFORT_ENV: Record<Tier, string> = {
+  fast: "GLOTTY_EFFORT_FAST",
+  strong: "GLOTTY_EFFORT_STRONG",
+};
+
 export function parseModelRef(ref: string): ModelRef {
   const i = ref.indexOf(":");
   if (i <= 0) {
@@ -94,7 +105,17 @@ export function modelForTier(tier: Tier): ModelRef {
   if (!ref) {
     throw new Error(`${envKey} is not set: map the ${tier} tier to a model ref (see .env.example)`);
   }
-  return parseModelRef(ref);
+  const effortKey = TIER_EFFORT_ENV[tier];
+  const effort = process.env[effortKey];
+  if (!effort) return parseModelRef(ref);
+  if (ref.includes("#")) {
+    throw new Error(`${envKey} has an effort suffix and ${effortKey} is set: use one or the other`);
+  }
+  if (!REASONING_EFFORTS.includes(effort as ReasoningEffort)) {
+    throw new Error(`Invalid ${effortKey} "${effort}": expected ${REASONING_EFFORTS.join("|")}`);
+  }
+  // Folded into the ref so version tags and reports record the effort.
+  return parseModelRef(`${ref}#${effort}`);
 }
 
 /** Accepts a tier name or an explicit model reference. */
