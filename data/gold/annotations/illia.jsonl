@@ -1,0 +1,49 @@
+{"annotator":"illia","item_id":"syn-9941498029","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:17:52.543Z"}
+{"annotator":"illia","item_id":"syn-988b7357aa","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:18:07.015Z"}
+{"annotator":"illia","item_id":"syn-7cc1617b0c","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:18:19.888Z"}
+{"annotator":"illia","item_id":"syn-fca59fa8fa","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:18:33.001Z"}
+{"annotator":"illia","item_id":"syn-da2c94f4db","evaluation":"incorrect","diagnosis_code":"PI.04","confidence":2,"annotated_at":"2026-10-19T18:19:56.264Z"}
+{"annotator":"illia","item_id":"legacy-f4aa01d25e","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":3,"notes":"correct usage is \"desde hace varios años\"","annotated_at":"2026-10-19T18:21:07.259Z"}
+{"annotator":"illia","item_id":"syn-63745a672b","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:21:17.651Z"}
+{"annotator":"illia","item_id":"syn-4e3b557213","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":3,"notes":"correct: un perro muy bueno","annotated_at":"2026-10-19T18:22:06.622Z"}
+{"annotator":"illia","item_id":"syn-8fcdc6c622","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":3,"notes":"Correct usage: Estudié con mi profesor","annotated_at":"2026-10-19T18:23:00.662Z"}
+{"annotator":"illia","item_id":"syn-1d34f09ed1","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":3,"notes":"correct usage: que tenía que irme","annotated_at":"2026-10-19T18:24:13.002Z"}
+{"annotator":"illia","item_id":"syn-53135ffed3","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:24:27.169Z"}
+{"annotator":"illia","item_id":"syn-08bb827a6e","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:24:37.767Z"}
+{"annotator":"illia","item_id":"syn-308416686d","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:24:44.498Z"}
+{"annotator":"illia","item_id":"syn-919b8ce727","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:24:51.193Z"}
+{"annotator":"illia","item_id":"syn-9ac6c3048c","evaluation":"uncertain","diagnosis_code":null,"confidence":3,"notes":"Correct usage: mejorando mi condición física","annotated_at":"2026-10-19T18:26:11.040Z"}
+{"annotator":"illia","item_id":"syn-d37d205b4c","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:26:30.355Z"}
+{"annotator":"illia","item_id":"syn-9f8b0e48c2","evaluation":"incorrect","diagnosis_code":"PI.07","confidence":2,"notes":"Correct native usage: Hubo música y bailé.","annotated_at":"2026-10-19T18:27:39.077Z"}
+{"annotator":"illia","item_id":"syn-699fdabdd4","evaluation":"uncertain","diagnosis_code":null,"confidence":2,"notes":"Correct use: La semana pasada fui dos veces a la biblioteca","annotated_at":"2026-10-19T18:28:56.635Z"}
+{"annotator":"illia","item_id":"legacy-4031b234b0","evaluation":"uncertain","diagnosis_code":null,"confidence":1,"notes":"I would use: Ayer cuando volví a casa, descubrí que la puerta..","annotated_at":"2026-10-19T18:30:55.733Z"}
+{"annotator":"illia","item_id":"syn-b6dab935f4","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":1,"notes":"I would use: El médico me lo recetó para las alergias.","annotated_at":"2026-10-19T18:31:43.930Z"}
+{"annotator":"illia","item_id":"syn-d3a7a85539","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:32:11.777Z"}
+{"annotator":"illia","item_id":"syn-744f655d87","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:32:21.495Z"}
+{"annotator":"illia","item_id":"syn-ecc517e0d5","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"I would use \"al día\" instead of \"diarios\"","annotated_at":"2026-10-19T18:33:41.725Z"}
+{"annotator":"illia","item_id":"legacy-ff7f0d5f93","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T18:34:18.018Z"}
+{"annotator":"illia","item_id":"syn-ba8d350f75","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T18:34:45.839Z"}
+{"annotator":"illia","item_id":"legacy-fbe53d5141","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"Correct usage: Entré en la habitación, hacía mucho frío, sonaba música y vi a Pedro.","annotated_at":"2026-10-19T18:36:02.361Z"}
+{"annotator":"illia","item_id":"syn-d8069a3d18","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:36:15.441Z"}
+{"annotator":"illia","item_id":"legacy-f54040b7be","evaluation":"uncertain","diagnosis_code":null,"confidence":2,"notes":"Was it supposed to be \"pasamos por Córdoba\"?","annotated_at":"2026-10-19T18:37:20.031Z"}
+{"annotator":"illia","item_id":"syn-f6ece1ad0a","evaluation":"uncertain","diagnosis_code":null,"confidence":1,"notes":"A little bit better: La di a mi vecino para que pueda entrar cuando yo no esté.","annotated_at":"2026-10-19T18:38:39.081Z"}
+{"annotator":"illia","item_id":"syn-80b224264e","evaluation":"uncertain","diagnosis_code":null,"confidence":2,"notes":"Correct would be: Acepté el trabajo por treinta mil euros al año porque me gustaba la empresa.","annotated_at":"2026-10-19T18:39:11.240Z"}
+{"annotator":"illia","item_id":"syn-4fffd02bf0","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T18:39:43.940Z"}
+{"annotator":"illia","item_id":"syn-79f8f44129","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T18:39:56.851Z"}
+{"annotator":"illia","item_id":"syn-ed73fc8417","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:40:11.118Z"}
+{"annotator":"illia","item_id":"syn-e02c0ace40","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:40:22.653Z"}
+{"annotator":"illia","item_id":"syn-5ea7e4d929","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:40:34.663Z"}
+{"annotator":"illia","item_id":"syn-f93c2bf3f1","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:40:44.499Z"}
+{"annotator":"illia","item_id":"syn-c505b43fdb","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T18:40:55.802Z"}
+{"annotator":"illia","item_id":"legacy-55cc5199fb","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:41:29.127Z"}
+{"annotator":"illia","item_id":"syn-f5019a9eb8","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"Correct phrase: Compro ropa en una tienda de segunda mano.","annotated_at":"2026-10-19T18:42:32.705Z"}
+{"annotator":"illia","item_id":"syn-6a3d397643","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"Me mudé para estar más cerca de mi trabajo y por la vista al parque","annotated_at":"2026-10-19T18:43:13.882Z"}
+{"annotator":"illia","item_id":"syn-f6f2a38376","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":1,"notes":"I would use: Dediqué dos horas a prepararme para la cita.","annotated_at":"2026-10-19T18:44:28.259Z"}
+{"annotator":"illia","item_id":"syn-fa3d8d68bd","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T18:44:49.233Z"}
+{"annotator":"illia","item_id":"syn-1404303417","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:44:59.116Z"}
+{"annotator":"illia","item_id":"syn-8f7513f39b","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T18:45:10.301Z"}
+{"annotator":"illia","item_id":"legacy-0c405db5d7","evaluation":"incorrect","diagnosis_code":"PI.03","confidence":2,"notes":"Correct usage: De pequeño, iba al cine con mi abuelo todos los domingos.","annotated_at":"2026-10-19T18:46:20.761Z"}
+{"annotator":"illia","item_id":"syn-77a4f29d54","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"I would use: Fui a escuchar a mi cantante favorito.","annotated_at":"2026-10-19T18:47:04.721Z"}
+{"annotator":"illia","item_id":"syn-b0113ed2b3","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"I would say: Cuando era niño, vivía en un pueblo pequeño y jugaba con mis amigos.","annotated_at":"2026-10-19T18:48:25.464Z"}
+{"annotator":"illia","item_id":"syn-fc72bb2738","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"I would say: Las dejo en la oficina de objetos perdidos por compasión.","annotated_at":"2026-10-19T18:49:07.685Z"}
+{"annotator":"illia","item_id":"syn-7b49b51b06","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"I would say: La Navidad pasada estaba estudiando para un examen y celebrando una fiesta con amigos.","annotated_at":"2026-10-19T18:50:16.513Z"}
