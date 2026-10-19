@@ -36,6 +36,8 @@ export interface Annotation {
   /** 1 = guess, 2 = fairly sure, 3 = certain. */
   confidence: 1 | 2 | 3;
   notes?: string;
+  /** Model label sets only: the model's one-line justification. */
+  rationale?: string;
   annotated_at: string;
 }
 

@@ -35,6 +35,7 @@ const Row = z.object({
   diagnosis_code: z.string().nullish(),
   confidence: z.coerce.number().int().min(1).max(3),
   notes: z.string().nullish(),
+  rationale: z.string().nullish(),
 });
 
 function parse(text: string): unknown[] {
@@ -90,6 +91,7 @@ function main() {
       diagnosis_code: evaluation === "incorrect" ? code : null,
       confidence: confidence as 1 | 2 | 3,
       notes: r.data.notes?.trim() || undefined,
+      rationale: r.data.rationale?.trim() || undefined,
       annotated_at: now,
     });
   });
