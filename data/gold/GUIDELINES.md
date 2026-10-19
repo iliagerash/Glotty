@@ -1,6 +1,6 @@
 # Gold set annotation guidelines
 
-These are the rules for labelling learner responses at `/annotate`. The evaluator prompt (`prompts/evaluator/v2.md`) follows the same rules. If you change one, change the other, because the benchmark compares the two.
+These are the rules for labelling learner responses at `/annotate`. The evaluator prompt (`prompts/evaluator/v3.md`) follows the same rules. If you change one, change the other, because the benchmark compares the two.
 
 ## What you are judging
 
@@ -9,7 +9,9 @@ Only two things:
 - **Preterite vs imperfect.** Was the aspect choice right?
 - **Por vs para.** Was the preposition choice right?
 
-Ignore everything else when choosing the label: missing accents, gender agreement, vocabulary, word order. Mention notable ones in the notes if you like.
+Ignore everything else when choosing the label: missing accents, gender agreement, vocabulary, word order, and choices among other prepositions. Mention notable ones in the notes if you like.
+
+One exception: a *por* or *para* where Spanish needs a different preposition (*con*, *en*, *a*, *de*) or none at all counts as a por/para error. *Estoy buscando para mis llaves* is Incorrect (PP.06: English "for" carried over; *buscar* takes no preposition). Use `UNKNOWN` when English "for" doesn't explain it.
 
 ## Labels
 

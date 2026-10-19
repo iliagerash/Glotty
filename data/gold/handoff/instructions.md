@@ -1,4 +1,4 @@
-# Labelling instructions (version 2)
+# Labelling instructions (version 3)
 
 You are an expert Spanish teacher and applied linguist. Label each of the 116 learner responses in `items.jsonl`. The learners are adult English speakers at roughly B1 level. Each line has an `id`, the `prompt` the learner was answering, and the learner's `response`.
 
@@ -12,7 +12,7 @@ Judge every item yourself, one by one, as a teacher would. Do not write code, ke
    - every target form fits at least one natural reading, and no natural reading needs a different form → **Correct**;
    - some target form is wrong under every natural reading → **Incorrect**;
    - some target form is right under one natural reading and wrong under another, and the prompt does not settle which → **Ambiguous**.
-4. Only then look at anything else in the sentence. Errors outside the two clusters never change the label: gender agreement, accents, vocabulary, word order, other prepositions (*a*, *de*, *en*, *con*), reflexive pronouns, or a sentence you would simply phrase differently. A sentence can be clumsy and still be Correct.
+4. Only then look at anything else in the sentence. Errors outside the two clusters never change the label: gender agreement, accents, vocabulary, word order, a choice among other prepositions (*a*, *de*, *en*, *con*), reflexive pronouns, or a sentence you would simply phrase differently. A sentence can be clumsy and still be Correct. One exception: a *por* or *para* where Spanish needs a different preposition or none at all is a por/para error (Incorrect; PP.06 when English "for" explains it, otherwise UNKNOWN).
 
 ## Ambiguous is a normal answer
 
@@ -40,7 +40,9 @@ Only two things:
 - **Preterite vs imperfect.** Was the aspect choice right?
 - **Por vs para.** Was the preposition choice right?
 
-Ignore everything else when choosing the label: missing accents, gender agreement, vocabulary, word order. Mention notable ones in the notes if you like.
+Ignore everything else when choosing the label: missing accents, gender agreement, vocabulary, word order, and choices among other prepositions. Mention notable ones in the notes if you like.
+
+One exception: a *por* or *para* where Spanish needs a different preposition (*con*, *en*, *a*, *de*) or none at all counts as a por/para error. *Estoy buscando para mis llaves* is Incorrect (PP.06: English "for" carried over; *buscar* takes no preposition). Use `UNKNOWN` when English "for" doesn't explain it.
 
 ### Labels
 
