@@ -42,3 +42,8 @@
 {"item_id":"syn-25a41caffb","annotator":"illia","evaluation":"incorrect","diagnosis_code":"PP.07","confidence":2,"rule":"FIXED-EXPRESSION","chose":"chatgpt-v2","annotated_at":"2026-10-19T22:15:43.725Z"}
 {"item_id":"syn-25a41caffb","annotator":"illia","evaluation":"incorrect","diagnosis_code":"PP.07","confidence":3,"rule":"FIXED-EXPRESSION","chose":"chatgpt-v2","annotated_at":"2026-10-19T22:15:54.481Z"}
 {"item_id":"syn-25a41caffb","annotator":"illia","evaluation":"incorrect","diagnosis_code":"PP.07","confidence":3,"rule":"FIXED-EXPRESSION","chose":"chatgpt-v2","annotated_at":"2026-10-19T22:16:03.758Z"}
+{"item_id":"legacy-4031b234b0","annotator":"illia","evaluation":"incorrect","diagnosis_code":"PI.02","confidence":1,"rule":"IMP-BACKGROUND","chose":"chatgpt-v2","annotated_at":"2026-10-19T22:30:38.517Z"}
+{"item_id":"legacy-3376be04e9","annotator":"illia","evaluation":"correct","diagnosis_code":null,"confidence":3,"rule":"IMP-BACKGROUND","chose":"illia","annotated_at":"2026-10-19T22:32:02.995Z"}
+{"item_id":"syn-8fcdc6c622","annotator":"illia","evaluation":"uncertain","diagnosis_code":null,"confidence":3,"contested":true,"chose":"contested","annotated_at":"2026-10-19T22:38:48.331Z"}
+{"item_id":"syn-f5019a9eb8","annotator":"illia","evaluation":"incorrect","diagnosis_code":"PP.01","confidence":1,"rule":"POR-ON-BEHALF","chose":"illia","annotated_at":"2026-10-19T22:39:38.792Z"}
+{"item_id":"syn-9ac6c3048c","annotator":"illia","evaluation":"correct","diagnosis_code":null,"confidence":3,"rule":"POR-CAUSE","chose":"illia","annotated_at":"2026-10-19T22:40:47.332Z"}
