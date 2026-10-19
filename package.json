@@ -15,6 +15,9 @@
     "ai:models": "tsx scripts/ai-models.ts",
     "ai:ping": "tsx scripts/ai-ping.ts",
     "gold:generate": "tsx scripts/gold-generate.ts",
+    "gold:model-export": "tsx scripts/gold-model-export.ts",
+    "gold:model-import": "tsx scripts/gold-model-import.ts",
+    "gold:model-compare": "tsx scripts/gold-model-compare.ts",
     "bench": "tsx scripts/bench.ts"
   },
   "dependencies": {

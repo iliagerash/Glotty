@@ -1,0 +1,116 @@
+/**
+ * Compares a model label set with each human annotator on the items both
+ * labelled. This decides whether the model's labels may stand in for human
+ * labels during prompt iteration on dev: the bar is the same κ a second
+ * human annotator would need (§25: ≥ 0.75 binary, ≥ 0.60 diagnosis).
+ *
+ *   npm run gold:model-compare -- --model chatgpt-<model> [--annotator illia]
+ *
+ * No model calls. Writes reports/gold/<model>-vs-<annotator>.md.
+ */
+import fs from "fs";
+import path from "path";
+import { parseArgs } from "util";
+import { listAnnotators, readAnnotations, readItems, readModelLabels, type Annotation } from "@/lib/gold/store";
+import { cohensKappa } from "@/lib/gold/metrics";
+
+const EVALUATIONS: Annotation["evaluation"][] = ["correct", "incorrect", "uncertain", "not_applicable"];
+const fmt = (v: number | null) => (v === null ? "n/a" : v.toFixed(3));
+const cell = (s: string) => s.replace(/\|/g, "\\|").replace(/\n/g, " ");
+
+function compare(modelName: string, annotator: string): { summary: string; report: string } {
+  const model = readModelLabels(modelName);
+  const human = readAnnotations(annotator);
+  const items = new Map(readItems().map((i) => [i.id, i]));
+  const both = [...human.keys()].filter((id) => model.has(id) && items.has(id));
+  const H = (id: string) => human.get(id)!;
+  const M = (id: string) => model.get(id)!;
+
+  const agree = both.filter((id) => H(id).evaluation === M(id).evaluation).length;
+  const kEval = cohensKappa(both.map((id) => H(id).evaluation), both.map((id) => M(id).evaluation));
+  const bothIncorrect = both.filter((id) => H(id).evaluation === "incorrect" && M(id).evaluation === "incorrect");
+  const kDiag = cohensKappa(
+    bothIncorrect.map((id) => H(id).diagnosis_code ?? "-"),
+    bothIncorrect.map((id) => M(id).diagnosis_code ?? "-"),
+  );
+  // The costly direction for the product: the model calls wrong what the human calls right.
+  const overAccuse = both.filter((id) => M(id).evaluation === "incorrect" && H(id).evaluation !== "incorrect").length;
+  const underAccuse = both.filter((id) => H(id).evaluation === "incorrect" && M(id).evaluation !== "incorrect").length;
+
+  const passEval = kEval !== null && kEval >= 0.75;
+  const passDiag = kDiag === null || kDiag >= 0.6;
+  const verdict = !both.length
+    ? "No overlapping items."
+    : passEval && passDiag
+      ? `Meets the human-agreement bar. ${modelName} may stand in for human labels during prompt iteration on dev; held-out reports still need human labels.`
+      : `Below the human-agreement bar. Do not use ${modelName} as a stand-in for human labels; review the disagreements below first.`;
+
+  const lines = [
+    `# ${modelName} vs ${annotator}`,
+    "",
+    `Overlap: ${both.length} items (${annotator} labelled ${human.size}, ${modelName} labelled ${model.size}).`,
+    "",
+    "| Measure | Value | Bar |",
+    "|---|---|---|",
+    `| Raw agreement on evaluation | ${both.length ? fmt(agree / both.length) : "n/a"} | |`,
+    `| κ evaluation | ${fmt(kEval)} | ≥ 0.75 |`,
+    `| κ diagnosis, both incorrect (n=${bothIncorrect.length}) | ${fmt(kDiag)} | ≥ 0.60 |`,
+    `| Model says incorrect, ${annotator} does not | ${overAccuse} | |`,
+    `| ${annotator} says incorrect, model does not | ${underAccuse} | |`,
+    "",
+    `**${verdict}**`,
+    "",
+    `## Confusion (rows: ${annotator}, columns: ${modelName})`,
+    "",
+    `| | ${EVALUATIONS.join(" | ")} |`,
+    `|---|${EVALUATIONS.map(() => "---").join("|")}|`,
+    ...EVALUATIONS.map(
+      (h) => `| ${h} | ${EVALUATIONS.map((m) => both.filter((id) => H(id).evaluation === h && M(id).evaluation === m).length).join(" | ")} |`,
+    ),
+    "",
+  ];
+
+  const differ = both.filter(
+    (id) => H(id).evaluation !== M(id).evaluation || H(id).diagnosis_code !== M(id).diagnosis_code,
+  );
+  if (differ.length) {
+    lines.push(
+      "## Disagreements",
+      "",
+      `| Item | Response | ${annotator} | ${modelName} |`,
+      "|---|---|---|---|",
+      ...differ.map((id) => {
+        const show = (a: Annotation) =>
+          cell(`${a.evaluation} ${a.diagnosis_code ?? ""} (c${a.confidence})${a.notes ? `: ${a.notes}` : ""}`);
+        return `| ${id} | ${cell(items.get(id)!.response)} | ${show(H(id))} | ${show(M(id))} |`;
+      }),
+      "",
+    );
+  }
+
+  const summary = `${modelName} vs ${annotator}: overlap ${both.length}, κ evaluation ${fmt(kEval)}, κ diagnosis ${fmt(kDiag)} (n=${bothIncorrect.length}), model over-accuses ${overAccuse}. ${verdict}`;
+  return { summary, report: lines.join("\n") };
+}
+
+function main() {
+  const { values } = parseArgs({ options: { model: { type: "string" }, annotator: { type: "string" } } });
+  if (!values.model) {
+    console.error("Usage: npm run gold:model-compare -- --model chatgpt-<model> [--annotator illia]");
+    process.exit(1);
+  }
+  const annotators = values.annotator ? [values.annotator] : listAnnotators();
+  if (!annotators.length) {
+    console.error("No human annotations in data/gold/annotations/.");
+    process.exit(1);
+  }
+  const outDir = path.join(process.cwd(), "reports", "gold");
+  fs.mkdirSync(outDir, { recursive: true });
+  for (const a of annotators) {
+    const { summary, report } = compare(values.model, a);
+    const file = path.join(outDir, `${values.model}-vs-${a}.md`);
+    fs.writeFileSync(file, report);
+    console.log(`${summary}\nReport: ${path.relative(process.cwd(), file)}`);
+  }
+}
+
+main();

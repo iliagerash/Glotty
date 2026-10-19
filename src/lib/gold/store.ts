@@ -10,6 +10,8 @@ import type { Evaluation } from "@/lib/evaluator";
  *   items.jsonl                  responses to be labelled (no labels)
  *   annotations/<annotator>.jsonl one file per human annotator
  *   adjudications.jsonl          third-party decisions on disagreements
+ *   model_labels/<name>.jsonl    labels written by an LLM ("silver"); same
+ *                                shape as annotations, never mixed with them
  *   generator_intent.jsonl       what a generator *meant* to produce; never
  *                                shown to annotators, never used as gold
  */
@@ -51,6 +53,7 @@ export const GOLD_DIR = path.join(process.cwd(), "data", "gold");
 const ITEMS = path.join(GOLD_DIR, "items.jsonl");
 const ANNOTATIONS_DIR = path.join(GOLD_DIR, "annotations");
 const ADJUDICATIONS = path.join(GOLD_DIR, "adjudications.jsonl");
+const MODEL_LABELS_DIR = path.join(GOLD_DIR, "model_labels");
 const INTENT = path.join(GOLD_DIR, "generator_intent.jsonl");
 
 /** Share of items reserved for the held-out split (§24). */
@@ -130,6 +133,34 @@ export function readAnnotations(annotator: string): Map<string, Annotation> {
 
 export function appendAnnotation(a: Annotation): void {
   appendJsonl(annotatorFile(a.annotator), [a]);
+}
+
+const NAME = /^[a-z0-9_.-]{1,60}$/;
+
+export function modelLabelFile(name: string): string {
+  if (!NAME.test(name)) throw new Error("Model label set name must be 1-60 chars of a-z, 0-9, _, . or -");
+  return path.join(MODEL_LABELS_DIR, `${name}.jsonl`);
+}
+
+export function listModelLabelSets(): string[] {
+  if (!fs.existsSync(MODEL_LABELS_DIR)) return [];
+  return fs
+    .readdirSync(MODEL_LABELS_DIR)
+    .filter((f) => f.endsWith(".jsonl"))
+    .map((f) => f.replace(/\.jsonl$/, ""));
+}
+
+export function readModelLabels(name: string): Map<string, Annotation> {
+  const file = modelLabelFile(name);
+  if (!fs.existsSync(file)) throw new Error(`No model labels named "${name}" (${path.relative(process.cwd(), file)})`);
+  return new Map(readJsonl<Annotation>(file).map((a) => [a.item_id, a]));
+}
+
+/** Replaces the whole set: a model label set is imported as one batch. */
+export function writeModelLabels(name: string, labels: Annotation[]): void {
+  const file = modelLabelFile(name);
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, labels.map((l) => JSON.stringify(l)).join("\n") + "\n");
 }
 
 export function readAdjudications(): Map<string, Annotation> {

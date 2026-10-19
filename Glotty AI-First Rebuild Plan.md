@@ -307,13 +307,14 @@ The critical path is human annotation. No model choice is final until the gold s
 - [ ] Regenerate gold candidates with the chosen strong model if it beats llama-3.3-70b. The current 90 generated items have about 15 dubious intended labels.
 - [ ] Annotate the 116 candidates at `/annotate`, and add real learner writing. In progress: 49 of 116 labelled (`data/gold/annotations/illia.jsonl`).
 - [ ] Re-check Incorrect labels against `GUIDELINES.md`: errors outside the two clusters (gender, vocabulary, other prepositions, word order) are labelled Correct, and in-cluster errors get a code where one fits rather than `UNKNOWN`.
+- [ ] Label all items with ChatGPT (`npm run gold:model-export`, then `gold:model-import`) and check agreement with the human sample (`gold:model-compare`).
 - [ ] Recruit a second qualified annotator (a linguist, §48) so κ can be measured.
 - [ ] Have annotators check PP.04 items first: the generator marks duration-por ("estuve por tres horas") as an error, though the taxonomy accepts it.
 - [ ] Once a model passes on `dev`, run `--split heldout` once and report it. Then start step 3.
 
 ## Concept check
 
-I checked the plan against all of `Glotty_Concept.md`, including Appendices A–D. The core holds: gateway, measured evaluator, events → labels → state, gate, exploration. I found eight conflicts and six gaps. Three conflicts are deliberate divergences, kept with their reasons in the table; the other eleven items are fixed in the sections above.
+I checked the plan against all of `Glotty_Concept.md`, including Appendices A–D. The core holds: gateway, measured evaluator, events → labels → state, gate, exploration. I found eight conflicts and six gaps; a ninth conflict (model labels instead of a second human) was added later by decision. Four conflicts are deliberate divergences, kept with their reasons in the table; the other eleven items are fixed in the sections above.
 
 | Concept says | Plan had | Now |
 | --- | --- | --- |
@@ -323,6 +324,7 @@ I checked the plan against all of `Glotty_Concept.md`, including Appendices A–
 | §24: gold set from real learner production | "At least half real" | At least half real overall; held-out split real only |
 | §31: input budget is reading/listening | Counted conversation as input | Reading only, texts by predicted comprehension |
 | App. D Phase 3: beat last-observation and fixed-interval baselines, with reliability diagrams | Brier vs population prior | Kept as a divergence: Brier vs prior is the step 5 exit; the Phase 3 baselines are later gates |
+| §24: two independent human annotators per item | Two humans on every item | Kept as a divergence: an external model (ChatGPT) labels all items; one human labels a random sample. If model and human agree at the human bar (κ ≥ 0.75 evaluation, ≥ 0.60 diagnosis), model labels drive prompt iteration on `dev`. Held-out reports stay human-labelled. |
 | §44: pre-registered success threshold | Invented "d < 0.2" | Kept as a divergence: d < 0.2 is my proposal for the pre-registered threshold |
 | App. A: evaluation enum is correct / incorrect / uncertain / unscored | Invented NO\_KEY\_MATCH | `unscored` |
 | §18, App. C: \~40-node graph; nodes carry codes, item pools, prerequisite closure | Missing (repo has 34 bare nodes) | Added to step 3 |

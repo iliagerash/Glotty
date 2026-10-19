@@ -82,7 +82,8 @@ function systemPrompt(): { text: string; hash: string } {
   return systemPromptCache;
 }
 
-function renderTaxonomy(): string {
+/** The taxonomy as the evaluator sees it; also used for model-labelling instructions. */
+export function renderTaxonomy(): string {
   return loadTaxonomy()
     .map((t) =>
       [

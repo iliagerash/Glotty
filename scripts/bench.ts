@@ -3,11 +3,15 @@
  * fallback. Writes predictions and a markdown report to reports/bench/<run>.
  *
  *   npm run bench -- [--models fast,strong,cloudflare:@cf/...] [--split dev|heldout|all]
- *                    [--against gold|intent] [--limit 50] [--concurrency 4]
+ *                    [--against gold|intent|model:<name>] [--limit 50] [--concurrency 4]
  *
  * --against intent scores against what the candidate generator *meant* to
  * produce. Use it only to screen models before annotation exists; the report
  * is marked as not a gold measurement.
+ *
+ * --against model:<name> scores against an imported model label set
+ * (data/gold/model_labels/<name>.jsonl). Use it for prompt iteration on dev
+ * only after gold:model-compare shows the set agrees with human labels.
  */
 import "dotenv/config";
 import fs from "fs";
@@ -21,6 +25,7 @@ import {
   readAnnotations,
   readGeneratorIntent,
   readItems,
+  readModelLabels,
   splitOf,
   type GoldItem,
 } from "@/lib/gold/store";
@@ -150,7 +155,11 @@ async function main() {
     },
   });
   const split = values.split as "dev" | "heldout" | "all";
-  const against = values.against as "gold" | "intent";
+  const against = values.against!;
+  if (against !== "gold" && against !== "intent" && !against.startsWith("model:")) {
+    console.error(`Unknown --against "${against}": use gold, intent or model:<name>`);
+    process.exit(1);
+  }
   const models = values.models!.split(",").map((m) => resolveModel(m.trim()).ref);
 
   const items = readItems().filter((i) => split === "all" || splitOf(i.id) === split);
@@ -163,6 +172,14 @@ async function main() {
       .map((item) => ({ item, gold: intent.get(item.id)! }));
     header.push(
       "> **Not a gold measurement.** Scored against the candidate generator's intended labels, which no human has checked. Use only to screen models before annotation.",
+      "",
+    );
+  } else if (against.startsWith("model:")) {
+    const name = against.slice("model:".length);
+    const silver = readModelLabels(name);
+    labeled = items.filter((i) => silver.has(i.id)).map((item) => ({ item, gold: silver.get(item.id)! }));
+    header.push(
+      `> **Not a gold measurement.** Scored against labels written by a model (\`${name}\`), not by humans. Valid for prompt iteration on dev only if \`npm run gold:model-compare -- --model ${name}\` shows it agrees with human labels. Held-out reports need human labels.`,
       "",
     );
   } else {
@@ -186,7 +203,7 @@ async function main() {
     console.log("Held-out run. Report these numbers; do not iterate prompts on them (§24).");
   }
 
-  const runId = `${new Date().toISOString().replace(/[:.]/g, "-")}-${split}-${against}`;
+  const runId = `${new Date().toISOString().replace(/[:.]/g, "-")}-${split}-${against.replace(/[^a-zA-Z0-9.-]+/g, "_")}`;
   const outDir = path.join(process.cwd(), "reports", "bench", runId);
   fs.mkdirSync(outDir, { recursive: true });
 
