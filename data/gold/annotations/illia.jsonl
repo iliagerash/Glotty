@@ -47,3 +47,122 @@
 {"annotator":"illia","item_id":"syn-b0113ed2b3","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"I would say: Cuando era niño, vivía en un pueblo pequeño y jugaba con mis amigos.","annotated_at":"2026-10-19T18:48:25.464Z"}
 {"annotator":"illia","item_id":"syn-fc72bb2738","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"I would say: Las dejo en la oficina de objetos perdidos por compasión.","annotated_at":"2026-10-19T18:49:07.685Z"}
 {"annotator":"illia","item_id":"syn-7b49b51b06","evaluation":"incorrect","diagnosis_code":"UNKNOWN","confidence":2,"notes":"I would say: La Navidad pasada estaba estudiando para un examen y celebrando una fiesta con amigos.","annotated_at":"2026-10-19T18:50:16.513Z"}
+{"annotator":"illia","item_id":"syn-9941498029","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:02:54.369Z"}
+{"annotator":"illia","item_id":"syn-75731309e9","evaluation":"uncertain","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:03:29.812Z"}
+{"annotator":"illia","item_id":"syn-7b49b51b06","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:04:03.973Z"}
+{"annotator":"illia","item_id":"syn-9941498029","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:09:22.869Z"}
+{"annotator":"illia","item_id":"syn-988b7357aa","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:09:30.297Z"}
+{"annotator":"illia","item_id":"syn-7cc1617b0c","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:09:40.243Z"}
+{"annotator":"illia","item_id":"syn-fca59fa8fa","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:09:47.639Z"}
+{"annotator":"illia","item_id":"syn-da2c94f4db","evaluation":"incorrect","diagnosis_code":"PI.04","confidence":1,"annotated_at":"2026-10-19T21:10:45.721Z"}
+{"annotator":"illia","item_id":"legacy-f4aa01d25e","evaluation":"correct","diagnosis_code":null,"confidence":3,"notes":"correct usage is \"desde hace varios años\"","annotated_at":"2026-10-19T21:10:53.998Z"}
+{"annotator":"illia","item_id":"syn-63745a672b","evaluation":"incorrect","diagnosis_code":"PP.01","confidence":2,"annotated_at":"2026-10-19T21:11:09.874Z"}
+{"annotator":"illia","item_id":"syn-4e3b557213","evaluation":"correct","diagnosis_code":null,"confidence":3,"notes":"correct: un perro muy bueno","annotated_at":"2026-10-19T21:11:18.823Z"}
+{"annotator":"illia","item_id":"syn-8fcdc6c622","evaluation":"incorrect","diagnosis_code":"PP.05","confidence":1,"annotated_at":"2026-10-19T21:12:33.979Z"}
+{"annotator":"illia","item_id":"syn-1d34f09ed1","evaluation":"correct","diagnosis_code":null,"confidence":3,"notes":"correct usage: que tenía que irme","annotated_at":"2026-10-19T21:12:44.845Z"}
+{"annotator":"illia","item_id":"syn-53135ffed3","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:12:52.657Z"}
+{"annotator":"illia","item_id":"syn-08bb827a6e","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:13:01.139Z"}
+{"annotator":"illia","item_id":"syn-308416686d","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:13:05.989Z"}
+{"annotator":"illia","item_id":"syn-919b8ce727","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:13:11.853Z"}
+{"annotator":"illia","item_id":"syn-9ac6c3048c","evaluation":"correct","diagnosis_code":null,"confidence":2,"notes":"Correct usage: mejorando mi condición física","annotated_at":"2026-10-19T21:13:33.842Z"}
+{"annotator":"illia","item_id":"syn-d37d205b4c","evaluation":"incorrect","diagnosis_code":"PP.06","confidence":1,"annotated_at":"2026-10-19T21:14:09.960Z"}
+{"annotator":"illia","item_id":"syn-9f8b0e48c2","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:14:21.718Z"}
+{"annotator":"illia","item_id":"syn-699fdabdd4","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:14:34.421Z"}
+{"annotator":"illia","item_id":"legacy-4031b234b0","evaluation":"incorrect","diagnosis_code":"PI.03","confidence":1,"annotated_at":"2026-10-19T21:15:38.760Z"}
+{"annotator":"illia","item_id":"syn-b6dab935f4","evaluation":"correct","diagnosis_code":null,"confidence":2,"notes":"I would use: El médico me lo recetó para las alergias.","annotated_at":"2026-10-19T21:15:47.491Z"}
+{"annotator":"illia","item_id":"syn-d3a7a85539","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:15:52.822Z"}
+{"annotator":"illia","item_id":"syn-744f655d87","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:15:58.253Z"}
+{"annotator":"illia","item_id":"syn-ecc517e0d5","evaluation":"correct","diagnosis_code":null,"confidence":2,"notes":"I would use \"al día\" instead of \"diarios\"","annotated_at":"2026-10-19T21:16:10.119Z"}
+{"annotator":"illia","item_id":"legacy-ff7f0d5f93","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:16:23.283Z"}
+{"annotator":"illia","item_id":"syn-ba8d350f75","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:16:26.219Z"}
+{"annotator":"illia","item_id":"legacy-fbe53d5141","evaluation":"correct","diagnosis_code":null,"confidence":2,"notes":"Correct usage: Entré en la habitación, hacía mucho frío, sonaba música y vi a Pedro.","annotated_at":"2026-10-19T21:16:33.717Z"}
+{"annotator":"illia","item_id":"syn-d8069a3d18","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:16:39.703Z"}
+{"annotator":"illia","item_id":"legacy-f54040b7be","evaluation":"correct","diagnosis_code":null,"confidence":2,"notes":"Was it supposed to be \"pasamos por Córdoba\"?","annotated_at":"2026-10-19T21:16:45.416Z"}
+{"annotator":"illia","item_id":"syn-f6ece1ad0a","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:16:57.390Z"}
+{"annotator":"illia","item_id":"syn-80b224264e","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:17:11.619Z"}
+{"annotator":"illia","item_id":"syn-4fffd02bf0","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:17:18.506Z"}
+{"annotator":"illia","item_id":"syn-79f8f44129","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:17:28.503Z"}
+{"annotator":"illia","item_id":"syn-ed73fc8417","evaluation":"incorrect","diagnosis_code":"PI.04","confidence":1,"annotated_at":"2026-10-19T21:18:06.985Z"}
+{"annotator":"illia","item_id":"syn-e02c0ace40","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:18:13.381Z"}
+{"annotator":"illia","item_id":"syn-5ea7e4d929","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:18:17.768Z"}
+{"annotator":"illia","item_id":"syn-f93c2bf3f1","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:18:22.131Z"}
+{"annotator":"illia","item_id":"syn-c505b43fdb","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:18:26.666Z"}
+{"annotator":"illia","item_id":"legacy-55cc5199fb","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:18:30.816Z"}
+{"annotator":"illia","item_id":"syn-f5019a9eb8","evaluation":"incorrect","diagnosis_code":"PP.01","confidence":1,"annotated_at":"2026-10-19T21:19:24.060Z"}
+{"annotator":"illia","item_id":"syn-6a3d397643","evaluation":"correct","diagnosis_code":null,"confidence":2,"notes":"Me mudé para estar más cerca de mi trabajo y por la vista al parque","annotated_at":"2026-10-19T21:19:32.920Z"}
+{"annotator":"illia","item_id":"syn-f6f2a38376","evaluation":"correct","diagnosis_code":null,"confidence":2,"notes":"I would use: Dediqué dos horas a prepararme para la cita.","annotated_at":"2026-10-19T21:19:38.584Z"}
+{"annotator":"illia","item_id":"syn-fa3d8d68bd","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:19:46.887Z"}
+{"annotator":"illia","item_id":"syn-1404303417","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:19:52.289Z"}
+{"annotator":"illia","item_id":"syn-8f7513f39b","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:19:57.053Z"}
+{"annotator":"illia","item_id":"legacy-0c405db5d7","evaluation":"incorrect","diagnosis_code":"PI.03","confidence":2,"annotated_at":"2026-10-19T21:20:08.967Z"}
+{"annotator":"illia","item_id":"syn-77a4f29d54","evaluation":"correct","diagnosis_code":null,"confidence":1,"annotated_at":"2026-10-19T21:20:22.205Z"}
+{"annotator":"illia","item_id":"syn-b0113ed2b3","evaluation":"incorrect","diagnosis_code":"PI.03","confidence":1,"annotated_at":"2026-10-19T21:20:41.657Z"}
+{"annotator":"illia","item_id":"syn-fc72bb2738","evaluation":"correct","diagnosis_code":null,"confidence":3,"notes":"I would say: Las dejo en la oficina de objetos perdidos por compasión.","annotated_at":"2026-10-19T21:20:49.787Z"}
+{"annotator":"illia","item_id":"syn-7b49b51b06","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:20:56.905Z"}
+{"annotator":"illia","item_id":"syn-75731309e9","evaluation":"uncertain","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:21:10.378Z"}
+{"annotator":"illia","item_id":"syn-e8af9a6b6d","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:21:20.702Z"}
+{"annotator":"illia","item_id":"legacy-a7373dee3e","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:21:25.503Z"}
+{"annotator":"illia","item_id":"legacy-eb3077e174","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:21:32.885Z"}
+{"annotator":"illia","item_id":"syn-5130498a8d","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:21:40.249Z"}
+{"annotator":"illia","item_id":"legacy-1f13eda8fe","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:21:46.085Z"}
+{"annotator":"illia","item_id":"syn-1bc377bfef","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:21:57.056Z"}
+{"annotator":"illia","item_id":"legacy-dd49bd9ce1","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:22:01.819Z"}
+{"annotator":"illia","item_id":"syn-de2c8da155","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:22:08.737Z"}
+{"annotator":"illia","item_id":"syn-459bd3d14c","evaluation":"correct","diagnosis_code":null,"confidence":1,"annotated_at":"2026-10-19T21:22:18.523Z"}
+{"annotator":"illia","item_id":"legacy-c49210de77","evaluation":"incorrect","diagnosis_code":"PI.03","confidence":2,"annotated_at":"2026-10-19T21:22:33.271Z"}
+{"annotator":"illia","item_id":"syn-60ecd5e1d5","evaluation":"incorrect","diagnosis_code":"PP.04","confidence":1,"annotated_at":"2026-10-19T21:23:02.209Z"}
+{"annotator":"illia","item_id":"syn-f512e9098d","evaluation":"incorrect","diagnosis_code":"PP.04","confidence":2,"annotated_at":"2026-10-19T21:23:17.603Z"}
+{"annotator":"illia","item_id":"legacy-341967169c","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:23:26.565Z"}
+{"annotator":"illia","item_id":"syn-f4e5a67410","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:23:35.569Z"}
+{"annotator":"illia","item_id":"legacy-728ee98840","evaluation":"correct","diagnosis_code":null,"confidence":1,"annotated_at":"2026-10-19T21:23:52.871Z"}
+{"annotator":"illia","item_id":"syn-7238e8482d","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:24:07.005Z"}
+{"annotator":"illia","item_id":"syn-bc3a5b651f","evaluation":"uncertain","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:24:37.160Z"}
+{"annotator":"illia","item_id":"syn-58a5e6b18e","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:24:46.656Z"}
+{"annotator":"illia","item_id":"legacy-3376be04e9","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:24:53.022Z"}
+{"annotator":"illia","item_id":"syn-13fa4b5e4a","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:25:00.952Z"}
+{"annotator":"illia","item_id":"syn-b3578b3846","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:25:08.884Z"}
+{"annotator":"illia","item_id":"legacy-881d8c83ff","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:25:15.237Z"}
+{"annotator":"illia","item_id":"syn-25a41caffb","evaluation":"incorrect","diagnosis_code":"PP.04","confidence":2,"annotated_at":"2026-10-19T21:25:26.535Z"}
+{"annotator":"illia","item_id":"syn-bc3904f89a","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:25:33.895Z"}
+{"annotator":"illia","item_id":"syn-9ba6ec1191","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:25:39.917Z"}
+{"annotator":"illia","item_id":"legacy-4e81950fd5","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:25:47.236Z"}
+{"annotator":"illia","item_id":"legacy-01bcbd7b6f","evaluation":"incorrect","diagnosis_code":"PI.05","confidence":1,"annotated_at":"2026-10-19T21:26:22.917Z"}
+{"annotator":"illia","item_id":"legacy-a807e896d8","evaluation":"incorrect","diagnosis_code":"PP.06","confidence":1,"annotated_at":"2026-10-19T21:26:45.550Z"}
+{"annotator":"illia","item_id":"syn-d6618a62cb","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:26:53.115Z"}
+{"annotator":"illia","item_id":"syn-9ecbf35005","evaluation":"incorrect","diagnosis_code":"PI.03","confidence":2,"annotated_at":"2026-10-19T21:27:05.767Z"}
+{"annotator":"illia","item_id":"legacy-fa948da6f3","evaluation":"correct","diagnosis_code":null,"confidence":1,"annotated_at":"2026-10-19T21:27:18.487Z"}
+{"annotator":"illia","item_id":"syn-2de5dd7073","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:27:24.517Z"}
+{"annotator":"illia","item_id":"syn-f21e2a84f0","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:27:30.167Z"}
+{"annotator":"illia","item_id":"syn-eea741e367","evaluation":"correct","diagnosis_code":null,"confidence":1,"annotated_at":"2026-10-19T21:27:38.367Z"}
+{"annotator":"illia","item_id":"syn-843c6afbd2","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:27:43.951Z"}
+{"annotator":"illia","item_id":"syn-f72595ec55","evaluation":"incorrect","diagnosis_code":"PP.02","confidence":3,"annotated_at":"2026-10-19T21:27:59.981Z"}
+{"annotator":"illia","item_id":"syn-ed5bb1ebfb","evaluation":"incorrect","diagnosis_code":"PP.02","confidence":3,"annotated_at":"2026-10-19T21:28:13.187Z"}
+{"annotator":"illia","item_id":"syn-1f0fef0e7e","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:28:20.949Z"}
+{"annotator":"illia","item_id":"syn-c0ece090ba","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:28:26.033Z"}
+{"annotator":"illia","item_id":"legacy-2d93c5b4e7","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:28:33.387Z"}
+{"annotator":"illia","item_id":"syn-1b67a0fb8f","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:28:39.930Z"}
+{"annotator":"illia","item_id":"legacy-f4f94485a8","evaluation":"incorrect","diagnosis_code":"PP.05","confidence":2,"annotated_at":"2026-10-19T21:28:56.756Z"}
+{"annotator":"illia","item_id":"syn-5994aa059e","evaluation":"incorrect","diagnosis_code":"PI.03","confidence":1,"annotated_at":"2026-10-19T21:29:17.229Z"}
+{"annotator":"illia","item_id":"syn-a6aa43d420","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:29:25.966Z"}
+{"annotator":"illia","item_id":"syn-236d7b4e7a","evaluation":"correct","diagnosis_code":null,"confidence":1,"annotated_at":"2026-10-19T21:29:45.146Z"}
+{"annotator":"illia","item_id":"syn-47f31ed603","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:29:52.970Z"}
+{"annotator":"illia","item_id":"syn-c1d4eb022c","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:30:00.269Z"}
+{"annotator":"illia","item_id":"syn-6a05e23f70","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:30:08.164Z"}
+{"annotator":"illia","item_id":"legacy-6297ec401d","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:30:14.035Z"}
+{"annotator":"illia","item_id":"syn-57ad93946b","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:30:24.865Z"}
+{"annotator":"illia","item_id":"syn-b259d9363d","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:30:35.453Z"}
+{"annotator":"illia","item_id":"syn-5794abfedf","evaluation":"incorrect","diagnosis_code":"PI.05","confidence":2,"annotated_at":"2026-10-19T21:30:51.365Z"}
+{"annotator":"illia","item_id":"legacy-d4555dc2c2","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:30:57.095Z"}
+{"annotator":"illia","item_id":"syn-e27202e036","evaluation":"incorrect","diagnosis_code":"PI.04","confidence":1,"annotated_at":"2026-10-19T21:31:20.718Z"}
+{"annotator":"illia","item_id":"syn-c68c10c109","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:31:28.599Z"}
+{"annotator":"illia","item_id":"syn-eea05255d8","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:31:35.678Z"}
+{"annotator":"illia","item_id":"syn-4543f66816","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:31:41.862Z"}
+{"annotator":"illia","item_id":"syn-9b53cf24e1","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:31:46.531Z"}
+{"annotator":"illia","item_id":"syn-3812c70393","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:31:56.216Z"}
+{"annotator":"illia","item_id":"syn-87431fd0ae","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:32:04.147Z"}
+{"annotator":"illia","item_id":"syn-e6949fa615","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:32:09.114Z"}
+{"annotator":"illia","item_id":"syn-7e0af9d825","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:32:15.665Z"}
+{"annotator":"illia","item_id":"legacy-63fba52c5b","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:32:22.497Z"}
+{"annotator":"illia","item_id":"syn-8dcf76e0ed","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:32:27.815Z"}
+{"annotator":"illia","item_id":"legacy-0d3d2b95a9","evaluation":"correct","diagnosis_code":null,"confidence":2,"annotated_at":"2026-10-19T21:32:36.678Z"}
+{"annotator":"illia","item_id":"syn-9d32a6e205","evaluation":"correct","diagnosis_code":null,"confidence":3,"annotated_at":"2026-10-19T21:32:44.443Z"}
