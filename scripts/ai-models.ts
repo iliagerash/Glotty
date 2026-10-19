@@ -23,7 +23,9 @@ async function main() {
     const flags = [
       props.context_window ? `ctx=${props.context_window}` : "",
       props.function_calling ? "tools" : "",
+      props.reasoning ? "reasoning" : "",
       props.beta ? "beta" : "",
+      // Not currently exposed by the search API; kept in case it returns.
       props.planned_deprecation_date ? `deprecates=${props.planned_deprecation_date}` : "",
     ].filter(Boolean);
     console.log(`cloudflare:${m.name}${flags.length ? `  (${flags.join(", ")})` : ""}`);

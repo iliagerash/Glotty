@@ -43,6 +43,8 @@ export interface GeneratorIntent {
   diagnosis_code: string | null;
   kind: string;
   generator: string;
+  /** The generator's own justification for the label; for reviewing the generator only. */
+  rationale?: string;
 }
 
 export const GOLD_DIR = path.join(process.cwd(), "data", "gold");

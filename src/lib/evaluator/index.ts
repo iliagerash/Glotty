@@ -172,7 +172,8 @@ export async function evaluate(
       { role: "user", content: userMessage(input) },
     ],
     temperature: 0,
-    maxTokens: 1500,
+    // Headroom for reasoning models; others stop at ~200 output tokens.
+    maxTokens: 4096,
     signal: opts.signal,
   });
 

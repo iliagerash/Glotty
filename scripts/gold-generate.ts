@@ -16,45 +16,70 @@ import { loadTaxonomy, type TaxonomyCode } from "@/lib/taxonomy";
 import { addItems, appendGeneratorIntent, itemIdFor, type GoldItem } from "@/lib/gold/store";
 
 const KINDS = {
-  error: "contains this misconception (evaluation incorrect, code = this code)",
+  error:
+    "contains exactly one clear instance of this misconception, which any Spanish teacher would mark wrong (evaluation incorrect, code = this code)",
   hard_negative:
-    "looks like this misconception on the surface but is correct Spanish under its most plausible reading (evaluation correct, code null); model these on the code's negative examples",
+    "uses the same structure or trigger words as this misconception but is correct Spanish under its most plausible reading (evaluation correct, code null); model these on the look-alikes",
   ambiguous:
-    "correct under one plausible intent and wrong under another, with nothing in the prompt to decide (evaluation uncertain, code null)",
+    "correct under one plausible intent and wrong under another, with nothing in the prompt to decide; both readings must be natural (evaluation uncertain, code null)",
   other_error:
-    "uses the target forms correctly but has an unrelated mistake such as gender agreement or a missing accent (evaluation correct, code null)",
+    "uses the target forms correctly but contains one unrelated, concrete mistake such as a gender agreement error, a missing accent or an anglicism (evaluation correct, code null)",
 } as const;
+type Kind = keyof typeof KINDS;
+
+const TOPICS = [
+  "childhood", "a job", "a trip abroad", "a holiday at home", "a family celebration", "school or university",
+  "moving house", "a medical visit", "a sports match", "cooking a meal", "a concert or film", "a flatmate or neighbour",
+  "a car or bike problem", "shopping", "a first date", "a pet", "learning a skill", "a lost item",
+];
+
+/** Kinds for one batch: errors and look-alikes first, at least one of each. */
+function kindPlan(perCode: number): Kind[] {
+  const order: Kind[] = ["error", "hard_negative", "ambiguous", "other_error", "error", "hard_negative"];
+  return Array.from({ length: perCode }, (_, i) => order[i % order.length]);
+}
 
 const Batch = z.object({
   items: z.array(
     z.object({
+      kind: z.enum(Object.keys(KINDS) as [Kind, ...Kind[]]),
       prompt: z.string(),
       response: z.string(),
-      kind: z.enum(Object.keys(KINDS) as [keyof typeof KINDS, ...(keyof typeof KINDS)[]]),
+      target_span: z.string(),
+      rationale: z.string(),
       intended_evaluation: z.enum(["correct", "incorrect", "uncertain"]),
       intended_code: z.string().nullable(),
     }),
   ),
 });
 
-function instructions(code: TaxonomyCode, perCode: number): string {
-  return `You write test data for a Spanish evaluator. Produce ${perCode} items for this misconception:
+function instructions(code: TaxonomyCode, perCode: number, topics: string[]): string {
+  const plan = kindPlan(perCode);
+  return `You write test data for an evaluator of Spanish written by English-speaking learners. Produce exactly ${perCode} items for this misconception:
 
 ${code.code}: ${code.name}
 Definition: ${code.definition}
 Examples of it: ${code.positive_examples.join(" | ")}
-Look-alikes that are NOT it: ${code.negative_examples.join(" | ")}
+Look-alikes that are NOT it (these forms are correct): ${code.negative_examples.join(" | ")}
 
-Each item is a tutor prompt in Spanish (a natural conversational question that invites a narrative or explanation) and a learner response.
-
-Learner responses must read like real writing from an adult English speaker at B1 level: 1-3 sentences, everyday topics (work, travel, family, childhood, weekend plans), some missing accents, occasional anglicisms. Vary topics, verbs, length and sentence structure. Do not copy the examples above. Do not mark errors with asterisks.
-
-Distribute the items across these kinds, at least one of each:
+Item kinds:
 ${Object.entries(KINDS)
   .map(([k, v]) => `- ${k}: ${v}`)
   .join("\n")}
 
-Reply with JSON only: {"items": [{"prompt", "response", "kind", "intended_evaluation", "intended_code"}]}`;
+Produce the items in this order of kinds: ${plan.join(", ")}.
+Use these topics, one per item, in order: ${topics.join(", ")}.
+
+Rules:
+- The prompt is a natural conversational question from a tutor, in Spanish, that makes the learner produce the structure this code is about (for example a past narrative for past-tense codes, a reason or purpose for por/para codes). It must fit the response.
+- The response reads like real writing from an adult B1 learner: 1-3 sentences, plausible content, missing accents now and then. It is only what the learner wrote: never describe or point out a mistake inside it, and never mark errors with asterisks.
+- Any form listed as a look-alike is correct Spanish. Never label it as this misconception.
+- Do not copy or lightly edit the examples above.
+- target_span is the exact words of the response that the label depends on.
+- rationale says in one sentence why the label holds. For an error item, target_span is the wrong form this misconception produces (like the forms in "Examples of it"), and the rationale must name the form a native speaker would use instead. For an ambiguous item, give both readings.
+- Before you finish, reread each item as a native-speaking Spanish teacher. If an error item is actually acceptable, or a correct item actually contains this misconception, rewrite it.
+
+Reply with JSON only: {"items": [{"kind", "prompt", "response", "target_span", "rationale", "intended_evaluation", "intended_code"}]}`;
 }
 
 async function main() {
@@ -73,16 +98,31 @@ async function main() {
   );
 
   let added = 0;
-  for (const code of codes) {
+  for (const [n, code] of codes.entries()) {
+    // Rotate topics so codes do not all write about the same weekend at the beach.
+    const topics = Array.from({ length: perCode }, (_, i) => TOPICS[(n * perCode + i) % TOPICS.length]);
     try {
-      const { data } = await completeStructured({
+      const { data: raw } = await completeStructured({
         model: model.ref,
         schema: Batch,
         schemaName: "gold_candidates",
-        messages: [{ role: "user", content: instructions(code, perCode) }],
+        messages: [{ role: "user", content: instructions(code, perCode, topics) }],
         temperature: 0.9,
-        maxTokens: 4000,
+        maxTokens: 8000,
       });
+      // The kind fixes the label; an item whose label disagrees with its own kind is dropped.
+      const expected: Record<Kind, [string, string | null]> = {
+        error: ["incorrect", code.code],
+        hard_negative: ["correct", null],
+        ambiguous: ["uncertain", null],
+        other_error: ["correct", null],
+      };
+      const data = {
+        items: raw.items.filter(
+          (it) => it.intended_evaluation === expected[it.kind][0] && it.intended_code === expected[it.kind][1],
+        ),
+      };
+      const inconsistent = raw.items.length - data.items.length;
       const now = new Date().toISOString();
       const items: GoldItem[] = data.items.map((it) => ({
         id: itemIdFor("syn", it.response),
@@ -104,10 +144,13 @@ async function main() {
             diagnosis_code: it.intended_code,
             kind: it.kind,
             generator: model.ref,
+            rationale: `${it.target_span}: ${it.rationale}`,
           })),
       );
       added += fresh.length;
-      console.log(`${code.code}: +${fresh.length} (${data.items.length - fresh.length} duplicates)`);
+      console.log(
+        `${code.code}: +${fresh.length} (${data.items.length - fresh.length} duplicates, ${inconsistent} inconsistent labels dropped)`,
+      );
     } catch (err) {
       console.error(`${code.code}: FAILED ${(err as Error).message}`);
       process.exitCode = 1;

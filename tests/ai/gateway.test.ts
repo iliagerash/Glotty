@@ -76,3 +76,51 @@ test("refuses to run without credentials", async () => {
   delete process.env.CLOUDFLARE_API_TOKEN;
   await assert.rejects(completeStructured({ ...opts, model: "cloudflare:@cf/test/f" }), /CLOUDFLARE_API_TOKEN/);
 });
+
+test("sends reasoning_effort from a #effort suffix and strips it from the model id", async () => {
+  mockReplies(chat('{"verdict":"yes"}'));
+  await completeStructured({ ...opts, model: "cloudflare:@cf/test/g#low" });
+  assert.equal(calls[0].model, "@cf/test/g");
+  assert.equal(calls[0].reasoning_effort, "low");
+});
+
+test("does not send reasoning_effort without a suffix", async () => {
+  mockReplies(chat('{"verdict":"yes"}'));
+  await completeStructured({ ...opts, model: "cloudflare:@cf/test/h" });
+  assert.equal("reasoning_effort" in calls[0], false);
+});
+
+test("rejects an unknown effort suffix", async () => {
+  await assert.rejects(completeStructured({ ...opts, model: "cloudflare:@cf/test/i#turbo" }), /reasoning effort/);
+});
+
+test("explains an empty reply when reasoning used the whole budget, without retrying", async () => {
+  // Workers AI shape for gemma-4 / glm-4.7-flash: content null, reasoning set, finish "length".
+  mockReplies({
+    body: {
+      choices: [{ finish_reason: "length", message: { content: null, reasoning: '{"verdict":"yes"} maybe' } }],
+    },
+  });
+  await assert.rejects(
+    completeStructured({ ...opts, model: "cloudflare:@cf/test/j" }),
+    (err: Error) => err instanceof GatewayError && /reasoning used the whole max_tokens/.test(err.message),
+  );
+  assert.equal(calls.length, 1);
+});
+
+test("never takes the answer from the reasoning field", async () => {
+  // qwen3-30b with reasoning_effort=none: finish "stop", JSON only in `reasoning_content`.
+  mockReplies({
+    body: { choices: [{ finish_reason: "stop", message: { content: "", reasoning_content: '{"verdict":"yes"}' } }] },
+  });
+  await assert.rejects(completeStructured({ ...opts, model: "cloudflare:@cf/test/k" }), /Empty completion/);
+});
+
+test("fails on truncated JSON instead of retrying into the same limit", async () => {
+  mockReplies({ body: { choices: [{ finish_reason: "length", message: { content: '{"verdict":"y' } }] } });
+  await assert.rejects(
+    completeStructured({ ...opts, model: "cloudflare:@cf/test/l" }),
+    (err: Error) => err instanceof GatewayError && /truncated/.test(err.message),
+  );
+  assert.equal(calls.length, 1);
+});

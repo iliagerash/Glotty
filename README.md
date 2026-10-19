@@ -39,6 +39,7 @@ npm run ai:ping             # one evaluator call per tier
 2. **Annotate**: `npm run dev` and open `/annotate`. Follow [`data/gold/GUIDELINES.md`](data/gold/GUIDELINES.md). Labels are saved per annotator in `data/gold/annotations/<name>.jsonl`; commit them. Add real learner writing there too: §24 wants real responses, and synthetic items are only a bootstrap.
 3. **Benchmark**: `npm run bench -- --models fast,strong,cloudflare:@cf/...`. This runs the `dev` split against human labels and reports the §25 gates, false accusations, latency and tokens in `reports/bench/<run>/report.md`. Iterate prompts on `dev` only; run `--split heldout` to report.
    - Before any annotation exists, `--against intent` screens models against the generator's intended labels. The report says plainly that this is not a gold measurement.
+   - Reasoning models take an effort suffix, e.g. `cloudflare:@cf/openai/gpt-oss-120b#low` (sent as `reasoning_effort`). `CLOUDFLARE_CANDIDATES` in `src/lib/ai/config.ts` lists the models checked to work, with the suffix each needs. If a reasoning model spends the whole token budget thinking, the gateway fails with a message saying so; it never reads the answer out of the reasoning text.
 4. **Agreement**: with a second annotator, the report computes Cohen's κ (§25: ≥ 0.75 binary, ≥ 0.60 diagnosis). With one annotator, results are reported as provisional.
 
 ## Tests

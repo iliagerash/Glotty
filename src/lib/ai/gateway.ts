@@ -30,6 +30,8 @@ export interface CompletionResult {
   model: ModelRef;
   latencyMs: number;
   usage: { inputTokens: number | null; outputTokens: number | null };
+  /** "stop", "length", ... as reported by the provider; null if absent. */
+  finishReason: string | null;
 }
 
 export interface StructuredResult<T> extends CompletionResult {
@@ -109,6 +111,7 @@ async function callChat(
     temperature: opts.temperature ?? 0,
     max_tokens: opts.maxTokens ?? 1024,
   };
+  if (model.reasoningEffort) body.reasoning_effort = model.reasoningEffort;
   const useFormat = responseFormat && !noResponseFormat.has(model.ref);
   if (useFormat) body.response_format = responseFormat;
 
@@ -141,12 +144,24 @@ async function callChat(
   }
 
   const json = (await res.json()) as {
-    choices?: Array<{ message?: { content?: string | null; reasoning_content?: string } }>;
+    choices?: Array<{
+      finish_reason?: string | null;
+      // Workers AI uses `reasoning` for some models and `reasoning_content` for others.
+      message?: { content?: string | null; reasoning?: string | null; reasoning_content?: string | null };
+    }>;
     usage?: { prompt_tokens?: number; completion_tokens?: number };
   };
-  const text = json.choices?.[0]?.message?.content ?? "";
+  const choice = json.choices?.[0];
+  const text = choice?.message?.content ?? "";
+  const finishReason = choice?.finish_reason ?? null;
   if (!text) {
-    throw new GatewayError("Empty completion", model.ref, res.status);
+    const reasoning = choice?.message?.reasoning || choice?.message?.reasoning_content;
+    // Reasoning text is never used as the answer: it holds drafts, not a verdict.
+    const why =
+      finishReason === "length" && reasoning
+        ? `reasoning used the whole max_tokens budget (${body.max_tokens}); raise maxTokens or lower the effort (#low)`
+        : `finish_reason ${finishReason ?? "missing"}${reasoning ? ", reasoning only" : ""}`;
+    throw new GatewayError(`Empty completion: ${why}`, model.ref, res.status);
   }
   return {
     text,
@@ -156,6 +171,7 @@ async function callChat(
       inputTokens: json.usage?.prompt_tokens ?? null,
       outputTokens: json.usage?.completion_tokens ?? null,
     },
+    finishReason,
   };
 }
 
@@ -202,6 +218,13 @@ export async function completeStructured<S extends z.ZodType>(
         latencyMs,
         usage: { inputTokens, outputTokens },
       };
+    }
+    if (result.finishReason === "length") {
+      // A retry would hit the same limit; say so instead.
+      throw new GatewayError(
+        `Output truncated at max_tokens (${opts.maxTokens ?? 1024}) before valid JSON; raise maxTokens or lower the effort`,
+        model.ref,
+      );
     }
     lastError =
       candidate === undefined
