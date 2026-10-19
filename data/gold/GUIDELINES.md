@@ -1,6 +1,6 @@
 # Gold set annotation guidelines
 
-These are the rules for labelling learner responses at `/annotate`. The evaluator prompt (`prompts/evaluator/v3.md`) follows the same rules. If you change one, change the other, because the benchmark compares the two.
+These are the rules for labelling learner responses at `/annotate`. The evaluator prompt (`prompts/evaluator/v4.md`) follows the same rules. If you change one, change the other, because the benchmark compares the two.
 
 ## What you are judging
 
@@ -11,7 +11,7 @@ Only two things:
 
 Ignore everything else when choosing the label: missing accents, gender agreement, vocabulary, word order, and choices among other prepositions. Mention notable ones in the notes if you like.
 
-One exception: a *por* or *para* where Spanish needs a different preposition (*con*, *en*, *a*, *de*) or none at all counts as a por/para error. *Estoy buscando para mis llaves* is Incorrect (PP.06: English "for" carried over; *buscar* takes no preposition). Use `UNKNOWN` when English "for" doesn't explain it.
+One exception: a *por* or *para* where Spanish needs a different preposition (*con*, *en*, *a*, *de*) or none at all counts as a por/para error. *Estoy buscando para mis llaves* is Incorrect (PP.06: English "for" carried over; *buscar* takes no preposition). Use `UNKNOWN` when English "for" doesn't explain it. Apply this only when the *por* or *para* has no valid reading: a destination, cause, duration or other standard use is fine even if another preposition would also work.
 
 ## Labels
 

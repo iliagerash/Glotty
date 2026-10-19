@@ -53,7 +53,7 @@ Each step's exit criterion is a measurement or a structural guarantee, not a dem
 | --- | --- | --- |
 | 0. Remove fakes | Delete the simulated evaluator, scripted journey, demo dashboards and fake default user. Make `events` append-only. | Nothing in the codebase produces a label without a real model call. Done. |
 | 1. Model gateway | `src/lib/ai`: tiers, Cloudflare Workers AI + any OpenAI-compatible endpoint, zod-validated output, one retry on invalid JSON | Unit tests against a mocked fetch; every candidate model answers `ai:ping`. Done. |
-| 2. Evaluator | `prompts/evaluator/v3.md` (earlier versions kept for traceability), taxonomy with negative examples, abstention, UNKNOWN; gold tooling (`/annotate`, dev/held-out split, generator, bench) | All six §25 gates pass on the held-out human-labelled set. Built, not yet measured. |
+| 2. Evaluator | `prompts/evaluator/v4.md` (earlier versions kept for traceability), taxonomy with negative examples, abstention, UNKNOWN; gold tooling (`/annotate`, dev/held-out split, generator, bench) | All six §25 gates pass on the held-out human-labelled set. Built, not yet measured. |
 | 3. Items + sync path | Generated items stored with answer keys and distinguishing probes; sync evaluation by key matching (§22) | Sync path p95 under 200 ms with no LLM call. |
 | 4. Conversation + async labels | LLM conversation turns; evaluation moved to a background queue; versioned `labels` table (events → labels → learner state) | The learner never waits on the LLM; any label can be re-scored by version. |
 | 5. Learner model | Built from labels: §16 weights (uncertain ≈ 0.1), ordering constraint flagged rather than clamped, pooled prior (§17) | Learner state reproducible from events by replay; real gate inputs. |
@@ -284,6 +284,8 @@ Sorted by false accusations. Gates: accuracy ≥ 0.90, precision ≥ 0.95, diagn
 v2 fixed the cases it targeted, but kimi gained two new false accusations, one probably from the PI.06 rule. Still a screen against generator intent, not gold.
 
 **Prompt v3** adds one scope decision: a *por* or *para* where Spanish needs a different preposition or none at all (*Estoy buscando para mis llaves*) is a por/para error, coded PP.06 when English "for" explains it. The same rule is in `GUIDELINES.md`, `data/gold/rules.json` (`PREP-NEITHER`) and the model-labelling instructions (version 3).
+
+**Prompt v4** narrows that rule to a *por*/*para* with no valid reading at all (destination, cause, duration and other standard uses stay valid), and notes that an unaccented *hacia* is usually *hacía*. v3 had produced false accusations on *Salimos para la estación*, *Las dejo por compasión* and *jugaba… y hacia ejercicio*.
 
 **Gateway fixes from real-world testing** (pushed in 2e49b20):
 
