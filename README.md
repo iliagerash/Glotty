@@ -12,7 +12,7 @@ The rebuild follows the concept's build order (§49). Each step is gated by meas
 |---|---|
 | 0. Remove simulated evaluator, scripted journey, demo dashboards, fake user | done |
 | 1. Model gateway (`src/lib/ai`): provider-agnostic, schema-validated, no silent fallback | done |
-| 2. Evaluator (`src/lib/evaluator`, `prompts/evaluator/v1.md`), gold-set tooling, benchmark | built; **not yet measured** |
+| 2. Evaluator (`src/lib/evaluator`, `prompts/evaluator/v2.md`), gold-set tooling, benchmark | built; **not yet measured** |
 | 3. Generated items with stored answer keys and distinguishing probes; sync evaluation | next |
 | 4. LLM conversation turns, async evaluation queue, versioned `labels` table | |
 | 5. Learner model from labels (§16 weights, ordering constraint, pooled prior); real gate inputs | |

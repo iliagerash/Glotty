@@ -1,6 +1,6 @@
 # Gold set annotation guidelines
 
-These are the rules for labelling learner responses at `/annotate`. The evaluator prompt (`prompts/evaluator/v1.md`) follows the same rules. If you change one, change the other, because the benchmark compares the two.
+These are the rules for labelling learner responses at `/annotate`. The evaluator prompt (`prompts/evaluator/v2.md`) follows the same rules. If you change one, change the other, because the benchmark compares the two.
 
 ## What you are judging
 
@@ -17,10 +17,10 @@ Ignore everything else when choosing the label: missing accents, gender agreemen
 |---|---|
 | **Correct** | Every preterite/imperfect and por/para choice fits the most plausible reading. One acceptable reading is enough. |
 | **Incorrect** | At least one choice is wrong under every plausible reading. |
-| **Ambiguous** | A choice is right under one plausible reading and wrong under another, and nothing in the prompt settles it. In the notes, write the question you would ask the learner. |
-| **N/A** | The response contains no preterite/imperfect choice and no por/para choice. |
+| **Ambiguous** | A choice is right under one plausible reading and wrong under another, and nothing in the prompt settles it. In the notes, write the question you would ask the learner. The readings are about what the learner meant, not facts the speaker is unsure of: *No sé si llegó a las ocho o a las nueve* is judged as written. |
+| **N/A** | The response contains no preterite or imperfect form and no *por* or *para* at all (e.g. it is entirely in the present). If any such form appears, label it Correct or Incorrect even when the choice is obviously right. |
 
-Be charitable. *Ayer iba al supermercado y compré leche* is correct: the trip is background, the purchase is the event. Time words like *ayer* do not force the preterite. Accept any usage an educated native speaker from some Spanish-speaking region would accept, and note the region if it matters.
+Be charitable. *Ayer iba al supermercado y compré leche* is correct: the trip is background, the purchase is the event. Time words like *ayer* do not force the preterite. The limit: in a narrative, a clause that only sets the scene for the other events needs the imperfect. *Entré en la sala, hizo frío y la música sonó fuerte* is Incorrect (PI.06). A missing accent does not change the tense you judge: read *comia* as *comía*. Accept any usage an educated native speaker from some Spanish-speaking region would accept, and note the region if it matters.
 
 ## Diagnosis code (Incorrect only)
 

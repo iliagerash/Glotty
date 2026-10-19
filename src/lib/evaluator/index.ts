@@ -14,7 +14,7 @@ import { loadTaxonomy, MVP_CLUSTERS, TAXONOMY_PATH, taxonomyCodes } from "@/lib/
  * This is the asynchronous path. It never runs inside a learner's request.
  */
 
-export const PROMPT_ID = "evaluator/v1";
+export const PROMPT_ID = "evaluator/v2";
 
 /** Below this confidence an "incorrect" verdict becomes an abstention (§23, §25). */
 export const INCORRECT_MIN_CONFIDENCE = 0.7;
@@ -64,7 +64,7 @@ export interface EvaluationResult {
   raw: ModelVerdict;
 }
 
-const PROMPT_PATH = path.join(process.cwd(), "prompts", "evaluator", "v1.md");
+const PROMPT_PATH = path.join(process.cwd(), "prompts", "evaluator", "v2.md");
 
 let systemPromptCache: { text: string; hash: string } | null = null;
 

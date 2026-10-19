@@ -48,6 +48,8 @@ export interface EvaluatorMetrics {
   recallIncorrect: number | null;
   predictedIncorrect: number;
   falseAccusations: number;
+  /** Predicted "not_applicable" where gold says the response is applicable. */
+  wrongNotApplicable: number;
   diagnosisTop1: number | null;
   diagnosisN: number;
   uncertainRate: number | null;
@@ -60,7 +62,13 @@ export function evaluatorMetrics(rows: ScoredRow[]): EvaluatorMetrics {
   const applicable = ok.filter((r) => r.gold.evaluation !== "not_applicable");
 
   const decided = (e: Evaluation) => e === "correct" || e === "incorrect";
-  const binary = ok.filter((r) => decided(r.gold.evaluation) && decided(r.pred.evaluation));
+  // A "not_applicable" verdict on a decided item is a miss, not an abstention:
+  // otherwise a model could skip hard items and raise its accuracy.
+  const binary = ok.filter(
+    (r) =>
+      decided(r.gold.evaluation) &&
+      (decided(r.pred.evaluation) || r.pred.evaluation === "not_applicable"),
+  );
   const binaryHits = binary.filter((r) => r.gold.evaluation === r.pred.evaluation).length;
 
   // Every predicted "incorrect" counts against precision unless gold agrees,
@@ -84,6 +92,7 @@ export function evaluatorMetrics(rows: ScoredRow[]): EvaluatorMetrics {
     recallIncorrect: ratio(truePositives, goldIncorrect),
     predictedIncorrect: predIncorrect.length,
     falseAccusations: predIncorrect.length - truePositives,
+    wrongNotApplicable: applicable.filter((r) => r.pred.evaluation === "not_applicable").length,
     diagnosisTop1: ratio(diagHits, diag.length),
     diagnosisN: diag.length,
     uncertainRate: ratio(

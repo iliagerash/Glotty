@@ -23,17 +23,19 @@ test("evaluatorMetrics counts false accusations against precision", () => {
     { gold: L("correct"), pred: L("correct") },
     { gold: L("correct"), pred: L("uncertain") },
     { gold: L("not_applicable"), pred: L("not_applicable") },
+    { gold: L("correct"), pred: L("not_applicable") }, // a miss, not an abstention
     { gold: L("correct"), pred: null }, // API failure
   ]);
-  assert.equal(m.n, 8);
+  assert.equal(m.n, 9);
   assert.equal(m.failures, 1);
   assert.equal(m.precisionIncorrect, 2 / 4);
   assert.equal(m.falseAccusations, 2);
   assert.equal(m.recallIncorrect, 1);
   assert.equal(m.diagnosisTop1, 1 / 2);
-  assert.equal(m.binaryN, 4);
-  assert.equal(m.binaryAccuracy, 3 / 4);
-  assert.equal(m.uncertainRate, 1 / 6);
+  assert.equal(m.binaryN, 5);
+  assert.equal(m.binaryAccuracy, 3 / 5);
+  assert.equal(m.wrongNotApplicable, 1);
+  assert.equal(m.uncertainRate, 1 / 7);
 });
 
 test("gates report null when there is no data", () => {

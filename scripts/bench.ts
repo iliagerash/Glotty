@@ -194,8 +194,8 @@ async function main() {
   const summary: string[] = [
     "## Summary",
     "",
-    "| Model | Accuracy ≥0.90 | Precision INCORRECT ≥0.95 | Diagnosis top-1 ≥0.65 | UNCERTAIN ≤0.15 | False accusations | Failures | p50 / p95 ms | Avg tokens in/out |",
-    "|---|---|---|---|---|---|---|---|---|",
+    "| Model | Accuracy ≥0.90 | Precision INCORRECT ≥0.95 | Diagnosis top-1 ≥0.65 | UNCERTAIN ≤0.15 | False accusations | Wrong N/A | Failures | p50 / p95 ms | Avg tokens in/out |",
+    "|---|---|---|---|---|---|---|---|---|---|",
   ];
   const details: string[] = [];
 
@@ -214,7 +214,7 @@ async function main() {
     const mark = (g: (typeof gates)[number]) => `${fmt(g.value)} ${g.pass === null ? "" : g.pass ? "✅" : "❌"}`;
 
     summary.push(
-      `| \`${model}\` | ${gates.map(mark).join(" | ")} | ${m.falseAccusations} | ${m.failures} | ${percentile(lat, 50) ?? "-"} / ${percentile(lat, 95) ?? "-"} | ${avg(ok.map((r) => r.usage.inputTokens ?? 0))} / ${avg(ok.map((r) => r.usage.outputTokens ?? 0))} |`,
+      `| \`${model}\` | ${gates.map(mark).join(" | ")} | ${m.falseAccusations} | ${m.wrongNotApplicable} | ${m.failures} | ${percentile(lat, 50) ?? "-"} / ${percentile(lat, 95) ?? "-"} | ${avg(ok.map((r) => r.usage.inputTokens ?? 0))} / ${avg(ok.map((r) => r.usage.outputTokens ?? 0))} |`,
     );
 
     details.push(`## \`${model}\``, "");
