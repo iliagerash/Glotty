@@ -5,6 +5,7 @@ import {
   evaluatorGates,
   evaluatorMetrics,
   percentile,
+  combineJudges,
   combineRuns,
   resolveConsensus,
   resolveGold,
@@ -95,4 +96,24 @@ test("combineRuns: agreement keeps the label, a split becomes uncertain", () => 
   assert.equal(combineRuns([L("incorrect", "PI.03"), L("incorrect", "PI.08")]).split, true);
   assert.equal(combineRuns([L("correct")]).split, false);
   assert.throws(() => combineRuns([]));
+});
+
+test("combineJudges: a split on the code alone stays incorrect, with no code", () => {
+  assert.deepEqual(combineJudges([L("incorrect", "PI.03"), L("incorrect", "PI.08")]), {
+    label: L("incorrect"),
+    split: false,
+    codeSplit: true,
+  });
+  assert.deepEqual(combineJudges([L("incorrect", "PI.03"), L("incorrect", "PI.03")]).label, L("incorrect", "PI.03"));
+  assert.deepEqual(combineJudges([L("correct"), L("incorrect", "PI.03")]), { label: L("uncertain"), split: true, codeSplit: false });
+});
+
+test("evaluatorMetrics leaves gold incorrect with no code out of diagnosis, not out of precision", () => {
+  const m = evaluatorMetrics([
+    { gold: L("incorrect"), pred: L("incorrect", "PI.03") },
+    { gold: L("incorrect", "PI.01"), pred: L("incorrect", "PI.01") },
+  ]);
+  assert.equal(m.precisionIncorrect, 1);
+  assert.equal(m.diagnosisN, 1);
+  assert.equal(m.diagnosisTop1, 1);
 });

@@ -58,6 +58,20 @@ export function combineRuns<L extends Label>(runs: L[]): { label: Label; split: 
   return { label: { evaluation: "uncertain", diagnosis_code: null }, split: true };
 }
 
+/**
+ * Combines the two governance judges' labels. Like combineRuns, except that
+ * when both say incorrect and only the code differs, the item stays incorrect
+ * with no code: they agree it is an error. It counts for the evaluation
+ * gates and is left out of diagnosis scoring.
+ */
+export function combineJudges(pair: [Label, Label]): { label: Label; split: boolean; codeSplit: boolean } {
+  const [a, b] = pair;
+  if (a.evaluation === "incorrect" && b.evaluation === "incorrect" && a.diagnosis_code !== b.diagnosis_code) {
+    return { label: { evaluation: "incorrect", diagnosis_code: null }, split: false, codeSplit: true };
+  }
+  return { ...combineRuns(pair), codeSplit: false };
+}
+
 export type ConsensusStatus = "agreed" | "adjudicated" | "disputed" | "contested" | "unlabeled";
 
 /**
@@ -123,8 +137,9 @@ export function evaluatorMetrics(rows: ScoredRow[]): EvaluatorMetrics {
   const truePositives = predIncorrect.filter((r) => r.gold.evaluation === "incorrect").length;
   const goldIncorrect = ok.filter((r) => r.gold.evaluation === "incorrect").length;
 
+  // Gold "incorrect" with no code (the judges split on the code) is left out.
   const diag = ok.filter(
-    (r) => r.gold.evaluation === "incorrect" && r.pred.evaluation === "incorrect",
+    (r) => r.gold.evaluation === "incorrect" && r.gold.diagnosis_code !== null && r.pred.evaluation === "incorrect",
   );
   const diagHits = diag.filter((r) => r.gold.diagnosis_code === r.pred.diagnosis_code).length;
 

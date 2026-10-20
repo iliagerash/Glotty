@@ -2,6 +2,8 @@
  * Combines the label sets of the two governance judges into the gold
  * reference: where they agree (evaluation, and code when incorrect), that
  * label; where they disagree, "uncertain", so the evaluator should abstain.
+ * Where both say incorrect and only the code differs, "incorrect" with no
+ * code (combineJudges).
  * Each judge's set is itself two runs combined by gold:label.
  *
  *   npm run gold:consensus -- --a <set> --b <set> [--name <set>]
@@ -12,7 +14,7 @@
  * Use it with `npm run bench -- --against model:<name>`.
  */
 import { parseArgs } from "util";
-import { cohensKappa, combineRuns } from "@/lib/gold/metrics";
+import { cohensKappa, combineJudges } from "@/lib/gold/metrics";
 import { readItems, readModelLabels, writeModelLabels, type Annotation } from "@/lib/gold/store";
 
 const { values } = parseArgs({ options: { a: { type: "string" }, b: { type: "string" }, name: { type: "string" } } });
@@ -27,16 +29,21 @@ const b = readModelLabels(values.b);
 const show = (l: Annotation) => `${l.evaluation}${l.diagnosis_code ? ` ${l.diagnosis_code}` : ""}`;
 const both = readItems().filter((i) => a.has(i.id) && b.has(i.id));
 let disagreements = 0;
+let codeSplits = 0;
 const combined: Annotation[] = both.map((item) => {
-  const pair = [a.get(item.id)!, b.get(item.id)!];
-  const { label, split } = combineRuns(pair);
+  const pair: [Annotation, Annotation] = [a.get(item.id)!, b.get(item.id)!];
+  const { label, split, codeSplit } = combineJudges(pair);
   if (split) disagreements++;
+  if (codeSplit) codeSplits++;
   return {
     item_id: item.id,
     annotator: name,
     ...label,
     confidence: split ? 1 : (Math.min(...pair.map((l) => l.confidence)) as 1 | 2 | 3),
-    notes: split ? `judges split: ${values.a}: ${show(pair[0])} | ${values.b}: ${show(pair[1])}` : pair[0].notes,
+    notes:
+      split || codeSplit
+        ? `judges split${codeSplit ? " on the code" : ""}: ${values.a}: ${show(pair[0])} | ${values.b}: ${show(pair[1])}`
+        : pair[0].notes,
     rationale: `[${values.a}] ${pair[0].rationale ?? ""} [${values.b}] ${pair[1].rationale ?? ""}`,
     annotated_at: new Date().toISOString(),
   };
@@ -57,7 +64,7 @@ const fmt = (k: number | null) => (k === null ? "n/a" : k.toFixed(3));
 const passes = kEval !== null && kEval >= 0.75 && kDiag !== null && kDiag >= 0.6;
 
 console.log(`Consensus of ${values.a} and ${values.b} on ${both.length} items -> model_labels/${name}.jsonl: ${JSON.stringify(counts)}`);
-console.log(`Judges disagree on ${disagreements} items (now uncertain).`);
+console.log(`Judges disagree on ${disagreements} items (now uncertain), and only on the code on ${codeSplits} (incorrect, no code).`);
 console.log(`κ evaluation ${fmt(kEval)} (bar 0.75), κ diagnosis ${fmt(kDiag)} on ${bothIncorrect.length} items both call incorrect (bar 0.60).`);
 console.log(
   passes
