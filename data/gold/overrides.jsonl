@@ -1,0 +1,3 @@
+{"item_id": "syn-3812c70393", "evaluation": "incorrect", "diagnosis_code": "PI.04", "by": "illia", "decided_at": "2026-10-20", "reason": "siempre + cuando estaba en París makes the visits a habit: visité -> visitaba."}
+{"item_id": "syn-ed73fc8417", "evaluation": "incorrect", "diagnosis_code": "PI.06", "by": "illia", "decided_at": "2026-10-20", "reason": "the crowd standing and shouting is the scene when the singer came on: hubo de pie / estuvo gritando -> estaba de pie / estaba gritando."}
+{"item_id": "syn-f5019a9eb8", "evaluation": "incorrect", "diagnosis_code": "UNKNOWN", "by": "illia", "decided_at": "2026-10-20", "reason": "the prompt asks ¿Dónde?, so para -> en."}

@@ -3,7 +3,9 @@
  * reference: where they agree (evaluation, and code when incorrect), that
  * label; where they disagree, "uncertain", so the evaluator should abstain.
  * Where both say incorrect and only the code differs, "incorrect" with no
- * code (combineJudges).
+ * code (combineJudges). A ruling in data/gold/overrides.jsonl replaces the
+ * consensus on its item and says so in the notes; the κ figures always come
+ * from the judges' own labels.
  * Each judge's set is itself two runs combined by gold:label.
  *
  *   npm run gold:consensus -- --a <set> --b <set> [--name <set>]
@@ -15,7 +17,7 @@
  */
 import { parseArgs } from "util";
 import { cohensKappa, combineJudges } from "@/lib/gold/metrics";
-import { readItems, readModelLabels, writeModelLabels, type Annotation } from "@/lib/gold/store";
+import { readItems, readModelLabels, readOverrides, writeModelLabels, type Annotation } from "@/lib/gold/store";
 
 const { values } = parseArgs({ options: { a: { type: "string" }, b: { type: "string" }, name: { type: "string" } } });
 if (!values.a || !values.b) {
@@ -30,6 +32,7 @@ const show = (l: Annotation) => `${l.evaluation}${l.diagnosis_code ? ` ${l.diagn
 const both = readItems().filter((i) => a.has(i.id) && b.has(i.id));
 let disagreements = 0;
 let codeSplits = 0;
+const overrides = readOverrides();
 const combined: Annotation[] = both.map((item) => {
   const pair: [Annotation, Annotation] = [a.get(item.id)!, b.get(item.id)!];
   const { label, split, codeSplit } = combineJudges(pair);
@@ -48,6 +51,17 @@ const combined: Annotation[] = both.map((item) => {
     annotated_at: new Date().toISOString(),
   };
 });
+for (const label of combined) {
+  const o = overrides.get(label.item_id);
+  if (!o) continue;
+  const was = `${label.evaluation}${label.diagnosis_code ? ` ${label.diagnosis_code}` : ""}`;
+  Object.assign(label, {
+    evaluation: o.evaluation,
+    diagnosis_code: o.diagnosis_code,
+    confidence: 3,
+    notes: `override by ${o.by} (${o.decided_at.slice(0, 10)}; consensus was ${was}): ${o.reason}`,
+  });
+}
 writeModelLabels(name, combined);
 
 const kEval = cohensKappa(
@@ -65,6 +79,8 @@ const passes = kEval !== null && kEval >= 0.75 && kDiag !== null && kDiag >= 0.6
 
 console.log(`Consensus of ${values.a} and ${values.b} on ${both.length} items -> model_labels/${name}.jsonl: ${JSON.stringify(counts)}`);
 console.log(`Judges disagree on ${disagreements} items (now uncertain), and only on the code on ${codeSplits} (incorrect, no code).`);
+const applied = combined.filter((l) => overrides.has(l.item_id)).length;
+if (applied) console.log(`${applied} labels replaced by data/gold/overrides.jsonl.`);
 console.log(`κ evaluation ${fmt(kEval)} (bar 0.75), κ diagnosis ${fmt(kDiag)} on ${bothIncorrect.length} items both call incorrect (bar 0.60).`);
 console.log(
   passes

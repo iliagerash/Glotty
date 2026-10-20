@@ -67,6 +67,7 @@ const ANNOTATIONS_DIR = path.join(GOLD_DIR, "annotations");
 const ADJUDICATIONS = path.join(GOLD_DIR, "adjudications.jsonl");
 const MODEL_LABELS_DIR = path.join(GOLD_DIR, "model_labels");
 const INTENT = path.join(GOLD_DIR, "generator_intent.jsonl");
+const OVERRIDES = path.join(GOLD_DIR, "overrides.jsonl");
 
 /** Share of items reserved for the held-out split (§24). */
 export const HELDOUT_SHARE = 0.3;
@@ -184,6 +185,21 @@ export function readAdjudications(): Map<string, AdjudicationRecord> {
 
 export function appendAdjudication(a: AdjudicationRecord): void {
   appendJsonl(ADJUDICATIONS, [a]);
+}
+
+/** A ruling that replaces the consensus label on one item. */
+export interface Override {
+  item_id: string;
+  evaluation: Evaluation;
+  diagnosis_code: string | null;
+  /** Who ruled, e.g. "illia". */
+  by: string;
+  decided_at: string;
+  reason: string;
+}
+
+export function readOverrides(): Map<string, Override> {
+  return new Map(readJsonl<Override>(OVERRIDES).map((o) => [o.item_id, o]));
 }
 
 export function readGeneratorIntent(): Map<string, GeneratorIntent> {
