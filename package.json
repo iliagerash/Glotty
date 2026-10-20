@@ -23,8 +23,6 @@
     "gold:model-export": "tsx scripts/gold-model-export.ts",
     "gold:model-import": "tsx scripts/gold-model-import.ts",
     "gold:model-compare": "tsx scripts/gold-model-compare.ts",
-    "gold:push": "tsx scripts/gold-sync.ts push",
-    "gold:pull": "tsx scripts/gold-sync.ts pull",
     "bench": "tsx scripts/bench.ts"
   },
   "dependencies": {

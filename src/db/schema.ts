@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer, real, index, check, primaryKey } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, real, index, check } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
 // SQLite (Cloudflare D1). Timestamps are integer milliseconds, booleans are
@@ -248,71 +248,4 @@ export const learnerStateSnapshots = sqliteTable(
   (table) => [
     index("learner_snapshots_user_date_idx").on(table.userId, sql`${table.snapshotDate} desc`),
   ]
-);
-
-// ==========================================
-// 7. Gold set annotation (§24)
-// ==========================================
-//
-// Human labels are written here by /annotate and /adjudicate, so they work on
-// the deployed app. Items and model label sets are pushed from data/gold
-// (npm run gold:push), which stays the source for the offline scripts;
-// npm run gold:pull writes the human labels back there. Rows are append-only:
-// the latest row per item and annotator wins, as in the JSONL files.
-
-const goldEvaluations = ["correct", "incorrect", "uncertain", "not_applicable"] as const;
-
-export const goldItems = sqliteTable("gold_items", {
-  id: text("id").primaryKey(),
-  prompt: text("prompt").notNull(),
-  response: text("response").notNull(),
-  /** normalizeResponse(response): duplicates are rejected on this. */
-  responseKey: text("response_key").notNull().unique(),
-  source: text("source").notNull(), // learner | hand_written | llm_synthetic | legacy_synthetic
-  origin: text("origin"),
-  createdAt: text("created_at").notNull(), // ISO string, as in items.jsonl
-});
-
-const labelColumns = () => ({
-  itemId: text("item_id").notNull(),
-  annotator: text("annotator").notNull(),
-  evaluation: text("evaluation", { enum: goldEvaluations }).notNull(),
-  diagnosisCode: text("diagnosis_code"),
-  confidence: integer("confidence").notNull(), // 1 guess, 2 fairly sure, 3 certain
-  notes: text("notes"),
-  annotatedAt: text("annotated_at").notNull(), // ISO string
-});
-
-export const goldAnnotations = sqliteTable(
-  "gold_annotations",
-  {
-    id: integer("id").primaryKey({ autoIncrement: true }),
-    ...labelColumns(),
-    /** The signed-in account that wrote the row. */
-    userId: text("user_id"),
-  },
-  (table) => [index("gold_annotations_annotator_idx").on(table.annotator, table.itemId)],
-);
-
-export const goldAdjudications = sqliteTable(
-  "gold_adjudications",
-  {
-    id: integer("id").primaryKey({ autoIncrement: true }),
-    ...labelColumns(),
-    contested: integer("contested", { mode: "boolean" }).notNull().default(false),
-    rule: text("rule"),
-    chose: text("chose"),
-    userId: text("user_id"),
-  },
-  (table) => [index("gold_adjudications_item_idx").on(table.itemId)],
-);
-
-export const goldModelLabels = sqliteTable(
-  "gold_model_labels",
-  {
-    setName: text("set_name").notNull(),
-    ...labelColumns(),
-    rationale: text("rationale"),
-  },
-  (table) => [primaryKey({ columns: [table.setName, table.itemId] })],
 );

@@ -2,5 +2,3 @@
 # not .env). In production set them with `npx wrangler secret put <NAME>`.
 BETTER_AUTH_SECRET=your_32_character_secret_key_here
 BETTER_AUTH_URL=http://localhost:8787
-# Comma-separated emails of accounts that may use /annotate and /adjudicate.
-GLOTTY_ANNOTATOR_EMAILS=

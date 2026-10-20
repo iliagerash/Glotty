@@ -1,6 +1,6 @@
 # Gold set annotation guidelines
 
-These are the rules for labelling learner responses. Both governance judges follow them (`gold:label`), and so does `/annotate`. The evaluator prompt (`prompts/evaluator/v4.md`) follows the same rules. If you change one, change the other, because the benchmark compares the two.
+These are the rules for labelling learner responses. Both governance judges follow them (`gold:label`). The evaluator prompt (`prompts/evaluator/v4.md`) follows the same rules. If you change one, change the other, because the benchmark compares the two.
 
 ## What you are judging
 

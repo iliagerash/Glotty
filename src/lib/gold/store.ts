@@ -14,10 +14,6 @@ import type { Evaluation } from "@/lib/evaluator";
  *                                shape as annotations, never mixed with them
  *   generator_intent.jsonl       what a generator *meant* to produce; never
  *                                shown to annotators, never used as gold
- *
- * The app reads and writes the gold set in D1 instead (src/lib/gold/d1.ts).
- * gold:push copies items and model labels there; gold:pull brings human
- * annotations, adjudications and items added in the app back here.
  */
 
 export type ItemSource = "learner" | "hand_written" | "llm_synthetic" | "legacy_synthetic";
@@ -152,28 +148,11 @@ export function readAnnotations(annotator: string): Map<string, Annotation> {
   return latest;
 }
 
-export function appendAnnotation(a: Annotation): void {
-  appendJsonl(annotatorFile(a.annotator), [a]);
-}
-
-/** Replaces one annotator's file, e.g. with the rows pulled from D1. */
-export function writeAnnotations(annotator: string, rows: Annotation[]): void {
-  writeJsonl(annotatorFile(annotator), rows);
-}
-
 const NAME = /^[a-z0-9_.-]{1,60}$/;
 
 export function modelLabelFile(name: string): string {
   if (!NAME.test(name)) throw new Error("Model label set name must be 1-60 chars of a-z, 0-9, _, . or -");
   return path.join(MODEL_LABELS_DIR, `${name}.jsonl`);
-}
-
-export function listModelLabelSets(): string[] {
-  if (!fs.existsSync(MODEL_LABELS_DIR)) return [];
-  return fs
-    .readdirSync(MODEL_LABELS_DIR)
-    .filter((f) => f.endsWith(".jsonl"))
-    .map((f) => f.replace(/\.jsonl$/, ""));
 }
 
 export function readModelLabels(name: string): Map<string, Annotation> {
@@ -205,22 +184,6 @@ export function readAdjudications(): Map<string, AdjudicationRecord> {
 
 export function appendAdjudication(a: AdjudicationRecord): void {
   appendJsonl(ADJUDICATIONS, [a]);
-}
-
-/** Replaces adjudications.jsonl, e.g. with the rows pulled from D1. */
-export function writeAdjudications(rows: AdjudicationRecord[]): void {
-  writeJsonl(ADJUDICATIONS, rows);
-}
-
-export interface Rule {
-  id: string;
-  cluster: string;
-  rule: string;
-  examples: string[];
-}
-
-export function readRules(): Rule[] {
-  return JSON.parse(fs.readFileSync(path.join(GOLD_DIR, "rules.json"), "utf-8"));
 }
 
 export function readGeneratorIntent(): Map<string, GeneratorIntent> {

@@ -1,5 +1,5 @@
 /**
- * D1 access for Node scripts (seed, gold:push, gold:pull). A script outside
+ * D1 access for Node scripts (seed). A script outside
  * the Worker has no D1 binding, so these shell out to `wrangler d1 execute`
  * against the DB binding in wrangler.jsonc: the local D1 under .wrangler/,
  * or the deployed one with --remote.
@@ -36,15 +36,4 @@ export function executeStatements(name: string, statements: string[], remote: bo
   execFileSync("npx", ["wrangler", "d1", "execute", "DB", where(remote), "--file", file, "--yes"], {
     stdio: "inherit",
   });
-}
-
-/** Rows of one SELECT. */
-export function query<T>(sql: string, remote: boolean): T[] {
-  const out = execFileSync("npx", ["wrangler", "d1", "execute", "DB", where(remote), "--json", "--command", sql], {
-    encoding: "utf-8",
-    maxBuffer: 256 * 1024 * 1024,
-    stdio: ["ignore", "pipe", "inherit"],
-  });
-  const results = JSON.parse(out.slice(out.indexOf("["))) as { results: T[] }[];
-  return results.flatMap((r) => r.results);
 }

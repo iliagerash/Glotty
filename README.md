@@ -43,8 +43,7 @@ cp .dev.vars.example .dev.vars && npm run preview   # production build in the lo
 npx wrangler login                                  # or CLOUDFLARE_API_TOKEN with Workers Scripts and D1 edit rights
 npx wrangler d1 create glotty                       # once; put the printed id in wrangler.jsonc
 npx wrangler secret put BETTER_AUTH_SECRET          # and BETTER_AUTH_URL (the deployed URL)
-npx wrangler secret put GLOTTY_ANNOTATOR_EMAILS     # who may use /annotate and /adjudicate
-npm run db:migrate:remote && npm run db:seed -- --remote && npm run gold:push -- --remote
+npm run db:migrate:remote && npm run db:seed -- --remote
 npm run deploy
 ```
 
@@ -77,9 +76,8 @@ Judge b has labelled the items (`gemini-3.8-flash-i4`); the two-judge consensus 
 2. **Label and combine** as above. `npm run gold:model-compare -- --model <set> --annotator model:<other>` lists every disagreement between two sets, with both judges' rationales; `--subset tune|check` splits the items so guidelines are tuned on one half and measured on the other.
 3. **Benchmark**: `npm run bench -- --models fast,strong,cloudflare:@cf/... --against model:<consensus>`. This runs the `dev` split and reports the §25 gates, false accusations, latency and tokens in `reports/bench/<run>/report.md`. Iterate prompts on `dev` only; run `--split heldout` to report.
    - Reasoning models take an effort suffix, e.g. `cloudflare:@cf/openai/gpt-oss-120b#low` (sent as `reasoning_effort`). `CLOUDFLARE_CANDIDATES` in `src/lib/ai/config.ts` lists the models checked to work, with the suffix each needs. For the tiers, put the effort in `GLOTTY_EFFORT_FAST`/`GLOTTY_EFFORT_STRONG` instead: `#` starts a comment in `.env` files and environment settings, which drops the suffix. If a reasoning model spends the whole token budget thinking, the gateway fails with a message saying so; it never reads the answer out of the reasoning text.
-4. **Push to the app**: `npm run gold:push` copies items and combined label sets to D1 (`-- --remote` for the deployed database), so the app sees the same gold set.
 
-The annotation pages (`/annotate`, `/adjudicate`, sign-in plus `GLOTTY_ANNOTATOR_EMAILS`) and `gold:pull` still work, but nothing in the gold set or the gates depends on them.
+The gold set lives only in `data/gold`, versioned in git; nothing in the app reads it. The annotation pages (`/annotate`, `/adjudicate`), `gold:push`/`gold:pull` and the D1 gold tables were removed on 2026-10-20 (migration `0003_drop_gold`); they stay in git history.
 
 ## Tests
 
