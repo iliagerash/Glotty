@@ -142,6 +142,8 @@ async function runModel(model: string, rows: Labeled[], concurrency: number, out
           confidence: result?.evalConfidence,
           analysis: result?.analysis,
           adjustment: result?.adjustment,
+          // The model's verdict before postProcess, so other floors can be replayed.
+          raw: result && { evaluation: result.raw.evaluation, diagnosis_code: result.raw.diagnosis_code, confidence: result.raw.confidence },
           evaluator_version: result?.evaluatorVersion,
           latency_ms: result?.latencyMs,
           usage: result?.usage,
