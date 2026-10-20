@@ -290,6 +290,19 @@ v2 fixed the cases it targeted, but kimi gained two new false accusations, one p
 
 **Prompt v4** narrows that rule to a *por*/*para* with no valid reading at all (destination, cause, duration and other standard uses stay valid), and notes that an unaccented *hacia* is usually *hacía*. v3 had produced false accusations on *Salimos para la estación*, *Las dejo por compasión* and *jugaba… y hacia ejercicio*.
 
+**Prompts v5 and v6, first bench against two-judge gold** (2026-10-20). v5 brings the evaluator in line with labelling instructions v5 (weighing readings, a state at the moment of another past event, por + infinitive, code precedence). v6 adds one rule: any target form makes a response applicable, and target forms that are all right make it correct. Dev split, 144 items, against `gpt-6-luna-i5--gemini-3.8-flash-i5`:
+
+| Model | Prompt | Accuracy | Precision INCORRECT | Diagnosis top-1 | Uncertain | False accusations (gold uncertain / correct) | Wrong N/A |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| gpt-oss-20b#low | v4 | 0.808 | 0.822 | 0.757 | 0.007 | 8 | 5 |
+| gpt-oss-20b#low | v5 | 0.786 | 0.745 | 0.714 | 0.000 | 12 (9 / 3) | 6 |
+| gpt-oss-20b#low | v6 | 0.817 | 0.776 | 0.789 | 0.000 | 11 (7 / 4) | 3 |
+| kimi-k2.6#none | v4 | 0.930 | 0.803 | 0.898 | 0.028 | 12 | 2 |
+| kimi-k2.6#none | v5 | 0.908 | 0.803 | 0.943 | 0.000 | 13 (10 / 3) | 7 |
+| kimi-k2.6#none | v6 | 0.924 | 0.803 | 0.943 | 0.000 | 13 (11 / 2) | 6 |
+
+No prompt passes precision on INCORRECT (≥ 0.95). v5 fixed what it targeted for kimi (7 items: bounded durations, background states, *volamos para Japón*), raised diagnosis to 0.943, and stopped the evaluator abstaining. That is the real precision problem: most false accusations are items the gold leaves uncertain (the judges split), where the evaluator commits instead of abstaining. Against gold-correct items alone, kimi's precision under v6 is 0.964. v5 also made both tiers answer N/A on applicable responses; v6 fixed that for gpt-oss (6 → 3) but not for kimi, whose remaining wrong N/A are misreadings (it says *Ayer cociné…* has no preterite). Differences of a few items are within run-to-run noise at this size. v6 stays active because it matches `GUIDELINES.md`.
+
 **Gateway fixes from real-world testing** (pushed in 2e49b20):
 
 - Reasoning models (gemma-4, glm, kimi, deepseek-v4) spent the whole token budget thinking and returned empty content. The gateway now reads `finish_reason`, reports that cause clearly, and never retries into the same limit.
@@ -320,7 +333,8 @@ The critical path is the two-judge gold set. No model choice is final until it e
 - [x] Label all items with ChatGPT (`npm run gold:model-export`, then `gold:model-import`) and check agreement with the human labels (`gold:model-compare`). Result: κ 0.29–0.31 between human and ChatGPT, 0.90 between two ChatGPT runs.
 - [x] ~~Settle the human/ChatGPT disagreements at `/adjudicate` by rule (`data/gold/rules.json`); benchmark on consensus gold with `npm run bench -- --consensus chatgpt-v2`. Provisional: no native speaker is available yet.~~ Dropped with the human labels (2026-10-20).
 - [x] Instructions v5 (2026-10-20): rules in `GUIDELINES.md` for weighing readings, a state at the moment of another past event, por + infinitive, and code precedence. Consensus `gpt-6-luna-i5--gemini-3.8-flash-i5` meets the bar: κ evaluation 0.863, κ diagnosis 0.934, 20 uncertain items. Judge b re-labelled only 71 items (`relabel/gemini-3.8-flash-i5.ids`), about $0.08.
-- [ ] Bring `prompts/evaluator/v4.md` in line with `GUIDELINES.md` v5 as `evaluator/v5` (the guidelines say the two must match), then bench against the v5 consensus on `dev`.
+- [x] Bring the evaluator in line with `GUIDELINES.md` v5 (`evaluator/v5`, then `v6`) and bench against the v5 consensus on `dev`. Done: kimi passes accuracy (0.924) and diagnosis (0.943) but no prompt passes precision on INCORRECT (0.803); see the prompt changelog.
+- [ ] Get the evaluator to abstain where the judges split: under v5/v6 it never answers uncertain, and most false accusations are gold-uncertain items. Options: a confidence floor, or a check in code that the uncertain rate is not zero.
 - [x] Remove the human-annotation path (2026-10-20): `/annotate`, `/adjudicate`, `/api/gold/*`, `gold:push`/`gold:pull`, `GLOTTY_ANNOTATOR_EMAILS` and the D1 gold tables (migration `0003_drop_gold`). The gold set lives in `data/gold` only. Auth stays for step 6.
 - [ ] Import native-corrected learner corpora (e.g. COWS-L2H, CAES) and answer-keyed exercise sets as the anchor set: real learner text whose correction comes from the corpus, not from us. Check licences first. Measure both judges against it per code.
 - [x] ~~Native-speaker check of the gold set; recruit a second qualified annotator.~~ Dropped (2026-10-20): no humans in the loop. Replaced by the second judge and the anchor corpora.
