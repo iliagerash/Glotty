@@ -4,15 +4,18 @@
  * learner sentences whose label comes from an instructor's correction, not
  * from a model (src/lib/gold/anchor.ts).
  *
- *   npm run anchor:import -- --source <cowsl2h clone> [--per-kind 40] [--dry-run]
+ *   npm run anchor:import -- --source <cowsl2h clone> [--per-kind 40] [--set anchor-cowsl2h]
+ *                            [--split dev] [--dry-run]
  *
  * Keeps essays by English-L1 students in the courses closest to B1 (SPA 3,
  * 21-24) that have at least one correction. Each item is a learner sentence
  * with the one before it as context; only the second sentence may carry the
  * change. Samples --per-kind items of each kind (por/para changed, aspect
  * changed, unchanged target forms), deterministically. Items are added to
- * items.jsonl with source "learner" (so they are held-out) and the labels
- * are written as the set model_labels/anchor-cowsl2h.jsonl.
+ * items.jsonl with source "learner" (so they are held-out unless --split
+ * pins them, e.g. a screening set in dev) and the labels are written as the
+ * set model_labels/<set>.jsonl. Essays already used by an earlier import are
+ * skipped, so sets never share an essay.
  */
 import crypto from "crypto";
 import fs from "fs";
@@ -21,7 +24,6 @@ import { parseArgs } from "util";
 import { alignBySentence, sentences, targetChanges, untouchedTargets, type Finding } from "@/lib/gold/anchor";
 import { addItems, itemIdFor, readItems, writeModelLabels, type Annotation, type GoldItem } from "@/lib/gold/store";
 
-const SET = "anchor-cowsl2h";
 const COURSES = /^SPA ?(3|21|22|23|24)(?!\d)/i;
 const PROMPTS: Record<string, string> = {
   famous: "Escribe un texto sobre una persona famosa.",
@@ -118,10 +120,20 @@ function sample(list: Candidate[], n: number): Candidate[] {
 
 function main() {
   const { values } = parseArgs({
-    options: { source: { type: "string" }, "per-kind": { type: "string", default: "40" }, "dry-run": { type: "boolean", default: false } },
+    options: {
+      source: { type: "string" },
+      "per-kind": { type: "string", default: "40" },
+      set: { type: "string", default: "anchor-cowsl2h" },
+      split: { type: "string" },
+      "dry-run": { type: "boolean", default: false },
+    },
   });
+  const SET = values.set!;
+  if (values.split && values.split !== "dev" && values.split !== "heldout") throw new Error("--split must be dev or heldout");
   if (!values.source) throw new Error("--source <path to a clone of ucdaviscl/cowsl2h> is required");
-  const all = candidates(values.source);
+  const used = new Set(readItems().flatMap((i) => i.origin?.match(/^COWS-L2H essay (\S+)/)?.[1] ?? []));
+  const all = candidates(values.source).filter((c) => !used.has(c.essayId));
+  if (used.size) console.log(`Skipping ${used.size} essays used by earlier imports.`);
   const byKind = (k: Kind) => all.filter((c) => c.kind === k);
   console.log(`Candidates: por/para ${byKind("por_para").length}, aspect ${byKind("aspect").length}, unchanged ${byKind("unchanged").length}`);
   const perKind = Number(values["per-kind"]);
@@ -142,6 +154,7 @@ function main() {
     response: c.response,
     source: "learner",
     origin: `COWS-L2H essay ${c.essayId} (${c.topic} ${c.quarter}, ${c.course})`,
+    ...(values.split ? { split: values.split as "dev" | "heldout" } : {}),
     created_at: now,
   }));
   const fresh = new Set(addItems(items).map((i) => i.id));

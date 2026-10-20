@@ -25,6 +25,8 @@ export interface GoldItem {
   source: ItemSource;
   /** Optional note on where the item came from (e.g. generator, learner id). */
   origin?: string;
+  /** Pins the split, overriding the rule in splitOf (e.g. anchor items kept for screening). */
+  split?: Split;
   created_at: string;
 }
 
@@ -78,7 +80,8 @@ export type Split = "dev" | "heldout";
  * else (judge a's items, the legacy set) is dev. Deterministic, so an item
  * never moves between splits.
  */
-export function splitOf(item: Pick<GoldItem, "source" | "origin">): Split {
+export function splitOf(item: Pick<GoldItem, "source" | "origin" | "split">): Split {
+  if (item.split) return item.split;
   return item.source === "learner" || item.origin?.startsWith("google:") ? "heldout" : "dev";
 }
 
