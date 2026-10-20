@@ -11,7 +11,7 @@ import { GOLD_DIR } from "@/lib/gold/store";
  */
 
 /** Bump when the instructions change, and put it in the imported set's name. */
-export const INSTRUCTIONS_VERSION = 4;
+export const INSTRUCTIONS_VERSION = 5;
 
 /** Sections of GUIDELINES.md that only concern the /annotate workflow. */
 const SKIP_SECTIONS = ["Independence", "Splits"];
@@ -33,9 +33,11 @@ function body(): string {
 1. Find every target form: each preterite or imperfect verb, and each *por* or *para*. If there are none, the label is N/A.
 2. For each target form, ask what the learner could plausibly have meant, using the prompt as context. Write down every natural reading, not just the first one that comes to mind.
 3. Decide:
-   - every target form fits at least one natural reading, and no natural reading needs a different form → **Correct**;
-   - some target form is wrong under every natural reading → **Incorrect**;
-   - some target form is right under one natural reading and wrong under another, and the prompt does not settle which → **Ambiguous**.
+   - every target form fits at least one natural reading, and no equally natural reading needs a different form → **Correct**;
+   - some target form is wrong under every natural reading, or under the clearly more natural one → **Incorrect**;
+   - some target form is right under one natural reading and wrong under another about as natural, and the prompt does not settle which → **Ambiguous**.
+
+   "Choosing between readings" below says how to weigh them.
 4. Only then look at anything else in the sentence. Errors outside the two clusters never change the label: gender agreement, accents, vocabulary, word order, a choice among other prepositions (*a*, *de*, *en*, *con*), reflexive pronouns, or a sentence you would simply phrase differently. A sentence can be clumsy and still be Correct. One exception: a *por* or *para* where Spanish needs a different preposition or none at all is a por/para error (Incorrect; PP.06 when English "for" explains it, otherwise UNKNOWN), but only when it has no valid por/para reading such as destination, cause or duration.
 
 ## Ambiguous is a normal answer

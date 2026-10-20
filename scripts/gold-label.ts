@@ -3,6 +3,7 @@
  * judge a (OpenAI) by default, judge b (Gemini) with --judge b.
  *
  *   npm run gold:label -- [--judge a|b] [--name <set>] [--runs N] [--concurrency 4] [--limit 20]
+ *                          [--ids <file> --carry <set>]
  *
  * --runs defaults to 2 for judge a and 1 for judge b: Gemini is paid per call
  * and its two runs agreed on 202 of 206 items (κ 0.972), so a second run buys
@@ -14,10 +15,16 @@
  * becomes "uncertain" (see combineRuns). The default set name records the
  * model and the instructions version, e.g. gpt-6-luna-i4.
  *
+ * --ids labels only the items listed in <file> (one id per line), and --carry
+ * copies every other item's label from an earlier set, so a re-label after a
+ * guideline change only pays for the items it could change. Carried labels say
+ * so in their notes.
+ *
  * Label with both judges, then combine them with gold:consensus; bench
  * against the consensus set.
  */
 import "dotenv/config";
+import fs from "fs";
 import { parseArgs } from "util";
 import { z } from "zod";
 import { governanceConfig, governedJson, GovernanceError, type GovernanceConfig, type JudgeId } from "@/lib/governance";
@@ -101,6 +108,8 @@ async function main() {
       runs: { type: "string" },
       concurrency: { type: "string", default: "4" },
       limit: { type: "string" },
+      ids: { type: "string" },
+      carry: { type: "string" },
     },
   });
   if (values.judge !== "a" && values.judge !== "b") throw new GovernanceError("--judge must be a or b");
@@ -108,15 +117,19 @@ async function main() {
   const name = values.name ?? `${config.model.toLowerCase().replace(/[^a-z0-9.-]+/g, "-")}-i${INSTRUCTIONS_VERSION}`;
   const runs = values.runs ? Number(values.runs) : existingRuns(name) || (values.judge === "b" ? 1 : 2);
   const items = readItems().slice(0, values.limit ? Number(values.limit) : undefined);
+  const only = values.ids ? new Set(fs.readFileSync(values.ids, "utf-8").split(/\s+/).filter(Boolean)) : null;
+  const toLabel = only ? items.filter((i) => only.has(i.id)) : items;
+  const carried = values.carry ? readModelLabelsIfAny(values.carry) : new Map<string, Annotation>();
+  if (values.carry && !carried.size) throw new GovernanceError(`--carry: model_labels/${values.carry}.jsonl is missing or empty`);
   const instructions = itemInstructions();
   const codes = taxonomyCodes();
-  console.log(`Labelling ${items.length} items with ${config.ref}, ${runs} run(s), into model_labels/${name}.*`);
+  console.log(`Labelling ${toLabel.length} items with ${config.ref}, ${runs} run(s), into model_labels/${name}.*`);
 
   let failed = 0;
   for (let r = 1; r <= runs; r++) {
     const runName = `${name}.r${r}`;
     const done = readModelLabelsIfAny(runName);
-    const todo = items.filter((i) => !done.has(i.id));
+    const todo = toLabel.filter((i) => !done.has(i.id));
     let next = 0;
     let finished = 0;
     async function worker() {
@@ -140,8 +153,15 @@ async function main() {
   const byRun = Array.from({ length: runs }, (_, i) => readModelLabelsIfAny(`${name}.r${i + 1}`));
   const combined: Annotation[] = [];
   let splits = 0;
+  let carriedCount = 0;
   for (const item of items) {
     const labels = byRun.map((m) => m.get(item.id));
+    const old = carried.get(item.id);
+    if (labels.some((l) => !l) && old && !only?.has(item.id)) {
+      carriedCount++;
+      combined.push({ ...old, annotator: name, notes: `carried from ${values.carry}${old.notes ? `: ${old.notes}` : ""}` });
+      continue;
+    }
     if (labels.some((l) => !l)) continue;
     const runLabels = labels as Annotation[];
     const { label, split } = combineRuns(runLabels);
@@ -161,6 +181,7 @@ async function main() {
 
   const counts = combined.reduce<Record<string, number>>((acc, l) => ({ ...acc, [l.evaluation]: (acc[l.evaluation] ?? 0) + 1 }), {});
   console.log(`Combined ${combined.length}/${items.length} items into model_labels/${name}.jsonl: ${JSON.stringify(counts)}`);
+  if (carriedCount) console.log(`${carriedCount} of them carried from ${values.carry}, ${combined.length - carriedCount} labelled.`);
   if (runs > 1) {
     const both = items.filter((i) => byRun.every((m) => m.has(i.id)));
     const k = cohensKappa(both.map((i) => byRun[0].get(i.id)!.evaluation), both.map((i) => byRun[1].get(i.id)!.evaluation));
