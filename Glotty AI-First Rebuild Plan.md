@@ -319,6 +319,18 @@ Precision misses 0.95 in every run, so the gap is real, not noise. The false acc
 
 **Bigger gold set, floor 0.90, second held-out report** (2026-10-20). Judge b wrote 90 items (6 per code); held-out is now assigned by generator (judge b's items), so all 206 earlier items are dev. Both judges labelled the new items (Gemini once, 90 calls); consensus on 296 items: κ evaluation 0.841, κ diagnosis 0.919. Two dev runs of kimi-k2.6 (206 items, prompt v6, post/v2), replayed at each floor it distinguishes: keeping 0.9 averages precision 0.956 and uncertain 0.144, so the floor is now 0.90. Held-out, 90 fresh items, run once: accuracy 0.958 (n=71), **precision on INCORRECT 0.818** (18 of 22), diagnosis 0.938 (n=16), uncertain 0.133, recall 0.692. Fails precision only. Three of the four false accusations are the same pattern as on dev: gpt-6-luna uncertain, Gemini incorrect, kimi incorrect (*nuestra mesa no estuvo lista*, *pedí el plato especial por ella*, *paseaba para el centro*); the fourth is gold-correct *todos los días almorcé*, which kimi calls PI.04. Not tuned further.
 
+**Anchor set: native-corrected learner sentences** (2026-10-20). 120 sentences from COWS-L2H (UC Davis learner corpus, Apache-2.0; English-L1 students in SPA 3 and 21–24), labelled by the instructors' corrections: 40 where the instructor swapped por/para, 40 where they swapped preterite/imperfect, 40 with target forms left as written (`scripts/anchor-import.ts`, `model_labels/anchor-cowsl2h.jsonl`; held-out, source "learner"). Instructors' aspect corrections include some preferences (*podíamos* → *pudimos*). How each set compares with the instructors:
+
+| | por/para errors (40) | Aspect errors (40) | Correct (40) |
+| --- | --- | --- | --- |
+| gpt-6-luna-i5 | 17 incorrect, 9 correct, 14 uncertain | 13 incorrect, 16 correct, 10 uncertain | 37 correct |
+| gemini-3.8-flash-i5 | 32 incorrect, 8 correct | 24 incorrect, 14 correct | 39 correct, 1 incorrect |
+| Two-judge consensus | 17 incorrect, 7 correct, 16 uncertain | 13 incorrect, 11 correct, 15 uncertain | 37 correct |
+| kimi-k2.6 (raw verdict) | 28 incorrect, 9 correct, 3 N/A | 10 incorrect, 21 correct, 7 N/A | 22 correct, 16 N/A, 2 incorrect |
+| kimi-k2.6 (floor 0.90) | 10 incorrect, 18 uncertain | 3 incorrect, 25 correct | 29 correct, 9 N/A |
+
+kimi against the anchor (run once): accuracy 0.462, precision on INCORRECT 1.000, uncertain 0.242, wrong N/A 12. On real learner text: gpt-6-luna's hedging leaves real errors uncertain and the consensus inherits it, Gemini agrees with the instructors most; kimi catches few aspect errors, its confidence is lower so the 0.90 floor discards 18 of its 28 por/para catches, and it calls many applicable sentences N/A. With the anchors included, inter-judge κ on evaluation is 0.749 (bar 0.75). The synthetic gold overstates how well the evaluator does on real writing.
+
 **Gateway fixes from real-world testing** (pushed in 2e49b20):
 
 - Reasoning models (gemma-4, glm, kimi, deepseek-v4) spent the whole token budget thinking and returned empty content. The gateway now reads `finish_reason`, reports that cause clearly, and never retries into the same limit.
@@ -355,7 +367,7 @@ The critical path is the two-judge gold set. No model choice is final until it e
 - [x] Wrong N/A: post/v2 catches *por*/*para* in code (3 of kimi's 7). The rest (*cociné*, *sabía*) would need a verb check.
 - [x] Gold rule for code-only splits (decided 2026-10-20): when both judges say incorrect and only the code differs, the consensus keeps `incorrect` with no code (`combineJudges`), scored for the evaluation gates and left out of diagnosis. Fixed before held-out; applies unchanged there. The v5 consensus now has 83 incorrect (5 without a code) and 15 uncertain. Re-scored, kimi's three runs give precision 0.955 / 0.938 / 0.932. Not adopted: breaking gpt-6-luna's split runs with a third run.
 - [x] Remove the human-annotation path (2026-10-20): `/annotate`, `/adjudicate`, `/api/gold/*`, `gold:push`/`gold:pull`, `GLOTTY_ANNOTATOR_EMAILS` and the D1 gold tables (migration `0003_drop_gold`). The gold set lives in `data/gold` only. Auth stays for step 6.
-- [ ] Import native-corrected learner corpora (e.g. COWS-L2H, CAES) and answer-keyed exercise sets as the anchor set: real learner text whose correction comes from the corpus, not from us. Check licences first. Measure both judges against it per code.
+- [x] Import native-corrected learner corpora: 120 COWS-L2H anchor items (2026-10-20), see the prompt changelog. CAES not imported: its terms of use are not published with a download, and it has no corrections. More anchor items (and a second corpus) would tighten the per-kind numbers.
 - [x] ~~Native-speaker check of the gold set; recruit a second qualified annotator.~~ Dropped (2026-10-20): no humans in the loop. Replaced by the second judge and the anchor corpora.
 - [ ] Check PP.04 items in the judge disagreements first: the generator marked duration-por ("estuve por tres horas") as an error, though the taxonomy accepts it.
 - [x] Once a model passes on `dev`, run `--split heldout` once and report it. Done 2026-10-20: kimi-k2.6 fails precision (0.923) and the uncertain rate (0.295) on held-out; see the prompt changelog. Step 3 waits.
