@@ -203,7 +203,7 @@ export default function AdjudicatePage() {
         <h1 className="text-2xl font-semibold">Adjudicate disputed labels</h1>
         <p className="mt-2 text-sm text-slate-600">
           Items where your label and a model&apos;s label disagree. Decide each one by the rule that settles it. If no rule
-          does, mark it contested and it stays out of gold. Decisions go to <code>data/gold/adjudications.jsonl</code>.
+          does, mark it contested and it stays out of gold. Decisions are saved with your name.
         </p>
         <form
           className="mt-6 space-y-2"

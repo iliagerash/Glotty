@@ -14,6 +14,10 @@ import type { Evaluation } from "@/lib/evaluator";
  *                                shape as annotations, never mixed with them
  *   generator_intent.jsonl       what a generator *meant* to produce; never
  *                                shown to annotators, never used as gold
+ *
+ * The app reads and writes the gold set in D1 instead (src/lib/gold/d1.ts).
+ * gold:push copies items and model labels there; gold:pull brings human
+ * annotations, adjudications and items added in the app back here.
  */
 
 export type ItemSource = "learner" | "hand_written" | "llm_synthetic" | "legacy_synthetic";
@@ -103,6 +107,11 @@ function appendJsonl(file: string, rows: object[]): void {
   fs.appendFileSync(file, rows.map((r) => JSON.stringify(r)).join("\n") + "\n");
 }
 
+function writeJsonl(file: string, rows: object[]): void {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, rows.map((r) => JSON.stringify(r) + "\n").join(""));
+}
+
 export function readItems(): GoldItem[] {
   return readJsonl<GoldItem>(ITEMS);
 }
@@ -147,6 +156,11 @@ export function appendAnnotation(a: Annotation): void {
   appendJsonl(annotatorFile(a.annotator), [a]);
 }
 
+/** Replaces one annotator's file, e.g. with the rows pulled from D1. */
+export function writeAnnotations(annotator: string, rows: Annotation[]): void {
+  writeJsonl(annotatorFile(annotator), rows);
+}
+
 const NAME = /^[a-z0-9_.-]{1,60}$/;
 
 export function modelLabelFile(name: string): string {
@@ -180,9 +194,7 @@ export function readModelLabelsIfAny(name: string): Map<string, Annotation> {
 
 /** Replaces the whole set: a model label set is imported as one batch. */
 export function writeModelLabels(name: string, labels: Annotation[]): void {
-  const file = modelLabelFile(name);
-  fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, labels.map((l) => JSON.stringify(l)).join("\n") + "\n");
+  writeJsonl(modelLabelFile(name), labels);
 }
 
 export function readAdjudications(): Map<string, AdjudicationRecord> {
@@ -193,6 +205,11 @@ export function readAdjudications(): Map<string, AdjudicationRecord> {
 
 export function appendAdjudication(a: AdjudicationRecord): void {
   appendJsonl(ADJUDICATIONS, [a]);
+}
+
+/** Replaces adjudications.jsonl, e.g. with the rows pulled from D1. */
+export function writeAdjudications(rows: AdjudicationRecord[]): void {
+  writeJsonl(ADJUDICATIONS, rows);
 }
 
 export interface Rule {

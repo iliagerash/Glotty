@@ -1,7 +1,8 @@
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { annotationDisabled } from "@/lib/gold/guard";
-import { annotatorFile, readAnnotations, readItems } from "@/lib/gold/store";
+import { requireAnnotator } from "@/lib/gold/guard";
+import { readAnnotations, readItems } from "@/lib/gold/d1";
+import { annotatorFile } from "@/lib/gold/store";
 import { loadTaxonomy } from "@/lib/taxonomy";
 
 /**
@@ -10,8 +11,8 @@ import { loadTaxonomy } from "@/lib/taxonomy";
  * The generator's intended labels are never returned.
  */
 export async function GET(req: NextRequest) {
-  const disabled = annotationDisabled();
-  if (disabled) return disabled;
+  const who = await requireAnnotator(req);
+  if (who instanceof NextResponse) return who;
 
   const annotator = req.nextUrl.searchParams.get("annotator") ?? "";
   try {
@@ -21,13 +22,13 @@ export async function GET(req: NextRequest) {
   }
 
   const order = (id: string) => crypto.createHash("sha256").update(annotator + id).digest("hex");
-  const items = readItems()
+  const items = (await readItems())
     .map(({ id, prompt, response }) => ({ id, prompt, response }))
     .sort((a, b) => order(a.id).localeCompare(order(b.id)));
 
   return NextResponse.json({
     items,
-    annotations: Object.fromEntries(readAnnotations(annotator)),
+    annotations: Object.fromEntries(await readAnnotations(annotator)),
     taxonomy: loadTaxonomy().map(({ code, name, domain, definition, negative_examples }) => ({
       code,
       name,

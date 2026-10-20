@@ -192,7 +192,7 @@ export default function AnnotatePage() {
       <main className="mx-auto max-w-md px-4 py-16">
         <h1 className="text-2xl font-semibold">Gold set annotation</h1>
         <p className="mt-2 text-sm text-slate-600">
-          Your labels are saved under this name in <code>data/gold/annotations/</code>. Use the same name every time.
+          Your labels are saved under this name. Use the same name every time.
         </p>
         <form
           className="mt-6 flex gap-2"

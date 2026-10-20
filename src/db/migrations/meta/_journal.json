@@ -15,6 +15,13 @@
       "when": 1792488409298,
       "tag": "0001_events_immutable",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792488762142,
+      "tag": "0002_gold",
+      "breakpoints": true
     }
   ]
 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { annotationDisabled } from "@/lib/gold/guard";
-import { appendAnnotation, readItems } from "@/lib/gold/store";
+import { requireAnnotator } from "@/lib/gold/guard";
+import { appendAnnotation, itemExists } from "@/lib/gold/d1";
 import { taxonomyCodes } from "@/lib/taxonomy";
 
 const Body = z.object({
@@ -14,15 +14,15 @@ const Body = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const disabled = annotationDisabled();
-  if (disabled) return disabled;
+  const who = await requireAnnotator(req);
+  if (who instanceof NextResponse) return who;
 
   const parsed = Body.safeParse(await req.json());
   if (!parsed.success) {
     return NextResponse.json({ error: z.prettifyError(parsed.error) }, { status: 400 });
   }
   const a = parsed.data;
-  if (!readItems().some((i) => i.id === a.item_id)) {
+  if (!(await itemExists(a.item_id))) {
     return NextResponse.json({ error: "Unknown item" }, { status: 404 });
   }
   if (a.evaluation === "incorrect" && (!a.diagnosis_code || !taxonomyCodes().has(a.diagnosis_code))) {
@@ -35,6 +35,6 @@ export async function POST(req: NextRequest) {
     notes: a.notes?.trim() || undefined,
     annotated_at: new Date().toISOString(),
   };
-  appendAnnotation(annotation);
+  await appendAnnotation(annotation, who.userId);
   return NextResponse.json({ annotation });
 }

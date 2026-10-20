@@ -1,5 +1,5 @@
-import fs from "fs";
 import path from "path";
+import taxonomy from "../../data/taxonomy/mvp_taxonomy.json";
 
 export interface TaxonomyCode {
   code: string;
@@ -16,11 +16,9 @@ export const MVP_CLUSTERS = ["es.gram.aspect.pret_imp", "es.sem.por_para"] as co
 
 export const TAXONOMY_PATH = path.join(process.cwd(), "data", "taxonomy", "mvp_taxonomy.json");
 
-let cached: TaxonomyCode[] | null = null;
-
+/** Bundled at build time, so it also works in the Worker, which has no file system. */
 export function loadTaxonomy(): TaxonomyCode[] {
-  if (!cached) cached = JSON.parse(fs.readFileSync(TAXONOMY_PATH, "utf-8")) as TaxonomyCode[];
-  return cached;
+  return taxonomy as TaxonomyCode[];
 }
 
 export function taxonomyCodes(): Set<string> {

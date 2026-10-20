@@ -1,18 +1,19 @@
 import crypto from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { annotationDisabled } from "@/lib/gold/guard";
+import { requireAnnotator } from "@/lib/gold/guard";
 import { resolveConsensus, resolveGold, type Label } from "@/lib/gold/metrics";
 import {
-  annotatorFile,
   appendAdjudication,
+  itemExists,
   listAnnotators,
   readAdjudications,
   readAnnotations,
   readItems,
   readModelLabels,
   readRules,
-} from "@/lib/gold/store";
+} from "@/lib/gold/d1";
+import { annotatorFile } from "@/lib/gold/store";
 import { loadTaxonomy, taxonomyCodes } from "@/lib/taxonomy";
 
 /**
@@ -22,25 +23,25 @@ import { loadTaxonomy, taxonomyCodes } from "@/lib/taxonomy";
  * page does not show whose label is whose.
  */
 export async function GET(req: NextRequest) {
-  const disabled = annotationDisabled();
-  if (disabled) return disabled;
+  const who = await requireAnnotator(req);
+  if (who instanceof NextResponse) return who;
 
   const adjudicator = req.nextUrl.searchParams.get("adjudicator") ?? "";
   const modelName = req.nextUrl.searchParams.get("model") ?? "";
   let model;
   try {
     annotatorFile(adjudicator);
-    model = readModelLabels(modelName);
+    model = await readModelLabels(modelName);
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 400 });
   }
 
-  const annotators = listAnnotators();
-  const human = new Map(annotators.map((a) => [a, readAnnotations(a)]));
-  const adjudications = readAdjudications();
+  const annotators = await listAnnotators();
+  const human = new Map(await Promise.all(annotators.map(async (a) => [a, await readAnnotations(a)] as const)));
+  const adjudications = await readAdjudications();
   const shuffle = (id: string) => crypto.createHash("sha256").update(`${adjudicator}:${id}`).digest()[0] % 2 === 0;
 
-  const disputes = readItems().flatMap((item) => {
+  const disputes = (await readItems()).flatMap((item) => {
     const labels = annotators.map((a) => human.get(a)!.get(item.id)).filter((a) => a !== undefined);
     const m = model.get(item.id);
     const { label: humanLabel } = resolveGold(labels);
@@ -87,15 +88,15 @@ const Body = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const disabled = annotationDisabled();
-  if (disabled) return disabled;
+  const who = await requireAnnotator(req);
+  if (who instanceof NextResponse) return who;
 
   const parsed = Body.safeParse(await req.json());
   if (!parsed.success) {
     return NextResponse.json({ error: z.prettifyError(parsed.error) }, { status: 400 });
   }
   const a = parsed.data;
-  if (!readItems().some((i) => i.id === a.item_id)) {
+  if (!(await itemExists(a.item_id))) {
     return NextResponse.json({ error: "Unknown item" }, { status: 404 });
   }
   if (!a.contested) {
@@ -119,6 +120,6 @@ export async function POST(req: NextRequest) {
     chose: a.chose,
     annotated_at: new Date().toISOString(),
   };
-  appendAdjudication(record);
+  await appendAdjudication(record, who.userId);
   return NextResponse.json({ adjudication: record });
 }
