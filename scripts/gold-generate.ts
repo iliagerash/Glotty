@@ -5,12 +5,19 @@
  * them gold. The generator's intended label is stored separately in
  * generator_intent.jsonl and is never shown to annotators.
  *
- *   npm run gold:generate -- --per-code 6 [--model strong] [--codes PI.01,PP.02]
+ *   npm run gold:generate -- --per-code 6 [--model strong | --governance] [--codes PI.01,PP.02]
+ *                           [--kinds error,error,hard_negative]
+ *
+ * --governance writes the candidates with the governance model (the OpenAI
+ * judge in src/lib/governance) instead of a Workers AI model.
+ * --kinds replaces the default mix of item kinds, cycled per code, e.g. to
+ * add error items.
  */
 import "dotenv/config";
 import { parseArgs } from "util";
 import { z } from "zod";
 import { completeStructured } from "@/lib/ai/gateway";
+import { governanceConfig, governedJson } from "@/lib/governance";
 import { resolveModel } from "@/lib/ai/config";
 import { loadTaxonomy, type TaxonomyCode } from "@/lib/taxonomy";
 import { addItems, appendGeneratorIntent, itemIdFor, type GoldItem } from "@/lib/gold/store";
@@ -33,11 +40,38 @@ const TOPICS = [
   "a car or bike problem", "shopping", "a first date", "a pet", "learning a skill", "a lost item",
 ];
 
-/** Kinds for one batch: errors and look-alikes first, at least one of each. */
-function kindPlan(perCode: number): Kind[] {
-  const order: Kind[] = ["error", "hard_negative", "ambiguous", "other_error", "error", "hard_negative"];
+const DEFAULT_KINDS: Kind[] = ["error", "hard_negative", "ambiguous", "other_error", "error", "hard_negative"];
+
+/** Kinds for one batch, cycling through `order` (by default errors and look-alikes first, at least one of each). */
+function kindPlan(perCode: number, order: Kind[] = DEFAULT_KINDS): Kind[] {
   return Array.from({ length: perCode }, (_, i) => order[i % order.length]);
 }
+
+/** Batch as a strict JSON schema, for the governance model's structured output. */
+const BATCH_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["items"],
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["kind", "prompt", "response", "target_span", "rationale", "intended_evaluation", "intended_code"],
+        properties: {
+          kind: { type: "string", enum: Object.keys(KINDS) },
+          prompt: { type: "string" },
+          response: { type: "string" },
+          target_span: { type: "string" },
+          rationale: { type: "string" },
+          intended_evaluation: { type: "string", enum: ["correct", "incorrect", "uncertain"] },
+          intended_code: { type: ["string", "null"] },
+        },
+      },
+    },
+  },
+};
 
 const Batch = z.object({
   items: z.array(
@@ -53,8 +87,8 @@ const Batch = z.object({
   ),
 });
 
-function instructions(code: TaxonomyCode, perCode: number, topics: string[]): string {
-  const plan = kindPlan(perCode);
+function instructions(code: TaxonomyCode, perCode: number, topics: string[], kinds?: Kind[]): string {
+  const plan = kindPlan(perCode, kinds);
   return `You write test data for an evaluator of Spanish written by English-speaking learners. Produce exactly ${perCode} items for this misconception:
 
 ${code.code}: ${code.name}
@@ -87,11 +121,19 @@ async function main() {
     options: {
       "per-code": { type: "string", default: "6" },
       model: { type: "string", default: "strong" },
+      governance: { type: "boolean", default: false },
       codes: { type: "string" },
+      kinds: { type: "string" },
     },
   });
   const perCode = Number(values["per-code"]);
-  const model = resolveModel(values.model!);
+  const kinds = values.kinds?.split(",").map((k) => k.trim()) as Kind[] | undefined;
+  if (kinds?.some((k) => !(k in KINDS))) {
+    console.error(`--kinds takes a comma list of: ${Object.keys(KINDS).join(", ")}`);
+    process.exit(1);
+  }
+  // The generator's ref, recorded on every item and intended label.
+  const model = values.governance ? { ref: governanceConfig().ref } : resolveModel(values.model!);
   const wanted = values.codes?.split(",");
   const codes = loadTaxonomy().filter(
     (c) => c.code !== "UNKNOWN" && (!wanted || wanted.includes(c.code)),
@@ -102,14 +144,23 @@ async function main() {
     // Rotate topics so codes do not all write about the same weekend at the beach.
     const topics = Array.from({ length: perCode }, (_, i) => TOPICS[(n * perCode + i) % TOPICS.length]);
     try {
-      const { data: raw } = await completeStructured({
-        model: model.ref,
-        schema: Batch,
-        schemaName: "gold_candidates",
-        messages: [{ role: "user", content: instructions(code, perCode, topics) }],
-        temperature: 0.9,
-        maxTokens: 8000,
-      });
+      const prompt = instructions(code, perCode, topics, kinds);
+      const { data: raw } = values.governance
+        ? await governedJson({
+            name: "gold_candidates",
+            jsonSchema: BATCH_SCHEMA,
+            schema: Batch,
+            instructions: "Follow the task below exactly and return the items through the given JSON schema.",
+            input: prompt,
+          })
+        : await completeStructured({
+            model: model.ref,
+            schema: Batch,
+            schemaName: "gold_candidates",
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.9,
+            maxTokens: 8000,
+          });
       // The kind fixes the label; an item whose label disagrees with its own kind is dropped.
       const expected: Record<Kind, [string, string | null]> = {
         error: ["incorrect", code.code],

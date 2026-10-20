@@ -5,6 +5,7 @@ import {
   evaluatorGates,
   evaluatorMetrics,
   percentile,
+  combineRuns,
   resolveConsensus,
   resolveGold,
   type Label,
@@ -82,4 +83,16 @@ test("percentile", () => {
   assert.equal(percentile([5, 1, 3, 2, 4], 50), 3);
   assert.equal(percentile([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 95), 10);
   assert.equal(percentile([], 50), null);
+});
+
+test("combineRuns: agreement keeps the label, a split becomes uncertain", () => {
+  assert.deepEqual(combineRuns([L("incorrect", "PP.05"), L("incorrect", "PP.05")]), {
+    label: L("incorrect", "PP.05"),
+    split: false,
+  });
+  assert.deepEqual(combineRuns([L("correct"), L("incorrect", "PP.05")]), { label: L("uncertain"), split: true });
+  // Same verdict, different code: the diagnosis is not settled either.
+  assert.equal(combineRuns([L("incorrect", "PI.03"), L("incorrect", "PI.08")]).split, true);
+  assert.equal(combineRuns([L("correct")]).split, false);
+  assert.throws(() => combineRuns([]));
 });

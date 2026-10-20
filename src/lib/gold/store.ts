@@ -168,6 +168,16 @@ export function readModelLabels(name: string): Map<string, Annotation> {
   return new Map(readJsonl<Annotation>(file).map((a) => [a.item_id, a]));
 }
 
+/** Adds labels to a set, e.g. one at a time while a labelling run progresses. */
+export function appendModelLabels(name: string, labels: Annotation[]): void {
+  appendJsonl(modelLabelFile(name), labels);
+}
+
+/** Like readModelLabels, but an empty map when the set does not exist yet. */
+export function readModelLabelsIfAny(name: string): Map<string, Annotation> {
+  return new Map(readJsonl<Annotation>(modelLabelFile(name)).map((a) => [a.item_id, a]));
+}
+
 /** Replaces the whole set: a model label set is imported as one batch. */
 export function writeModelLabels(name: string, labels: Annotation[]): void {
   const file = modelLabelFile(name);

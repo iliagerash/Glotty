@@ -35,6 +35,21 @@ npm run ai:ping             # one evaluator call per tier
 
 ## Evaluator workflow
 
+Two layers of models:
+
+- **Product** (`src/lib/ai`): Cloudflare Workers AI through the provider-agnostic gateway. This is the evaluator learners face, and everything else at runtime.
+- **Governance** (`src/lib/governance`): one judge model through the official OpenAI SDK and Responses API (`OPENAI_API_KEY`, `GLOTTY_GOVERNANCE_MODEL`, optional `GLOTTY_GOVERNANCE_EFFORT`). It writes gold candidates and labels them, offline only. Keeping it separate means the judge can't silently become one of the models it judges.
+
+The default loop needs no human labelling:
+
+```bash
+npm run gold:generate -- --governance --per-code 6           # candidates, add --kinds error,error,... for more errors
+npm run gold:label -- --runs 2                                # judge labels every item twice -> model_labels/<model>-i<N>.jsonl
+npm run bench -- --models fast,strong --against model:<model>-i<N>
+```
+
+`gold:label` resumes where it stopped. Where the two runs disagree, the item becomes "uncertain", so the evaluator should abstain on it. Results are model-judged, not checked by people: reports say so, and a native-speaker check stays open before anything ships. The human tools below (`/annotate`, `/adjudicate`) remain for spot checks.
+
 1. **Draft candidates** (optional): `npm run gold:generate -- --per-code 6`. The LLM writes realistic B1 responses, including hard look-alikes and ambiguous cases. Its intended labels go to `data/gold/generator_intent.jsonl` and are never shown to annotators.
 2. **Annotate**: `npm run dev` and open `/annotate`. Follow [`data/gold/GUIDELINES.md`](data/gold/GUIDELINES.md). Labels are saved per annotator in `data/gold/annotations/<name>.jsonl`; commit them. Add real learner writing there too: §24 wants real responses, and synthetic items are only a bootstrap.
    - **Model labels** (to save annotation time): `npm run gold:model-export` writes `data/gold/handoff/items.jsonl` and `instructions.md` for an external model such as ChatGPT. Import its answer with `npm run gold:model-import -- --name chatgpt-<model> --file labels.jsonl`; it lands in `data/gold/model_labels/`, never among human annotations. `npm run gold:model-compare -- --model chatgpt-<model>` measures agreement with each human annotator; `--subset tune|check` splits the items so instructions are tuned on one half and measured on the other, and `--annotator model:<other>` compares two runs of the model. Only if it meets the human bar (κ ≥ 0.75 evaluation, ≥ 0.60 diagnosis) use `npm run bench -- --against model:chatgpt-<model>` for prompt iteration on `dev`. Held-out reports still need human labels.

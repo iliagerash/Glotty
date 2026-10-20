@@ -308,6 +308,7 @@ The critical path is human annotation. No model choice is final until the gold s
 
 - [x] Rename the secret `CLOUDFLARE_AI_TOKEN` to `CLOUDFLARE_API_TOKEN` in the cloud environment. Done: `CLOUDFLARE_API_TOKEN` is set.
 - [x] Pick fast and strong tiers: fast = `gpt-oss-20b#low`, strong = `kimi-k2.6#none`, set through the environment (no built-in defaults).
+- [ ] **Governance layer (decided 2026-10-20):** an OpenAI judge model (gpt-6-luna) generates gold candidates and labels them through the official SDK and Responses API; Workers AI stays the product layer. Human labelling becomes an optional spot check. Needs `OPENAI_API_KEY` and `GLOTTY_GOVERNANCE_MODEL` in the environment, then `gold:generate --governance` (with more error items), `gold:label --runs 2`, and `bench --against model:<set>`.
 - [ ] Regenerate gold candidates with the chosen strong model if it beats llama-3.3-70b. The current 90 generated items have about 15 dubious intended labels.
 - [ ] Annotate the 116 candidates at `/annotate`, and add real learner writing. In progress: 49 of 116 labelled (`data/gold/annotations/illia.jsonl`).
 - [ ] Re-check Incorrect labels against `GUIDELINES.md`: errors outside the two clusters (gender, vocabulary, other prepositions, word order) are labelled Correct, and in-cluster errors get a code where one fits rather than `UNKNOWN`.
@@ -321,7 +322,7 @@ The critical path is human annotation. No model choice is final until the gold s
 
 ## Concept check
 
-I checked the plan against all of `Glotty_Concept.md`, including Appendices A–D. The core holds: gateway, measured evaluator, events → labels → state, gate, exploration. I found eight conflicts and six gaps; a ninth conflict (model labels instead of a second human) was added later by decision. Four conflicts are deliberate divergences, kept with their reasons in the table; the other eleven items are fixed in the sections above.
+I checked the plan against all of `Glotty_Concept.md`, including Appendices A–D. The core holds: gateway, measured evaluator, events → labels → state, gate, exploration. I found eight conflicts and six gaps; two more were added later by decision (model labels instead of a second human, then a governance judge model instead of human annotation). Five conflicts are deliberate divergences, kept with their reasons in the table; the other eleven items are fixed in the sections above.
 
 | Concept says | Plan had | Now |
 | --- | --- | --- |
@@ -332,6 +333,7 @@ I checked the plan against all of `Glotty_Concept.md`, including Appendices A–
 | §31: input budget is reading/listening | Counted conversation as input | Reading only, texts by predicted comprehension |
 | App. D Phase 3: beat last-observation and fixed-interval baselines, with reliability diagrams | Brier vs population prior | Kept as a divergence: Brier vs prior is the step 5 exit; the Phase 3 baselines are later gates |
 | §24: two independent human annotators per item | Two humans on every item | Kept as a divergence: an external model (ChatGPT) labels all items; one human labels a random sample. If model and human agree at the human bar (κ ≥ 0.75 evaluation, ≥ 0.60 diagnosis), model labels drive prompt iteration on `dev`. Held-out reports stay human-labelled. |
+| §24–§25: gold from qualified human annotators | One human plus ChatGPT, adjudicated | Kept as a divergence (2026-10-20): a governance judge model labels and generates gold, each item labelled twice; split runs become "uncertain". Human labels are an optional audit. The gates then measure agreement with the judge, not checked correctness; a native-speaker check stays required before shipping. |
 | §44: pre-registered success threshold | Invented "d < 0.2" | Kept as a divergence: d < 0.2 is my proposal for the pre-registered threshold |
 | App. A: evaluation enum is correct / incorrect / uncertain / unscored | Invented NO\_KEY\_MATCH | `unscored` |
 | §18, App. C: \~40-node graph; nodes carry codes, item pools, prerequisite closure | Missing (repo has 34 bare nodes) | Added to step 3 |

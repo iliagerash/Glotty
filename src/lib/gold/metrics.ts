@@ -42,6 +42,22 @@ export function sameLabel(a: Label, b: Label): boolean {
   return a.evaluation === b.evaluation && (a.evaluation !== "incorrect" || a.diagnosis_code === b.diagnosis_code);
 }
 
+/**
+ * Combines repeated labelling runs of one item by the same model judge.
+ * Runs that agree give that label. Runs that split mean a careful reader can
+ * go either way, so the item becomes "uncertain": the evaluator should then
+ * abstain rather than decide, and an "incorrect" verdict counts as a false
+ * accusation.
+ */
+export function combineRuns<L extends Label>(runs: L[]): { label: Label; split: boolean } {
+  if (!runs.length) throw new Error("combineRuns needs at least one run");
+  const [first, ...rest] = runs;
+  if (rest.every((r) => sameLabel(first, r))) {
+    return { label: { evaluation: first.evaluation, diagnosis_code: first.diagnosis_code }, split: false };
+  }
+  return { label: { evaluation: "uncertain", diagnosis_code: null }, split: true };
+}
+
 export type ConsensusStatus = "agreed" | "adjudicated" | "disputed" | "contested" | "unlabeled";
 
 /**
