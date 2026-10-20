@@ -315,6 +315,8 @@ No prompt passes precision on INCORRECT (≥ 0.95). v5 fixed what it targeted fo
 
 Precision misses 0.95 in every run, so the gap is real, not noise. The false accusations recur on the same items, all gold "uncertain": *Me mudaba durante tres días…* (both judges say incorrect and only split on PI.03 vs PI.08), and three where gpt-6-luna hedges and Gemini says incorrect (*Siempre visité el Louvre…*, *…hubo de pie y estuvo gritando*, *Compro ropa para una tienda…*). kimi sides with Gemini at 0.95 every time. Neither a higher floor nor two-call self-consistency (simulated from runs 1–3: precision 0.93–1.00, uncertain 0.18–0.22) passes both precision and the uncertain rate. Scoring the 5 code-only splits as incorrect gives precision 0.955 / 0.938 / 0.932.
 
+**Held-out report** (2026-10-20, run once, nothing tuned on it). kimi-k2.6#none, prompt v6, post/v2, floor 0.92, against `gpt-6-luna-i5--gemini-3.8-flash-i5`, 62 items: accuracy 1.000 (n=42), precision on INCORRECT 0.923 (12 of 13; the one false accusation, *la puerta estuvo abierta todo el tiempo*, is a judge split), diagnosis top-1 1.000 (n=11), uncertain 0.295, recall on INCORRECT 0.500. **Fails precision and the uncertain rate.** The floor turned 17 incorrect verdicts into abstentions, 12 of them real errors: on held-out kimi gave 0.85 to 13 incorrect verdicts, so the 0.92 floor chosen on dev is too high there. The sample is small (13 predicted errors: one item moves precision by eight points). The labelling rules (instructions v5) were written after looking at disagreements on all items, held-out included, so this split is not fully clean either. Not tuned further: per §25 the evaluator has not passed, and step 3 does not start.
+
 **Gateway fixes from real-world testing** (pushed in 2e49b20):
 
 - Reasoning models (gemma-4, glm, kimi, deepseek-v4) spent the whole token budget thinking and returned empty content. The gateway now reads `finish_reason`, reports that cause clearly, and never retries into the same limit.
@@ -354,7 +356,8 @@ The critical path is the two-judge gold set. No model choice is final until it e
 - [ ] Import native-corrected learner corpora (e.g. COWS-L2H, CAES) and answer-keyed exercise sets as the anchor set: real learner text whose correction comes from the corpus, not from us. Check licences first. Measure both judges against it per code.
 - [x] ~~Native-speaker check of the gold set; recruit a second qualified annotator.~~ Dropped (2026-10-20): no humans in the loop. Replaced by the second judge and the anchor corpora.
 - [ ] Check PP.04 items in the judge disagreements first: the generator marked duration-por ("estuve por tres horas") as an error, though the taxonomy accepts it.
-- [ ] Once a model passes on `dev`, run `--split heldout` once and report it. Then start step 3.
+- [x] Once a model passes on `dev`, run `--split heldout` once and report it. Done 2026-10-20: kimi-k2.6 fails precision (0.923) and the uncertain rate (0.295) on held-out; see the prompt changelog. Step 3 waits.
+- [ ] Confidence calibration: kimi's confidence shifts between splits (0.85 for real errors on held-out), so a fixed floor tuned on dev over-abstains. Grow the gold set (both judges generating) before choosing a floor again, and keep a fresh held-out for the next report.
 
 ## Concept check
 
