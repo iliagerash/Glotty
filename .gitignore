@@ -29,3 +29,9 @@ coverage/
 
 # benchmark runs (reports are regenerated; commit one deliberately if needed)
 reports/
+
+# Cloudflare (OpenNext build output, local D1 and wrangler state, local secrets)
+.open-next/
+.wrangler/
+.dev.vars*
+!.dev.vars.example

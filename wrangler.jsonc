@@ -1,0 +1,29 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "glotty",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "glotty"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "glotty",
+      // Replace with the id printed by `npx wrangler d1 create glotty`.
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "src/db/migrations"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

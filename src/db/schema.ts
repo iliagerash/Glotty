@@ -1,40 +1,33 @@
-import {
-  pgTable,
-  text,
-  timestamp,
-  boolean,
-  integer,
-  smallint,
-  real,
-  jsonb,
-  uuid,
-  serial,
-  date,
-  index,
-  pgEnum,
-} from "drizzle-orm/pg-core";
+import { sqliteTable, text, integer, real, index, check } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
+
+// SQLite (Cloudflare D1). Timestamps are integer milliseconds, booleans are
+// 0/1, JSON and arrays are JSON text, ids are random UUID strings.
+const createdAt = (name: string) =>
+  integer(name, { mode: "timestamp_ms" }).notNull().default(sql`(unixepoch('subsec') * 1000)`);
+const uuid = (name: string) => text(name).$defaultFn(() => crypto.randomUUID());
+const json = <T = unknown>(name: string) => text(name, { mode: "json" }).$type<T>();
 
 // ==========================================
 // 1. Better Auth Tables
 // ==========================================
 
-export const user = pgTable("user", {
+export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
-  emailVerified: boolean("emailVerified").notNull().default(false),
+  emailVerified: integer("emailVerified", { mode: "boolean" }).notNull().default(false),
   image: text("image"),
-  createdAt: timestamp("createdAt", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updatedAt", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: createdAt("createdAt"),
+  updatedAt: createdAt("updatedAt"),
 });
 
-export const session = pgTable("session", {
+export const session = sqliteTable("session", {
   id: text("id").primaryKey(),
-  expiresAt: timestamp("expiresAt", { withTimezone: true }).notNull(),
+  expiresAt: integer("expiresAt", { mode: "timestamp_ms" }).notNull(),
   token: text("token").notNull().unique(),
-  createdAt: timestamp("createdAt", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updatedAt", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: createdAt("createdAt"),
+  updatedAt: createdAt("updatedAt"),
   ipAddress: text("ipAddress"),
   userAgent: text("userAgent"),
   userId: text("userId")
@@ -42,7 +35,7 @@ export const session = pgTable("session", {
     .references(() => user.id, { onDelete: "cascade" }),
 });
 
-export const account = pgTable("account", {
+export const account = sqliteTable("account", {
   id: text("id").primaryKey(),
   accountId: text("accountId").notNull(),
   providerId: text("providerId").notNull(),
@@ -52,35 +45,31 @@ export const account = pgTable("account", {
   accessToken: text("accessToken"),
   refreshToken: text("refreshToken"),
   idToken: text("idToken"),
-  accessTokenExpiresAt: timestamp("accessTokenExpiresAt", { withTimezone: true }),
-  refreshTokenExpiresAt: timestamp("refreshTokenExpiresAt", { withTimezone: true }),
+  accessTokenExpiresAt: integer("accessTokenExpiresAt", { mode: "timestamp_ms" }),
+  refreshTokenExpiresAt: integer("refreshTokenExpiresAt", { mode: "timestamp_ms" }),
   scope: text("scope"),
   password: text("password"),
-  createdAt: timestamp("createdAt", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updatedAt", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: createdAt("createdAt"),
+  updatedAt: createdAt("updatedAt"),
 });
 
-export const verification = pgTable("verification", {
+export const verification = sqliteTable("verification", {
   id: text("id").primaryKey(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
-  expiresAt: timestamp("expiresAt", { withTimezone: true }).notNull(),
-  createdAt: timestamp("createdAt", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updatedAt", { withTimezone: true }).notNull().defaultNow(),
+  expiresAt: integer("expiresAt", { mode: "timestamp_ms" }).notNull(),
+  createdAt: createdAt("createdAt"),
+  updatedAt: createdAt("updatedAt"),
 });
 
 // ==========================================
 // 2. Appendix A — Event Schema Enums & Table
 // ==========================================
 
-export const evaluationResultEnum = pgEnum("evaluation_result", [
-  "correct",
-  "incorrect",
-  "uncertain",
-  "unscored",
-]);
+// Enums are text columns with a CHECK constraint (SQLite has no enum type).
+export const evaluationResults = ["correct", "incorrect", "uncertain", "unscored"] as const;
 
-export const activityKindEnum = pgEnum("activity_kind", [
+export const activityKinds = [
   "cloze",
   "forced_choice",
   "transformation",
@@ -91,40 +80,37 @@ export const activityKindEnum = pgEnum("activity_kind", [
   "listening",
   "explanation_view",
   "diagnostic_item",
-]);
+] as const;
 
-export const exposureKindEnum = pgEnum("exposure_kind", [
-  "drill",
-  "conversation",
-  "reading",
-  "review",
-  "diagnostic",
-]);
+export const exposureKinds = ["drill", "conversation", "reading", "review", "diagnostic"] as const;
 
-export const events = pgTable(
+const inList = (column: string, values: readonly string[]) =>
+  sql.raw(`${column} IN (${values.map((v) => `'${v}'`).join(", ")})`);
+
+export const events = sqliteTable(
   "events",
   {
-    eventId: uuid("event_id").defaultRandom().primaryKey(),
-    schemaVersion: smallint("schema_version").notNull().default(1),
+    eventId: uuid("event_id").primaryKey(),
+    schemaVersion: integer("schema_version").notNull().default(1),
     userId: text("user_id").notNull(),
-    sessionId: uuid("session_id").notNull(),
-    occurredAt: timestamp("occurred_at", { withTimezone: true }).notNull().defaultNow(),
+    sessionId: text("session_id").notNull(),
+    occurredAt: createdAt("occurred_at"),
 
     // Linguistic context
     language: text("language").notNull(), // BCP-47, e.g. 'es'
-    l1Languages: text("l1_languages").array().notNull(), // Learner repertoire
-    conceptIds: text("concept_ids").array().notNull(), // e.g. ['es.gram.aspect.pret_imp']
+    l1Languages: json<string[]>("l1_languages").notNull(), // Learner repertoire
+    conceptIds: json<string[]>("concept_ids").notNull(), // e.g. ['es.gram.aspect.pret_imp']
 
     // The interaction
-    activityType: activityKindEnum("activity_type").notNull(),
-    itemId: uuid("item_id"),
+    activityType: text("activity_type", { enum: activityKinds }).notNull(),
+    itemId: text("item_id"),
     promptText: text("prompt_text"),
     rawResponse: text("raw_response"), // NEVER discarded
     responseModality: text("response_modality").notNull().default("text"), // text | speech | choice
     latencyMs: integer("latency_ms"),
 
     // Evaluation (derived, re-computable)
-    evaluation: evaluationResultEnum("evaluation").notNull(),
+    evaluation: text("evaluation", { enum: evaluationResults }).notNull(),
     evalConfidence: real("eval_confidence"),
     diagnosisCode: text("diagnosis_code"), // taxonomy code or 'UNKNOWN'
     diagnosisConfidence: real("diagnosis_confidence"),
@@ -133,25 +119,27 @@ export const events = pgTable(
 
     // Provenance
     generatorVersion: text("generator_version"),
-    itemAnswerKey: jsonb("item_answer_key"), // stored at generation time
+    itemAnswerKey: json("item_answer_key"), // stored at generation time
 
     // Policy and causal identification
     policyAction: text("policy_action").notNull(),
-    policyCandidates: jsonb("policy_candidates").notNull(), // [{action, est_value}]
+    policyCandidates: json<Array<{ action: string; est_value: number }>>("policy_candidates").notNull(), // [{action, est_value}]
     propensity: real("propensity").notNull(), // P(chosen | state)
-    isExploration: boolean("is_exploration").notNull(),
+    isExploration: integer("is_exploration", { mode: "boolean" }).notNull(),
     explorationType: text("exploration_type"), // near_tie | style | jitter | control
     cohort: text("cohort").notNull().default("adaptive"), // adaptive | control
 
     // Weighting
-    exposureContext: exposureKindEnum("exposure_context").notNull(),
+    exposureContext: text("exposure_context", { enum: exposureKinds }).notNull(),
     evidenceWeight: real("evidence_weight").notNull(), // see §16
   },
   (table) => [
-    index("events_user_occurred_idx").on(table.userId, table.occurredAt.desc()),
-    index("events_concepts_gin_idx").using("gin", table.conceptIds),
+    index("events_user_occurred_idx").on(table.userId, sql`${table.occurredAt} desc`),
     index("events_evaluator_version_idx").on(table.evaluatorVersion),
-    index("events_exploration_idx").on(table.occurredAt).where(sql`is_exploration = true`),
+    index("events_exploration_idx").on(table.occurredAt).where(sql`is_exploration = 1`),
+    check("events_activity_type_check", inList("activity_type", activityKinds)),
+    check("events_evaluation_check", inList("evaluation", evaluationResults)),
+    check("events_exposure_context_check", inList("exposure_context", exposureKinds)),
   ]
 );
 
@@ -159,19 +147,19 @@ export const events = pgTable(
 // 3. Knowledge Graph Tables (§18, Appendix C)
 // ==========================================
 
-export const concepts = pgTable("concepts", {
+export const concepts = sqliteTable("concepts", {
   id: text("id").primaryKey(), // e.g. es.gram.aspect.pret_imp
   name: text("name").notNull(),
   domain: text("domain").notNull(),
   cefrLevel: text("cefr_level"),
   description: text("description"),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: createdAt("created_at"),
 });
 
-export const conceptEdges = pgTable(
+export const conceptEdges = sqliteTable(
   "concept_edges",
   {
-    id: serial("id").primaryKey(),
+    id: integer("id").primaryKey({ autoIncrement: true }),
     source: text("source")
       .notNull()
       .references(() => concepts.id, { onDelete: "cascade" }),
@@ -179,7 +167,7 @@ export const conceptEdges = pgTable(
       .notNull()
       .references(() => concepts.id, { onDelete: "cascade" }),
     edgeType: text("edge_type").notNull(), // prerequisite | contrasts_with | instance_of | interferes_with
-    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    createdAt: createdAt("created_at"),
   },
   (table) => [
     index("concept_edges_source_idx").on(table.source),
@@ -191,73 +179,73 @@ export const conceptEdges = pgTable(
 // 4. Diagnostic Taxonomy Table (Appendix B)
 // ==========================================
 
-export const taxonomyCodes = pgTable("taxonomy_codes", {
+export const taxonomyCodes = sqliteTable("taxonomy_codes", {
   code: text("code").primaryKey(), // e.g. PI.01, PP.01, UNKNOWN
   name: text("name").notNull(),
   domain: text("domain").notNull(),
   definition: text("definition").notNull(),
-  positiveExamples: jsonb("positive_examples").notNull(),
-  negativeExamples: jsonb("negative_examples").notNull(),
+  positiveExamples: json("positive_examples").notNull(),
+  negativeExamples: json("negative_examples").notNull(),
   distinguishingProbe: text("distinguishing_probe").notNull(),
   interventionFamily: text("intervention_family").notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: createdAt("created_at"),
 });
 
 // ==========================================
 // 5. Learning Sessions & Feedback (§41, §11)
 // ==========================================
 
-export const learningSessions = pgTable(
+export const learningSessions = sqliteTable(
   "learning_sessions",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: uuid("id").primaryKey(),
     userId: text("user_id").notNull(),
     sessionNumber: integer("session_number").notNull().default(1),
     status: text("status").notNull().default("active"), // active | completed
     goal: text("goal"),
-    startedAt: timestamp("started_at", { withTimezone: true }).notNull().defaultNow(),
-    endedAt: timestamp("ended_at", { withTimezone: true }),
-    summary: jsonb("summary"),
-    surfacedInsights: jsonb("surfaced_insights").$type<Array<{
+    startedAt: createdAt("started_at"),
+    endedAt: integer("ended_at", { mode: "timestamp_ms" }),
+    summary: json("summary"),
+    surfacedInsights: json<Array<{
       id: string;
       code: string;
       hedged: boolean;
       text: string;
       confidence: number;
-    }>>(),
+    }>>("surfaced_insights"),
   },
   (table) => [
-    index("learning_sessions_user_idx").on(table.userId, table.startedAt.desc()),
+    index("learning_sessions_user_idx").on(table.userId, sql`${table.startedAt} desc`),
   ]
 );
 
-export const insightFeedbacks = pgTable("insight_feedbacks", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  sessionId: uuid("session_id").references(() => learningSessions.id, {
+export const insightFeedbacks = sqliteTable("insight_feedbacks", {
+  id: uuid("id").primaryKey(),
+  sessionId: text("session_id").references(() => learningSessions.id, {
     onDelete: "set null",
   }),
   userId: text("user_id").notNull(),
   diagnosisCode: text("diagnosis_code").notNull(),
   rating: text("rating").notNull(), // 'useful' | 'not_useful' | 'wrong'
   notes: text("notes"),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: createdAt("created_at"),
 });
 
 // ==========================================
 // 6. Materialized Learner State Snapshots (§35)
 // ==========================================
 
-export const learnerStateSnapshots = pgTable(
+export const learnerStateSnapshots = sqliteTable(
   "learner_state_snapshots",
   {
-    id: uuid("id").defaultRandom().primaryKey(),
+    id: uuid("id").primaryKey(),
     userId: text("user_id").notNull(),
-    snapshotDate: date("snapshot_date").notNull(),
+    snapshotDate: text("snapshot_date").notNull(), // YYYY-MM-DD
     language: text("language").notNull().default("es"),
-    states: jsonb("states").notNull(), // concept_id -> { estimate, uncertainty, obsCount, levels: {...} }
-    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    states: json("states").notNull(), // concept_id -> { estimate, uncertainty, obsCount, levels: {...} }
+    createdAt: createdAt("created_at"),
   },
   (table) => [
-    index("learner_snapshots_user_date_idx").on(table.userId, table.snapshotDate.desc()),
+    index("learner_snapshots_user_date_idx").on(table.userId, sql`${table.snapshotDate} desc`),
   ]
 );

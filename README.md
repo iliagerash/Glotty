@@ -19,7 +19,7 @@ The rebuild follows the concept's build order (§49). Each step is gated by meas
 | 6. Policy drives the tutor; real propensities, cohorts, explanation-style randomization | |
 | 7. Session framing, insight phrasing, feedback loop | |
 
-The `events` table is append-only: a trigger rejects `UPDATE`, `DELETE` and `TRUNCATE` (`src/db/migrations/0001_events_immutable.sql`).
+The database is Cloudflare D1 (SQLite). The `events` table is append-only: triggers reject `UPDATE` and `DELETE` (`src/db/migrations/0001_events_immutable.sql`).
 
 `Implementation_Plan.html` describes the first attempt (Gemini 1.5) and is superseded by this table.
 
@@ -27,11 +27,27 @@ The `events` table is append-only: a trigger rejects `UPDATE`, `DELETE` and `TRU
 
 ```bash
 npm install
-cp .env.example .env        # fill in DATABASE_URL and the Cloudflare credentials; GLOTTY_MODEL_FAST/STRONG are required
-npm run db:migrate && npm run db:seed
+cp .env.example .env        # the Cloudflare credentials; GLOTTY_MODEL_FAST/STRONG are required
+npm run db:migrate && npm run db:seed   # local D1 under .wrangler/
+npm run dev                 # next dev, with the local D1 bound as DB
 npm run ai:models           # check which Workers AI models your account can use
 npm run ai:ping             # one evaluator call per tier
 ```
+
+## Deploy (Cloudflare Workers)
+
+The app runs on Workers through OpenNext (`@opennextjs/cloudflare`), with D1 as its database (binding `DB` in `wrangler.jsonc`). Offline scripts (`gold:*`, `bench`) are not deployed.
+
+```bash
+cp .dev.vars.example .dev.vars && npm run preview   # production build in the local Workers runtime
+npx wrangler login                                  # or CLOUDFLARE_API_TOKEN with Workers Scripts and D1 edit rights
+npx wrangler d1 create glotty                       # once; put the printed id in wrangler.jsonc
+npx wrangler secret put BETTER_AUTH_SECRET          # and BETTER_AUTH_URL (the deployed URL)
+npm run db:migrate:remote && npm run db:seed -- --remote
+npm run deploy
+```
+
+After changing `src/db/schema.ts`, run `npx drizzle-kit generate` and apply the new migration with `npm run db:migrate`. After changing bindings in `wrangler.jsonc`, run `npm run cf-typegen`.
 
 ## Evaluator workflow
 

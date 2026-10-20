@@ -113,7 +113,7 @@ The tutor converses through the LLM, but no learner turn waits on evaluation. Th
 
 **Event write.** Each learner turn is one immutable event: raw text, response latency, item ID if any, the sync verdict if any, and policy fields. `latency_ms` means the learner's response time only. Policy fields are NOT NULL from the first event (§33), so no real learner uses the product before step 6. Internal test traffic logs a fixed policy with propensity 1.
 
-**Async queue.** A Postgres-backed job table (`labels_jobs`, claimed with `FOR UPDATE SKIP LOCKED`), so there's no new infrastructure. Workers batch by model and call the evaluator through the gateway. Target: under 60 s from event to label.
+**Async queue.** Cloudflare Queues (D1 has no `FOR UPDATE SKIP LOCKED`, so a job table can't be claimed safely). Workers batch by model and call the evaluator through the gateway. Target: under 60 s from event to label.
 
 **`labels` table.** Columns: `event_id`, `evaluator_version`, evaluation, confidence, diagnosis code and confidence, error span, `created_at`. Many labels per event, one per version. A view picks the current version, so re-scoring history is a backfill job, not a migration.
 
@@ -322,7 +322,7 @@ The critical path is human annotation. No model choice is final until the gold s
 
 ## Concept check
 
-I checked the plan against all of `Glotty_Concept.md`, including Appendices A–D. The core holds: gateway, measured evaluator, events → labels → state, gate, exploration. I found eight conflicts and six gaps; two more were added later by decision (model labels instead of a second human, then a governance judge model instead of human annotation). Five conflicts are deliberate divergences, kept with their reasons in the table; the other eleven items are fixed in the sections above.
+I checked the plan against all of `Glotty_Concept.md`, including Appendices A–D. The core holds: gateway, measured evaluator, events → labels → state, gate, exploration. I found eight conflicts and six gaps; three more were added later by decision (model labels instead of a second human, then a governance judge model instead of human annotation, then D1 instead of Postgres). Five conflicts are deliberate divergences, kept with their reasons in the table; the other eleven items are fixed in the sections above.
 
 | Concept says | Plan had | Now |
 | --- | --- | --- |
@@ -334,6 +334,7 @@ I checked the plan against all of `Glotty_Concept.md`, including Appendices A–
 | App. D Phase 3: beat last-observation and fixed-interval baselines, with reliability diagrams | Brier vs population prior | Kept as a divergence: Brier vs prior is the step 5 exit; the Phase 3 baselines are later gates |
 | §24: two independent human annotators per item | Two humans on every item | Kept as a divergence: an external model (ChatGPT) labels all items; one human labels a random sample. If model and human agree at the human bar (κ ≥ 0.75 evaluation, ≥ 0.60 diagnosis), model labels drive prompt iteration on `dev`. Held-out reports stay human-labelled. |
 | §24–§25: gold from qualified human annotators | One human plus ChatGPT, adjudicated | Kept as a divergence (2026-10-20): a governance judge model labels and generates gold, each item labelled twice; split runs become "uncertain". Human labels are an optional audit. The gates then measure agreement with the judge, not checked correctness; a native-speaker check stays required before shipping. |
+| §34: Postgres first, Parquet on a threshold | Postgres | Kept as a divergence (2026-10-20): Cloudflare D1 (SQLite), deployed on Workers. Append-only `events` is enforced by triggers; SQLite has no roles to revoke. The Parquet step becomes an export to R2. |
 | §44: pre-registered success threshold | Invented "d < 0.2" | Kept as a divergence: d < 0.2 is my proposal for the pre-registered threshold |
 | App. A: evaluation enum is correct / incorrect / uncertain / unscored | Invented NO\_KEY\_MATCH | `unscored` |
 | §18, App. C: \~40-node graph; nodes carry codes, item pools, prerequisite closure | Missing (repo has 34 bare nodes) | Added to step 3 |
@@ -345,7 +346,7 @@ I checked the plan against all of `Glotty_Concept.md`, including Appendices A–
 
 **Already matching, verified in the repo:** the `events` table mirrors Appendix A field for field, and immutability uses triggers plus a revoke. The taxonomy has a distinguishing probe and intervention family for all 16 codes (§26). The §9 gate thresholds, §10 hedging, §11 budget and breaker, §16 weights, §22/§45 latency budgets and §25 gates match the plan.
 
-**My additions, not in the concept:** two-tier evaluator routing (§45 supports the idea), the Postgres job queue, the 7-day "long gap", the 0.05 near-tie margin, spaCy for morphology, the stop-rule thresholds, and the new columns for policy version and explanation style (additive, as §33 allows). All are proposals to tune.
+**My additions, not in the concept:** two-tier evaluator routing (§45 supports the idea), the Cloudflare Queues job queue, the 7-day "long gap", the 0.05 near-tie margin, spaCy for morphology, the stop-rule thresholds, and the new columns for policy version and explanation style (additive, as §33 allows). All are proposals to tune.
 
 **Correctly left out (§42):** speech and listening, Parquet and DuckDB (Phase 2), and the learned policy (Phase 4).
 

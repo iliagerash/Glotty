@@ -1,0 +1,4 @@
+# Local secrets for `npm run preview` (the Workers runtime reads .dev.vars,
+# not .env). In production set them with `npx wrangler secret put <NAME>`.
+BETTER_AUTH_SECRET=your_32_character_secret_key_here
+BETTER_AUTH_URL=http://localhost:8787
