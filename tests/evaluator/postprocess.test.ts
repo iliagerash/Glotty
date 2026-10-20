@@ -1,12 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { postProcess, type ModelVerdict } from "../../src/lib/evaluator";
+import { INCORRECT_MIN_CONFIDENCE, postProcess, type ModelVerdict } from "../../src/lib/evaluator";
 
 const codes = new Set(["PI.01", "PP.01", "UNKNOWN"]);
 const verdict = (v: Partial<ModelVerdict>): ModelVerdict => ({
   analysis: "",
   evaluation: "incorrect",
-  confidence: 0.9,
+  confidence: 0.95,
   concept_ids: ["es.gram.aspect.pret_imp"],
   error_span: "fui",
   correction: "iba",
@@ -30,6 +30,11 @@ test("turns a low-confidence incorrect into an abstention", () => {
   assert.equal(r.diagnosisCode, null);
   assert.equal(r.errorSpan, null);
   assert.match(r.adjustment!, /abstained/);
+});
+
+test("keeps an incorrect exactly at the floor, abstains just below it", () => {
+  assert.equal(postProcess(verdict({ confidence: INCORRECT_MIN_CONFIDENCE }), codes).evaluation, "incorrect");
+  assert.equal(postProcess(verdict({ confidence: INCORRECT_MIN_CONFIDENCE - 0.01 }), codes).evaluation, "uncertain");
 });
 
 test("maps unknown or missing codes to UNKNOWN", () => {

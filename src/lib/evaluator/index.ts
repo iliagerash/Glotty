@@ -8,16 +8,22 @@ import { loadTaxonomy, MVP_CLUSTERS, TAXONOMY_PATH, taxonomyCodes } from "@/lib/
 
 /**
  * The evaluator interface (§21–§26, §36): one learner response in, one
- * three-valued, diagnosed judgement out. Versioned by prompt, taxonomy and
- * model so that any stored label can be traced and re-scored.
+ * three-valued, diagnosed judgement out. Versioned by prompt, taxonomy,
+ * confidence floor and model so that any stored label can be traced and
+ * re-scored.
  *
  * This is the asynchronous path. It never runs inside a learner's request.
  */
 
 export const PROMPT_ID = "evaluator/v6";
 
-/** Below this confidence an "incorrect" verdict becomes an abstention (§23, §25). */
-export const INCORRECT_MIN_CONFIDENCE = 0.7;
+/**
+ * Below this confidence an "incorrect" verdict becomes an abstention (§23, §25).
+ * 0.92 from replaying three dev bench runs of kimi-k2.6 against the two-judge
+ * v5 consensus: its false accusations sit at 0.9 and below. It does not help
+ * gpt-oss-20b, whose false accusations come at 0.95 to 1.
+ */
+export const INCORRECT_MIN_CONFIDENCE = 0.92;
 
 export const ModelVerdictSchema = z.object({
   analysis: z.string(),
@@ -99,7 +105,7 @@ export function renderTaxonomy(): string {
 }
 
 export function evaluatorVersion(modelRef: string): string {
-  return `${PROMPT_ID}+${systemPrompt().hash}@${modelRef}`;
+  return `${PROMPT_ID}+${systemPrompt().hash}~floor${INCORRECT_MIN_CONFIDENCE}@${modelRef}`;
 }
 
 function userMessage(input: EvaluationInput): string {
