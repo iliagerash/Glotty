@@ -331,6 +331,23 @@ Precision misses 0.95 in every run, so the gap is real, not noise. The false acc
 
 kimi against the anchor (run once): accuracy 0.462, precision on INCORRECT 1.000, uncertain 0.242, wrong N/A 12. On real learner text: gpt-6-luna's hedging leaves real errors uncertain and the consensus inherits it, Gemini agrees with the instructors most; kimi catches few aspect errors, its confidence is lower so the 0.90 floor discards 18 of its 28 por/para catches, and it calls many applicable sentences N/A. With the anchors included, inter-judge κ on evaluation is 0.749 (bar 0.75). The synthetic gold overstates how well the evaluator does on real writing.
 
+**Screen on native-corrected text** (2026-10-20). 118 more COWS-L2H sentences from other essays, pinned to dev (`anchor-cowsl2h-dev`: 38 por/para errors, 40 aspect errors, 40 correct), so models can be compared without touching the held-out anchor set. Raw verdicts with post/v2, no floor:
+
+| Model | p50 / p95 s | Accuracy | Precision INCORRECT | por/para caught | aspect caught | correct kept | Wrong N/A |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| kimi-k2.6#none | 9.8 / 16.5 | 0.61 | 0.91 | 26 | 13 | 31 | 10 |
+| gpt-oss-120b#low | 7.9 / 17.6 | 0.61 | 0.87 | 21 | 18 | 33 | 2 |
+| qwen3-30b-a3b | 9.0 / 18.2 | 0.61 | 0.87 | 23 | 17 | 32 | 3 |
+| mistral-small-3.1-24b | 6.7 / 10.3 | 0.61 | 0.81 | 29 | 22 | 17 | 9 |
+| llama-4-scout-17b | 7.1 / 15.6 | 0.53 | 0.80 | 24 | 9 | 28 | 5 |
+| gpt-oss-20b#low | 3.0 / 7.2 | 0.47 | 0.88 | 17 | 5 | 33 | 9 |
+| deepseek-v4-pro#low | 24.5 / 61.4 | 0.73 | 0.95 | 22 | 16 | 34 | 1 (19 failed calls) |
+| deepseek-v4-flash#low | 17.5 / 47.9 | 0.71 | 0.88 | 26 | 17 | 33 | 1 (11 failed calls) |
+| glm-5.3#low | 13.2 / 42.8 | 0.69 | 0.89 | 28 | 19 | 33 | 2 |
+| glm-5.3-flash#low | 13.3 / 43.7 | 0.65 | 0.93 | 28 | 13 | 36 | 2 |
+
+**Latency cut-off (decided 2026-10-20):** a strong-tier candidate needs p95 ≤ 20 s, inside the async target of 60 s from event to label with room for the queue; slower models are not screened further (qwen3.8-27b and gemma-4 were stopped mid-run for this). No model passes on real learner text: all miss most aspect errors, and no floor brings any fast model to precision 0.95 with uncertain ≤ 0.15. kimi-k2.6 keeps the strong tier (best precision among the fast models); much of its accuracy loss is wrong N/A.
+
 **Gateway fixes from real-world testing** (pushed in 2e49b20):
 
 - Reasoning models (gemma-4, glm, kimi, deepseek-v4) spent the whole token budget thinking and returned empty content. The gateway now reads `finish_reason`, reports that cause clearly, and never retries into the same limit.
