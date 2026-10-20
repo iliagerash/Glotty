@@ -1,8 +1,10 @@
 # Glotty AI-First Rebuild Plan
 
-Oct 19, 2026 · @Illia Herashchenko
+Oct 19, 2026 · updated Oct 20, 2026 · @Illia Herashchenko
 
-Glotty is being rebuilt so that a measured LLM evaluator comes first, and nothing is built on top of it until it passes the §25 gates. Steps 0–2 are done; step 2 is built but not yet measured against human labels.
+Glotty is being rebuilt so that a measured LLM evaluator comes first, and nothing is built on top of it until it passes the §25 gates. Steps 0–2 are done; step 2 is built but not yet measured against the judge panel's gold.
+
+> **No humans in the loop (decided 2026-10-20).** Two judge models from different families (OpenAI and Google) generate and label the gold set; gold is where both agree. Inter-judge agreement replaces inter-annotator agreement, judge disagreements become "uncertain" instead of going to an adjudicator, and native-corrected learner corpora replace the native-speaker check as the anchor to real Spanish. Every gate below is measured against that gold. This is a deliberate divergence from §24–§25, recorded in the concept check.
 
 > **Where this comes from.** The session where the plan was first proposed (session\_01LC2ewUc9hmqQxJ55PMB4UP) no longer exists, so its transcript can't be retrieved. This plan is rebuilt from what that session left in the repo: `REVIEW.md` (its "Suggested path back"), the README status table, the rebuild commit (2998fa0), and `Glotty_Concept.md` §21–§26 and §49. Wording from the original conversation that never reached the repo is lost.
 
@@ -39,7 +41,7 @@ The LLM writes everything the learner reads and interprets everything the learne
 ```mermaid
 flowchart LR
   S0["0. Remove fakes ✓"] --> S1["1. Model gateway ✓"] --> S2["2. Evaluator<br/>(measuring)"]
-  S2 --> G{{"§25 gates on<br/>held-out human labels"}}
+  S2 --> G{{"§25 gates on<br/>held-out judge consensus"}}
   G --> S3["3. Items + sync path"] --> S4["4. Conversation +<br/>async labels"] --> S5["5. Learner model"] --> S6["6. Policy"] --> S7["7. Session + insights"]
 ```
 
@@ -53,7 +55,7 @@ Each step's exit criterion is a measurement or a structural guarantee, not a dem
 | --- | --- | --- |
 | 0. Remove fakes | Delete the simulated evaluator, scripted journey, demo dashboards and fake default user. Make `events` append-only. | Nothing in the codebase produces a label without a real model call. Done. |
 | 1. Model gateway | `src/lib/ai`: tiers, Cloudflare Workers AI + any OpenAI-compatible endpoint, zod-validated output, one retry on invalid JSON | Unit tests against a mocked fetch; every candidate model answers `ai:ping`. Done. |
-| 2. Evaluator | `prompts/evaluator/v4.md` (earlier versions kept for traceability), taxonomy with negative examples, abstention, UNKNOWN; gold tooling (`/annotate`, dev/held-out split, generator, bench) | All six §25 gates pass on the held-out human-labelled set. Built, not yet measured. |
+| 2. Evaluator | `prompts/evaluator/v4.md` (earlier versions kept for traceability), taxonomy with negative examples, abstention, UNKNOWN; gold tooling (two-judge generation and labelling, consensus, dev/held-out split, bench) | All six §25 gates pass on the held-out judge-consensus set. Built, not yet measured. |
 | 3. Items + sync path | Generated items stored with answer keys and distinguishing probes; sync evaluation by key matching (§22) | Sync path p95 under 200 ms with no LLM call. |
 | 4. Conversation + async labels | LLM conversation turns; evaluation moved to a background queue; versioned `labels` table (events → labels → learner state) | The learner never waits on the LLM; any label can be re-scored by version. |
 | 5. Learner model | Built from labels: §16 weights (uncertain ≈ 0.1), ordering constraint flagged rather than clamped, pooled prior (§17) | Learner state reproducible from events by replay; real gate inputs. |
@@ -66,11 +68,11 @@ The demo dashboards stay frozen until steps 1–6 pass.
 
 ## Finishing step 2: from screen to passing gates
 
-Step 2 is done when one model and prompt version passes all six §25 gates on held-out human labels. The binding constraint is the gold set, not the model.
+Step 2 is done when one model and prompt version passes all six §25 gates on the held-out judge-consensus set. The binding constraint is the gold set, not the model.
 
 1. **Shortlist from the screen.** Keep three models: the best on precision on INCORRECT, the best on latency per accuracy point, and one from a different family as a hedge. A screen against generator intent can rule a model out; it can't qualify one.
-2. **Build the gold set to a minimum viable size.** Target 300 items per cluster before the first held-out report (600 eventually, §24). At least half should be real learner writing, and the held-out split is real learner writing only (§24). Recruit through a B1 class or tutoring platform, using the same prompts the tutor will ask. Oversample hard negatives and ambiguous cases.
-3. **Two annotators from the start.** One linguist plus one experienced Spanish teacher, labelling independently, with a third person adjudicating disagreements. Measure κ every 100 items. If κ for a code is below 0.60, rewrite that code's definition and probe before labelling more items for it.
+2. **Build the gold set to a minimum viable size.** Target 300 items per cluster before the first held-out report (600 eventually, §24), generated by both judges with the same prompts the tutor will ask. Oversample hard negatives and ambiguous cases. Held-out must not be written by the model family it is meant to check: held-out items come from native-corrected learner corpora (real learner text with a native correction) and from the judge that did not write the dev items. Real learner writing joins held-out once the product has learners.
+3. **Two judges from the start.** Judge a (OpenAI) and judge b (Google) label every item independently, twice each; a judge's split runs and any disagreement between judges make the item "uncertain". Measure inter-judge κ on every batch (`gold:consensus`). If κ for a code is below 0.60, rewrite that code's definition and probe in `GUIDELINES.md` and the taxonomy before generating more items for it.
 4. **Iterate on `dev` only.** Prompt changes are versioned (`evaluator/v2.md` …). Each change gets a bench run and a one-line entry in a prompt changelog: what changed, which gate moved.
 5. **Two-tier routing if one model can't pass alone.** The fast model screens. Anything it marks incorrect, uncertain, or below 0.85 confidence goes to the strong model. The bench measures that routed pair as one evaluator version.
 6. **Report held-out once per candidate version,** and freeze it. If it fails, go back to dev with a new version number; never re-tune against held-out.
@@ -101,7 +103,7 @@ The LLM writes items ahead of time, and code checks them before any learner sees
 
 **The sync verdict** is correct, incorrect or unscored (Appendix A's enum), with `eval_path: "sync"`. Unscored is never shown as wrong; it queues the response for async evaluation. An item whose key is contradicted by the async evaluator more than twice gets pulled for review.
 
-**Exit:** sync p95 under 200 ms on 1,000 synthetic responses; key precision ≥ 0.99, checked by the async evaluator plus a human sample of 200.
+**Exit:** sync p95 under 200 ms on 1,000 synthetic responses; key precision ≥ 0.99, checked by the async evaluator plus a judge-panel sample of 200.
 
 ## Step 4: conversation and async labelling
 
@@ -188,7 +190,7 @@ A session has a planned shape (§41, §43). An insight is shown only when the de
 
 **Cold start** (§12): sessions 1–2 show a calibrated starting hypothesis and observations about the language, never about the learner.
 
-**Feedback.** Every insight carries useful / not useful / this is wrong, each logged as an event. "This is wrong" sends the insight and its evidence to human review.
+**Feedback.** Every insight carries useful / not useful / this is wrong, each logged as an event. "This is wrong" sends the insight and its evidence to the judge panel, which re-labels the supporting events; a label both judges overturn is re-scored.
 
 **Global circuit breaker** (§11): if wrong ratings exceed 3% of surfaced insights over a rolling 200, insight surfacing stops for everyone and the gate thresholds rise until a review clears it. If useful ratings fall below 50%, the feature gets a design review.
 
@@ -217,23 +219,24 @@ Each risk has a measurable trigger, decided now, so that sunk cost doesn't decid
 | Risk | Trigger | Response |
 | --- | --- | --- |
 | Free-form evaluation can't reach the gates (§50) | Precision on INCORRECT < 0.95 on held-out after 3 prompt rounds with routing | Narrow scope: async diagnosis only on constrained production; free conversation feeds the model at 0.4 weight and never triggers correction |
-| Humans can't agree on a code | κ diagnosis < 0.60 on a code after one rewrite | Merge or drop the code; taxonomy v2 |
-| Gold set never gets real learner data | Under 50% real items when step 2 is due | Pause step 3 and fix recruitment first; synthetic-only gold doesn't count |
+| Judges can't agree on a code | Inter-judge κ diagnosis < 0.60 on a code after one rewrite | Merge or drop the code; taxonomy v2 |
+| Judges share a blind spot | Both judges agree but disagree with the native correction on > 10% of anchor-corpus items in a code | Treat that code's gold as unverified: exclude it from the gates, rewrite its guideline, re-label |
+| Gold set stays all synthetic | No anchor-corpus items in held-out when step 2 is due | Pause step 3 until a licensed native-corrected corpus is in held-out; a gate passed on synthetic held-out alone doesn't count |
 | Workers AI model retired or changed | Ping fails or bench drops > 3 points after a provider change | Gateway already provider-agnostic: re-bench the shortlist, bump the evaluator version, re-score |
 | Cost per session over budget (§45) | > $0.60 per session at 30 turns | Route more traffic to the fast tier; batch async labels; cache item generation |
-| Adaptation doesn't beat good static sequencing | Phase 1 experiment (§44: two arms, \~90 learners each, 6 weeks, blind-scored) misses its pre-registered threshold (my proposal for it: d < 0.2) | Ship as a strong static curriculum plus diagnosis; don't build the learned policy |
+| Adaptation doesn't beat good static sequencing | Phase 1 experiment (§44: two arms, \~90 learners each, 6 weeks, blind-scored by the judge panel) misses its pre-registered threshold (my proposal for it: d < 0.2) | Ship as a strong static curriculum plus diagnosis; don't build the learned policy |
 | Wrong insights | Circuit breaker trips twice in 30 days | Raise gate thresholds permanently; review probe items |
 
 The first row is the most important and the cheapest to answer: it is what step 2 exists to find out. The Phase 1 gate that decides whether the product exists comes later: if fewer than 60% of learners get a gate-passing insight by session 3, revisit the clusters, the gate or the thesis (Phase 1).
 
 ## Evaluator measurement
 
-The evaluator ships only when all six gates pass on the held-out split of a human-labelled gold set. Binary and diagnosis accuracy are always reported separately.
+The evaluator ships only when all six gates pass on the held-out split of the judge-consensus gold set. Binary and diagnosis accuracy are always reported separately. Reports state that gold is model-judged and anchored to native-corrected corpora, not checked by people.
 
 | Metric | Gate |
 | --- | --- |
-| Inter-annotator κ, binary correctness | ≥ 0.75 |
-| Inter-annotator κ, diagnosis code | ≥ 0.60 |
+| Inter-judge κ, binary correctness | ≥ 0.75 |
+| Inter-judge κ, diagnosis code | ≥ 0.60 |
 | Binary accuracy (held-out) | ≥ 0.90 |
 | Precision on INCORRECT | ≥ 0.95 |
 | Diagnosis top-1, given INCORRECT | ≥ 0.65 |
@@ -241,12 +244,12 @@ The evaluator ships only when all six gates pass on the held-out split of a huma
 
 Workflow:
 
-1. **Draft candidates.** `npm run gold:generate` writes synthetic B1 responses. The generator's intended labels go to a separate file that annotators never see.
-2. **Annotate** at `/annotate`, following `data/gold/GUIDELINES.md`. Add real learner writing: §24 wants 400–600 real responses per cluster, and synthetic items are only a bootstrap.
-3. **Benchmark** with `npm run bench` on `dev`; iterate prompts there only. Run `--split heldout` to report.
-4. **Agreement.** A second independent annotator turns κ from "not measurable" into a real number. Until then, results are provisional.
+1. **Generate candidates** with both judges: `npm run gold:generate -- --governance --judge a|b`. The generator's intended labels go to a separate file that the judges never see.
+2. **Label** every item with each judge, twice: `npm run gold:label -- --judge a`, then `--judge b`. Both follow `data/gold/GUIDELINES.md`.
+3. **Consensus.** `npm run gold:consensus -- --a <set> --b <set>` writes the gold reference and reports inter-judge κ against the bar.
+4. **Benchmark** with `npm run bench -- --against model:<consensus>` on `dev`; iterate prompts there only. Run `--split heldout` to report.
 
-Before any annotation exists, `--against intent` screens models against the generator's unreviewed labels. That is a screen, not a gold measurement.
+`--against intent` screens models against the generator's unlabelled intent. That is a screen, not a gold measurement.
 
 ## Model selection status
 
@@ -300,40 +303,41 @@ v2 fixed the cases it targeted, but kimi gained two new false accusations, one p
 | nemotron-3-120b-a12b | HTTP 408 timeouts; 84 s for a 400-token reply |
 | glm-4.7-flash | Reasoning exhausts the budget; rejects `reasoning_effort=none` |
 
-**Generator quality.** The first generator prompt produced mislabelled items, meta-text leaking into responses ("…falta un acento en el nombre del pueblo") and repetitive topics. The new prompt fixes the structure: a kind plan, rotating topics, and a rationale that must name the correction. With llama-3.3-70b as the generator, about 15 of its 90 intended labels still look wrong. The gold pool is 116 items: those 90 plus 26 legacy items. Treat them as drafts for annotators.
+**Generator quality.** The first generator prompt produced mislabelled items, meta-text leaking into responses ("…falta un acento en el nombre del pueblo") and repetitive topics. The new prompt fixes the structure: a kind plan, rotating topics, and a rationale that must name the correction. With llama-3.3-70b as the generator, about 15 of its 90 intended labels still look wrong. The gold pool was 116 items: those 90 plus 26 legacy items. On 2026-10-20 gpt-6-luna added 90 error-heavy items (206 in total) and labelled all of them.
 
 ## Open decisions and next actions
 
-The critical path is human annotation. No model choice is final until the gold set exists.
+The critical path is the two-judge gold set. No model choice is final until it exists and meets the inter-judge bar.
 
 - [x] Rename the secret `CLOUDFLARE_AI_TOKEN` to `CLOUDFLARE_API_TOKEN` in the cloud environment. Done: `CLOUDFLARE_API_TOKEN` is set.
 - [x] Pick fast and strong tiers: fast = `gpt-oss-20b#low`, strong = `kimi-k2.6#none`, set through the environment (no built-in defaults).
-- [ ] **Governance layer (decided 2026-10-20):** an OpenAI judge model (gpt-6-luna) generates gold candidates and labels them through the official SDK and Responses API; Workers AI stays the product layer. Human labelling becomes an optional spot check. Needs `OPENAI_API_KEY` and `GLOTTY_GOVERNANCE_MODEL` in the environment, then `gold:generate --governance` (with more error items), `gold:label --runs 2`, and `bench --against model:<set>`.
+- [x] **Governance layer (decided 2026-10-20):** an OpenAI judge model (gpt-6-luna) generates gold candidates and labels them through the official SDK and Responses API; Workers AI stays the product layer. Done: 206 items, `model_labels/gpt-6-luna-i4.jsonl`, run-to-run κ 0.852.
+- [ ] **Second judge (decided 2026-10-20):** judge b is a Google Gemini Flash model through the official Gen AI SDK (`GEMINI_API_KEY`, `GLOTTY_GOVERNANCE_MODEL_B`, optional `GLOTTY_GOVERNANCE_EFFORT_B`). Code is in place; needs the key and model id, then `gold:label -- --judge b` and `gold:consensus`.
+- [ ] Generate a batch with judge b (`gold:generate -- --governance --judge b`) and assign held-out by generator: items written by judge b (and anchor-corpus items) go to held-out, items written by judge a stay in dev. Today `splitOf` assigns by a hash of the item id.
 - [ ] Regenerate gold candidates with the chosen strong model if it beats llama-3.3-70b. The current 90 generated items have about 15 dubious intended labels.
 - [x] ~~Annotate the 116 candidates at `/annotate`.~~ Dropped (2026-10-20): the human labels (`annotations/illia.jsonl`) and the 41 adjudications were discarded as unreliable. gpt-6-luna labels everything (`model_labels/gpt-6-luna-i4.jsonl`, run-to-run κ 0.849). Real learner writing is still wanted.
 - [x] ~~Re-check Incorrect labels against `GUIDELINES.md`: errors outside the two clusters (gender, vocabulary, other prepositions, word order) are labelled Correct, and in-cluster errors get a code where one fits rather than `UNKNOWN`.~~ Dropped with the human labels (2026-10-20).
 - [x] Label all items with ChatGPT (`npm run gold:model-export`, then `gold:model-import`) and check agreement with the human labels (`gold:model-compare`). Result: κ 0.29–0.31 between human and ChatGPT, 0.90 between two ChatGPT runs.
 - [x] ~~Settle the human/ChatGPT disagreements at `/adjudicate` by rule (`data/gold/rules.json`); benchmark on consensus gold with `npm run bench -- --consensus chatgpt-v2`. Provisional: no native speaker is available yet.~~ Dropped with the human labels (2026-10-20).
-- [ ] Look into native-corrected learner corpora (e.g. COWS-L2H, CAES) and answer-keyed exercise sets as a source of native judgments; check licences first.
-- [ ] Native-speaker check of the gold set before any held-out result counts as a pass.
-- [ ] Recruit a second qualified annotator (a linguist, §48) so κ can be measured.
-- [ ] Have annotators check PP.04 items first: the generator marks duration-por ("estuve por tres horas") as an error, though the taxonomy accepts it.
+- [ ] Import native-corrected learner corpora (e.g. COWS-L2H, CAES) and answer-keyed exercise sets as the anchor set: real learner text whose correction comes from the corpus, not from us. Check licences first. Measure both judges against it per code.
+- [x] ~~Native-speaker check of the gold set; recruit a second qualified annotator.~~ Dropped (2026-10-20): no humans in the loop. Replaced by the second judge and the anchor corpora.
+- [ ] Check PP.04 items in the judge disagreements first: the generator marked duration-por ("estuve por tres horas") as an error, though the taxonomy accepts it.
 - [ ] Once a model passes on `dev`, run `--split heldout` once and report it. Then start step 3.
 
 ## Concept check
 
-I checked the plan against all of `Glotty_Concept.md`, including Appendices A–D. The core holds: gateway, measured evaluator, events → labels → state, gate, exploration. I found eight conflicts and six gaps; three more were added later by decision (model labels instead of a second human, then a governance judge model instead of human annotation, then D1 instead of Postgres). Five conflicts are deliberate divergences, kept with their reasons in the table; the other eleven items are fixed in the sections above.
+I checked the plan against all of `Glotty_Concept.md`, including Appendices A–D. The core holds: gateway, measured evaluator, events → labels → state, gate, exploration. I found eight conflicts and six gaps; four more were added later by decision (model labels instead of a second human, then a governance judge model instead of human annotation, then D1 instead of Postgres, then no humans in the loop at all). Rows marked "Kept as a divergence" are deliberate, with their reasons; the others are fixed in the sections above.
 
 | Concept says | Plan had | Now |
 | --- | --- | --- |
 | §49: conversation and insight surfacing come after learner model and policy | Conversation in step 4 | Kept as a divergence. §49 guards against demoing on an unmeasured evaluator; by step 4 the evaluator has passed its gates, and only internal testers use conversation until step 6 |
 | §33, App. A: policy fields NOT NULL from the first event | Policy only at step 6 | No real learners before step 6; test traffic logs a fixed policy, propensity 1 |
 | App. A: `evidence_weight` stored on every event | Weights applied only in replay | Stored on the event; replay may recompute under a new model version |
-| §24: gold set from real learner production | "At least half real" | At least half real overall; held-out split real only |
+| §24: gold set from real learner production | "At least half real" | Kept as a divergence (2026-10-20): gold starts synthetic, written by two judges; held-out is native-corrected corpus items plus the other judge's items, and real learner writing joins once the product has learners |
 | §31: input budget is reading/listening | Counted conversation as input | Reading only, texts by predicted comprehension |
 | App. D Phase 3: beat last-observation and fixed-interval baselines, with reliability diagrams | Brier vs population prior | Kept as a divergence: Brier vs prior is the step 5 exit; the Phase 3 baselines are later gates |
-| §24: two independent human annotators per item | Two humans on every item | Kept as a divergence: an external model (ChatGPT) labels all items; one human labels a random sample. If model and human agree at the human bar (κ ≥ 0.75 evaluation, ≥ 0.60 diagnosis), model labels drive prompt iteration on `dev`. Held-out reports stay human-labelled. |
-| §24–§25: gold from qualified human annotators | One human plus ChatGPT, adjudicated | Kept as a divergence (2026-10-20): a governance judge model labels and generates gold, each item labelled twice; split runs become "uncertain". Human labels are an optional audit. The gates then measure agreement with the judge, not checked correctness; a native-speaker check stays required before shipping. |
+| §24: two independent human annotators per item | Two humans on every item | Kept as a divergence: two independent judge models (OpenAI, Google) on every item, each labelling twice; see the next row. |
+| §24–§25: gold from qualified human annotators | One human plus ChatGPT, adjudicated | Kept as a divergence (2026-10-20): no humans in the loop. Two judges from different families (OpenAI, Google) label every item twice; gold is their agreement, everything else is "uncertain". Inter-judge κ takes the inter-annotator bar. The gates measure agreement with the judges, anchored to native-corrected corpora; the remaining risk is a blind spot both judges share (see Risks). |
 | §34: Postgres first, Parquet on a threshold | Postgres | Kept as a divergence (2026-10-20): Cloudflare D1 (SQLite), deployed on Workers. Append-only `events` is enforced by triggers; SQLite has no roles to revoke. The Parquet step becomes an export to R2. |
 | §44: pre-registered success threshold | Invented "d < 0.2" | Kept as a divergence: d < 0.2 is my proposal for the pre-registered threshold |
 | App. A: evaluation enum is correct / incorrect / uncertain / unscored | Invented NO\_KEY\_MATCH | `unscored` |

@@ -10,9 +10,9 @@
  * produce. Use it only to screen models before annotation exists; the report
  * is marked as not a gold measurement.
  *
- * --against model:<name> scores against an imported model label set
- * (data/gold/model_labels/<name>.jsonl). Use it for prompt iteration on dev
- * only after gold:model-compare shows the set agrees with human labels.
+ * --against model:<name> scores against a model label set
+ * (data/gold/model_labels/<name>.jsonl), normally the two-judge consensus
+ * written by gold:consensus. That is the gold reference: no human labels.
  *
  * --consensus <name> (with --against gold) is for when only one human
  * annotator exists: an item is gold when the human label agrees with the
@@ -189,7 +189,7 @@ async function main() {
     const silver = readModelLabels(name);
     labeled = items.filter((i) => silver.has(i.id)).map((item) => ({ item, gold: silver.get(item.id)! }));
     header.push(
-      `> **Not a gold measurement.** Scored against labels written by a model (\`${name}\`), not by humans. Valid for prompt iteration on dev only if \`npm run gold:model-compare -- --model ${name}\` shows it agrees with human labels. Held-out reports need human labels.`,
+      `> **Model-judged gold.** Scored against \`${name}\`, labels written by governance judges, not checked by people. Items the judges were unsure of or split on are "uncertain". Only a two-judge consensus (\`gold:consensus\`) whose inter-judge κ meets the bar counts for a release gate.`,
       "",
     );
   } else {

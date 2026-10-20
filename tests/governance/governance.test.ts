@@ -2,9 +2,9 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import OpenAI from "openai";
 import { z } from "zod";
-import { governanceConfig, governedJson, GovernanceError } from "../../src/lib/governance";
+import { governanceConfig, governedJson, GovernanceError, type GoogleModels } from "../../src/lib/governance";
 
-const config = { model: "judge-model", effort: "low" as const, ref: "openai:judge-model#low" };
+const config = { provider: "openai" as const, model: "judge-model", effort: "low", ref: "openai:judge-model#low" };
 const Schema = z.object({ evaluation: z.enum(["correct", "incorrect"]) });
 const JSON_SCHEMA = { type: "object", additionalProperties: false, required: ["evaluation"], properties: { evaluation: { type: "string" } } };
 
@@ -64,9 +64,67 @@ test("governedJson fails loudly when the answer does not match the schema", asyn
 });
 
 test("governanceConfig requires a key and a model, and validates the effort", () => {
-  assert.throws(() => governanceConfig({ GLOTTY_GOVERNANCE_MODEL: "m" }), /OPENAI_API_KEY/);
-  assert.throws(() => governanceConfig({ OPENAI_API_KEY: "k" }), /GLOTTY_GOVERNANCE_MODEL/);
-  assert.throws(() => governanceConfig({ OPENAI_API_KEY: "k", GLOTTY_GOVERNANCE_MODEL: "m", GLOTTY_GOVERNANCE_EFFORT: "huge" }), /EFFORT/);
-  assert.deepEqual(governanceConfig({ OPENAI_API_KEY: "k", GLOTTY_GOVERNANCE_MODEL: "m" }), { model: "m", effort: null, ref: "openai:m" });
-  assert.equal(governanceConfig({ OPENAI_API_KEY: "k", GLOTTY_GOVERNANCE_MODEL: "m", GLOTTY_GOVERNANCE_EFFORT: "high" }).ref, "openai:m#high");
+  assert.throws(() => governanceConfig("a", { GLOTTY_GOVERNANCE_MODEL: "m" }), /OPENAI_API_KEY/);
+  assert.throws(() => governanceConfig("a", { OPENAI_API_KEY: "k" }), /GLOTTY_GOVERNANCE_MODEL/);
+  assert.throws(() => governanceConfig("a", { OPENAI_API_KEY: "k", GLOTTY_GOVERNANCE_MODEL: "m", GLOTTY_GOVERNANCE_EFFORT: "huge" }), /EFFORT/);
+  assert.deepEqual(governanceConfig("a", { OPENAI_API_KEY: "k", GLOTTY_GOVERNANCE_MODEL: "m" }), {
+    provider: "openai",
+    model: "m",
+    effort: null,
+    ref: "openai:m",
+  });
+  assert.equal(governanceConfig("a", { OPENAI_API_KEY: "k", GLOTTY_GOVERNANCE_MODEL: "m", GLOTTY_GOVERNANCE_EFFORT: "high" }).ref, "openai:m#high");
+});
+
+test("judge b is a Gemini model with its own key, model and thinking level", () => {
+  const env = { GEMINI_API_KEY: "k", GLOTTY_GOVERNANCE_MODEL_B: "gemini-x" };
+  assert.throws(() => governanceConfig("b", { GLOTTY_GOVERNANCE_MODEL_B: "g" }), /GEMINI_API_KEY/);
+  assert.throws(() => governanceConfig("b", { GEMINI_API_KEY: "k" }), /GLOTTY_GOVERNANCE_MODEL_B/);
+  assert.throws(() => governanceConfig("b", { ...env, GLOTTY_GOVERNANCE_EFFORT_B: "xhigh" }), /EFFORT_B/);
+  assert.equal(governanceConfig("b", { ...env, GLOTTY_GOVERNANCE_EFFORT_B: "low" }).ref, "google:gemini-x#low");
+});
+
+const gemini = { provider: "google" as const, model: "gemini-x", effort: "low", ref: "google:gemini-x#low" };
+
+function fakeGoogle(body: Record<string, unknown>, seen: { request?: Record<string, unknown> }): GoogleModels {
+  return {
+    models: {
+      generateContent: (async (request: Record<string, unknown>) => {
+        seen.request = request;
+        return body;
+      }) as unknown as GoogleModels["models"]["generateContent"],
+    },
+  };
+}
+
+const geminiAnswer = (text: string, finishReason = "STOP") => ({
+  text,
+  responseId: "g_1",
+  candidates: [{ finishReason }],
+  usageMetadata: { promptTokenCount: 12, candidatesTokenCount: 4 },
+});
+
+const callGemini = (google: GoogleModels) =>
+  governedJson({ name: "gold_label", jsonSchema: JSON_SCHEMA, schema: Schema, instructions: "sys", input: "item", config: gemini, google });
+
+test("governedJson sends judge b a JSON-schema request and validates the answer", async () => {
+  const seen: { request?: Record<string, unknown> } = {};
+  const result = await callGemini(fakeGoogle(geminiAnswer('{"evaluation":"incorrect"}'), seen));
+  assert.equal(seen.request!.model, "gemini-x");
+  assert.equal(seen.request!.contents, "item");
+  assert.deepEqual(seen.request!.config, {
+    systemInstruction: "sys",
+    responseMimeType: "application/json",
+    responseJsonSchema: JSON_SCHEMA,
+    thinkingConfig: { thinkingLevel: "LOW" },
+  });
+  assert.deepEqual(result.data, { evaluation: "incorrect" });
+  assert.equal(result.ref, "google:gemini-x#low");
+  assert.deepEqual(result.usage, { inputTokens: 12, outputTokens: 4 });
+});
+
+test("governedJson fails loudly when judge b stops early, blocks or answers off-schema", async () => {
+  await assert.rejects(callGemini(fakeGoogle(geminiAnswer('{"evaluation":"correct"}', "MAX_TOKENS"), {})), /MAX_TOKENS/);
+  await assert.rejects(callGemini(fakeGoogle({ promptFeedback: { blockReason: "SAFETY" } }, {})), /SAFETY/);
+  await assert.rejects(callGemini(fakeGoogle(geminiAnswer('{"evaluation":"maybe"}'), {})), GovernanceError);
 });

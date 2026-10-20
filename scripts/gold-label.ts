@@ -1,8 +1,8 @@
 /**
- * Labels the gold candidates with the governance model (src/lib/governance),
- * through the OpenAI Responses API. Replaces copying files into a chat.
+ * Labels the gold candidates with one governance judge (src/lib/governance):
+ * judge a (OpenAI) by default, judge b (Gemini) with --judge b.
  *
- *   npm run gold:label -- [--name <set>] [--runs 2] [--concurrency 4] [--limit 20]
+ *   npm run gold:label -- [--judge a|b] [--name <set>] [--runs 2] [--concurrency 4] [--limit 20]
  *
  * Each run labels every item independently and is saved as
  * data/gold/model_labels/<set>.r<N>.jsonl, one line per item as it completes,
@@ -11,12 +11,13 @@
  * becomes "uncertain" (see combineRuns). The default set name records the
  * model and the instructions version, e.g. gpt-6-luna-i4.
  *
- * Use the result with `npm run bench -- --against model:<set>`.
+ * Label with both judges, then combine them with gold:consensus; bench
+ * against the consensus set.
  */
 import "dotenv/config";
 import { parseArgs } from "util";
 import { z } from "zod";
-import { governanceConfig, governedJson, GovernanceError } from "@/lib/governance";
+import { governanceConfig, governedJson, GovernanceError, type GovernanceConfig, type JudgeId } from "@/lib/governance";
 import { INSTRUCTIONS_VERSION, itemInstructions } from "@/lib/gold/instructions";
 import { cohensKappa, combineRuns } from "@/lib/gold/metrics";
 import {
@@ -52,8 +53,15 @@ const LABEL_SCHEMA = {
   },
 };
 
-async function labelOne(item: GoldItem, name: string, instructions: string, codes: Set<string>): Promise<Annotation> {
+async function labelOne(
+  config: GovernanceConfig,
+  item: GoldItem,
+  name: string,
+  instructions: string,
+  codes: Set<string>,
+): Promise<Annotation> {
   const { data } = await governedJson({
+    config,
     name: "gold_label",
     jsonSchema: LABEL_SCHEMA,
     schema: Label,
@@ -78,13 +86,15 @@ async function labelOne(item: GoldItem, name: string, instructions: string, code
 async function main() {
   const { values } = parseArgs({
     options: {
+      judge: { type: "string", default: "a" },
       name: { type: "string" },
       runs: { type: "string", default: "2" },
       concurrency: { type: "string", default: "4" },
       limit: { type: "string" },
     },
   });
-  const config = governanceConfig();
+  if (values.judge !== "a" && values.judge !== "b") throw new GovernanceError("--judge must be a or b");
+  const config = governanceConfig(values.judge as JudgeId);
   const name = values.name ?? `${config.model.toLowerCase().replace(/[^a-z0-9.-]+/g, "-")}-i${INSTRUCTIONS_VERSION}`;
   const runs = Number(values.runs);
   const items = readItems().slice(0, values.limit ? Number(values.limit) : undefined);
@@ -103,7 +113,7 @@ async function main() {
       while (next < todo.length) {
         const item = todo[next++];
         try {
-          appendModelLabels(runName, [await labelOne(item, runName, instructions, codes)]);
+          appendModelLabels(runName, [await labelOne(config, item, runName, instructions, codes)]);
         } catch (err) {
           failed++;
           console.error(`  run ${r} ${item.id}: ${(err as Error).message.slice(0, 300)}`);

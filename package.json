@@ -19,6 +19,7 @@
     "ai:ping": "tsx scripts/ai-ping.ts",
     "gold:generate": "tsx scripts/gold-generate.ts",
     "gold:label": "tsx scripts/gold-label.ts",
+    "gold:consensus": "tsx scripts/gold-consensus.ts",
     "gold:model-export": "tsx scripts/gold-model-export.ts",
     "gold:model-import": "tsx scripts/gold-model-import.ts",
     "gold:model-compare": "tsx scripts/gold-model-compare.ts",
@@ -27,6 +28,7 @@
     "bench": "tsx scripts/bench.ts"
   },
   "dependencies": {
+    "@google/genai": "^2.30.0",
     "@opennextjs/cloudflare": "^1.20.12",
     "better-auth": "^1.7.11",
     "dotenv": "^18.0.8",

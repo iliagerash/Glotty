@@ -5,11 +5,11 @@
  * them gold. The generator's intended label is stored separately in
  * generator_intent.jsonl and is never shown to annotators.
  *
- *   npm run gold:generate -- --per-code 6 [--model strong | --governance] [--codes PI.01,PP.02]
+ *   npm run gold:generate -- --per-code 6 [--model strong | --governance [--judge a|b]] [--codes PI.01,PP.02]
  *                           [--kinds error,error,hard_negative]
  *
- * --governance writes the candidates with the governance model (the OpenAI
- * judge in src/lib/governance) instead of a Workers AI model.
+ * --governance writes the candidates with a governance judge
+ * (src/lib/governance; judge a by default) instead of a Workers AI model.
  * --kinds replaces the default mix of item kinds, cycled per code, e.g. to
  * add error items.
  */
@@ -17,7 +17,7 @@ import "dotenv/config";
 import { parseArgs } from "util";
 import { z } from "zod";
 import { completeStructured } from "@/lib/ai/gateway";
-import { governanceConfig, governedJson } from "@/lib/governance";
+import { governanceConfig, governedJson, type JudgeId } from "@/lib/governance";
 import { resolveModel } from "@/lib/ai/config";
 import { loadTaxonomy, type TaxonomyCode } from "@/lib/taxonomy";
 import { addItems, appendGeneratorIntent, itemIdFor, type GoldItem } from "@/lib/gold/store";
@@ -122,6 +122,7 @@ async function main() {
       "per-code": { type: "string", default: "6" },
       model: { type: "string", default: "strong" },
       governance: { type: "boolean", default: false },
+      judge: { type: "string", default: "a" },
       codes: { type: "string" },
       kinds: { type: "string" },
     },
@@ -133,7 +134,12 @@ async function main() {
     process.exit(1);
   }
   // The generator's ref, recorded on every item and intended label.
-  const model = values.governance ? { ref: governanceConfig().ref } : resolveModel(values.model!);
+  if (values.judge !== "a" && values.judge !== "b") {
+    console.error("--judge must be a or b");
+    process.exit(1);
+  }
+  const judge = values.governance ? governanceConfig(values.judge as JudgeId) : null;
+  const model = judge ? { ref: judge.ref } : resolveModel(values.model!);
   const wanted = values.codes?.split(",");
   const codes = loadTaxonomy().filter(
     (c) => c.code !== "UNKNOWN" && (!wanted || wanted.includes(c.code)),
@@ -145,8 +151,9 @@ async function main() {
     const topics = Array.from({ length: perCode }, (_, i) => TOPICS[(n * perCode + i) % TOPICS.length]);
     try {
       const prompt = instructions(code, perCode, topics, kinds);
-      const { data: raw } = values.governance
+      const { data: raw } = judge
         ? await governedJson({
+            config: judge,
             name: "gold_candidates",
             jsonSchema: BATCH_SCHEMA,
             schema: Batch,

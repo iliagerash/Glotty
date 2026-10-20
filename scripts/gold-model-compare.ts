@@ -7,9 +7,10 @@
  *   npm run gold:model-compare -- --model chatgpt-<model> [--annotator illia | model:<other>]
  *                                  [--subset tune|check]
  *
- * --annotator model:<other> compares two model runs, e.g. two fresh ChatGPT
- * chats with the same instructions: items they split on are usually the
- * genuinely ambiguous ones.
+ * --annotator model:<other> compares two model label sets: the two
+ * governance judges (inter-judge agreement, the bar that gates release), or
+ * two runs of one model. Items they split on are usually the genuinely
+ * ambiguous ones.
  *
  * --subset splits items by a fixed hash. Tune the instructions looking only
  * at `tune`; measure on `check` once, so κ is not inflated by the tuning.
@@ -64,7 +65,9 @@ function compare(modelName: string, annotator: string, subset?: Subset): { summa
   const verdict = !both.length
     ? "No overlapping items."
     : annotator.startsWith("model:")
-      ? `Run-to-run consistency only: this says nothing about agreement with humans. Items the two runs split on are candidates for Ambiguous.`
+      ? passEval && passDiag
+        ? `Model vs model: meets the agreement bar. For two different judges, this is the inter-judge κ the gates require; for two runs of one model, it is consistency only.`
+        : `Model vs model: below the agreement bar. Review the disagreements below; items the two sets split on are candidates for Ambiguous.`
       : passEval && passDiag
       ? `Meets the human-agreement bar. ${modelName} may stand in for human labels during prompt iteration on dev; held-out reports still need human labels.`
       : `Below the human-agreement bar. Do not use ${modelName} as a stand-in for human labels; review the disagreements below first.`;
