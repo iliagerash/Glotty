@@ -44,7 +44,7 @@ export function SignInGate({ children }: { children: React.ReactNode }) {
     if (res.error) setError(res.error.message ?? "That didn't work");
   };
 
-  const input = "mt-1 w-full rounded border border-slate-300 px-3 py-2";
+  const input = "mt-1 w-full rounded-sm border border-slate-300 px-3 py-2";
   return (
     <main className="mx-auto max-w-sm px-4 py-16">
       <h1 className="text-2xl font-semibold">{mode === "sign-in" ? "Sign in" : "Create an account"}</h1>
@@ -71,7 +71,7 @@ export function SignInGate({ children }: { children: React.ReactNode }) {
           />
         </label>
         {error && <p className="text-sm text-red-700">{error}</p>}
-        <button disabled={busy} className="w-full rounded bg-slate-900 px-4 py-2 text-white disabled:opacity-50">
+        <button disabled={busy} className="w-full rounded-sm bg-slate-900 px-4 py-2 text-white disabled:opacity-50">
           {mode === "sign-in" ? "Sign in" : "Create account"}
         </button>
       </form>

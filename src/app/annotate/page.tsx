@@ -207,12 +207,12 @@ export default function AnnotatePage() {
           }}
         >
           <input
-            className="flex-1 rounded border border-slate-300 bg-white px-3 py-2"
+            className="flex-1 rounded-sm border border-slate-300 bg-white px-3 py-2"
             placeholder="e.g. ilia"
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
           />
-          <button className="rounded bg-slate-900 px-4 py-2 text-white">Start</button>
+          <button className="rounded-sm bg-slate-900 px-4 py-2 text-white">Start</button>
         </form>
         {error && <p className="mt-3 text-sm text-red-700">{error}</p>}
       </main>
@@ -253,17 +253,17 @@ export default function AnnotatePage() {
           </button>
         </div>
       </header>
-      <div className="mt-2 h-1.5 w-full overflow-hidden rounded bg-slate-200">
+      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-sm bg-slate-200">
         <div className="h-full bg-slate-700" style={{ width: `${items.length ? (100 * doneCount) / items.length : 0}%` }} />
       </div>
 
-      {error && <p className="mt-4 rounded bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p>}
+      {error && <p className="mt-4 rounded-sm bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p>}
 
       {item && (
-        <section className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-xs">
           <div className="flex items-center justify-between text-xs text-slate-500">
             <span>
-              #{index + 1} · {item.id} {done[item.id] && <span className="ml-1 rounded bg-slate-100 px-1.5 py-0.5">labelled</span>}
+              #{index + 1} · {item.id} {done[item.id] && <span className="ml-1 rounded-sm bg-slate-100 px-1.5 py-0.5">labelled</span>}
             </span>
             <span>
               <button className="px-2 hover:underline" onClick={() => setIndex(step(index, -1))}>
@@ -316,7 +316,7 @@ export default function AnnotatePage() {
                 </div>
               ))}
               {code && (
-                <div className="rounded bg-slate-50 p-3 text-xs text-slate-700">
+                <div className="rounded-sm bg-slate-50 p-3 text-xs text-slate-700">
                   <p>{taxonomy.find((c) => c.code === code)?.definition}</p>
                   {!!taxonomy.find((c) => c.code === code)?.negative_examples.length && (
                     <p className="mt-2">
@@ -344,7 +344,7 @@ export default function AnnotatePage() {
           </div>
 
           <textarea
-            className="mt-3 w-full rounded border border-slate-300 p-2 text-sm"
+            className="mt-3 w-full rounded-sm border border-slate-300 p-2 text-sm"
             rows={2}
             placeholder="Notes: the intended reading, regional usage, why a code fits or not (optional)"
             value={notes}
@@ -356,7 +356,7 @@ export default function AnnotatePage() {
             <button
               disabled={!canSave || saving}
               onClick={save}
-              className="rounded bg-slate-900 px-4 py-2 text-sm text-white disabled:opacity-40"
+              className="rounded-sm bg-slate-900 px-4 py-2 text-sm text-white disabled:opacity-40"
             >
               {saving ? "Saving…" : done[item.id] ? "Update & next" : "Save & next"}
             </button>
@@ -401,15 +401,15 @@ function AddItem({ onAdded }: { onAdded: () => void }) {
           <p className="text-xs text-slate-600">
             Real learner writing is what §24 asks for. Remove names and anything identifying before adding it.
           </p>
-          <input className="w-full rounded border border-slate-300 p-2" placeholder="Prompt or question it answered (optional)" value={prompt} onChange={(e) => setPrompt(e.target.value)} />
-          <textarea className="w-full rounded border border-slate-300 p-2" rows={2} placeholder="Learner response" value={response} onChange={(e) => setResponse(e.target.value)} />
+          <input className="w-full rounded-sm border border-slate-300 p-2" placeholder="Prompt or question it answered (optional)" value={prompt} onChange={(e) => setPrompt(e.target.value)} />
+          <textarea className="w-full rounded-sm border border-slate-300 p-2" rows={2} placeholder="Learner response" value={response} onChange={(e) => setResponse(e.target.value)} />
           <div className="flex flex-wrap gap-2">
-            <select className="rounded border border-slate-300 p-2" value={source} onChange={(e) => setSource(e.target.value as "learner" | "hand_written")}>
+            <select className="rounded-sm border border-slate-300 p-2" value={source} onChange={(e) => setSource(e.target.value as "learner" | "hand_written")}>
               <option value="learner">Real learner writing</option>
               <option value="hand_written">Written by me</option>
             </select>
-            <input className="flex-1 rounded border border-slate-300 p-2" placeholder="Origin note (optional)" value={origin} onChange={(e) => setOrigin(e.target.value)} />
-            <button className="rounded bg-slate-900 px-4 py-2 text-white">Add</button>
+            <input className="flex-1 rounded-sm border border-slate-300 p-2" placeholder="Origin note (optional)" value={origin} onChange={(e) => setOrigin(e.target.value)} />
+            <button className="rounded-sm bg-slate-900 px-4 py-2 text-white">Add</button>
           </div>
           {message && <p className="text-xs text-slate-600">{message}</p>}
         </form>

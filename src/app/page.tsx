@@ -13,7 +13,7 @@ export default function Home() {
         The conversation is being rebuilt on top of a measured evaluator. The first step is a gold set of labelled
         learner responses.
       </p>
-      <Link href="/annotate" className="mt-6 inline-block rounded bg-slate-900 px-4 py-2 text-white">
+      <Link href="/annotate" className="mt-6 inline-block rounded-sm bg-slate-900 px-4 py-2 text-white">
         Annotate the gold set
       </Link>
     </main>

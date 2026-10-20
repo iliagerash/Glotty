@@ -218,18 +218,18 @@ export default function AdjudicatePage() {
           }}
         >
           <input
-            className="w-full rounded border border-slate-300 bg-white px-3 py-2"
+            className="w-full rounded-sm border border-slate-300 bg-white px-3 py-2"
             placeholder="Your name"
             value={adjudicator}
             onChange={(e) => setAdjudicator(e.target.value)}
           />
           <input
-            className="w-full rounded border border-slate-300 bg-white px-3 py-2"
+            className="w-full rounded-sm border border-slate-300 bg-white px-3 py-2"
             placeholder="Model label set, e.g. chatgpt-v2"
             value={modelName}
             onChange={(e) => setModelName(e.target.value)}
           />
-          <button className="rounded bg-slate-900 px-4 py-2 text-white">Start</button>
+          <button className="rounded-sm bg-slate-900 px-4 py-2 text-white">Start</button>
         </form>
         {error && <p className="mt-3 text-sm text-red-700">{error}</p>}
       </main>
@@ -246,7 +246,7 @@ export default function AdjudicatePage() {
   }
 
   const button = (active: boolean) =>
-    `rounded border px-3 py-2 text-left text-sm ${active ? "border-slate-900 bg-slate-900 text-white" : "border-slate-300 bg-white hover:bg-slate-50"}`;
+    `rounded-sm border px-3 py-2 text-left text-sm ${active ? "border-slate-900 bg-slate-900 text-white" : "border-slate-300 bg-white hover:bg-slate-50"}`;
   const codeName = (c: string | null) => (c ? `${c} ${taxonomy.find((t) => t.code === c)?.name ?? ""}` : "");
 
   return (
@@ -257,15 +257,15 @@ export default function AdjudicatePage() {
           {adjudicator} vs {modelName} · {decided} / {disputes.length} decided
         </div>
       </header>
-      <div className="mt-2 h-1.5 w-full overflow-hidden rounded bg-slate-200">
+      <div className="mt-2 h-1.5 w-full overflow-hidden rounded-sm bg-slate-200">
         <div className="h-full bg-slate-700" style={{ width: `${(100 * decided) / disputes.length}%` }} />
       </div>
-      {error && <p className="mt-4 rounded bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p>}
+      {error && <p className="mt-4 rounded-sm bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p>}
 
-      <section className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+      <section className="mt-6 rounded-lg border border-slate-200 bg-white p-5 shadow-xs">
         <div className="flex items-center justify-between text-xs text-slate-500">
           <span>
-            #{index + 1} · {d.id} {d.decision && <span className="ml-1 rounded bg-slate-100 px-1.5 py-0.5">decided</span>}
+            #{index + 1} · {d.id} {d.decision && <span className="ml-1 rounded-sm bg-slate-100 px-1.5 py-0.5">decided</span>}
           </span>
           <span>
             <button className="px-2 hover:underline" onClick={() => setIndex(Math.max(index - 1, 0))}>
@@ -303,7 +303,7 @@ export default function AdjudicatePage() {
         </div>
 
         {choice === "other" && (
-          <div className="mt-3 space-y-2 rounded bg-slate-50 p-3 text-sm">
+          <div className="mt-3 space-y-2 rounded-sm bg-slate-50 p-3 text-sm">
             <div className="flex flex-wrap gap-1.5">
               {(Object.keys(LABELS) as Evaluation[]).map((e) => (
                 <button key={e} className={button(otherEval === e)} onClick={() => setOtherEval(e)}>
@@ -313,7 +313,7 @@ export default function AdjudicatePage() {
             </div>
             {otherEval === "incorrect" && (
               <select
-                className="w-full rounded border border-slate-300 p-2"
+                className="w-full rounded-sm border border-slate-300 p-2"
                 value={otherCode ?? ""}
                 onChange={(e) => setOtherCode(e.target.value || null)}
               >
@@ -353,7 +353,7 @@ export default function AdjudicatePage() {
           <div className="mt-5 space-y-2">
             <div className="text-xs font-medium uppercase tracking-wide text-slate-500">Codes in play</div>
             {codes.map((c) => (
-              <div key={c.code} className="rounded bg-slate-50 p-3 text-xs text-slate-700">
+              <div key={c.code} className="rounded-sm bg-slate-50 p-3 text-xs text-slate-700">
                 <p>
                   <b>
                     {c.code} {c.name}
@@ -373,14 +373,14 @@ export default function AdjudicatePage() {
             <button
               key={c}
               onClick={() => setConfidence(c)}
-              className={`rounded border px-2 py-1 text-xs ${confidence === c ? "border-slate-900 bg-slate-900 text-white" : "border-slate-300 bg-white"}`}
+              className={`rounded-sm border px-2 py-1 text-xs ${confidence === c ? "border-slate-900 bg-slate-900 text-white" : "border-slate-300 bg-white"}`}
             >
               {c === 1 ? "Guess" : c === 2 ? "Fairly sure" : "Certain"}
             </button>
           ))}
         </div>
         <textarea
-          className="mt-3 w-full rounded border border-slate-300 p-2 text-sm"
+          className="mt-3 w-full rounded-sm border border-slate-300 p-2 text-sm"
           rows={2}
           placeholder="Notes: why this rule applies here (optional)"
           value={notes}
@@ -391,7 +391,7 @@ export default function AdjudicatePage() {
           <button
             disabled={!canSave || saving}
             onClick={save}
-            className="rounded bg-slate-900 px-4 py-2 text-sm text-white disabled:opacity-40"
+            className="rounded-sm bg-slate-900 px-4 py-2 text-sm text-white disabled:opacity-40"
           >
             {saving ? "Saving…" : d.decision ? "Update & next" : "Save & next"}
           </button>
@@ -404,7 +404,7 @@ export default function AdjudicatePage() {
 function RuleOption({ r, selected, onSelect }: { r: Rule; selected: boolean; onSelect: () => void }) {
   return (
     <label
-      className={`block cursor-pointer rounded border px-3 py-2 text-sm ${selected ? "border-slate-900 bg-slate-50" : "border-slate-200"}`}
+      className={`block cursor-pointer rounded-sm border px-3 py-2 text-sm ${selected ? "border-slate-900 bg-slate-50" : "border-slate-200"}`}
     >
       <input type="radio" name="rule" className="mr-2 align-middle" checked={selected} onChange={onSelect} />
       <b className="text-xs">{r.id}</b> {r.rule}
