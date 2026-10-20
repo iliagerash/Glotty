@@ -2,9 +2,12 @@
  * Labels the gold candidates with one governance judge (src/lib/governance):
  * judge a (OpenAI) by default, judge b (Gemini) with --judge b.
  *
- *   npm run gold:label -- [--judge a|b] [--name <set>] [--runs 2] [--concurrency 4] [--limit 20]
+ *   npm run gold:label -- [--judge a|b] [--name <set>] [--runs N] [--concurrency 4] [--limit 20]
  *
- * Each run labels every item independently and is saved as
+ * --runs defaults to 2 for judge a and 1 for judge b: Gemini is paid per call
+ * and its two runs agreed on 202 of 206 items (κ 0.972), so a second run buys
+ * little. A set that already has run files keeps its number of runs, so
+ * resuming or re-combining never drops a run. Each run labels every item independently and is saved as
  * data/gold/model_labels/<set>.r<N>.jsonl, one line per item as it completes,
  * so an interrupted run resumes where it stopped. The runs are then combined
  * into <set>.jsonl: where they agree, that label; where they split, the item
@@ -83,12 +86,19 @@ async function labelOne(
   };
 }
 
+/** How many run files <set>.r1, .r2, … already exist. */
+function existingRuns(name: string): number {
+  let n = 0;
+  while (readModelLabelsIfAny(`${name}.r${n + 1}`).size > 0) n++;
+  return n;
+}
+
 async function main() {
   const { values } = parseArgs({
     options: {
       judge: { type: "string", default: "a" },
       name: { type: "string" },
-      runs: { type: "string", default: "2" },
+      runs: { type: "string" },
       concurrency: { type: "string", default: "4" },
       limit: { type: "string" },
     },
@@ -96,7 +106,7 @@ async function main() {
   if (values.judge !== "a" && values.judge !== "b") throw new GovernanceError("--judge must be a or b");
   const config = governanceConfig(values.judge as JudgeId);
   const name = values.name ?? `${config.model.toLowerCase().replace(/[^a-z0-9.-]+/g, "-")}-i${INSTRUCTIONS_VERSION}`;
-  const runs = Number(values.runs);
+  const runs = values.runs ? Number(values.runs) : existingRuns(name) || (values.judge === "b" ? 1 : 2);
   const items = readItems().slice(0, values.limit ? Number(values.limit) : undefined);
   const instructions = itemInstructions();
   const codes = taxonomyCodes();

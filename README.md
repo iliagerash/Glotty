@@ -64,14 +64,14 @@ No human labels anything. Gold is where both judges agree:
 ```bash
 npm run gold:generate -- --governance --judge a --per-code 6   # candidates; --kinds error,error,... for more errors
 npm run gold:label -- --judge a                                 # judge a labels every item twice -> model_labels/<model-a>-i<N>.jsonl
-npm run gold:label -- --judge b                                 # judge b, the same          -> model_labels/<model-b>-i<N>.jsonl
+npm run gold:label -- --judge b                                 # judge b labels every item once -> model_labels/<model-b>-i<N>.jsonl
 npm run gold:consensus -- --a <model-a>-i<N> --b <model-b>-i<N> # gold + inter-judge κ       -> model_labels/<a>--<b>.jsonl
 npm run bench -- --models fast,strong --against model:<a>--<b>
 ```
 
-`gold:label` resumes where it stopped. Where a judge's two runs disagree, or the two judges disagree, the item becomes "uncertain", so the evaluator should abstain on it. `gold:consensus` checks inter-judge κ against the bar §25 set for two human annotators (≥ 0.75 evaluation, ≥ 0.60 diagnosis). Results are model-judged: reports say so. The plan's anchor against real Spanish is native-corrected learner corpora, not a person.
+`gold:label` resumes where it stopped. Judge b (Gemini) is paid per call, so it runs once by default: a full pass of 206 items twice cost about $0.80, and its two runs agreed on 202 items (κ 0.972). Re-label with judge b only when the guidelines change, batching several fixes into one pass; `--runs 2` asks for a second run. Where a judge's two runs disagree, or the two judges disagree, the item becomes "uncertain", so the evaluator should abstain on it. `gold:consensus` checks inter-judge κ against the bar §25 set for two human annotators (≥ 0.75 evaluation, ≥ 0.60 diagnosis). Results are model-judged: reports say so. The plan's anchor against real Spanish is native-corrected learner corpora, not a person.
 
-The current reference set is `gpt-6-luna-i4` (judge a only) until judge b has labelled the items. The earlier human labels and adjudications were discarded on 2026-10-20; they stay in git history only.
+Judge b has labelled the items (`gemini-3.8-flash-i4`); the two-judge consensus is `gpt-6-luna-i4--gemini-3.8-flash-i4` (κ evaluation 0.709, below the 0.75 bar; κ diagnosis 0.896), usable for tuning on `dev` but not yet as a release gate. The earlier human labels and adjudications were discarded on 2026-10-20; they stay in git history only.
 
 1. **Generate candidates**: `gold:generate` writes realistic B1 responses, including hard look-alikes and ambiguous cases. Their intended labels go to `data/gold/generator_intent.jsonl`, which the judges never see. `--against intent` in bench screens models against those intents; the report says plainly that this is not a gold measurement.
 2. **Label and combine** as above. `npm run gold:model-compare -- --model <set> --annotator model:<other>` lists every disagreement between two sets, with both judges' rationales; `--subset tune|check` splits the items so guidelines are tuned on one half and measured on the other.
