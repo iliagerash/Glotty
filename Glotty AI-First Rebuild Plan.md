@@ -305,6 +305,16 @@ No prompt passes precision on INCORRECT (≥ 0.95). v5 fixed what it targeted fo
 
 **Confidence floor 0.92** (2026-10-20). `INCORRECT_MIN_CONFIDENCE` was 0.7: an "incorrect" below it becomes an abstention. Replaying the three kimi runs above at other floors showed its false accusations sit at 0.9 and below (kimi only reports 0.75, 0.85, 0.9, 0.92 and 0.95 on incorrect verdicts), so the floor is now 0.92 and the evaluator version records it (`~floor0.92`). It does not help gpt-oss-20b, whose false accusations come at 0.95–1. Live dev run, kimi-k2.6#none, prompt v6: accuracy 0.907, precision on INCORRECT 0.932, diagnosis 1.000, uncertain 0.167, 3 false accusations, 7 wrong N/A. Replay predicted precision 0.946–0.976 and uncertain 0.146–0.194, so the live run is at the low end. Precision now rests on about 44 predicted errors, where one item moves it by two points: the two gates it fails are within run-to-run noise, and passing them reliably needs more dev items or repeated runs, not a finer threshold. Recall on INCORRECT falls to about 0.7: a quarter of real errors become abstentions rather than feedback.
 
+**Noise runs and post/v2** (2026-10-20). post/v2 adds one rule in code: a response with *por* or *para* is never `not_applicable` (it becomes `correct`; the model flagged no error). Three dev runs of kimi-k2.6#none, prompt v6, floor 0.92, all scored with post/v2:
+
+| Run | Accuracy | Precision INCORRECT | Recall INCORRECT | Diagnosis top-1 | Uncertain | False accusations |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 (post/v2 replayed) | 0.932 | 0.932 | 0.732 | 1.000 | 0.167 | 3 of 44 |
+| 2 | 0.966 | 0.938 | 0.804 | 0.978 | 0.139 | 3 of 48 |
+| 3 | 0.974 | 0.909 | 0.714 | 0.950 | 0.146 | 4 of 44 |
+
+Precision misses 0.95 in every run, so the gap is real, not noise. The false accusations recur on the same items, all gold "uncertain": *Me mudaba durante tres días…* (both judges say incorrect and only split on PI.03 vs PI.08), and three where gpt-6-luna hedges and Gemini says incorrect (*Siempre visité el Louvre…*, *…hubo de pie y estuvo gritando*, *Compro ropa para una tienda…*). kimi sides with Gemini at 0.95 every time. Neither a higher floor nor two-call self-consistency (simulated from runs 1–3: precision 0.93–1.00, uncertain 0.18–0.22) passes both precision and the uncertain rate. Scoring the 5 code-only splits as incorrect gives precision 0.955 / 0.938 / 0.932.
+
 **Gateway fixes from real-world testing** (pushed in 2e49b20):
 
 - Reasoning models (gemma-4, glm, kimi, deepseek-v4) spent the whole token budget thinking and returned empty content. The gateway now reads `finish_reason`, reports that cause clearly, and never retries into the same limit.
@@ -337,8 +347,9 @@ The critical path is the two-judge gold set. No model choice is final until it e
 - [x] Instructions v5 (2026-10-20): rules in `GUIDELINES.md` for weighing readings, a state at the moment of another past event, por + infinitive, and code precedence. Consensus `gpt-6-luna-i5--gemini-3.8-flash-i5` meets the bar: κ evaluation 0.863, κ diagnosis 0.934, 20 uncertain items. Judge b re-labelled only 71 items (`relabel/gemini-3.8-flash-i5.ids`), about $0.08.
 - [x] Bring the evaluator in line with `GUIDELINES.md` v5 (`evaluator/v5`, then `v6`) and bench against the v5 consensus on `dev`. Done: kimi passes accuracy (0.924) and diagnosis (0.943) but no prompt passes precision on INCORRECT (0.803); see the prompt changelog.
 - [x] Get the evaluator to abstain where the judges split: floor raised to 0.92 (see the prompt changelog). kimi-k2.6 now sits at the gates for precision (0.932) and uncertain rate (0.167) and passes accuracy and diagnosis.
-- [ ] Measure the evaluator's run-to-run noise (two more dev runs of kimi at floor 0.92) and grow `dev`: with about 44 predicted errors, one item moves precision by two points.
-- [ ] Wrong N/A: kimi still calls 7 applicable responses N/A (it misses *cociné*, *sabía*, *por favor*). A check in code could at least catch a *por*/*para* in the response.
+- [x] Measure the evaluator's run-to-run noise: three runs, precision 0.909–0.938; the gap is systematic (see the prompt changelog).
+- [x] Wrong N/A: post/v2 catches *por*/*para* in code (3 of kimi's 7). The rest (*cociné*, *sabía*) would need a verb check.
+- [ ] Decide two gold rules: (1) when both judges say incorrect and only the code differs, keep `incorrect` with no code instead of `uncertain`; (2) when gpt-6-luna's two runs split, break the tie with a third run instead of making the item uncertain. Both are cheap (no Gemini calls) and address the recurring false accusations, which are mostly items both judges or Gemini plus kimi call errors.
 - [x] Remove the human-annotation path (2026-10-20): `/annotate`, `/adjudicate`, `/api/gold/*`, `gold:push`/`gold:pull`, `GLOTTY_ANNOTATOR_EMAILS` and the D1 gold tables (migration `0003_drop_gold`). The gold set lives in `data/gold` only. Auth stays for step 6.
 - [ ] Import native-corrected learner corpora (e.g. COWS-L2H, CAES) and answer-keyed exercise sets as the anchor set: real learner text whose correction comes from the corpus, not from us. Check licences first. Measure both judges against it per code.
 - [x] ~~Native-speaker check of the gold set; recruit a second qualified annotator.~~ Dropped (2026-10-20): no humans in the loop. Replaced by the second judge and the anchor corpora.
