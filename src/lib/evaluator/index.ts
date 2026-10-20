@@ -19,11 +19,13 @@ export const PROMPT_ID = "evaluator/v6";
 
 /**
  * Below this confidence an "incorrect" verdict becomes an abstention (§23, §25).
- * 0.92 from replaying three dev bench runs of kimi-k2.6 against the two-judge
- * v5 consensus: its false accusations sit at 0.9 and below. It does not help
- * gpt-oss-20b, whose false accusations come at 0.95 to 1.
+ * 0.90 from replaying two runs of kimi-k2.6 on the 206-item dev split: it
+ * reports 0.85, 0.9, 0.92 or 0.95 on incorrect verdicts, and keeping 0.9 is
+ * where precision (0.956 averaged) and the uncertain rate (0.144) both pass;
+ * 0.92 abstains too often (0.183), 0.85 accuses too often (precision 0.88).
+ * It does not help gpt-oss-20b, whose false accusations come at 0.95 to 1.
  */
-export const INCORRECT_MIN_CONFIDENCE = 0.92;
+export const INCORRECT_MIN_CONFIDENCE = 0.9;
 
 /**
  * The deterministic rules in postProcess, recorded in the evaluator version.
