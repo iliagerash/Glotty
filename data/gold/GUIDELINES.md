@@ -62,4 +62,4 @@ Label without looking at anyone else's labels, at the evaluator's output, or at 
 
 ## Splits
 
-About 30% of items are assigned to a held-out split by a hash of their ID. You annotate everything the same way. The split only matters for the benchmark: prompts are tuned on `dev`, and `heldout` is only reported.
+Items written by judge b (Gemini) and real learner text form the held-out split; everything else is `dev`. You annotate everything the same way. The split only matters for the benchmark: prompts are tuned on `dev`, and `heldout` is only reported.

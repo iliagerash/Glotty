@@ -172,7 +172,7 @@ async function main() {
   }
   const models = values.models!.split(",").map((m) => resolveModel(m.trim()).ref);
 
-  const items = readItems().filter((i) => split === "all" || splitOf(i.id) === split);
+  const items = readItems().filter((i) => split === "all" || splitOf(i) === split);
   let labeled: Labeled[];
   const header: string[] = [];
   if (against === "intent") {

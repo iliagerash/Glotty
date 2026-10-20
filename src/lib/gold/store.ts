@@ -69,15 +69,17 @@ const MODEL_LABELS_DIR = path.join(GOLD_DIR, "model_labels");
 const INTENT = path.join(GOLD_DIR, "generator_intent.jsonl");
 const OVERRIDES = path.join(GOLD_DIR, "overrides.jsonl");
 
-/** Share of items reserved for the held-out split (§24). */
-export const HELDOUT_SHARE = 0.3;
-
 export type Split = "dev" | "heldout";
 
-/** Deterministic, so an item never moves between splits. */
-export function splitOf(itemId: string): Split {
-  const h = crypto.createHash("sha256").update(itemId).digest();
-  return h.readUInt32BE(0) / 0x1_0000_0000 < HELDOUT_SHARE ? "heldout" : "dev";
+/**
+ * Held-out is assigned by who wrote the item, so prompts are tuned on one
+ * generator's items and reported on another's: items written by judge b
+ * (Google; origin "google:…") and real learner text are held-out, everything
+ * else (judge a's items, the legacy set) is dev. Deterministic, so an item
+ * never moves between splits.
+ */
+export function splitOf(item: Pick<GoldItem, "source" | "origin">): Split {
+  return item.source === "learner" || item.origin?.startsWith("google:") ? "heldout" : "dev";
 }
 
 export function normalizeResponse(s: string): string {

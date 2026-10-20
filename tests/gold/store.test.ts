@@ -1,12 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { HELDOUT_SHARE, itemIdFor, splitOf } from "../../src/lib/gold/store";
+import { itemIdFor, splitOf } from "../../src/lib/gold/store";
 
-test("splitOf is deterministic and close to the held-out share", () => {
-  const ids = Array.from({ length: 4000 }, (_, i) => `item-${i}`);
-  assert.equal(splitOf("x"), splitOf("x"));
-  const share = ids.filter((id) => splitOf(id) === "heldout").length / ids.length;
-  assert.ok(Math.abs(share - HELDOUT_SHARE) < 0.03, `held-out share ${share}`);
+test("splitOf puts judge b's items and learner text in held-out, the rest in dev", () => {
+  assert.equal(splitOf({ source: "llm_synthetic", origin: "google:gemini-3.8-flash#medium for PI.01" }), "heldout");
+  assert.equal(splitOf({ source: "learner" }), "heldout");
+  assert.equal(splitOf({ source: "llm_synthetic", origin: "openai:gpt-6-luna#medium for PI.01" }), "dev");
+  assert.equal(splitOf({ source: "legacy_synthetic", origin: "legacy gold_set" }), "dev");
+  assert.equal(splitOf({ source: "hand_written" }), "dev");
 });
 
 test("itemIdFor ignores case and whitespace differences", () => {
