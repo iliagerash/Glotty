@@ -191,7 +191,9 @@ async function main() {
     const silver = readModelLabels(name);
     labeled = items.filter((i) => silver.has(i.id)).map((item) => ({ item, gold: silver.get(item.id)! }));
     header.push(
-      `> **Model-judged gold.** Scored against \`${name}\`, labels written by governance judges, not checked by people. Items the judges were unsure of or split on are "uncertain". Only a two-judge consensus (\`gold:consensus\`) whose inter-judge κ meets the bar counts for a release gate.`,
+      name.startsWith("anchor-")
+        ? `> **Native-corrected anchor.** Scored against \`${name}\`: learner sentences labelled by instructors' corrections (scripts/anchor-import.ts), not by a model. An instructor's change to por/para or to preterite/imperfect is "incorrect"; target forms left as written are "correct". There are no diagnosis codes, and instructors' corrections include some preferences.`
+        : `> **Model-judged gold.** Scored against \`${name}\`, labels written by governance judges, not checked by people. Items the judges were unsure of or split on are "uncertain". Only a two-judge consensus (\`gold:consensus\`) whose inter-judge κ meets the bar counts for a release gate.`,
       "",
     );
   } else {
