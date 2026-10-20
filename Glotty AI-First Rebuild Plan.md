@@ -348,6 +348,8 @@ kimi against the anchor (run once): accuracy 0.462, precision on INCORRECT 1.000
 
 **Latency cut-off (decided 2026-10-20):** a strong-tier candidate needs p95 ≤ 20 s, inside the async target of 60 s from event to label with room for the queue; slower models are not screened further (qwen3.8-27b and gemma-4 were stopped mid-run for this). No model passes on real learner text: all miss most aspect errors, and no floor brings any fast model to precision 0.95 with uncertain ≤ 0.15. kimi-k2.6 keeps the strong tier (best precision among the fast models); much of its accuracy loss is wrong N/A.
 
+**Prompt v7, tried and reverted** (2026-10-20). v7 spelled out what makes a response applicable (por/para in fixed expressions, target forms beside compound tenses) and told the model to judge every past verb as a teacher correcting the text would, from kimi-k2.6's failures on `anchor-cowsl2h-dev`. kimi, raw verdicts: anchor screening set accuracy 0.60 (v6 0.61), precision 0.84 (0.91), aspect errors caught 16/40 (13), correct kept 28/40 (31), wrong N/A 8 (10); synthetic dev at floor 0.90, precision 0.921 with 6 false accusations (v6 0.971 and 0.940, 2 and 4). It catches a few more aspect errors at the cost of accusing correct sentences, on both sets. The evaluator stays on v6; `v7.md` is kept for the record. Prompt rules have stopped moving the anchor numbers: the gap on real learner text looks like the models' limit, not the prompt's.
+
 **Gateway fixes from real-world testing** (pushed in 2e49b20):
 
 - Reasoning models (gemma-4, glm, kimi, deepseek-v4) spent the whole token budget thinking and returned empty content. The gateway now reads `finish_reason`, reports that cause clearly, and never retries into the same limit.
