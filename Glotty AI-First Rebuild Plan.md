@@ -2,7 +2,7 @@
 
 Oct 19, 2026 · updated Oct 20, 2026 · @Illia Herashchenko
 
-Glotty is being rebuilt so that a measured LLM evaluator comes first, and nothing is built on top of it until it passes the §25 gates. Steps 0–2 are done; step 2 is built but not yet measured against the judge panel's gold.
+Glotty is being rebuilt so that a measured LLM evaluator comes first, and nothing is built on top of it until it passes the §25 gates. Steps 0–2 are done. Step 2 is measured against the two-judge gold: on held-out, kimi-k2.6 passes three of the four §25 gates and fails precision on INCORRECT (0.818).
 
 > **No humans in the loop (decided 2026-10-20).** Two judge models from different families (OpenAI and Google) generate and label the gold set; gold is where both agree. Inter-judge agreement replaces inter-annotator agreement, judge disagreements become "uncertain" instead of going to an adjudicator, and native-corrected learner corpora replace the native-speaker check as the anchor to real Spanish. Every gate below is measured against that gold. This is a deliberate divergence from §24–§25, recorded in the concept check.
 
@@ -360,6 +360,7 @@ The critical path is the two-judge gold set. No model choice is final until it e
 - [ ] Check PP.04 items in the judge disagreements first: the generator marked duration-por ("estuve por tres horas") as an error, though the taxonomy accepts it.
 - [x] Once a model passes on `dev`, run `--split heldout` once and report it. Done 2026-10-20: kimi-k2.6 fails precision (0.923) and the uncertain rate (0.295) on held-out; see the prompt changelog. Step 3 waits.
 - [x] Confidence calibration: floor re-chosen on the 206-item dev (0.90). Held-out precision still fails, mostly on items where gpt-6-luna hedges and Gemini says incorrect.
+- [x] Held-out precision 0.818 accepted as the current reported number (decided 2026-10-20). It is not changed by re-ruling held-out items or tuning on them. The evaluator has not passed §25, so step 3 still waits; the next measurement comes from the anchor corpora or a new held-out batch.
 
 ## Concept check
 
