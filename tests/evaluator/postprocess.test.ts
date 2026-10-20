@@ -48,6 +48,18 @@ test("drops diagnosis fields on non-incorrect verdicts", () => {
   assert.equal(r.correction, null);
 });
 
+test("a response with por or para is never not_applicable", () => {
+  const na = verdict({ evaluation: "not_applicable", concept_ids: [] });
+  const r = postProcess(na, codes, "Les pregunté: «Por favor, ¿han visto una mochila azul?»");
+  assert.equal(r.evaluation, "correct");
+  assert.deepEqual(r.conceptIds, []);
+  assert.match(r.adjustment!, /por\/para/);
+  assert.equal(postProcess(na, codes, "Tengo un problema para arreglar la rueda.").evaluation, "correct");
+  // Words that only contain the letters are not por/para.
+  assert.equal(postProcess(na, codes, "Me paré en la puerta; porque llovía, me quedé.").evaluation, "not_applicable");
+  assert.equal(postProcess(na, codes, "Sí, conozco muy bien a mi vecino.").evaluation, "not_applicable");
+});
+
 test("filters concept ids to the MVP clusters", () => {
   const r = postProcess(verdict({ concept_ids: ["es.sem.por_para.purpose", "es.gram.subjunctive"] }), codes);
   assert.deepEqual(r.conceptIds, ["es.sem.por_para.purpose"]);

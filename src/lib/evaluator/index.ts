@@ -25,6 +25,15 @@ export const PROMPT_ID = "evaluator/v6";
  */
 export const INCORRECT_MIN_CONFIDENCE = 0.92;
 
+/**
+ * The deterministic rules in postProcess, recorded in the evaluator version.
+ * post/v1: the confidence floor. post/v2: a response with *por* or *para* is
+ * never not_applicable.
+ */
+export const POSTPROCESS_ID = "post/v2";
+
+const POR_PARA = /(?<![\p{L}])(por|para)(?![\p{L}])/iu;
+
 export const ModelVerdictSchema = z.object({
   analysis: z.string(),
   evaluation: z.enum(["correct", "incorrect", "uncertain", "not_applicable"]),
@@ -105,7 +114,7 @@ export function renderTaxonomy(): string {
 }
 
 export function evaluatorVersion(modelRef: string): string {
-  return `${PROMPT_ID}+${systemPrompt().hash}~floor${INCORRECT_MIN_CONFIDENCE}@${modelRef}`;
+  return `${PROMPT_ID}+${systemPrompt().hash}~${POSTPROCESS_ID}-floor${INCORRECT_MIN_CONFIDENCE}@${modelRef}`;
 }
 
 function userMessage(input: EvaluationInput): string {
@@ -127,11 +136,20 @@ function userMessage(input: EvaluationInput): string {
 export function postProcess(
   raw: ModelVerdict,
   knownCodes: Set<string>,
+  response = "",
 ): Omit<EvaluationResult, "evaluatorVersion" | "model" | "latencyMs" | "usage" | "raw"> {
   let evaluation: Evaluation = raw.evaluation;
   let diagnosisCode = raw.diagnosis_code;
   let diagnosisConfidence = raw.diagnosis_confidence;
   let adjustment: string | null = null;
+
+  // Any por or para makes a response applicable (GUIDELINES.md). A model that
+  // calls it not_applicable has flagged no error in it, so it is not incorrect.
+  // Its concept_ids are kept as given, so this adds no evidence of mastery.
+  if (evaluation === "not_applicable" && POR_PARA.test(response)) {
+    evaluation = "correct";
+    adjustment = "not_applicable with por/para in the response: correct";
+  }
 
   if (evaluation === "incorrect" && raw.confidence < INCORRECT_MIN_CONFIDENCE) {
     evaluation = "uncertain";
@@ -185,7 +203,7 @@ export async function evaluate(
   });
 
   return {
-    ...postProcess(result.data, taxonomyCodes()),
+    ...postProcess(result.data, taxonomyCodes(), input.response),
     evaluatorVersion: evaluatorVersion(model.ref),
     model: model.ref,
     latencyMs: result.latencyMs,
