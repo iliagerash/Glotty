@@ -2,6 +2,7 @@
   "code": "es",
   "name": "Spanish",
   "spacy_model": "es_core_news_lg",
+  "taxonomy": "v2",
   "concepts": [
     {
       "key": "pret_imp",
@@ -21,7 +22,8 @@
         "Past",
         "Imp"
       ],
-      "code_prefix": "ASP"
+      "code_prefix": "ASP",
+      "verify_guidance": "A preterite for a background state, a reason (porque tuve miedo), age, clock or scheduled time, a description or an identity (la pistola fue un juguete; descubrieron que ella fue la princesa) is a clear error unless the text itself marks a bounded episode (an explicit end or closed duration, de repente, a change of state). A preterite inside an explicit habitual frame (siempre, cada, todos los días, cuando éramos niños, a run of parallel imperfects) is a clear error. An imperfect for a single foregrounded event in a one-off story (cuando llegaba a casa for one arrival; empezábamos for the first event) is a clear error. Preterite saber, conocer, querer, poder change meaning (supe = found out, quise = tried or decided); where the context means the state, the preterite is a clear error."
     },
     {
       "key": "por_para",
@@ -36,7 +38,8 @@
         "VERB",
         "AUX"
       ],
-      "code_prefix": "PRP"
+      "code_prefix": "PRP",
+      "verify_guidance": "Do not construct a cause or motive reading of por when the obvious meaning is a purpose, goal, recipient or deadline (no estudio por las clases, hacer un pastel por su madre, delgada por el verano: all need para). Para with a person who is the intended recipient or for whom something is suitable is acceptable; por for a person is acceptable when the meaning is for their sake, in support of, or in their place."
     }
   ]
 }

@@ -1,0 +1,94 @@
+[
+  {
+    "code": "ASP.01",
+    "name": "Background state or description marked as a bounded event",
+    "definition": "Use when a past state or description—such as location, identity, age, possession, appearance, feelings, knowledge, likes, weather, or a schedule in force at a reference time—provides background, but the learner uses the preterite. Use this code for a recurring state description too. Do not use for a dynamic action in progress (ASP.02), a routine action or series (ASP.03), or a clear bounded episode evaluation/onset (ASP.05). If both forms fit the context, abstain.",
+    "positive_examples": [
+      "La familia fue [era] muy rica.",
+      "La araña estuvo [estaba] en mi brazo.",
+      "Cuando tuvo [tenía] dieciséis años, pasaba el verano con mi abuelo.",
+      "La clase comenzó [comenzaba] a las diez y media. (The class was scheduled to start then.)"
+    ],
+    "negative_examples": [
+      "Ayer estuve en casa de Ana. (A bounded visit, not a background state.)",
+      "Instantáneamente me sentía [sentí] inseguro. (A feeling’s onset in a bounded episode; ASP.05.)",
+      "Cuando éramos niñas siempre hicimos [hacíamos] todo juntas. (A routine; ASP.03.)"
+    ],
+    "distinguishing_probe": "Choose between a background state and a bounded episode: «Cuando llegamos, la puerta ___ abierta» vs «Ayer ___ en casa de Ana durante una hora».",
+    "intervention_family": "background_state_vs_bounded_event",
+    "domain": "es.gram.aspect.pret_imp"
+  },
+  {
+    "code": "ASP.02",
+    "name": "Ongoing action versus completed event",
+    "definition": "Use when a dynamic action is presented as in progress or as background at a reference time but is marked with the preterite, or when a clearly bounded, completed action is marked with the imperfect. The context must establish the action’s temporal framing. Do not use for stative predicates (ASP.01 or ASP.05), customary routines (ASP.03), or state verbs with a distinct aspectual meaning (ASP.04). A duration phrase alone does not establish this contrast.",
+    "positive_examples": [
+      "Cuando llegaba [llegué] a mi casa, mi abuela estaba enojada. (A single arrival.)",
+      "Luego, hacía [hice] las galletas con chispas de chocolate.",
+      "Los bomberos llegaron y apagaban [apagaron] el fuego.",
+      "Cuando la familia dormieron [dormía], Craig abrió la puerta."
+    ],
+    "negative_examples": [
+      "Mientras caminaba, sonó el teléfono. (Ongoing background plus a completed event: both forms fit.)",
+      "Todos los días perseguía al mapache. (A routine, not one unfolding action; ASP.03.)"
+    ],
+    "distinguishing_probe": "Contrast an action in progress with a bounded event: «Mientras ___ (cocinar), sonó la alarma» vs «De repente, ___ (cocinar) las galletas y las sirvió».",
+    "intervention_family": "ongoing_action_vs_completed_event",
+    "domain": "es.gram.aspect.pret_imp"
+  },
+  {
+    "code": "ASP.03",
+    "name": "Past routine versus bounded occurrence or series",
+    "definition": "Use when context clearly presents a customary, habitual, or regularly repeated past activity, but the learner frames it as a bounded occurrence or completed series, or when a clearly bounded occurrence/series is framed as a routine. The contrast can apply to action predicates and to recurring situations such as meals or activities. Do not infer habituality from a frequency word alone; a repeated set can be presented as completed. Do not use for a single action in progress (ASP.02).",
+    "positive_examples": [
+      "Cuando éramos niñas siempre hicimos [hacíamos] todo juntas.",
+      "En verano iban a la playa; se divirtieron [divertían] mucho juntos.",
+      "Cuando era niña, jugó [jugaba] al hockey sobre hierba.",
+      "Durante la escuela secundaria, corrí [corría] mucho todos los días."
+    ],
+    "negative_examples": [
+      "Fui tres veces al cine la semana pasada. (A bounded, counted set of completed visits.)",
+      "Ayer cuidé a los peces por una hora. (One bounded occasion, not a routine.)"
+    ],
+    "distinguishing_probe": "Choose the reading in each half: «De niño, ___ (ir) a la playa con mis primos» vs «El verano pasado ___ (ir) a la playa tres veces».",
+    "intervention_family": "habitual_routine_vs_bounded_series",
+    "domain": "es.gram.aspect.pret_imp"
+  },
+  {
+    "code": "ASP.04",
+    "name": "State-verb meaning: continuing state versus change, attempt, or result",
+    "definition": "Use only when context fixes the meaning contrast for a verb whose aspect can change its reading: for example, saber (know vs find out), conocer (know vs meet), querer/no querer (want vs try/refuse), poder/no poder (ability vs manage/fail), tener (possession/state vs a bounded result such as giving birth), tener que (ongoing obligation vs a completed obligation carried out), or existential haber (background existence vs a bounded occurrence). Do not use just because one of these verbs appears: a single-occasion no pude can mean either inability or tried-and-failed. Do not use for necesitar or darse cuenta, or when the intended reading is not established.",
+    "positive_examples": [
+      "Sus padres no supieron [sabían] cómo ayudar a su hija. (The context presents lack of knowledge, not a failure to find out.)",
+      "Pedí ir a casa porque quise [quería] ir a casa y comer fresas. (Ongoing desire.)",
+      "Kylie tenía [tuvo] un bebé recientemente. (The bounded event of giving birth.)"
+    ],
+    "negative_examples": [
+      "Por fin supe la respuesta. (A bounded discovery; the preterite is appropriate.)",
+      "Podía nadar cuando era niña. (Ongoing ability; no change-of-meaning error.)",
+      "No pude dormir esa noche. (Can mean that the attempt to sleep failed; do not automatically change it to podía.)"
+    ],
+    "distinguishing_probe": "Choose the form that matches the stated meaning: «De niña ya ___ (saber) leer» (ongoing knowledge) vs «Ayer por fin ___ (saber) la verdad» (finding out).",
+    "intervention_family": "state_verb_meaning_contrasts",
+    "domain": "es.gram.aspect.pret_imp"
+  },
+  {
+    "code": "ASP.05",
+    "name": "Bounded episode, onset, or whole-event evaluation marked as ongoing",
+    "definition": "Use when context clearly presents a bounded episode, a feeling’s onset, or an evaluation of a completed event as a whole, but the learner uses the imperfect as though the state were merely ongoing background. Typical cases include a whole-event judgment, a bounded role or period, a pseudo-cleft identifying what happened, or an explicit onset such as «instantáneamente». Do not use for background scene descriptions (ASP.01), ordinary dynamic event sequencing (ASP.02), or cases where the only evidence is a duration phrase and either aspect is plausible.",
+    "positive_examples": [
+      "Ayer era [fue] tu día final.",
+      "Instantáneamente, me sentía [sentí] inseguro.",
+      "El verano pasado era [fue] muy largo.",
+      "No era [fue] una persona, sino un pollo."
+    ],
+    "negative_examples": [
+      "Cuando llegamos, el jardín era grande. (A background description; ASP.01.)",
+      "Cuando Maya miró el té, se dio cuenta de que era sangre. (Background identification, not a whole-event evaluation.)",
+      "Fue presidente durante ocho años. / Era presidente durante ocho años. (A duration phrase alone does not force one framing.)"
+    ],
+    "distinguishing_probe": "Contrast whole-event evaluation with scene description: «¿Qué tal la fiesta? —___ increíble» vs «Cuando llegué, la casa ___ llena de gente».",
+    "intervention_family": "bounded_episode_vs_scene_description",
+    "domain": "es.gram.aspect.pret_imp"
+  }
+]

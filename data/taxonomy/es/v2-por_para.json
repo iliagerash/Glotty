@@ -1,0 +1,133 @@
+[
+  {
+    "code": "PRP.01",
+    "name": "Purpose or intended use versus cause or basis",
+    "definition": "Use when para marks an action’s goal or an item’s intended use, but the learner uses por; or when por marks a cause, motive, basis, or passive agent, but the learner uses para. Do not use for emotional or attitudinal frames (PRP.06), evaluative predicates (PRP.05), recipients or support for someone (PRP.02), or a relation determined by a neighbouring word rather than this meaning contrast.",
+    "positive_examples": [
+      "Volvimos a la tienda por buscarlo [para buscarlo]: searching is the goal.",
+      "Es famoso para sus películas [por sus películas]: the films are the basis of his fame.",
+      "La política y la ciencia son afectadas para nuestra historia [por nuestra historia]: the history is the agent or cause."
+    ],
+    "negative_examples": [
+      "Estoy emocionada para ver a mi familia [por ver]: an emotional frame, PRP.06.",
+      "Este tamaño es perfecto por Maya [para Maya]: suitability, PRP.05.",
+      "Compró ropa por su padre [para su padre]: the father is the recipient, PRP.02."
+    ],
+    "distinguishing_probe": "Choose the contrast in context: «Se quedó en casa ___ la lluvia» (cause) / «Volvió ___ buscar las llaves» (purpose). Then distinguish an emotion frame: «Está agradecida ___ tu ayuda».",
+    "intervention_family": "cause_basis_vs_goal_practice",
+    "domain": "es.sem.por_para"
+  },
+  {
+    "code": "PRP.02",
+    "name": "Recipient or employer versus support or acting for someone’s sake",
+    "definition": "Use when para identifies the recipient, beneficiary, audience, employer, or team, but the learner uses por; or when por means in support of, for the sake of, in place of, or in honour of someone or a cause, but the learner uses para. For actions involving family or friends, use only when the context clearly establishes the intended relation; otherwise abstain. Do not use for an item’s purpose or intended use (PRP.01), payment (PRP.04), or an emotional attitude toward someone (PRP.06).",
+    "positive_examples": [
+      "Quiero comprar una casa y un perro por mi madre [para mi madre]: she is the intended beneficiary.",
+      "Trabajan por S.H.I.E.L.D. [para S.H.I.E.L.D.]: the organization is the employer.",
+      "Cocinaba desayuno por nuestra familia [para nuestra familia]: the family is the intended recipient.",
+      "Hago todo para mi papá [por mi papá]: the context presents the action as being for his sake."
+    ],
+    "negative_examples": [
+      "La medicina es por las pulgas [para las pulgas]: intended use, PRP.01.",
+      "Estoy agradecido para mi familia [por mi familia]: emotional attitude, PRP.06.",
+      "Vendió los autógrafos para dinero [por dinero]: exchange, PRP.04."
+    ],
+    "distinguishing_probe": "Contrast «Compré flores ___ Ana» when Ana receives them with «Voté ___ Ana» when expressing support for her candidacy.",
+    "intervention_family": "recipient_vs_support_practice",
+    "domain": "es.sem.por_para"
+  },
+  {
+    "code": "PRP.03",
+    "name": "Duration span versus deadline or target time",
+    "definition": "Use when the context clearly gives a length of time or span over which something lasts, but the learner uses para instead of por or another suitable duration expression; or when a deadline or target time calls for para but the learner uses por. Accept durante, desde hace, or no preposition when those are the natural correction. Do not use for frequency, approximate occasions, or an unclear time relation.",
+    "positive_examples": [
+      "Ella ha estado en mi vida para dos años [por dos años / durante dos años]: a duration.",
+      "He estudiado español para cinco años [por cinco años / durante cinco años]: a duration.",
+      "Quiero estar delgada por el verano [para el verano]: the summer is the target time."
+    ],
+    "negative_examples": [
+      "El informe es para el viernes: para correctly marks a deadline.",
+      "Nos vimos por Navidad: an occasion reading does not by itself establish a duration/deadline error.",
+      "Voy cuatro días a la semana: frequency, not a duration contrast."
+    ],
+    "distinguishing_probe": "Choose: «Vivió allí ___ tres años» (duration) / «Entrega el trabajo ___ el viernes» (deadline).",
+    "intervention_family": "duration_vs_deadline_practice",
+    "domain": "es.sem.por_para"
+  },
+  {
+    "code": "PRP.04",
+    "name": "Payment or exchange",
+    "definition": "Use when the intended relation is a price paid, money received in exchange, or value offered as a reward in return for something, normally marked by por, but the learner uses para. Do not use for merit or blame as the basis of a judgment (PRP.01), a recipient (PRP.02), or an unclear statement about having money.",
+    "positive_examples": [
+      "Pagaría para los asientos [por los asientos]: payment for the seats.",
+      "Vender los autógrafos para dinero [por dinero]: money received in exchange.",
+      "Ofrecían cuarenta mil dólares para su captura [por su captura]: a bounty offered in exchange for the capture."
+    ],
+    "negative_examples": [
+      "Ella recibió premios para su trabajo [por su trabajo]: por gives the basis or merit for recognition, PRP.01.",
+      "Compré un regalo para mi hermano: para marks the recipient, PRP.02.",
+      "No tiene dinero para su trabajo: without clearer context, the intended relation is uncertain."
+    ],
+    "distinguishing_probe": "Choose: «Te vendo la bicicleta ___ cien euros» (exchange) / «Compré la bicicleta ___ mi hermana» (recipient).",
+    "intervention_family": "payment_exchange_frames",
+    "domain": "es.sem.por_para"
+  },
+  {
+    "code": "PRP.05",
+    "name": "Evaluative reference or suitability",
+    "definition": "Use when para marks the person, group, or purpose with respect to which something is suitable, beneficial, difficult, important, late, or an advantage, but the learner uses por. Do not use when para expresses the goal of an action (PRP.01), when the person receives something (PRP.02), or when an emotion is directed toward someone or something (PRP.06).",
+    "positive_examples": [
+      "Es una ventaja por mí [para mí]: the advantage is evaluated with respect to the speaker.",
+      "El tamaño perfecto por Maya [para Maya]: the size suits Maya.",
+      "No son sencillas por él [para él]: the difficulty is evaluated from his point of view.",
+      "Llegó tarde por su primer día [para su primer día]: the timing is relative to the event.",
+      "Un tazón de café es importante por escalar rocas [para escalar rocas]: importance is evaluated relative to the activity."
+    ],
+    "negative_examples": [
+      "Estoy triste por él: por can correctly mark the person who prompts the sadness, PRP.06 rather than an evaluation.",
+      "Volvió para estudiar: this is an action goal, PRP.01.",
+      "Compré ropa para Maya: Maya is the recipient, PRP.02."
+    ],
+    "distinguishing_probe": "Choose: «Este ejercicio es difícil ___ los principiantes» (evaluation) / «Lo castigaron ___ mentir» (cause).",
+    "intervention_family": "evaluative_reference_practice",
+    "domain": "es.sem.por_para"
+  },
+  {
+    "code": "PRP.06",
+    "name": "Emotion or attitude toward an object",
+    "definition": "Use when an emotion or attitude toward a person, event, action, or thing is expressed with a learner’s para where the intended Spanish frame uses por (for example, agradecido por, emocionado por, triste por, tener miedo por, tener respeto por). Do not use for a cause that is not the object of an emotion or attitude (PRP.01), a beneficiary (PRP.02), or an evaluative predicate such as difícil para (PRP.05). Other Spanish frames, such as emocionado de, may also be acceptable; do not code an acceptable alternative.",
+    "positive_examples": [
+      "Estoy emocionada para ver a mi familia [por ver a mi familia]: anticipation directed toward the event.",
+      "Mi familia está emocionada para mí [por mí]: the emotion is concern or happiness for the speaker.",
+      "Tengo mucho respeto para ella [por ella]: respect toward a person.",
+      "Gracias para escuchar [por escuchar]: gratitude for the act."
+    ],
+    "negative_examples": [
+      "Se quedó en casa por la lluvia: por marks a cause, PRP.01.",
+      "Compró una casa para su madre: para marks a recipient, PRP.02.",
+      "Es difícil para mí: para marks an evaluative reference, PRP.05."
+    ],
+    "distinguishing_probe": "Choose: «Estoy agradecida ___ tu ayuda» / «Estudié ___ conseguir un trabajo»; the first is an attitude frame, the second a purpose.",
+    "intervention_family": "emotion_attitude_por_frames",
+    "domain": "es.sem.por_para"
+  },
+  {
+    "code": "PRP.07",
+    "name": "Governed or fixed frame",
+    "definition": "Use when a neighbouring word or a set phrase, not a por/para meaning contrast, decides the preposition: the learner uses por or para where the frame requires the other (preguntar por, quedar por + infinitive, razón para, por ejemplo, para siempre), or uses por or para where Spanish needs another preposition or none (buscar a/Ø, esperar a/Ø, pensar en, participar en). The correction states the form the frame requires. Do not use for emotion or attitude frames such as agradecido por or emocionado por (PRP.06), or when por/para itself carries the meaning (purpose, cause, recipient: PRP.01-PRP.05).",
+    "positive_examples": [
+      "Cada día buscamos para Buttercup [buscamos a Buttercup]: buscar takes a direct object.",
+      "El hombre preguntó para su hijo [por su hijo]: preguntar por means to ask after someone.",
+      "Queda mucho para aprender [por aprender]: quedar por + infinitive means still to be done.",
+      "Tuvimos que esperar para ellos [esperarlos / esperar a ellos]: esperar takes a direct object."
+    ],
+    "negative_examples": [
+      "Estoy agradecido para tu ayuda [por tu ayuda]: an emotion or attitude frame, PRP.06.",
+      "Volvimos a la tienda por buscarlo [para buscarlo]: por/para carries the purpose meaning, PRP.01.",
+      "Gracias por todo: correct; the frame is respected."
+    ],
+    "distinguishing_probe": "Complete with por, para, another preposition or nothing: «Siempre pregunta ___ ti», «Estoy buscando ___ mis llaves», «Todavía queda mucho ___ hacer»; then contrast with a meaning choice: «Lo hice ___ ayudarte».",
+    "intervention_family": "governed_preposition_frames",
+    "domain": "es.sem.por_para"
+  }
+]

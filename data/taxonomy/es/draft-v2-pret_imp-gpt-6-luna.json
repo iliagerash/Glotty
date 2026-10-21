@@ -1,80 +1,101 @@
 {
   "drafted_by": "openai:gpt-6-luna#medium",
-  "drafted_at": "2026-10-21T15:09:03.420Z",
+  "drafted_at": "2026-10-21T18:14:05.817Z",
   "concept": "pret_imp",
-  "summary": "Four response-level contrasts cover the clear, teachable errors: a continuing state or description framed as a bounded event (ASP.01); an ongoing action framed as completed or vice versa (ASP.02); a past routine framed as a bounded event or vice versa (ASP.03); and a state/change-of-state verb whose aspect changes its meaning (ASP.04). When a correction is debatable, context is insufficient, or an index mixes distinct contrasts, the assignment is NONE. Unlike v1, these codes describe the local meaning contrast supported by the response, not a presumed learner strategy, L1 transfer, or a global narrative pattern. Duration words and temporal markers are not treated as automatic aspect rules.",
-  "left_out": "The corrections include many choices that cannot be established as errors from the supplied two sentences alone: descriptive states can sometimes be presented as bounded episodes, and duration or frequency phrases do not force a single aspect. Several entries also mix unrelated corrections, contain unclear wording, or appear to reflect instructor preference; these receive NONE rather than a forced code. I did not create codes for English transfer, narrative flattening, temporal-marker overgeneralization, verb-duration defaults, or patterns across a learner's history: these are learner-level hypotheses, not local meaning contrasts.",
+  "summary": "The revised set has five local contrasts: background states/descriptions (ASP.01), dynamic actions viewed as ongoing or completed (ASP.02), routines versus bounded series (ASP.03), state verbs whose aspect changes their meaning (ASP.04), and imperfect forms used for bounded episodes or whole-event evaluations (ASP.05). This keeps the useful local contrasts from v1 while dropping strategy-level labels such as L1 transfer and narrative flattening, and it avoids treating duration words or temporal markers as automatic rules. Following the review, ASP.01 and ASP.05 separate the two directions previously bundled together; ASP.04 is limited to contexts that establish the state-verb meaning. NONE is used for preferences, unclear contexts, non-aspect corrections, and cases where the instructor’s target is not clearly required.",
+  "left_out": "No code is assigned for presumed English transfer, narrative flattening, temporal-marker overuse, or other patterns that require a learner’s history. The sample also includes corrections that are preferences or do not establish one intended framing: for example, some single-occasion poder forms, evaluations that can be framed either way, duration-only states, and unclear narrative fragments. Auxiliary/pluperfect forms, agreement or argument-structure issues, and other non-aspect corrections are also left out. As the review recommends, multi-correction responses should be split into separate training items where possible; the assignments here identify the aspect contrast for the indexed correction, and do not infer a learner-level pattern from repeated or duplicated examples.",
   "taxonomy": [
     {
       "code": "ASP.01",
-      "name": "Continuing state or description vs bounded event",
-      "definition": "Use when the response clearly describes a past condition, location, identity, possession, evaluation, or other state holding over a reference period, but uses the preterite as though it were a bounded event—or uses the imperfect for a clearly bounded state episode. Do not use for ongoing action verbs (ASP.02), habitual repetition (ASP.03), or a state/change-of-state verb whose aspect specifically changes its lexical meaning (ASP.04). If both aspectual framings are plausible, abstain.",
+      "name": "Background state or description marked as a bounded event",
+      "definition": "Use when a past state or description—such as location, identity, age, possession, appearance, feelings, knowledge, likes, weather, or a schedule in force at a reference time—provides background, but the learner uses the preterite. Use this code for a recurring state description too. Do not use for a dynamic action in progress (ASP.02), a routine action or series (ASP.03), or a clear bounded episode evaluation/onset (ASP.05). If both forms fit the context, abstain.",
       "positive_examples": [
         "La familia fue [era] muy rica.",
         "La araña estuvo [estaba] en mi brazo.",
-        "El jardín fue [era] grande con muchas plantas.",
-        "Me sentía [sentí] inseguro en ese momento."
+        "Cuando tuvo [tenía] dieciséis años, pasaba el verano con mi abuelo.",
+        "La clase comenzó [comenzaba] a las diez y media. (The class was scheduled to start then.)"
       ],
       "negative_examples": [
-        "Ayer estuve en casa de Ana. (A bounded visit, not a continuing background state.)",
-        "Cuando era niña, ayudaba a mi madre. (A habitual action; ASP.03.)"
+        "Ayer estuve en casa de Ana. (A bounded visit, not a background state.)",
+        "Instantáneamente me sentía [sentí] inseguro. (A feeling’s onset in a bounded episode; ASP.05.)",
+        "Cuando éramos niñas siempre hicimos [hacíamos] todo juntas. (A routine; ASP.03.)"
       ],
-      "distinguishing_probe": "Choose the form for a past description holding at a reference time, not a one-time change: «Cuando llegamos, la puerta ___ abierta».",
-      "intervention_family": "state_description_vs_bounded_episode",
+      "distinguishing_probe": "Choose between a background state and a bounded episode: «Cuando llegamos, la puerta ___ abierta» vs «Ayer ___ en casa de Ana durante una hora».",
+      "intervention_family": "background_state_vs_bounded_event",
       "domain": "es.gram.aspect.pret_imp"
     },
     {
       "code": "ASP.02",
-      "name": "Ongoing action vs completed event",
-      "definition": "Use when context presents an action as in progress or as background at a reference time, but the learner presents it as a completed event, or presents a clearly bounded, completed action as ongoing. Do not use for stable conditions or descriptions (ASP.01), customary repeated actions (ASP.03), or state/change-of-state verbs with a distinct lexical aspectual meaning (ASP.04). A mere duration phrase does not establish the contrast.",
+      "name": "Ongoing action versus completed event",
+      "definition": "Use when a dynamic action is presented as in progress or as background at a reference time but is marked with the preterite, or when a clearly bounded, completed action is marked with the imperfect. The context must establish the action’s temporal framing. Do not use for stative predicates (ASP.01 or ASP.05), customary routines (ASP.03), or state verbs with a distinct aspectual meaning (ASP.04). A duration phrase alone does not establish this contrast.",
       "positive_examples": [
-        "Cuando llegaba [llegué] a mi casa, mi abuela estaba enojada. (In the supplied story, this is a single arrival.)",
-        "Un día, caminaba por un bosque y escuchaba [escuchó] un sonido.",
+        "Cuando llegaba [llegué] a mi casa, mi abuela estaba enojada. (A single arrival.)",
         "Luego, hacía [hice] las galletas con chispas de chocolate.",
-        "Cuando llamaba [llamé] a mi madre, mi padre me encontró."
+        "Los bomberos llegaron y apagaban [apagaron] el fuego.",
+        "Cuando la familia dormieron [dormía], Craig abrió la puerta."
       ],
       "negative_examples": [
-        "Mientras caminaba, sonó el teléfono. (The walk is ongoing background; the phone call is a completed event.)",
-        "Todos los días cuidaba a los peces. (A routine, not a single ongoing action; ASP.03.)"
+        "Mientras caminaba, sonó el teléfono. (Ongoing background plus a completed event: both forms fit.)",
+        "Todos los días perseguía al mapache. (A routine, not one unfolding action; ASP.03.)"
       ],
-      "distinguishing_probe": "Contrast an action in progress with a bounded event: «Mientras ___ (cocinar), sonó la alarma».",
-      "intervention_family": "ongoing_action_event_boundaries",
+      "distinguishing_probe": "Contrast an action in progress with a bounded event: «Mientras ___ (cocinar), sonó la alarma» vs «De repente, ___ (cocinar) las galletas y las sirvió».",
+      "intervention_family": "ongoing_action_vs_completed_event",
       "domain": "es.gram.aspect.pret_imp"
     },
     {
       "code": "ASP.03",
-      "name": "Past routine vs bounded occurrence or series",
-      "definition": "Use when context clearly presents customary, habitual, or regularly repeated past activity, but the learner frames it as a bounded occurrence or completed series, or when a clearly bounded occurrence/series is framed as a routine. Do not use merely because a sentence contains a frequency word; a repeated set can be presented as completed. Do not use for a one-time ongoing action (ASP.02) or a state verb whose aspect changes meaning (ASP.04).",
+      "name": "Past routine versus bounded occurrence or series",
+      "definition": "Use when context clearly presents a customary, habitual, or regularly repeated past activity, but the learner frames it as a bounded occurrence or completed series, or when a clearly bounded occurrence/series is framed as a routine. The contrast can apply to action predicates and to recurring situations such as meals or activities. Do not infer habituality from a frequency word alone; a repeated set can be presented as completed. Do not use for a single action in progress (ASP.02).",
       "positive_examples": [
-        "Cuando era niña, mi mamá me ayudó [ayudaba] con mi tarea.",
-        "Los cuidé [cuidaba] todos los días.",
         "Cuando éramos niñas siempre hicimos [hacíamos] todo juntas.",
-        "En verano iban a la playa y se divirtieron [divertían] mucho juntos."
+        "En verano iban a la playa; se divirtieron [divertían] mucho juntos.",
+        "Cuando era niña, jugó [jugaba] al hockey sobre hierba.",
+        "Durante la escuela secundaria, corrí [corría] mucho todos los días."
       ],
       "negative_examples": [
         "Fui tres veces al cine la semana pasada. (A bounded, counted set of completed visits.)",
-        "Ayer cuidé a los peces por una hora. (A bounded occasion, not a customary routine.)"
+        "Ayer cuidé a los peces por una hora. (One bounded occasion, not a routine.)"
       ],
-      "distinguishing_probe": "Decide whether the sentence describes a routine or a completed set: «En aquella época, todos los domingos ___ (visitar) a mis abuelos».",
-      "intervention_family": "habitual_vs_completed_series",
+      "distinguishing_probe": "Choose the reading in each half: «De niño, ___ (ir) a la playa con mis primos» vs «El verano pasado ___ (ir) a la playa tres veces».",
+      "intervention_family": "habitual_routine_vs_bounded_series",
       "domain": "es.gram.aspect.pret_imp"
     },
     {
       "code": "ASP.04",
-      "name": "State meaning vs onset, result, or successful event",
-      "definition": "Use only when context clearly establishes the lexical contrast for a state/change-of-state verb—such as saber, conocer, querer, poder, necesitar, or darse cuenta—and the learner's aspect selects the other reading. Examples include continuing knowledge vs finding out, ongoing ability vs managing to do something, or continuing desire vs deciding/trying on a particular occasion. Do not infer a general learner rule from one error; do not use if the context does not establish the intended reading. For ordinary action verbs, use ASP.02 or ASP.03.",
+      "name": "State-verb meaning: continuing state versus change, attempt, or result",
+      "definition": "Use only when context fixes the meaning contrast for a verb whose aspect can change its reading: for example, saber (know vs find out), conocer (know vs meet), querer/no querer (want vs try/refuse), poder/no poder (ability vs manage/fail), tener (possession/state vs a bounded result such as giving birth), tener que (ongoing obligation vs a completed obligation carried out), or existential haber (background existence vs a bounded occurrence). Do not use just because one of these verbs appears: a single-occasion no pude can mean either inability or tried-and-failed. Do not use for necesitar or darse cuenta, or when the intended reading is not established.",
       "positive_examples": [
-        "No pude [podía] dormir. (In the supplied context, inability continued.)",
-        "Sus padres no supieron [sabían] cómo ayudar a su hija.",
-        "Pedí ir a casa porque quise [quería] ir a casa y comer fresas.",
-        "No me daba [di] cuenta de que estaba describiendo mi pasado."
+        "Sus padres no supieron [sabían] cómo ayudar a su hija. (The context presents lack of knowledge, not a failure to find out.)",
+        "Pedí ir a casa porque quise [quería] ir a casa y comer fresas. (Ongoing desire.)",
+        "Kylie tenía [tuvo] un bebé recientemente. (The bounded event of giving birth.)",
+        "Teníamos [tuvimos] que subir al metro para llegar al hotel. (The obligation was carried out.)"
       ],
       "negative_examples": [
-        "Por fin supe la respuesta. (A bounded discovery; preterite is appropriate.)",
-        "Podía nadar cuando era niña. (Ongoing ability; imperfect is appropriate.)"
+        "Por fin supe la respuesta. (A bounded discovery; the preterite is appropriate.)",
+        "Podía nadar cuando era niña. (Ongoing ability; no change-of-meaning error.)",
+        "No pude dormir esa noche. (Can mean that the attempt to sleep failed; do not automatically change it to podía.)"
       ],
-      "distinguishing_probe": "Choose the form that means «finally found out»: «Ayer por fin ___ la verdad».",
-      "intervention_family": "state_verb_aspectual_meaning_pairs",
+      "distinguishing_probe": "Choose the form that matches the stated meaning: «De niña ya ___ (saber) leer» (ongoing knowledge) vs «Ayer por fin ___ (saber) la verdad» (finding out).",
+      "intervention_family": "state_verb_meaning_contrasts",
+      "domain": "es.gram.aspect.pret_imp"
+    },
+    {
+      "code": "ASP.05",
+      "name": "Bounded episode, onset, or whole-event evaluation marked as ongoing",
+      "definition": "Use when context clearly presents a bounded episode, a feeling’s onset, or an evaluation of a completed event as a whole, but the learner uses the imperfect as though the state were merely ongoing background. Typical cases include a whole-event judgment, a bounded role or period, a pseudo-cleft identifying what happened, or an explicit onset such as «instantáneamente». Do not use for background scene descriptions (ASP.01), ordinary dynamic event sequencing (ASP.02), or cases where the only evidence is a duration phrase and either aspect is plausible.",
+      "positive_examples": [
+        "Ayer era [fue] tu día final.",
+        "Instantáneamente, me sentía [sentí] inseguro.",
+        "El verano pasado era [fue] muy largo.",
+        "No era [fue] una persona, sino un pollo."
+      ],
+      "negative_examples": [
+        "Cuando llegamos, el jardín era grande. (A background description; ASP.01.)",
+        "Cuando Maya miró el té, se dio cuenta de que era sangre. (Background identification, not a whole-event evaluation.)",
+        "Fue presidente durante ocho años. / Era presidente durante ocho años. (A duration phrase alone does not force one framing.)"
+      ],
+      "distinguishing_probe": "Contrast whole-event evaluation with scene description: «¿Qué tal la fiesta? —___ increíble» vs «Cuando llegué, la casa ___ llena de gente».",
+      "intervention_family": "bounded_episode_vs_scene_description",
       "domain": "es.gram.aspect.pret_imp"
     }
   ],
@@ -82,1043 +103,1007 @@
     {
       "i": 0,
       "code": "ASP.01",
-      "why": "A lasting personal quality."
+      "why": "Background description of the program."
     },
     {
       "i": 1,
       "code": "ASP.01",
-      "why": "Past circumstance of having luck."
+      "why": "Ongoing belief about the band."
     },
     {
       "i": 2,
       "code": "ASP.01",
-      "why": "Ability is described as a trait."
+      "why": "Family wealth is a state."
     },
     {
       "i": 3,
       "code": "ASP.01",
-      "why": "Program identity/description."
+      "why": "Past location at that moment."
     },
     {
       "i": 4,
-      "code": "ASP.01",
-      "why": "Ongoing belief about the band."
+      "code": "ASP.02",
+      "why": "Single arrival is completed."
     },
     {
       "i": 5,
-      "code": "ASP.01",
-      "why": "Family wealth is a state."
+      "code": "NONE",
+      "why": "Both event evaluation framings are plausible."
     },
     {
       "i": 6,
       "code": "ASP.01",
-      "why": "Past location is background."
+      "why": "Ongoing lack of shared time."
     },
     {
       "i": 7,
       "code": "ASP.01",
-      "why": "A dated episode is a bounded occurrence."
+      "why": "Language ability is a state."
     },
     {
       "i": 8,
-      "code": "ASP.04",
-      "why": "Poder contrasts opportunity with achievement."
+      "code": "ASP.01",
+      "why": "Hair color is a past state."
     },
     {
       "i": 9,
-      "code": "ASP.02",
-      "why": "Single arrival in the story."
+      "code": "ASP.05",
+      "why": "Identifies a bounded final day."
     },
     {
       "i": 10,
-      "code": "ASP.04",
-      "why": "Ongoing inability, not a failed attempt."
+      "code": "ASP.03",
+      "why": "Not caring for herself is a recurring pattern."
     },
     {
       "i": 11,
-      "code": "ASP.04",
-      "why": "Poder describes opportunity in context."
+      "code": "ASP.01",
+      "why": "Situation’s description is background."
     },
     {
       "i": 12,
-      "code": "ASP.01",
-      "why": "Evaluation of a completed occasion."
+      "code": "NONE",
+      "why": "Likely argument/agreement issue, not aspect."
     },
     {
       "i": 13,
       "code": "ASP.01",
-      "why": "Descriptive comparison, not a bounded event."
+      "why": "Ongoing contribution to grades."
     },
     {
       "i": 14,
-      "code": "NONE",
-      "why": "Corrections mix obligation, state, and admission."
+      "code": "ASP.01",
+      "why": "Ongoing preference for cartoons."
     },
     {
       "i": 15,
-      "code": "ASP.02",
-      "why": "One sound is heard as a completed event."
+      "code": "NONE",
+      "why": "Auxiliary form in pluperfect, not this contrast."
     },
     {
       "i": 16,
       "code": "ASP.01",
-      "why": "Lack of time is a continuing circumstance."
+      "why": "Ongoing difficulty is descriptive."
     },
     {
       "i": 17,
-      "code": "ASP.02",
-      "why": "Language ability is background in the episode."
+      "code": "ASP.01",
+      "why": "Continuing affection for the job."
     },
     {
       "i": 18,
-      "code": "ASP.03",
-      "why": "Approach and fish response are repeated."
+      "code": "ASP.01",
+      "why": "Ongoing belief/evaluation."
     },
     {
       "i": 19,
-      "code": "ASP.03",
-      "why": "The actions describe a recurring routine."
+      "code": "ASP.04",
+      "why": "Lack of knowledge, not a discovery event."
     },
     {
       "i": 20,
-      "code": "ASP.03",
-      "why": "Bringing the toy is customary."
+      "code": "ASP.01",
+      "why": "Abuelos’ location as background."
     },
     {
       "i": 21,
-      "code": "ASP.04",
-      "why": "Poder expresses continuing inability."
+      "code": "ASP.01",
+      "why": "Ongoing affection for the dog."
     },
     {
       "i": 22,
-      "code": "ASP.01",
-      "why": "Hair color is a past description."
+      "code": "ASP.05",
+      "why": "Age endpoint bounds the working period."
     },
     {
       "i": 23,
       "code": "ASP.01",
-      "why": "Evaluation of a completed return trip."
+      "why": "Shared residence is a state."
     },
     {
       "i": 24,
-      "code": "ASP.01",
-      "why": "The final day is a bounded occasion."
+      "code": "ASP.02",
+      "why": "One summer spent with grandfather."
     },
     {
       "i": 25,
       "code": "ASP.02",
-      "why": "Death is a completed event."
+      "why": "Growing up rich is presented as a completed life period."
     },
     {
       "i": 26,
       "code": "ASP.01",
-      "why": "The gun's identity is described."
+      "why": "Age is background information."
     },
     {
       "i": 27,
-      "code": "ASP.01",
-      "why": "Ongoing interest and feeling states."
+      "code": "ASP.02",
+      "why": "One completed cookie-making event."
     },
     {
       "i": 28,
       "code": "ASP.03",
-      "why": "Self-care is described as habitual."
+      "why": "Repeated shared activity in school."
     },
     {
       "i": 29,
-      "code": "NONE",
-      "why": "The two corrections imply different readings; singing correction is debatable."
+      "code": "ASP.03",
+      "why": "Seasonal activities and fun are habitual."
     },
     {
       "i": 30,
       "code": "NONE",
-      "why": "The intended clause and correction are unclear."
+      "why": "Conditional/subjunctive context; target is questionable."
     },
     {
       "i": 31,
       "code": "ASP.01",
-      "why": "Reality is a descriptive evaluation."
+      "why": "Ongoing ease is descriptive."
     },
     {
       "i": 32,
-      "code": "ASP.01",
-      "why": "Exhaustion and thirst are continuing states."
+      "code": "NONE",
+      "why": "Narrative meaning and intended aspect unclear."
     },
     {
       "i": 33,
-      "code": "NONE",
-      "why": "Likely existential/agreement issue, not aspect."
-    },
-    {
-      "i": 34,
-      "code": "ASP.02",
-      "why": "Beginning and falling in love are bounded transitions."
-    },
-    {
-      "i": 35,
-      "code": "ASP.03",
-      "why": "Childhood swimming is presented as customary."
-    },
-    {
-      "i": 36,
-      "code": "ASP.01",
-      "why": "Work obligation is a continuing circumstance."
-    },
-    {
-      "i": 37,
-      "code": "ASP.01",
-      "why": "Biodiversity is described, not evented."
-    },
-    {
-      "i": 38,
-      "code": "ASP.01",
-      "why": "Grade value is a continuing property."
-    },
-    {
-      "i": 39,
-      "code": "ASP.03",
-      "why": "Hospital visits are habitual."
-    },
-    {
-      "i": 40,
-      "code": "ASP.01",
-      "why": "Cartoon preference is a state."
-    },
-    {
-      "i": 41,
-      "code": "ASP.01",
-      "why": "Difficult period is framed as a bounded experience."
-    },
-    {
-      "i": 42,
-      "code": "ASP.01",
-      "why": "Evaluation of a particular fight."
-    },
-    {
-      "i": 43,
-      "code": "ASP.03",
-      "why": "School and classes describe recurring upbringing."
-    },
-    {
-      "i": 44,
-      "code": "NONE",
-      "why": "Auxiliary/tense correction is not a clear aspect contrast."
-    },
-    {
-      "i": 45,
-      "code": "ASP.01",
-      "why": "Difficulty is a continuing circumstance."
-    },
-    {
-      "i": 46,
-      "code": "ASP.01",
-      "why": "Age is a past state."
-    },
-    {
-      "i": 47,
-      "code": "NONE",
-      "why": "Either framing of the period of indecision is plausible."
-    },
-    {
-      "i": 48,
-      "code": "ASP.02",
-      "why": "Sound's source is ongoing in the scene."
-    },
-    {
-      "i": 49,
-      "code": "ASP.01",
-      "why": "A momentary feeling is framed as a bounded episode."
-    },
-    {
-      "i": 50,
-      "code": "ASP.01",
-      "why": "Liking the job is a continuing state."
-    },
-    {
-      "i": 51,
-      "code": "ASP.03",
-      "why": "Childhood swimming is presented as customary."
-    },
-    {
-      "i": 52,
-      "code": "ASP.01",
-      "why": "Family background is a continuing fact."
-    },
-    {
-      "i": 53,
-      "code": "ASP.01",
-      "why": "Being strange is an evaluation/state."
-    },
-    {
-      "i": 54,
-      "code": "ASP.02",
-      "why": "A particular act of help is completed."
-    },
-    {
-      "i": 55,
-      "code": "ASP.02",
-      "why": "Cookie-making is one event in a sequence."
-    },
-    {
-      "i": 56,
-      "code": "ASP.01",
-      "why": "Past hair color is a description."
-    },
-    {
-      "i": 57,
-      "code": "ASP.03",
-      "why": "Listening is described as a recurring practice."
-    },
-    {
-      "i": 58,
-      "code": "ASP.04",
-      "why": "Saber means continuing knowledge here."
-    },
-    {
-      "i": 59,
-      "code": "ASP.01",
-      "why": "The corrections concern continuing states, not events."
-    },
-    {
-      "i": 60,
-      "code": "ASP.01",
-      "why": "Understanding is an ongoing mental state."
-    },
-    {
-      "i": 61,
-      "code": "ASP.01",
-      "why": "Being at home is background location."
-    },
-    {
-      "i": 62,
-      "code": "NONE",
-      "why": "Corrections mix obligation with habitual activity."
-    },
-    {
-      "i": 63,
-      "code": "ASP.01",
-      "why": "The sentence identifies what it was."
-    },
-    {
-      "i": 64,
-      "code": "NONE",
-      "why": "The two corrections use different framings; preference is possible."
-    },
-    {
-      "i": 65,
-      "code": "ASP.01",
-      "why": "Dinner composition is descriptive."
-    },
-    {
-      "i": 66,
-      "code": "ASP.01",
-      "why": "Affection for the dog is a continuing state."
-    },
-    {
-      "i": 67,
-      "code": "ASP.01",
-      "why": "Age-boundary wording is context-sensitive."
-    },
-    {
-      "i": 68,
-      "code": "ASP.01",
-      "why": "Shared residence is a continuing state."
-    },
-    {
-      "i": 69,
-      "code": "ASP.02",
-      "why": "One summer visit is a bounded occasion."
-    },
-    {
-      "i": 70,
-      "code": "NONE",
-      "why": "Corrections mix childhood routine and a completed follow-up."
-    },
-    {
-      "i": 71,
-      "code": "ASP.01",
-      "why": "Identity and possession are ongoing states."
-    },
-    {
-      "i": 72,
-      "code": "ASP.01",
-      "why": "Sign wording is descriptive content."
-    },
-    {
-      "i": 73,
-      "code": "ASP.02",
-      "why": "Having a baby is a bounded event."
-    },
-    {
-      "i": 74,
       "code": "ASP.02",
       "why": "One encounter while going to the store."
     },
     {
-      "i": 75,
-      "code": "ASP.02",
-      "why": "Growing up is framed as a completed life change."
+      "i": 34,
+      "code": "ASP.01",
+      "why": "Suspicion is a continuing state."
     },
     {
-      "i": 76,
+      "i": 35,
+      "code": "ASP.02",
+      "why": "Extinguishing the fire is a completed event."
+    },
+    {
+      "i": 36,
+      "code": "ASP.01",
+      "why": "Scheduled start viewed prospectively."
+    },
+    {
+      "i": 37,
+      "code": "ASP.03",
+      "why": "Repeatedly finding them in various places."
+    },
+    {
+      "i": 38,
+      "code": "NONE",
+      "why": "Duration alone does not require preterite."
+    },
+    {
+      "i": 39,
+      "code": "ASP.01",
+      "why": "Hair length is descriptive background."
+    },
+    {
+      "i": 40,
+      "code": "NONE",
+      "why": "Fragment lacks context to fix obligation framing."
+    },
+    {
+      "i": 41,
+      "code": "ASP.01",
+      "why": "Nervousness is a continuing state."
+    },
+    {
+      "i": 42,
+      "code": "ASP.02",
+      "why": "Growing up in a town is a completed development."
+    },
+    {
+      "i": 43,
+      "code": "ASP.02",
+      "why": "Learning about an artist is a bounded event."
+    },
+    {
+      "i": 44,
+      "code": "ASP.01",
+      "why": "Garden size is a background description."
+    },
+    {
+      "i": 45,
+      "code": "ASP.01",
+      "why": "Recurring dizziness is a state."
+    },
+    {
+      "i": 46,
+      "code": "ASP.03",
+      "why": "Fifty books form a completed counted series."
+    },
+    {
+      "i": 47,
       "code": "ASP.04",
-      "why": "Poder describes continuing inability."
+      "why": "Ongoing ability, not a completed failure."
     },
     {
-      "i": 77,
-      "code": "ASP.01",
-      "why": "Age is a past state."
-    },
-    {
-      "i": 78,
+      "i": 48,
       "code": "ASP.03",
-      "why": "Childhood caregiving actions are habitual."
+      "why": "Event occurred every Wednesday."
     },
     {
-      "i": 79,
-      "code": "ASP.04",
-      "why": "Poder describes continuing inability to find it."
-    },
-    {
-      "i": 80,
-      "code": "ASP.02",
-      "why": "One cookie-making event in a sequence."
-    },
-    {
-      "i": 81,
-      "code": "ASP.03",
-      "why": "Shared school activity is recurring."
-    },
-    {
-      "i": 82,
-      "code": "ASP.03",
-      "why": "Fun is framed as recurring across seasons."
-    },
-    {
-      "i": 83,
-      "code": "ASP.02",
-      "why": "The resulting realization is a bounded outcome."
-    },
-    {
-      "i": 84,
-      "code": "NONE",
-      "why": "Conditional framing makes the correction uncertain."
-    },
-    {
-      "i": 85,
-      "code": "ASP.02",
-      "why": "Growing up rich is a completed change."
-    },
-    {
-      "i": 86,
-      "code": "ASP.01",
-      "why": "Ease is an explanatory description."
-    },
-    {
-      "i": 87,
-      "code": "NONE",
-      "why": "The duration permits imperfect; correction is a preference."
-    },
-    {
-      "i": 88,
-      "code": "ASP.01",
-      "why": "Debt is a continuing circumstance."
-    },
-    {
-      "i": 89,
-      "code": "ASP.02",
-      "why": "Not talking is ongoing background in the scene."
-    },
-    {
-      "i": 90,
-      "code": "ASP.04",
-      "why": "Querer expresses ongoing desire."
-    },
-    {
-      "i": 91,
-      "code": "ASP.03",
-      "why": "Care, feeding, and response are repeated."
-    },
-    {
-      "i": 92,
-      "code": "ASP.03",
-      "why": "Daily care and feeding are habitual."
-    },
-    {
-      "i": 93,
-      "code": "ASP.02",
-      "why": "The shouting is framed as a bounded outbreak."
-    },
-    {
-      "i": 94,
-      "code": "NONE",
-      "why": "Corrections mix habitual drawing and completed continuation."
-    },
-    {
-      "i": 95,
-      "code": "ASP.02",
-      "why": "One encounter on the way to the store."
-    },
-    {
-      "i": 96,
-      "code": "ASP.01",
-      "why": "Description of a song's success; correction is not certain."
-    },
-    {
-      "i": 97,
-      "code": "ASP.02",
-      "why": "Shouting culminates in the mother's entrance."
-    },
-    {
-      "i": 98,
-      "code": "ASP.01",
-      "why": "Correctness is a state/evaluation."
-    },
-    {
-      "i": 99,
-      "code": "ASP.02",
-      "why": "Putting out the fire is a bounded event."
-    },
-    {
-      "i": 100,
-      "code": "NONE",
-      "why": "A scheduled start can naturally take preterite."
-    },
-    {
-      "i": 101,
-      "code": "ASP.04",
-      "why": "Recordar concerns an ongoing memory state here."
-    },
-    {
-      "i": 102,
-      "code": "NONE",
-      "why": "Corrections mix ability with descriptive evaluation."
-    },
-    {
-      "i": 103,
-      "code": "ASP.03",
-      "why": "Finding them is repeated across places."
-    },
-    {
-      "i": 104,
-      "code": "NONE",
-      "why": "A completed career span and an ongoing role are both possible framings."
-    },
-    {
-      "i": 105,
-      "code": "ASP.01",
-      "why": "Evaluation of the particular fight."
-    },
-    {
-      "i": 106,
-      "code": "ASP.01",
-      "why": "Hair length and ease are descriptions."
-    },
-    {
-      "i": 107,
-      "code": "ASP.01",
-      "why": "Work obligation is an ongoing circumstance."
-    },
-    {
-      "i": 108,
-      "code": "ASP.01",
-      "why": "Nervousness is a past state."
-    },
-    {
-      "i": 109,
-      "code": "ASP.02",
-      "why": "Growing up in a village is a bounded life phase."
-    },
-    {
-      "i": 110,
-      "code": "ASP.01",
-      "why": "Evaluation of a completed occasion."
-    },
-    {
-      "i": 111,
-      "code": "ASP.02",
-      "why": "Learning about an artist is a completed acquisition."
-    },
-    {
-      "i": 112,
-      "code": "ASP.01",
-      "why": "Garden size is a description."
-    },
-    {
-      "i": 113,
-      "code": "ASP.01",
-      "why": "Recurring dizziness is a continuing condition."
-    },
-    {
-      "i": 114,
-      "code": "NONE",
-      "why": "Corrections mix habitual smiling and a state description."
-    },
-    {
-      "i": 115,
-      "code": "ASP.02",
-      "why": "A particular act of teaching is completed."
-    },
-    {
-      "i": 116,
-      "code": "ASP.02",
-      "why": "Six paintings is a bounded completed total."
-    },
-    {
-      "i": 117,
-      "code": "ASP.02",
-      "why": "Looking at one another is ongoing in the scene."
-    },
-    {
-      "i": 118,
-      "code": "ASP.01",
-      "why": "Age is a past state."
-    },
-    {
-      "i": 119,
-      "code": "ASP.02",
-      "why": "A total of 50 books is a bounded series."
-    },
-    {
-      "i": 120,
-      "code": "ASP.01",
-      "why": "Box-office status is a completed-period evaluation."
-    },
-    {
-      "i": 121,
-      "code": "NONE",
-      "why": "The preference correction is not clearly required."
-    },
-    {
-      "i": 122,
-      "code": "ASP.04",
-      "why": "Poder concerns ongoing ability/opportunity."
-    },
-    {
-      "i": 123,
-      "code": "NONE",
-      "why": "The referent and intended action are unclear."
-    },
-    {
-      "i": 124,
-      "code": "NONE",
-      "why": "A first-program identity allows either framing."
-    },
-    {
-      "i": 125,
-      "code": "ASP.03",
-      "why": "The event occurred each Wednesday."
-    },
-    {
-      "i": 126,
-      "code": "NONE",
-      "why": "Both ability and successful/failed seeing readings are plausible."
-    },
-    {
-      "i": 127,
-      "code": "ASP.03",
-      "why": "Closing time is a recurring schedule."
-    },
-    {
-      "i": 128,
-      "code": "ASP.01",
-      "why": "Cold and strangeness are states/descriptions."
-    },
-    {
-      "i": 129,
-      "code": "ASP.01",
-      "why": "Program contents are described."
-    },
-    {
-      "i": 130,
-      "code": "ASP.04",
-      "why": "Necesitar expresses an ongoing need."
-    },
-    {
-      "i": 131,
-      "code": "NONE",
-      "why": "Lifelong work can be framed either way; correction is not decisive."
-    },
-    {
-      "i": 132,
+      "i": 49,
       "code": "ASP.01",
       "why": "Taste is a descriptive property."
     },
     {
-      "i": 133,
-      "code": "ASP.01",
-      "why": "Presidency is framed as a bounded tenure."
+      "i": 50,
+      "code": "NONE",
+      "why": "Duration alone leaves the framing open."
     },
     {
-      "i": 134,
+      "i": 51,
+      "code": "ASP.03",
+      "why": "Repeated shared activity in secondary school."
+    },
+    {
+      "i": 52,
+      "code": "ASP.01",
+      "why": "Difficulty teaching is a state."
+    },
+    {
+      "i": 53,
+      "code": "ASP.03",
+      "why": "Childhood sport activity is habitual."
+    },
+    {
+      "i": 54,
+      "code": "ASP.02",
+      "why": "One specific World Cup event."
+    },
+    {
+      "i": 55,
+      "code": "ASP.01",
+      "why": "Loneliness is a background feeling."
+    },
+    {
+      "i": 56,
+      "code": "NONE",
+      "why": "Instructor target conflicts with agreement."
+    },
+    {
+      "i": 57,
       "code": "ASP.04",
-      "why": "One-time opportunity to buy tickets."
+      "why": "Lack of knowledge about dog care."
     },
     {
-      "i": 135,
+      "i": 58,
       "code": "ASP.01",
-      "why": "Residence in the same house is ongoing."
+      "why": "Being alone is a background state."
     },
     {
-      "i": 136,
+      "i": 59,
       "code": "ASP.01",
-      "why": "Loneliness is a continuing state."
+      "why": "Spider’s location is a scene state."
     },
     {
-      "i": 137,
+      "i": 60,
+      "code": "ASP.01",
+      "why": "Toy identity is descriptive background."
+    },
+    {
+      "i": 61,
       "code": "ASP.03",
-      "why": "Finding mirrors is repeated by habitual framing."
+      "why": "Always doing things together is habitual."
     },
     {
-      "i": 138,
-      "code": "ASP.03",
-      "why": "Shared school activity is recurring."
-    },
-    {
-      "i": 139,
+      "i": 62,
       "code": "ASP.01",
-      "why": "Boredom is a continuing evaluation."
+      "why": "Having papers in hand is a state."
     },
     {
-      "i": 140,
-      "code": "ASP.01",
-      "why": "The letter's content is descriptive."
-    },
-    {
-      "i": 141,
-      "code": "NONE",
-      "why": "Corrections mix duration and preference; both are debatable."
-    },
-    {
-      "i": 142,
-      "code": "ASP.01",
-      "why": "Difficulty teaching is a condition."
-    },
-    {
-      "i": 143,
-      "code": "ASP.03",
-      "why": "Playing hockey is a childhood activity."
-    },
-    {
-      "i": 144,
-      "code": "ASP.02",
-      "why": "A particular World Cup appearance is bounded."
-    },
-    {
-      "i": 145,
-      "code": "NONE",
-      "why": "Always wanted conflicts with correction to a one-time desire."
-    },
-    {
-      "i": 146,
-      "code": "ASP.01",
-      "why": "Feeling lonely is a state in the scene."
-    },
-    {
-      "i": 147,
-      "code": "ASP.02",
-      "why": "The experience's change is a completed result."
-    },
-    {
-      "i": 148,
-      "code": "ASP.01",
-      "why": "Being loved as a couple is an ongoing state."
-    },
-    {
-      "i": 149,
+      "i": 63,
       "code": "ASP.04",
-      "why": "Saber means knowing how to care for a dog."
+      "why": "Completed obligation was carried out in context."
     },
     {
-      "i": 150,
+      "i": 64,
+      "code": "ASP.01",
+      "why": "Ingredient identity is descriptive."
+    },
+    {
+      "i": 65,
+      "code": "ASP.01",
+      "why": "Age is background information."
+    },
+    {
+      "i": 66,
       "code": "ASP.02",
-      "why": "Sleeping is background to Craig's departure."
+      "why": "One recent date is a bounded event."
     },
     {
-      "i": 151,
-      "code": "NONE",
-      "why": "Querer permits ongoing reluctance; correction is not decisive."
-    },
-    {
-      "i": 152,
+      "i": 67,
       "code": "ASP.01",
-      "why": "Being alone is a state."
+      "why": "Books’ favorite status is descriptive."
     },
     {
-      "i": 153,
-      "code": "ASP.02",
-      "why": "Grabbing and throwing are ongoing parts of the stunt."
-    },
-    {
-      "i": 154,
-      "code": "ASP.01",
-      "why": "Having to meet someone is a circumstance."
-    },
-    {
-      "i": 155,
-      "code": "ASP.01",
-      "why": "Spider location is background state."
-    },
-    {
-      "i": 156,
-      "code": "ASP.01",
-      "why": "The gun's identity is described."
-    },
-    {
-      "i": 157,
-      "code": "ASP.03",
-      "why": "Doing everything together was habitual."
-    },
-    {
-      "i": 158,
-      "code": "ASP.01",
-      "why": "Need and readiness are continuing states."
-    },
-    {
-      "i": 159,
-      "code": "ASP.01",
-      "why": "Possession of papers is a background state."
-    },
-    {
-      "i": 160,
-      "code": "ASP.02",
-      "why": "One call is a bounded event."
-    },
-    {
-      "i": 161,
-      "code": "ASP.03",
-      "why": "Care for herself is habitual."
-    },
-    {
-      "i": 162,
-      "code": "NONE",
-      "why": "Obligation and completed action are not clearly separated here."
-    },
-    {
-      "i": 163,
-      "code": "ASP.02",
-      "why": "One look is a bounded event."
-    },
-    {
-      "i": 164,
-      "code": "ASP.01",
-      "why": "Ingredients are identified/described."
-    },
-    {
-      "i": 165,
-      "code": "NONE",
-      "why": "The correction does not establish a clear intended aspect."
-    },
-    {
-      "i": 166,
-      "code": "ASP.01",
-      "why": "House size, appearance, and color are descriptions."
-    },
-    {
-      "i": 167,
-      "code": "ASP.01",
-      "why": "Boredom is an ongoing state."
-    },
-    {
-      "i": 168,
-      "code": "ASP.01",
-      "why": "Age is a past state."
-    },
-    {
-      "i": 169,
-      "code": "ASP.02",
-      "why": "A recent date is presented as one completed occasion."
-    },
-    {
-      "i": 170,
-      "code": "ASP.01",
-      "why": "Favorite books are a continuing evaluation."
-    },
-    {
-      "i": 171,
-      "code": "ASP.01",
-      "why": "Evaluation of one completed trip."
-    },
-    {
-      "i": 172,
-      "code": "ASP.01",
-      "why": "The animals' identity is described."
-    },
-    {
-      "i": 173,
+      "i": 68,
       "code": "ASP.01",
       "why": "Feeling cold is a state."
     },
     {
-      "i": 174,
+      "i": 69,
+      "code": "ASP.02",
+      "why": "One realization is a bounded event."
+    },
+    {
+      "i": 70,
       "code": "ASP.01",
-      "why": "Luck and insurance coverage are circumstances."
+      "why": "Age is background information."
+    },
+    {
+      "i": 71,
+      "code": "ASP.02",
+      "why": "A completed change is presented as an event."
+    },
+    {
+      "i": 72,
+      "code": "ASP.04",
+      "why": "Successfully managed to camp on this occasion."
+    },
+    {
+      "i": 73,
+      "code": "ASP.01",
+      "why": "Ongoing quality over most of the period."
+    },
+    {
+      "i": 74,
+      "code": "ASP.01",
+      "why": "Parents’ absence is a location state."
+    },
+    {
+      "i": 75,
+      "code": "ASP.04",
+      "why": "Ongoing inability to empathize."
+    },
+    {
+      "i": 76,
+      "code": "NONE",
+      "why": "Unidiomatic wording makes intended aspect unclear."
+    },
+    {
+      "i": 77,
+      "code": "ASP.02",
+      "why": "Sound’s ongoing source is background action."
+    },
+    {
+      "i": 78,
+      "code": "ASP.01",
+      "why": "Feeling invincible is background state."
+    },
+    {
+      "i": 79,
+      "code": "ASP.01",
+      "why": "Identity is descriptive background."
+    },
+    {
+      "i": 80,
+      "code": "ASP.01",
+      "why": "Character traits are descriptive states."
+    },
+    {
+      "i": 81,
+      "code": "ASP.01",
+      "why": "Age is background information."
+    },
+    {
+      "i": 82,
+      "code": "ASP.01",
+      "why": "Possession of medicine is a state."
+    },
+    {
+      "i": 83,
+      "code": "ASP.03",
+      "why": "Repeated school-day routine."
+    },
+    {
+      "i": 84,
+      "code": "ASP.04",
+      "why": "Tener means the bounded event of giving birth."
+    },
+    {
+      "i": 85,
+      "code": "ASP.01",
+      "why": "Signs’ written content is background."
+    },
+    {
+      "i": 86,
+      "code": "ASP.03",
+      "why": "Meal choices describe a recurring routine."
+    },
+    {
+      "i": 87,
+      "code": "ASP.01",
+      "why": "Market size is a description."
+    },
+    {
+      "i": 88,
+      "code": "ASP.04",
+      "why": "Ongoing desire to go home."
+    },
+    {
+      "i": 89,
+      "code": "ASP.03",
+      "why": "Mother’s repeated advice is habitual."
+    },
+    {
+      "i": 90,
+      "code": "ASP.05",
+      "why": "Evaluation of a completed presidential period."
+    },
+    {
+      "i": 91,
+      "code": "ASP.02",
+      "why": "One thing not said at that moment."
+    },
+    {
+      "i": 92,
+      "code": "ASP.01",
+      "why": "Identity of the animals is descriptive."
+    },
+    {
+      "i": 93,
+      "code": "ASP.01",
+      "why": "Dog’s presence is scene background."
+    },
+    {
+      "i": 94,
+      "code": "NONE",
+      "why": "Evaluation can naturally take either framing."
+    },
+    {
+      "i": 95,
+      "code": "ASP.02",
+      "why": "One bounded attempt in the scene."
+    },
+    {
+      "i": 96,
+      "code": "ASP.04",
+      "why": "Ongoing unwillingness, not a refusal event."
+    },
+    {
+      "i": 97,
+      "code": "ASP.01",
+      "why": "Ongoing liking is a state."
+    },
+    {
+      "i": 98,
+      "code": "ASP.01",
+      "why": "Emotional condition is background."
+    },
+    {
+      "i": 99,
+      "code": "ASP.01",
+      "why": "Childhood age/state is background."
+    },
+    {
+      "i": 100,
+      "code": "ASP.01",
+      "why": "Ongoing preference for height."
+    },
+    {
+      "i": 101,
+      "code": "ASP.01",
+      "why": "Not feeling lonely is a state."
+    },
+    {
+      "i": 102,
+      "code": "ASP.01",
+      "why": "Feeling cold is a state."
+    },
+    {
+      "i": 103,
+      "code": "ASP.01",
+      "why": "Having family problems is ongoing background."
+    },
+    {
+      "i": 104,
+      "code": "ASP.01",
+      "why": "House size is a background description."
+    },
+    {
+      "i": 105,
+      "code": "ASP.01",
+      "why": "Kindness is a descriptive state."
+    },
+    {
+      "i": 106,
+      "code": "ASP.01",
+      "why": "Elevator darkness is a scene state."
+    },
+    {
+      "i": 107,
+      "code": "ASP.01",
+      "why": "Sadness is a state at that time."
+    },
+    {
+      "i": 108,
+      "code": "ASP.05",
+      "why": "Locates a bounded episode in time."
+    },
+    {
+      "i": 109,
+      "code": "ASP.03",
+      "why": "Repeated trips to the stores."
+    },
+    {
+      "i": 110,
+      "code": "ASP.01",
+      "why": "House interior is a description."
+    },
+    {
+      "i": 111,
+      "code": "ASP.04",
+      "why": "They lacked knowledge about the date."
+    },
+    {
+      "i": 112,
+      "code": "NONE",
+      "why": "Could mean ability or a completed success."
+    },
+    {
+      "i": 113,
+      "code": "ASP.01",
+      "why": "House size and appearance are descriptive."
+    },
+    {
+      "i": 114,
+      "code": "ASP.02",
+      "why": "One pursuit ending outside."
+    },
+    {
+      "i": 115,
+      "code": "ASP.05",
+      "why": "Whole childhood framed as a bounded period."
+    },
+    {
+      "i": 116,
+      "code": "NONE",
+      "why": "Single outing is grammatical; correction is preference."
+    },
+    {
+      "i": 117,
+      "code": "NONE",
+      "why": "Estuvo muy bien is acceptable for completed meal."
+    },
+    {
+      "i": 118,
+      "code": "ASP.02",
+      "why": "Ongoing scene action, not a bounded laugh."
+    },
+    {
+      "i": 119,
+      "code": "ASP.01",
+      "why": "Pain strength is a background state."
+    },
+    {
+      "i": 120,
+      "code": "ASP.02",
+      "why": "A great shake is a bounded change/event."
+    },
+    {
+      "i": 121,
+      "code": "ASP.01",
+      "why": "Age is background information."
+    },
+    {
+      "i": 122,
+      "code": "NONE",
+      "why": "Singing for years can be imperfect; framing unclear."
+    },
+    {
+      "i": 123,
+      "code": "ASP.01",
+      "why": "Group location is background."
+    },
+    {
+      "i": 124,
+      "code": "ASP.01",
+      "why": "Ongoing musical preference."
+    },
+    {
+      "i": 125,
+      "code": "ASP.01",
+      "why": "Reason is a background belief/state."
+    },
+    {
+      "i": 126,
+      "code": "ASP.01",
+      "why": "Location in the dark place is background."
+    },
+    {
+      "i": 127,
+      "code": "ASP.05",
+      "why": "Whole sequence is evaluated as a completed outcome."
+    },
+    {
+      "i": 128,
+      "code": "ASP.01",
+      "why": "Strangeness is a descriptive judgment."
+    },
+    {
+      "i": 129,
+      "code": "NONE",
+      "why": "Pluperfect auxiliary choice, not this contrast."
+    },
+    {
+      "i": 130,
+      "code": "ASP.05",
+      "why": "One-time reaction to the film, despite agreement noise."
+    },
+    {
+      "i": 131,
+      "code": "ASP.04",
+      "why": "Ongoing desire to shower."
+    },
+    {
+      "i": 132,
+      "code": "ASP.04",
+      "why": "Obligation was carried out the next day."
+    },
+    {
+      "i": 133,
+      "code": "ASP.02",
+      "why": "Climbing/falling actions unfold through repeated attempts."
+    },
+    {
+      "i": 134,
+      "code": "ASP.05",
+      "why": "Explicit onset of insecurity."
+    },
+    {
+      "i": 135,
+      "code": "ASP.01",
+      "why": "Hunger is a state."
+    },
+    {
+      "i": 136,
+      "code": "ASP.02",
+      "why": "Discovery is a bounded event."
+    },
+    {
+      "i": 137,
+      "code": "ASP.05",
+      "why": "Whole trip is evaluated as a completed episode."
+    },
+    {
+      "i": 138,
+      "code": "ASP.02",
+      "why": "Thinking is an unfolding action in context."
+    },
+    {
+      "i": 139,
+      "code": "ASP.05",
+      "why": "One dream is a bounded experience."
+    },
+    {
+      "i": 140,
+      "code": "ASP.01",
+      "why": "Ongoing enjoyment of her work."
+    },
+    {
+      "i": 141,
+      "code": "ASP.03",
+      "why": "Repeated time spent at home."
+    },
+    {
+      "i": 142,
+      "code": "ASP.01",
+      "why": "Sympathetic character is descriptive."
+    },
+    {
+      "i": 143,
+      "code": "ASP.01",
+      "why": "Amount of money is descriptive."
+    },
+    {
+      "i": 144,
+      "code": "ASP.05",
+      "why": "Whole summer is evaluated as completed."
+    },
+    {
+      "i": 145,
+      "code": "ASP.01",
+      "why": "Disliking school is an ongoing state."
+    },
+    {
+      "i": 146,
+      "code": "ASP.04",
+      "why": "Not knowing him, rather than failing to meet him."
+    },
+    {
+      "i": 147,
+      "code": "ASP.02",
+      "why": "One completed decision."
+    },
+    {
+      "i": 148,
+      "code": "ASP.03",
+      "why": "Running every day is habitual."
+    },
+    {
+      "i": 149,
+      "code": "ASP.03",
+      "why": "Favorite childhood activities recur."
+    },
+    {
+      "i": 150,
+      "code": "ASP.02",
+      "why": "Sudden sound is a bounded event."
+    },
+    {
+      "i": 151,
+      "code": "ASP.04",
+      "why": "Context presents a failed attempt to finish."
+    },
+    {
+      "i": 152,
+      "code": "ASP.01",
+      "why": "Age is background information."
+    },
+    {
+      "i": 153,
+      "code": "NONE",
+      "why": "Compound auxiliary in pluperfect, not local contrast."
+    },
+    {
+      "i": 154,
+      "code": "ASP.01",
+      "why": "Fear is a continuing state."
+    },
+    {
+      "i": 155,
+      "code": "ASP.01",
+      "why": "Existence of pools is background information."
+    },
+    {
+      "i": 156,
+      "code": "ASP.04",
+      "why": "Ongoing desire to have a sister."
+    },
+    {
+      "i": 157,
+      "code": "ASP.04",
+      "why": "Continuing desire for ice cream."
+    },
+    {
+      "i": 158,
+      "code": "ASP.01",
+      "why": "Age is background information."
+    },
+    {
+      "i": 159,
+      "code": "ASP.02",
+      "why": "Death is a bounded event."
+    },
+    {
+      "i": 160,
+      "code": "ASP.04",
+      "why": "Past general ability, not one success."
+    },
+    {
+      "i": 161,
+      "code": "ASP.01",
+      "why": "Intelligence is a past state/description."
+    },
+    {
+      "i": 162,
+      "code": "ASP.01",
+      "why": "Need is a continuing state."
+    },
+    {
+      "i": 163,
+      "code": "ASP.02",
+      "why": "One completed decision to hold the party."
+    },
+    {
+      "i": 164,
+      "code": "ASP.01",
+      "why": "Need to focus is ongoing."
+    },
+    {
+      "i": 165,
+      "code": "ASP.02",
+      "why": "Completed fourteen-year activity period."
+    },
+    {
+      "i": 166,
+      "code": "ASP.01",
+      "why": "Canvas size is descriptive."
+    },
+    {
+      "i": 167,
+      "code": "ASP.01",
+      "why": "Having an appointment is a state."
+    },
+    {
+      "i": 168,
+      "code": "ASP.02",
+      "why": "One call after a week."
+    },
+    {
+      "i": 169,
+      "code": "ASP.01",
+      "why": "Seeing someone as a friend is a state/viewpoint."
+    },
+    {
+      "i": 170,
+      "code": "ASP.03",
+      "why": "Repeated dressing-up as superheroes."
+    },
+    {
+      "i": 171,
+      "code": "ASP.03",
+      "why": "Daily school-to-home routine."
+    },
+    {
+      "i": 172,
+      "code": "ASP.01",
+      "why": "Scheduled departure viewed prospectively."
+    },
+    {
+      "i": 173,
+      "code": "ASP.05",
+      "why": "Past poor period contrasted with current status."
+    },
+    {
+      "i": 174,
+      "code": "ASP.02",
+      "why": "Sleeping is background to the cat’s action."
     },
     {
       "i": 175,
-      "code": "ASP.02",
-      "why": "Repeated or ongoing discomfort is implied, but framing is limited."
+      "code": "ASP.01",
+      "why": "Spider’s existence is scene background."
     },
     {
       "i": 176,
-      "code": "ASP.04",
-      "why": "Darse cuenta marks a realization."
+      "code": "ASP.01",
+      "why": "Embarrassment is a state."
     },
     {
       "i": 177,
       "code": "ASP.01",
-      "why": "Age is a past state."
+      "why": "Having homework is ongoing background."
     },
     {
       "i": 178,
-      "code": "ASP.02",
-      "why": "A completed change in interaction is described."
+      "code": "ASP.01",
+      "why": "Letter content is background."
     },
     {
       "i": 179,
-      "code": "ASP.04",
-      "why": "Poder marks achieved opportunity in context."
+      "code": "ASP.01",
+      "why": "Being there is a scene state."
     },
     {
       "i": 180,
-      "code": "ASP.01",
-      "why": "Evaluation of a continuing period."
+      "code": "ASP.02",
+      "why": "Storm’s approach is ongoing background action."
     },
     {
       "i": 181,
       "code": "ASP.01",
-      "why": "Parents' absence is background location/state."
+      "why": "Age is background information."
     },
     {
       "i": 182,
-      "code": "ASP.04",
-      "why": "Poder expresses ongoing inability."
+      "code": "ASP.01",
+      "why": "Dog’s name is an identity description."
     },
     {
       "i": 183,
-      "code": "ASP.02",
-      "why": "Looking at each other is ongoing background."
+      "code": "ASP.01",
+      "why": "Lack of comparison is a descriptive state."
     },
     {
       "i": 184,
-      "code": "ASP.02",
-      "why": "Efforts to overcome illness are ongoing."
+      "code": "ASP.01",
+      "why": "Program’s favorite status is descriptive."
     },
     {
       "i": 185,
-      "code": "ASP.03",
-      "why": "Childhood caregiving actions are habitual."
+      "code": "ASP.01",
+      "why": "Ongoing debts are background state."
     },
     {
       "i": 186,
-      "code": "NONE",
-      "why": "Long-term lamenting supports imperfect; correction is debatable."
+      "code": "ASP.03",
+      "why": "Moving many times is habitual/repeated."
     },
     {
       "i": 187,
-      "code": "ASP.01",
-      "why": "Garden size is a description."
+      "code": "ASP.03",
+      "why": "Regular closing time in a recurring context."
     },
     {
       "i": 188,
       "code": "ASP.01",
-      "why": "Obviousness and existence are background states."
+      "why": "Widower status is descriptive."
     },
     {
       "i": 189,
-      "code": "ASP.01",
-      "why": "Ease is an explanatory description."
+      "code": "ASP.03",
+      "why": "Regular landing locations in a general setting."
     },
     {
       "i": 190,
-      "code": "ASP.01",
-      "why": "The group's location is background."
+      "code": "ASP.02",
+      "why": "One completed return to the United States."
     },
     {
       "i": 191,
-      "code": "ASP.01",
-      "why": "Having homework is a continuing circumstance."
+      "code": "ASP.05",
+      "why": "Bounded role at the party."
     },
     {
       "i": 192,
       "code": "ASP.01",
-      "why": "Poverty is framed as a bounded life phase."
+      "why": "Insurance coverage is an ongoing benefit."
     },
     {
       "i": 193,
-      "code": "ASP.02",
-      "why": "The sound's source is ongoing."
+      "code": "ASP.01",
+      "why": "Nervousness is a background state."
     },
     {
       "i": 194,
-      "code": "ASP.01",
-      "why": "Feeling invincible is a continuing state."
+      "code": "ASP.02",
+      "why": "Beginning with fewer people is a bounded start."
     },
     {
       "i": 195,
-      "code": "ASP.01",
-      "why": "The sentence identifies what it was."
+      "code": "ASP.03",
+      "why": "Always going to hospital is habitual."
     },
     {
       "i": 196,
-      "code": "NONE",
-      "why": "A relationship's bounded duration allows either framing."
+      "code": "ASP.02",
+      "why": "Running after seeing the tea is a bounded event."
     },
     {
       "i": 197,
       "code": "ASP.01",
-      "why": "Pain and discomfort are continuing states."
+      "why": "Ongoing liking of shared activities."
     },
     {
       "i": 198,
       "code": "ASP.01",
-      "why": "Class-period length and grade value are descriptions."
+      "why": "Need to make rules is ongoing."
     },
     {
       "i": 199,
-      "code": "ASP.04",
-      "why": "Necesitar expresses an ongoing need."
+      "code": "ASP.01",
+      "why": "Flight time is a schedule/background description."
     }
   ],
   "sample": [
     {
       "i": 0,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Cuando ocupaba comunicarme con ella lo hacia a travez de una compañera que fue algo amable. Mi madre se dio cuenta que yo no estaba aprendiendo nada asi que fue a la dirección a solicitar que me cambiaran de maestra, y así fue.",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 1,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "En Agosto del año pasado, mi familia pasó por un tiempo muy difícil económicamente. Mi padre tuvo la suerte de trabajar como conductor de entrega en una de las tiendas de comestibles más grandes de todo Estados Unidos.",
-      "instructor_changed": [
-        "tuvo -> tenía"
-      ],
-      "level": "B1",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 2,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Aunque me dice que no fue el más inteligente en su escuela, fue capaz sacar buenas notas. Trabajo mucho y estudió un montón.",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 3,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "un programa fue para un festival internacional de cine en Europa. Nunca pensé que podría ir, simplemente, me impresionó que la universidad ofreciera un programa tan increíble.",
       "instructor_changed": [
@@ -1130,7 +1115,7 @@
       ]
     },
     {
-      "i": 4,
+      "i": 1,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Después de dos años, el grupo comenzaba a tener éxito. Muchas chicas les gustaba la banda porque pensaron que eran muy guapos.",
       "instructor_changed": [
@@ -1142,7 +1127,7 @@
       ]
     },
     {
-      "i": 5,
+      "i": 2,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Tiene cincuenta y cuatro años. Era de Washington D.C. Su familia fue muy rica.",
       "instructor_changed": [
@@ -1154,7 +1139,7 @@
       ]
     },
     {
-      "i": 6,
+      "i": 3,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "No solo especial, pero la persona más importante. Una noche, mi padre no estuve en casa, solo yo y mi madre.",
       "instructor_changed": [
@@ -1166,30 +1151,7 @@
       ]
     },
     {
-      "i": 7,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "No queda duda que cuando estoy desvelada por dormir menos de cinco horas por varios días, siempre tengo sueños terribles. Mi ultimo episodio era hace tres semanas.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "heritage",
-      "l1": []
-    },
-    {
-      "i": 8,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Admirado por su belleza no fue capaz de hablar en un primer momento. Perseguidos por las Fuerzas Armadas de su padre, el Emperador, por culpa de la relación con su nueva novia, ellos no podían casarse de inmediato.",
-      "instructor_changed": [
-        "podían -> pudieron"
-      ],
-      "level": "A2",
-      "l1": [
-        "en",
-        "other"
-      ]
-    },
-    {
-      "i": 9,
+      "i": 4,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "El clima hacía calor y yo era muy cansada. Cuando yo llegaba a mi casa, mi abuela estaba muy enojado.",
       "instructor_changed": [
@@ -1199,31 +1161,7 @@
       "l1": []
     },
     {
-      "i": 10,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Cuando yo llegué a mi casa, yo me acosté pero yo no pude dormir. \"No es posible! Es verdad!",
-      "instructor_changed": [
-        "pude -> podía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 11,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Cada persona quiere tener una relación perfecta y saludable pero basado en las experiencias de mis amigas y yo, creo que es muy raro para encontrar una relación como esta en estos tiempos difíciles. Nuestro relación empezó antes del pandemia afectó los estados unidos y estoy feliz que podía tener una persona para pasar tiempo con durante todo el tiempo.",
-      "instructor_changed": [
-        "podía -> pude"
-      ],
-      "level": "heritage",
-      "l1": [
-        "4 or more"
-      ]
-    },
-    {
-      "i": 12,
+      "i": 5,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Allí nos quedamos stargazing y era muy romántico. Desde ese momento sabía que él iba ser alguien diferente de los demás.",
       "instructor_changed": [
@@ -1235,46 +1173,7 @@
       ]
     },
     {
-      "i": 13,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Cada día, nuestro destino era un río que aportaba sus aguas en el mar, y allí acampábamos por las noches, unos metros arriba del canal para evitar la subida de la marea.Las vistas del mar, de los barcos de pesca, de las bandadas de gaviotas y de las estrellas que podían brillar sin contaminación lumínica--todas éstas no tuvieron comparación, y las fotos que sacamos no hacen justicia a ellas.",
-      "instructor_changed": [
-        "tuvieron -> tenía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 14,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Me dijeron que tuve que ir a la sala de emergencia pronto, ya que estaba en un estado de cetoacidosis. Mi familia estuvo horrorizada mientras me admitieron al hospital y tuve que quedarme allá por tres días.",
-      "instructor_changed": [
-        "tuve -> tenía",
-        "estuvo -> estaba",
-        "admitieron -> admitían"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 15,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Un día, caminaba por un bosque y escuchaba un sonido. Se dio la vuelta en silencio y escuchó.",
-      "instructor_changed": [
-        "escuchaba -> escuchó"
-      ],
-      "level": "B1",
-      "l1": [
-        "en",
-        "other"
-      ]
-    },
-    {
-      "i": 16,
+      "i": 6,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Mi esposa y yo estábamos trabajando y yendo a la escuela, así que no tuvimos mucho tiempo juntos. Así que mi esposa quería sorprenderme.",
       "instructor_changed": [
@@ -1286,7 +1185,7 @@
       ]
     },
     {
-      "i": 17,
+      "i": 7,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Estoy estaba miedo, especialmente porque no hablé jabonosa ni chino. Cuando mi abuela y yo llegamos a el otro avión, mis padres y hermana estaban ahí.",
       "instructor_changed": [
@@ -1298,58 +1197,7 @@
       ]
     },
     {
-      "i": 18,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Tan pronto como me acerqué a la pecera, todos se precipitaron hacia mí. Una vez, rocié algunos gusanos de pescado en el acuario.",
-      "instructor_changed": [
-        "acerqué -> acercaba",
-        "precipitaron -> precipitaban"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 19,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Fishy era como mi mejor amigo. Cuando hizo mi tarea, aquí estuvo nadando en su casita.",
-      "instructor_changed": [
-        "hizo -> hacía",
-        "estuvo -> estaba"
-      ],
-      "level": "heritage",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 20,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "A veces, trajo un conejo de juguete cuando llegó al hospital. Debido a la enfermedad, no podía comer ningún artículo de hielo, incluyendo helados en verano.",
-      "instructor_changed": [
-        "trajo -> traía",
-        "llegó -> llegaba"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 21,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Como resultado, ella no pudo empatizar mis obstáculos de aprendizaje. Nuestra conversación se volvió un poco embarazosa.",
-      "instructor_changed": [
-        "pudo -> podía"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 22,
+      "i": 8,
       "prompt": "Escribe un texto para describirte.",
       "response": "Yo soy un poco baja, y tiene ojos marrones. Yo tengo pelo rosado, pero semana pasada, yo tuve pelo marrones y liso.",
       "instructor_changed": [
@@ -1361,19 +1209,7 @@
       ]
     },
     {
-      "i": 23,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Cuando nos fuimos tuvimos que hacer un viaje de seis horas de vuelta a casa. El camino de regreso era terrible todos estaban tristes y cansados.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 24,
+      "i": 9,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Ayer era tu día final. Entonces, adios.- Después de la llamada, Thomas se empezó a reírse.",
       "instructor_changed": [
@@ -1385,44 +1221,7 @@
       ]
     },
     {
-      "i": 25,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Mi padre no estaba con migo mas de tiempo. El estaba en las fuerzas armadas y moría cuando era nueve años.",
-      "instructor_changed": [
-        "moría -> murió"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 26,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Después de unos minutos el chico sacó lo que el acusado creía ser una pistola. (En realidad, la pistola fue un juguete.)",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 27,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Sin embargo, mi amigo no vio los programas y se sintió extraño. Perdimos nuestro mismo interés y experimentamos diferentes cosas, lo que causó una brecha entre nosotros.",
-      "instructor_changed": [
-        "vio -> veía",
-        "sintió -> sentía"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 28,
+      "i": 10,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": ">> Mi hermana y yo tuvimos mucho miedo, pero nosotros dormimos y nos acostamos en la mañana para visitar mi madre. Su ataque de corazón fue porque de estrés y ella no le cuidó a su misma.",
       "instructor_changed": [
@@ -1434,32 +1233,7 @@
       ]
     },
     {
-      "i": 29,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Muchos a sus profesores en escuela no pensaron que Chance puede hacer música bien, pero eso inspiró el más. El continuaba a producir más música, y en 2012, el apareció en un álbum de Childish Gambino, y cantaba en sus conciertos muchas veces.",
-      "instructor_changed": [
-        "continuaba -> continuó",
-        "cantaba -> cantó"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 30,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Se fue en cada habitacion individual en la casa. Sin embargo, lo que no vio era su mascota favorita suerte.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 31,
+      "i": 11,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Unfortunatamente, la situación fue muy realístico. Hilary Clinton no ganó.",
       "instructor_changed": [
@@ -1471,21 +1245,7 @@
       ]
     },
     {
-      "i": 32,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Todo comenzó en el verano pasado cuando me enfermé por unas semanas. Durante ese tiempo, siempre me sentí completamente agotada y tuve tanta sed sin importar la cantidad de descanso y agua que recibí.",
-      "instructor_changed": [
-        "sentí -> sentía",
-        "tuve -> tenía",
-        "recibí -> recibía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 33,
+      "i": 12,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Caminó por todo el rio y les preguntó a todos si faltaban un perro. Nadie faltaron un perro.",
       "instructor_changed": [
@@ -1497,56 +1257,7 @@
       ]
     },
     {
-      "i": 34,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Le dije a mis padres que no quería seguir su religión. Sin embargo, cuando yo empezaba a buscar para las respuestas, enamoraba del Evangelio.",
-      "instructor_changed": [
-        "empezaba -> empecé",
-        "enamoraba -> enamoré"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 35,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "No me gusta deportes pero fui nadar en un lago cuando era pequeña con mis primos. Yo quiero buscar una carrera en universidad.",
-      "instructor_changed": [
-        "fui -> iba"
-      ],
-      "level": "B1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 36,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Durante el cuarentena, yo tomó cuidado de los niños. Sus padres son medicos y tuvieron que trabajar.",
-      "instructor_changed": [
-        "tuvieron -> tenían"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 37,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "La biodiversidad fue asombrosa. Había hermosos peces con colores brillantes, tortugas marinas nadando a su lado y pájaros con plumas detalladas.",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 38,
+      "i": 13,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Y valió un gran porcentaje de nuestras calificaciones finales. El problema era que no podíamos acordar qué país elegir.",
       "instructor_changed": [
@@ -1556,19 +1267,7 @@
       "l1": []
     },
     {
-      "i": 39,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Pero mi abuelo decidió ayudar y se quedó con nosotros. Desde que tuve asma en miedad temprana, sufrí mucho y siempre fui a hospital.",
-      "instructor_changed": [
-        "fui -> iba"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 40,
+      "i": 14,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Nosotros vimos “Cash Cab” y “How It’s Made”, pero le gustaron los dibujos animados también. Cuando él estuvo enfermo, yo escribí una obra y él llegó a la representación.",
       "instructor_changed": [
@@ -1580,43 +1279,7 @@
       ]
     },
     {
-      "i": 41,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "En escuela secundaria, yo tenía un tiempo difícil con haciendo amigos. Podía hablar con otras personas fácilmente, pero me necesitaba mucho tiempo hacer amigos.",
-      "instructor_changed": [
-        "tenía -> tuve"
-      ],
-      "level": "A1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 42,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "En protegiéndose uno al otro esto crea peleas de multiple de personas causando una conmoción entre todo el colegio yo vi a alguien pegándole a otro niño, entre esto empieza más. Esto creó una pelea gigante, y lo que vi era una locura.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 43,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Ella nos llevó a una pre-escuela buena y clases de español y deportes. Se saben que criar a dos personas es difícil, pero ella crió a tres hasta que mi otro hermano nació.",
-      "instructor_changed": [
-        "llevó -> llevaba"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 44,
+      "i": 15,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Los científicos estaban confundidos porque ellos nunca hubieron visto a los animales que no podían nadar. “¡Tal vez podamos comerlos! Debemos venderlos a los restaurantes.",
       "instructor_changed": [
@@ -1628,7 +1291,7 @@
       ]
     },
     {
-      "i": 45,
+      "i": 16,
       "prompt": "Escribe un texto para describirte.",
       "response": "Mi familia no tenían mucho dinero, y por eso fue muy difícil a hacer cosas divertidas todo el tiempo. Pero ahora yo tengo un miente responsabilidad y son una trabajadora.",
       "instructor_changed": [
@@ -1640,53 +1303,7 @@
       ]
     },
     {
-      "i": 46,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Su padre, Óscar Gonzalo Hernández-Cano es Cubano. Cuando Isaac tuvo cinco meses, comenzó a vivir en Miami, Florida.",
-      "instructor_changed": [
-        "tuvo -> tenía"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 47,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Ella no tenia idea de que era lo que queria estudiar para la universida. Por mucho tiempo ella estaba en debate entre la carrera de ciencia y una carrera de arte.",
-      "instructor_changed": [
-        "estaba -> estuvo"
-      ],
-      "level": "B1",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 48,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Ella creyó que lo vino de la torre, así que busco y busco por la origen del sonido. En el último piso, habia una ventana pequena.",
-      "instructor_changed": [
-        "vino -> venía"
-      ],
-      "level": "B1",
-      "l1": []
-    },
-    {
-      "i": 49,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Instamente, me sentía inseguro y estaba triste que no me vestía mejor para esa caminata. Ella solo sonreió y dijo \"hola\".",
-      "instructor_changed": [
-        "sentía -> sentí"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 50,
+      "i": 17,
       "prompt": "Escribe un texto para describirte.",
       "response": "Durante los veranos, yo trabajé en la alberca de mi ciudad (como una salvavidas). Me encantaron mi trabajo y el agua.",
       "instructor_changed": [
@@ -1698,31 +1315,7 @@
       ]
     },
     {
-      "i": 51,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Comprando y dando regalos para mis padres y hermanos es muy divertido y especial. No me gusta deportes pero fui nadar en un lago cuando era pequeña con mis primos.",
-      "instructor_changed": [
-        "fui -> iba"
-      ],
-      "level": "B1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 52,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "No sé porque, pero creo que fue porque nuestro familia son chinas. Me encanta la comida por esta razón, pero a ella no.",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 53,
+      "i": 18,
       "prompt": "Escribe un texto para describirte.",
       "response": "Ya que yo era hermana menor, siempre tenía que respetar todos en mi familia. Yo pensaba que fue raro cuando otras personas les llamaban a sus padres con los nombres.",
       "instructor_changed": [
@@ -1734,55 +1327,7 @@
       ]
     },
     {
-      "i": 54,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Entonces, ella me ayudaba con mi sueño. Nosotros hemos hecho planes para el futuro.",
-      "instructor_changed": [
-        "ayudaba -> ayudó"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 55,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Luego, hacía las galletas con chispas de chocolate, pero las quemé porque tuve que limpiar los cristales rotos de la lámpara. Cuando yo regresé, la cocina estaba ardiendo y llamé al cuerpo de bomberos.",
-      "instructor_changed": [
-        "hacía -> hice"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 56,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Yo tengo pelo rosado, pero semana pasada, yo tuve pelo marrones y liso. Yo soy un chica, y tengo piel claro.",
-      "instructor_changed": [
-        "tuve -> tenía"
-      ],
-      "level": "A2",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 57,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Ella siempre ha estado allí para mí y escuchó todo lo que tenía que decir. Hablar con ella siempre es genial porque es muy sabia y también hace una broma de las cosas.",
-      "instructor_changed": [
-        "escuchó -> escuchaba"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 58,
+      "i": 19,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Sus padres no supieron como ayudar a su hija. No tenían bastante dinero para cuidar a un perro.",
       "instructor_changed": [
@@ -1794,32 +1339,7 @@
       ]
     },
     {
-      "i": 59,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "No tuve las palabras. Cuando yo llegué a mi casa, yo me acosté pero yo no pude dormir.",
-      "instructor_changed": [
-        "tuve -> tenía",
-        "pude -> podía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 60,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Sin embargo, ella no entendió mis historias porque la mayoría de mis historias estaban relacionadas con mi proceso de aprendizaje del inglés. Su requisito de aprendizaje para el inglés era mucho menor que el mío.",
-      "instructor_changed": [
-        "entendió -> entendía"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 61,
+      "i": 20,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Nos despertamos y mis abuelos estuvieron en casa. Nosotros fuimos al hospital para ver mi mamá.",
       "instructor_changed": [
@@ -1831,57 +1351,7 @@
       ]
     },
     {
-      "i": 62,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Sus padres son medicos y tuvieron que trabajar. En mi tiempo libre, hizo mi tarea y hizo cosas con mi familia, amigos, y novio.",
-      "instructor_changed": [
-        "tuvieron -> tenían",
-        "hizo -> hacía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 63,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "No pudo ver a la persona.Sin embargo, no fue una persona, pero un pollo.",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 64,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Los días del verano eran muy tranquilos y los recuerdo con cariño. Una otra cosa que me hacía feliz fue la cantidad de tiempo libre que tenía.",
-      "instructor_changed": [
-        "eran -> fueron",
-        "fue -> era"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 65,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "La cena fue pasta o algo diferente. Durante el día alimentaba a los pájaros con bocadillos y luego los ahuyentaba y los veía volar.",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 66,
+      "i": 21,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "” Me encantó este perro con todo mi corazón. Un día yo fui a Disneylandía con mis amigos y cuando regresé a mi casa,",
       "instructor_changed": [
@@ -1893,7 +1363,7 @@
       ]
     },
     {
-      "i": 67,
+      "i": 22,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Él no dejó trabajando hasta tenía ochenta años, porque él siempre ponía su familia antes de él. Nunca conocí una persona más simpático y desinteresado que él.",
       "instructor_changed": [
@@ -1905,7 +1375,7 @@
       ]
     },
     {
-      "i": 68,
+      "i": 23,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "De hecho, los seis mayores asistieron al ceremonia de graduación para la escuela secundaria del mas joven. Todos vivieron en la misma casa con tres cuartos.",
       "instructor_changed": [
@@ -1917,7 +1387,7 @@
       ]
     },
     {
-      "i": 69,
+      "i": 24,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "La ultima razon porque ella es muy influyente y especial en mi vida es porque ella me ayudo a descubrir mi pasion de la literatura. Cuando yo tenia diez y seis anos pasaba el verano con mi abuelo.",
       "instructor_changed": [
@@ -1929,71 +1399,7 @@
       ]
     },
     {
-      "i": 70,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Cuando fui a escuela primaria, Dibujaba todos los días en la clase de arte y me gustaba mucho, así que seguía despues mi clase de arte terminó. También, Me gusta tocar muchos instrumentos.",
-      "instructor_changed": [
-        "fui -> iba",
-        "seguía -> seguí"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 71,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "En ese momento, me di cuenta de que la casa no fue mi casa, los amigos no fueron mis amigos, los primos no fueron mis primos y los padres no fueron mis padres.Yo perdí todo en mi vida.",
-      "instructor_changed": [
-        "fue -> era",
-        "fueron -> eran",
-        "fueron -> eran",
-        "fueron -> eran"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 72,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Nosotros ponemos letreros que dije, “PERRO PERDIDO.” No hubo respuestas a las letreros y yo estaba perdindo esperanza.",
-      "instructor_changed": [
-        "dije -> decían"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 73,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "¡También, Kylie Jenner recién tenía un bebe y ella es solamente uno año mayor que mí! Pienso que Kylie Jenner esté inmadura y no debe tiene un bebe a su edad.",
-      "instructor_changed": [
-        "tenía -> tuvo"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 74,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Cuando nosotros íbamos a la tienda, nosotros veíamos nuestra otra amiga. ¡Hola ellas!, nuestra amiga habló.",
-      "instructor_changed": [
-        "veíamos -> vimos"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 75,
+      "i": 25,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "No me gusta Kylie Jenner. Porque ella crecía rica ella es muy descortés y tiene una personalidad mimada.",
       "instructor_changed": [
@@ -2005,19 +1411,7 @@
       ]
     },
     {
-      "i": 76,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Estaba demasiado débil para hacer eso. No pudo comer nada.",
-      "instructor_changed": [
-        "pudo -> podía"
-      ],
-      "level": "A1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 77,
+      "i": 26,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "” Ella nació en Teherán, Irán donde ella creció y vivió mucho de su vida. Cuando ella tuvo treinta y tres años, se mudó a Los Estados Unidos con dos niños y sin la ayuda de su esposo.",
       "instructor_changed": [
@@ -2029,33 +1423,7 @@
       ]
     },
     {
-      "i": 78,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Mi madre generalmente se despierta a las siete y media en la mañana y se acuesta a las once en la tarde. Cuando era niña, mi mamá me ayudó con mi tarea, me cocinó almuerzo, y me leyó libros.",
-      "instructor_changed": [
-        "ayudó -> ayudaba",
-        "cocinó -> cocinaba",
-        "leyó -> leía"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 79,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Todavía no pude encontrar mi hoja de respuestas. Fui a la librería y compré una hoja de respuestas.",
-      "instructor_changed": [
-        "pude -> podía"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 80,
+      "i": 27,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "pero derramé todas las frutas en el piso. Luego, hacía las galletas con chispas de chocolate, pero las quemé porque tuve que limpiar los cristales rotos de la lámpara.",
       "instructor_changed": [
@@ -2067,7 +1435,7 @@
       ]
     },
     {
-      "i": 81,
+      "i": 28,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Mi amigo se dio cuenta de eso y comenzó a encontrar algunos intereses comunes para hablarme como lo hicimos en nuestra escuela secundaria. Sin embargo, ambos nos dimos cuenta de que éramos diferentes.",
       "instructor_changed": [
@@ -2079,7 +1447,7 @@
       ]
     },
     {
-      "i": 82,
+      "i": 29,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "en verano iban a la playa, en invierno jugaban en la nieve. se divirtieron mucho juntos.",
       "instructor_changed": [
@@ -2091,19 +1459,7 @@
       ]
     },
     {
-      "i": 83,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "A mi no me gustan los niños y yo no quiero tener hijos. Llegue a tener miedo al pensar que s algún día no los podría soportar o querer porque están chicos hasta estén grandes, pero no era así.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "heritage",
-      "l1": [
-        "4 or more"
-      ]
-    },
-    {
-      "i": 84,
+      "i": 30,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Le dijo que haría todos mis quehaceres y también los de mi hermano el próximo día si ella me lo compró. Mi madre pensó sobre esta opción y finalmente decidió a aceptar los condiciones.",
       "instructor_changed": [
@@ -2115,19 +1471,7 @@
       ]
     },
     {
-      "i": 85,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Porque ella crecía rica ella es muy descortés y tiene una personalidad mimada. Ella está no simpática con su familia y grita cuando ella no quiere hacer algo que su familia quiere hacer.",
-      "instructor_changed": [
-        "crecía -> creció"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 86,
+      "i": 31,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Cuando él estaba enfermo, dormía en el piso de mi cuarto fue más fácil vomitar en el baño. Le hice sopa y cuando yo estaba enferma, hizo el mismo. Nos animamos estudiar, ir al gimnasio y dormir temprano.",
       "instructor_changed": [
@@ -2139,31 +1483,7 @@
       ]
     },
     {
-      "i": 87,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Para mucho tiempo, estaba lamentada. Si yo puedo cambiar mi vida, no queria la cambiar.",
-      "instructor_changed": [
-        "estaba -> estuve"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 88,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Después de conocerse mi padre y casarse, ella pagó para las deudas porque mi padre las tuvo porque él estaba yendo a escuela de medicina y su residencia. Mi madre es una mujer muy fuerte y le quiero a ella mucho.",
-      "instructor_changed": [
-        "tuvo -> tenía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 89,
+      "i": 32,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Ella llorando porque no estaban juntos y no hablaron lo vio la clave en la tienda de cómics y más tristeza le dio. Después de dos años regreso.",
       "instructor_changed": [
@@ -2175,73 +1495,7 @@
       ]
     },
     {
-      "i": 90,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Pedí a mi mamá ir a casa porque quise ir a la casa y comer las fresas. Mi mamá compró los ingredientes y caminamos al coche.",
-      "instructor_changed": [
-        "quise -> quería"
-      ],
-      "level": "A2",
-      "l1": [
-        "en",
-        "other"
-      ]
-    },
-    {
-      "i": 91,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Los cuidé todos los días y les di agua fresca. Tan pronto como me acerqué a la pecera, todos se precipitaron hacia mí.",
-      "instructor_changed": [
-        "cuidé -> cuidaba",
-        "di -> daba",
-        "acerqué -> acercaba",
-        "precipitaron -> precipitaban"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 92,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Estos peces dorados tenían diferentes colores, rojo, amarillo, negro y blanco. Los cuidé todos los días y les di agua fresca.",
-      "instructor_changed": [
-        "cuidé -> cuidaba",
-        "di -> daba"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 93,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Las dos chicas estaban triste y gritaban hasta que la madre de Margarita entró y gritó a las dos chicas. La madre dijo \"Vaya a su habitación en este momento Margarita.",
-      "instructor_changed": [
-        "gritaban -> gritaron"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 94,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Corré ¨Cross Country¨ y ¨Track and Field.¨ En mi tiempo libre, me gusta dibujar a veces. Cuando fui a escuela primaria, Dibujaba todos los días en la clase de arte y me gustaba mucho, así que seguía despues mi clase de arte terminó.",
-      "instructor_changed": [
-        "fui -> iba",
-        "seguía -> seguí"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 95,
+      "i": 33,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "La día estaba muy soleado. Cuando nosotros íbamos a la tienda, nosotros veíamos nuestra otra amiga.",
       "instructor_changed": [
@@ -2253,31 +1507,7 @@
       ]
     },
     {
-      "i": 96,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Su primer cancion super famoso era Bodak Yellow, que salió en 2017. Más recientemente, ella creó su nuevo álbum “Invasion of Privacy” que tuvo mucho éxito muy rápidamente.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "heritage",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 97,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Margarita y la hermana de Margarita estaban luchando. Las dos chicas estaban triste y gritaban hasta que la madre de Margarita entró y gritó a las dos chicas.",
-      "instructor_changed": [
-        "gritaban -> gritaron"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 98,
+      "i": 34,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Sus sospechas fueron correctas. Al ver los resultados nos dimos cuenta que me había roto un pesado de hueso.",
       "instructor_changed": [
@@ -2289,7 +1519,7 @@
       ]
     },
     {
-      "i": 99,
+      "i": 35,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Los bomberos llegó a la fiesta y apagaban el fuego, pero entonces, algunos de mis vecinos llegaron a la fiesta y estaban muy enojados. Dijeron que mi fiesta estaba ruidosa y molesta, y ellos no podían dormir toda la noche.",
       "instructor_changed": [
@@ -2301,7 +1531,7 @@
       ]
     },
     {
-      "i": 100,
+      "i": 36,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Ella puso una alarma para diez de la mañana porque su clase comenzó a las diez y treinta de la mañana. Se despertó y miró su reloj para ver a diez quince.",
       "instructor_changed": [
@@ -2313,32 +1543,7 @@
       ]
     },
     {
-      "i": 101,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Él no recordó algunas palabras. Con sueño, el dragón dijo primero.",
-      "instructor_changed": [
-        "recordó -> recordaba"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 102,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "No pudo comer nada. Los días en el hospital fueron muy aburridos, quería esforzarse más en lugar de esperar la muerte.",
-      "instructor_changed": [
-        "pudo -> podía",
-        "fueron -> eran"
-      ],
-      "level": "A1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 103,
+      "i": 37,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Entonces el mundo estaba mirado su decision. La pareja trata a esapaban los ojos del \"papparazzi\" y el publico, pero la encontraron todos lugares iban.",
       "instructor_changed": [
@@ -2350,7 +1555,7 @@
       ]
     },
     {
-      "i": 104,
+      "i": 38,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "La tercera razon es porque mi abuela era una maestra por muchos anos. En el futuro espero que sea una maestra en la escuela secundaria.",
       "instructor_changed": [
@@ -2362,19 +1567,7 @@
       ]
     },
     {
-      "i": 105,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Esto creó una pelea gigante, y lo que vi era una locura. Un niño estaba encima de las mesas de comer en lonche con una patineta.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 106,
+      "i": 39,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Cuando era muy joven, mi mama me dijo que su pelo fue corto porque fue muy fácil prepararse en la mañana. Mi mama tambien tienen ojos azules o verdes.",
       "instructor_changed": [
@@ -2386,7 +1579,7 @@
       ]
     },
     {
-      "i": 107,
+      "i": 40,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Porque tuvieron que trabajar. Pero puedo divertirme solo.",
       "instructor_changed": [
@@ -2398,7 +1591,7 @@
       ]
     },
     {
-      "i": 108,
+      "i": 41,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Me consoló y me dio algunas soluciones para resolver los problemas. No estuve muy nerviosa.",
       "instructor_changed": [
@@ -2410,7 +1603,7 @@
       ]
     },
     {
-      "i": 109,
+      "i": 42,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Se preocupaba sobre mi familia y mí antes de ella misma.A pesar de que ella crecía en un pueblo pequeño en Jalisco, México donde necesitaba caminar tres millas para ir a escuela, mi mamá sacó su educación.",
       "instructor_changed": [
@@ -2422,19 +1615,7 @@
       ]
     },
     {
-      "i": 110,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "y hablamos hasta que salió la luna y las estrellas. Allí nos quedamos stargazing y era muy romántico.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "heritage",
-      "l1": [
-        "3"
-      ]
-    },
-    {
-      "i": 111,
+      "i": 43,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Cuando estudié español en mi tercero años de escuela secundaria, yo aprendía una artista. Me gusta historias de artistas porque yo creo que muy buenas y interesante.",
       "instructor_changed": [
@@ -2446,7 +1627,7 @@
       ]
     },
     {
-      "i": 112,
+      "i": 44,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "En frente de la casa, había un jardín. El jardín fue grande con muchas plantas.",
       "instructor_changed": [
@@ -2458,7 +1639,7 @@
       ]
     },
     {
-      "i": 113,
+      "i": 45,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Ella también prestó atención a su dieta cada día. Mi madre siempre sintió mareado y quería vomitar.",
       "instructor_changed": [
@@ -2470,69 +1651,7 @@
       ]
     },
     {
-      "i": 114,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Su nombre real es Destiny Hope pero ella se llama Miley. Miley es corto para Smiley porque ella sonrió mucho cuando ella fue una bebe.",
-      "instructor_changed": [
-        "sonrió -> sonreía",
-        "fue -> era"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 115,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Él me enseñaba como sobrevivir en la naturaleza, y como apreciar la naturaleza.Me gusta discutir la política con mi padre, especialmente sobre el medio ambiente.",
-      "instructor_changed": [
-        "enseñaba -> enseñó"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 116,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "¡Mi madre le gustaba mucho! Me dijo que deberíamos pintar esa tarde. Pintábamos mucho durante ese fin de semana, y teníamos seis pinturas.",
-      "instructor_changed": [
-        "teníamos -> tuvimos"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 117,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Y nunca paraban de sentir el sentimiento cuando se miraron y entendían que todo lo malo que les habían pasado antes valía la pena porque les había traido a esa calle ese día. Y vivieron el resto de sus vidas con ese sentimiento elusivo: la pura paz.",
-      "instructor_changed": [
-        "miraron -> miraban"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 118,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Sus padres de conocieron en Irlanda. Antes de compensar como artista, aprendió como tocar el violín cuando tuve siete años y el mismo se enseñó como tocar el piano, la guitarra, y los tambores.",
-      "instructor_changed": [
-        "tuve -> tenía"
-      ],
-      "level": "heritage",
-      "l1": [
-        "en",
-        "es"
-      ]
-    },
-    {
-      "i": 119,
+      "i": 46,
       "prompt": "Escribe un texto para describirte.",
       "response": "Yo aprendí a hacer las tortillas de mi amiga (yo solo tengo, como, una amiga, y nosotros estamos en un “pod” juntas) y cuando yo visito cocinamos muchas tortillas. Yo leo mucho ahora, y durante la cuarentena yo pienso que yo leía 50 libros, más o menos.",
       "instructor_changed": [
@@ -2544,31 +1663,7 @@
       ]
     },
     {
-      "i": 120,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Baby Mama era número uno en la taquilla la semana se estrenó es los cines. Una serie de televisión actúa en Saturday Night Live.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 121,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Yo leí Of Mice and Men en la escuela primario y no me gustaba que ocurrió en la historia. En la historia, hay dos protagonistas, Lenny and George, que son los trabajadores migrantes en California.",
-      "instructor_changed": [
-        "gustaba -> gustó"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 122,
+      "i": 47,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "No pudimos pasar tanto tiempo con nuestros abuelos como antes. Entonces, durante los fines de semana, me quedaba con mis abuelos porque quería.",
       "instructor_changed": [
@@ -2580,31 +1675,7 @@
       ]
     },
     {
-      "i": 123,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "El perro pensaba mucho en la vida que tuvo, y cuando lo hice, se puso deprimido. Pero nunca perdió la fe que algo emocionante le esperaba.",
-      "instructor_changed": [
-        "hice -> hacía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 124,
-      "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
-      "response": "Desde que tenía ocho años he visto anime y mi primer programa era Naruto. Me encanto escuchar otro idioma además de inglés y español, además del idioma, anime también es algo que es muy especial para mí.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 125,
+      "i": 48,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Solo le conocí por tal vez cuatro meses, pero siempre he creído que es muy interesante. Le conocí a una \"miércoles de vino\" de mis amigos, en que ocurrió cada miércoles como una fiesta pequeña.",
       "instructor_changed": [
@@ -2616,80 +1687,7 @@
       ]
     },
     {
-      "i": 126,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Cuando visitamos Machu Picchu estaba nublado, así que yo no podía ver nada. También el suelo estaba mojado así que era difícil caminar.",
-      "instructor_changed": [
-        "podía -> pude"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 127,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Adicionalmente, las horas del trabajo eran terrible. La tienda cerró a las once y media.",
-      "instructor_changed": [
-        "cerró -> cerraba"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 128,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Ella tuve frío en esa casa asi le gusta cocinar para calentarse.”Maya pensaba que esa fue extraña, especialmente porque ella podía ver la cocina de su silla.",
-      "instructor_changed": [
-        "tuve -> tenía",
-        "fue -> era"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 129,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Érase una vez dos estudiantes universitarios que estudiaban arte y español en un semestre para \"estudiar en el extranjero\". El programa incluyó aprender más sobre ecoturismo, el idioma español y el arte que influye en el mundo latino.",
-      "instructor_changed": [
-        "incluyó -> incluía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 130,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "No necesito un hombre a ser feliz. Lo sabía que necesité hacer reglas nuevas si yo fuera a seguir estando con él.",
-      "instructor_changed": [
-        "necesité -> necesitaba"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 131,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Él es importante porque sin él y el trabajo que él hizo, no estaría aquí. Él trabajaba mucho para proporcionar una vida mejor por su hijos.",
-      "instructor_changed": [
-        "trabajaba -> trabajó"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 132,
+      "i": 49,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Pensé que la caja de fresas tuvo un sabor especial y di la caja a mi mamá. Mi mamá dijo, “Las fresas son buenas.",
       "instructor_changed": [
@@ -2702,7 +1700,7 @@
       ]
     },
     {
-      "i": 133,
+      "i": 50,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Este lo motivó para trabajar más. Éste es el razón porque él era el Presidente para 8 años.",
       "instructor_changed": [
@@ -2714,53 +1712,7 @@
       ]
     },
     {
-      "i": 134,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "También antes de llegar, teníamos la oportunidad de comprar boletos para escalar Huayna Picchu. Esto fue una experiencia terrible para mí pero también interesante.",
-      "instructor_changed": [
-        "teníamos -> tuvimos"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 135,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Todos vivieron en la misma casa con tres cuartos. Separaron en grupos de dos, dos y tres.",
-      "instructor_changed": [
-        "vivieron -> vivían"
-      ],
-      "level": "heritage",
-      "l1": [
-        "4 or more"
-      ]
-    },
-    {
-      "i": 136,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Ella no sabe lo que le pasó a su padre y no tiene otros hermanos. Sin embargo, nunca se sintió lonley cuando llevaba los pantalones en la cabeza.",
-      "instructor_changed": [
-        "sintió -> sentía"
-      ],
-      "level": "B1",
-      "l1": []
-    },
-    {
-      "i": 137,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Solía mirarme en cualquier espejo que yo encontré porque yo quería admirarme. Mis ojos marrón y grandes, mi pelo largo y negro.",
-      "instructor_changed": [
-        "encontré -> encontraba"
-      ],
-      "level": "heritage",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 138,
+      "i": 51,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Mi amigo se dio cuenta de eso y comenzó a encontrar algunos intereses comunes para hablar conmigo como lo hicimos en nuestra escuela secundaria. Sin embargo, ambos nos dimos cuenta de que nuestros intereses eran diferentes.",
       "instructor_changed": [
@@ -2772,44 +1724,7 @@
       ]
     },
     {
-      "i": 139,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Los días en el hospital fueron muy aburridos, quería esforzarse más en lugar de esperar la muerte. Solo lamentaba haber dejado a su esposa y a su hija sin nada.",
-      "instructor_changed": [
-        "fueron -> eran"
-      ],
-      "level": "A1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 140,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Cuando vio esto dolor de la cabeza, fue a la policía y les dijo lo que pasó y justo después les dijo que empezó a ver cosas extrañas. Primero recibío una carta en el correo dije que se quedara dentro.",
-      "instructor_changed": [
-        "dije -> decía"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 141,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Ella era muy bonita, cómica, inteligente... ¡ella tenía un novio por tres años! Ella era muy genial y me gustó hablar con ella.",
-      "instructor_changed": [
-        "tenía -> tuvo",
-        "gustó -> gustaba"
-      ],
-      "level": "A1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 142,
+      "i": 52,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Creo que ella me cuidaba muy bien. Aunque yo fue muy dificil para ensenar, mi madre siempre tenia paciencia conmigo.",
       "instructor_changed": [
@@ -2821,7 +1736,7 @@
       ]
     },
     {
-      "i": 143,
+      "i": 53,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Cuando ella era una niña, ella era una bailarina y jugó al hockey sobre hierba. Ella tiene un hermano y cinco hermanastros.",
       "instructor_changed": [
@@ -2833,7 +1748,7 @@
       ]
     },
     {
-      "i": 144,
+      "i": 54,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Ella jugaba fútbol cuando era niña, pero ella era famosa hace 1991 cuando jugaba por FIFA Women’s World Cup en Japan. Ella era muy exitoso cuando jugaba fútbol y ella jugaba en los Juegos Olímpicos tres veces.",
       "instructor_changed": [
@@ -2845,19 +1760,7 @@
       ]
     },
     {
-      "i": 145,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Como era un comunidad mayormente hispana yo siempre quería conocer persona que eran diferente de lo que yo estaba acostumbrada como por ejemplo gente de Japón, Europea, o de otros partes del mundo. Las diferencias de personas me interesa mucho cómo hay que decir los costumbres chiquitos pueden ser completamente diferente que lo que yo hago.",
-      "instructor_changed": [
-        "quería -> quise"
-      ],
-      "level": "B1",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 146,
+      "i": 55,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Cuando me sentí sola, pintaba o dibujaba con mi madre porque sabía muchos sobre arte. Pintábamos y dibujámos la vista por nuestra casa.",
       "instructor_changed": [
@@ -2869,19 +1772,7 @@
       ]
     },
     {
-      "i": 147,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "La experiencia me cambiaba para estar mas madura. Yo entre la secondaria con una comprehension que vida es muy temporal.",
-      "instructor_changed": [
-        "cambiaba -> cambió"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 148,
+      "i": 56,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Todo el mundo les encantó como pareja. Ha hecho cuatro álbumes y ha estado en gira muchas veces.",
       "instructor_changed": [
@@ -2893,7 +1784,7 @@
       ]
     },
     {
-      "i": 149,
+      "i": 57,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Ella no supo como cuidar a un perro y le dio pan y una galleta con canela. Max comió todo y entonces Maya le dió más y más.",
       "instructor_changed": [
@@ -2905,29 +1796,7 @@
       ]
     },
     {
-      "i": 150,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Ese noche, cuando su familia humano durmieron, Craig abrío la puerta y salío. Craig caminó por la biblioteca, y la tienda, y la piscina.",
-      "instructor_changed": [
-        "durmieron -> dormía"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 151,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Así que cuando note que mis brazos estaban cruzadas, no quería aceptar esta posibilidad. Me espante un poco y mude mi brazo un poco cuando sentí una presión creciente desde mis rodillas hasta mi cabeza.",
-      "instructor_changed": [
-        "quería -> quise"
-      ],
-      "level": "heritage",
-      "l1": []
-    },
-    {
-      "i": 152,
+      "i": 58,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Como siempre, él estuvo solo. Craig cantó: \"Yo estoy solo y yo estoy muy triste\" (y su canta es tan fea como su cara).",
       "instructor_changed": [
@@ -2939,32 +1808,7 @@
       ]
     },
     {
-      "i": 153,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Practicábamos mucho por los programas descansos y un tiempo específico, no podíamos lograr la acrobacia de animadores. Era un movimiento donde mis bases agarraron mis pies y me tiraron en el aire.",
-      "instructor_changed": [
-        "agarraron -> agarraban",
-        "tiraron -> tiraban"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 154,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Una vez que me quedé de espaldas, no llevaba pantalones y tuve que encontrarme con mi amigo en veinte minutos. Me puse unos pantalones y caminé fuera de mi puerta a la cocina.",
-      "instructor_changed": [
-        "tuve -> tenía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 155,
+      "i": 59,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "La araña estuvo en mi brazo. Grité y lloré, la araña me mordió, cayó, y corrió a la puerto de la cuarto.",
       "instructor_changed": [
@@ -2976,7 +1820,7 @@
       ]
     },
     {
-      "i": 156,
+      "i": 60,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "(En realidad, la pistola fue un juguete.) El chico se la puso en la garganta del acusado y dijo “el dinero, venga, el dinero”.",
       "instructor_changed": [
@@ -2988,7 +1832,7 @@
       ]
     },
     {
-      "i": 157,
+      "i": 61,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Cuando éramos niñas siempre hicimos todo juntas. Sin embargo, no asistimos la misma universidad.",
       "instructor_changed": [
@@ -3000,20 +1844,7 @@
       ]
     },
     {
-      "i": 158,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Cuando necesité alguien a hablar con, Fishy estuvo lista para oir. Un día, la pez de mi hermana se murió.",
-      "instructor_changed": [
-        "necesité -> necesitaba",
-        "estuvo -> estaba"
-      ],
-      "level": "heritage",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 159,
+      "i": 62,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Cuando su mayor hijo cumplió dieciseis años, un hombre llegó de la ciudad vestido en negro. En sus manos, tuve papeles que podría cambiar la vida de la mujer y sus hijos.",
       "instructor_changed": [
@@ -3025,31 +1856,7 @@
       ]
     },
     {
-      "i": 160,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Cuando yo llamaba mi madre, mi padre me encontró. Mis padres estaban muy asustados y llamaron a seguridad para que me busque.",
-      "instructor_changed": [
-        "llamaba -> llamé"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 161,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Su ataque de corazón fue porque de estrés y ella no le cuidó a su misma. Ahora ella está bien y su salud es muy buena, pero en el momento fue muy miedoso.",
-      "instructor_changed": [
-        "cuidó -> cuidaba"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 162,
+      "i": 63,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Había rumores que estaba la migra o bombas que gente iba dejar ir. Rápidamente seguimos los directores de fuera de la Capital, y teníamos que subir al metro para llegar cerca a el hotel, durante todo el relajo se perdieron varios estudiantes.",
       "instructor_changed": [
@@ -3062,19 +1869,7 @@
       ]
     },
     {
-      "i": 163,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Lo fue un dislocación.Pronto, la enfermera de la escuela llegó y ella miraba preocupada también.",
-      "instructor_changed": [
-        "miraba -> miró"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 164,
+      "i": 64,
       "prompt": "Escribe un texto para describirte.",
       "response": "Ella es vegetariana y soy vegana- es muy fácil cocinamos comida que podemos comer. El lunes pasado usamos un libro de cocina nuevo, y preparamos pasta con salsa “queso” (pero fue coliflores y otros ingredientes).",
       "instructor_changed": [
@@ -3086,44 +1881,7 @@
       ]
     },
     {
-      "i": 165,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Pero, cuándo él empezó a cruzar, un coche muy rápido estaba viniendo y -- Yo desperté, y al lado de mi, se acostó un hombre. Él me preguntó <<Qué pasó mi amor?>> y yo dicé, <<una historia terible, mi hombre simple>>.",
-      "instructor_changed": [
-        "acostó -> acostaba"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 166,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "La casa ella compró fue grande y bonita. La casa fue azul.",
-      "instructor_changed": [
-        "fue -> era",
-        "fue -> era"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 167,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Ella no entendía lo que había sucedido. ¿Por qué todo fue tan aburrido de repente?",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 168,
+      "i": 65,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Ha tenido que hacer muchos sacrificios cuando yo era una niña. Perdio su madre cuando tuvo once anos.",
       "instructor_changed": [
@@ -3135,7 +1893,7 @@
       ]
     },
     {
-      "i": 169,
+      "i": 66,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Una Historia Terrible Para este enseña voy a hablar sobre una cita que tenía con un hombre recientemente. Ahora, este historia no es totalmente horrible, pero no es una parte de mi vida que me gustaría revivir.",
       "instructor_changed": [
@@ -3147,7 +1905,7 @@
       ]
     },
     {
-      "i": 170,
+      "i": 67,
       "prompt": "Escribe un texto para describirte.",
       "response": "Los libros de Sudamérica fueron mis favoritos, especialmente porque tienen el realismo mágico.Cuando leí Cien Años de Soledad para el primero tiempo, nunca ha vista el realismo mágico.",
       "instructor_changed": [
@@ -3159,31 +1917,7 @@
       ]
     },
     {
-      "i": 171,
-      "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
-      "response": "En el año pasado, yo fui a Toronto con mis amigas, y yo pienso que era muy divertido a viajar con mis amigas porque en años pasados, yo fui con mis padres. Si viajar a Costa Rica con mis amigas, yo sé que nosotros tenería un tiempo bien, y hacería muchas memorias.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 172,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Las astronautas descubrieron que los animales fueron las extranjeras de otro planeta-- la tierra. Los defines de todo el mundo visitan el Parque de las Extranjeras.",
-      "instructor_changed": [
-        "fueron -> eran"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 173,
+      "i": 68,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "“Tu abuela esta tarde. Ella tuve frío en esa casa asi le gusta cocinar para calentarse.",
       "instructor_changed": [
@@ -3195,32 +1929,7 @@
       ]
     },
     {
-      "i": 174,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Mi padre tuvo la suerte de trabajar como conductor de entrega en una de las tiendas de comestibles más grandes de todo Estados Unidos. Pagaban bien, le iban a dar su 401k, y cubrió a toda la familia con un buen seguro de salud.",
-      "instructor_changed": [
-        "tuvo -> tenía",
-        "cubrió -> cubría"
-      ],
-      "level": "B1",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 175,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "No quería ser grosera pero él me hizo sentir incómoda. Además, todo el mundo sabe no mezclar negocios con romance.",
-      "instructor_changed": [
-        "hizo -> hacía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 176,
+      "i": 69,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "No me daba cuenta que estaba describiendo mi pasado y mi futuro: Las Filipinas representaban mi pasado y mis orígenes familiares, y San Francisco representaba mi futuro y mis deseos para mi carrera. Así que pensé en otra vacación perfecta cuyo destino representaría mi presente: Explorando mi condado de origen: Yolo.",
       "instructor_changed": [
@@ -3232,7 +1941,7 @@
       ]
     },
     {
-      "i": 177,
+      "i": 70,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Él se casó cuando tuvo veintiocho años. Él es muy alto y guapo.",
       "instructor_changed": [
@@ -3244,7 +1953,7 @@
       ]
     },
     {
-      "i": 178,
+      "i": 71,
       "prompt": "Escribe un texto para describirte.",
       "response": "Por lo tanto, ese amor cambiaba cómo interactúo con otras personas. Quiero amar otras personas porque espero que ellos puedan experimentar un amor como el amor de Dios.",
       "instructor_changed": [
@@ -3256,7 +1965,7 @@
       ]
     },
     {
-      "i": 179,
+      "i": 72,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Por la tarde, la marea por fin bajo, y podíamos acampar y dormir. Cada día, nuestro destino era un río que aportaba sus aguas en el mar, y allí acampábamos por las noches, unos metros arriba del canal para evitar la subida de la marea.",
       "instructor_changed": [
@@ -3268,7 +1977,7 @@
       ]
     },
     {
-      "i": 180,
+      "i": 73,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Sin embargo, fue muy divertido y agradable la mayor parte del tiempo. Él me escucha y ahora es más amable que mi madre.",
       "instructor_changed": [
@@ -3280,7 +1989,7 @@
       ]
     },
     {
-      "i": 181,
+      "i": 74,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Cuando tenía once años, no podía matar arañas a mí mismo, necesitaba mis padres para las matar. Pero, mis padres no estuvieron en la casa.",
       "instructor_changed": [
@@ -3292,7 +2001,7 @@
       ]
     },
     {
-      "i": 182,
+      "i": 75,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Su requisito de aprendizaje para el inglés era mucho menor que el mío. Como resultado, ella no pudo empatizar mis obstáculos de aprendizaje.",
       "instructor_changed": [
@@ -3304,45 +2013,7 @@
       ]
     },
     {
-      "i": 183,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "El perro se fue con la mujer y vivieron juntos por muchos años. Y nunca paraban de sentir el sentimiento cuando se miraron y entendían que todo lo malo que les habían pasado antes valía la pena porque les había traido a esa calle ese día.",
-      "instructor_changed": [
-        "miraron -> miraban"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 184,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "También fue un buen maestro, un modelo de esposo y padre. Ahora, hizo todo lo posible para superar una enfermedad incurable: la cirrosis hepática.",
-      "instructor_changed": [
-        "hizo -> hacía"
-      ],
-      "level": "A1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 185,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Cuando era niña, mi mamá me ayudó con mi tarea, me cocinó almuerzo, y me leyó libros. Ella es la mejor madre.",
-      "instructor_changed": [
-        "ayudó -> ayudaba",
-        "cocinó -> cocinaba",
-        "leyó -> leía"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 186,
+      "i": 76,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Este dia, 9 de diciembre 2013, mi madre murio. Para mucho tiempo, estaba lamentada.",
       "instructor_changed": [
@@ -3354,80 +2025,7 @@
       ]
     },
     {
-      "i": 187,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "El jardín fue grande con muchas plantas. En en jardín había flores, verduras y frutas.",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 188,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Ha estado en el refugio de animales desde el principio de noviembre y nadie lo ha adoptado. Cuando lo vimos, era una vista muy triste porque fue obvio que hubo algo malo.",
-      "instructor_changed": [
-        "fue -> era",
-        "hubo -> había"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 189,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Vivo cerca del baño de hombres, y él veve cerca del baño de mujeres en nuestro dormitorio. Cuando él estaba enfermo, dormía en el piso de mi cuarto fue más fácil vomitar en el baño.",
-      "instructor_changed": [
-        "fue -> era"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 190,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Nos preguntamos dónde estuvo el grupo y decidimos encontrarlos. Caminamos en el sendero en la selva, a los baños, y casi a la entrada de la selva donde empezó nuestro paseo.",
-      "instructor_changed": [
-        "estuvo -> estaba"
-      ],
-      "level": "heritage",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 191,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Estaba en escuela secundario, y tuve mucha tarea que necesitaba terminar para el proximo dia. Cuando llegué a mi casa, fui a mi cuarto y me senté en mi cama.",
-      "instructor_changed": [
-        "tuve -> tenía"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 192,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Messi era una vez pobre pero ahora rico. Trabajó duro y es especial para todos.",
-      "instructor_changed": [
-        "era -> fue"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 193,
+      "i": 77,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Pero, un dia en la primavera, ella oyó un sonido extraño y ruidoso. Ella creyó que lo vino de la torre, así que busco y busco por la origen del sonido.",
       "instructor_changed": [
@@ -3437,7 +2035,7 @@
       "l1": []
     },
     {
-      "i": 194,
+      "i": 78,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Ahora cuando pienso sobre esos días, me sentí invencible. En este tiempo, todos mis compañeros de clase habían tenido al menos de una experiencia de romper uno o dos huesos.",
       "instructor_changed": [
@@ -3449,7 +2047,7 @@
       ]
     },
     {
-      "i": 195,
+      "i": 79,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Sin embargo, no fue una persona, pero un pollo. “Abajo aquí, hombre,” habla el pollo.",
       "instructor_changed": [
@@ -3461,25 +2059,48 @@
       ]
     },
     {
-      "i": 196,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Mis padres son divorciados, pero mi padre estaba saliendo una mujer para muchos de años, y nuestra familia era más grande en esto momento que ahora. Me gusta el ecoturismo porque pienso el medioambiente es muy hermosa.",
+      "i": 80,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "Keanu es un actor serio, pero en esta película es muy divertido porque lo fue joven y su carácter fue muy perezoso y estúpido. este es muy differente mas que sus otras peliculas y carácteres.",
       "instructor_changed": [
-        "estaba -> estuvo"
+        "fue -> era"
       ],
-      "level": "B1",
+      "level": "A2",
       "l1": [
-        "0"
+        "en"
       ]
     },
     {
-      "i": 197,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Cuando dormí, me dolió mi cabeza y estuvo muy incómoda. Y llamé a mi madre.",
+      "i": 81,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "Antes de compensar como artista, aprendió como tocar el violín cuando tuve siete años y el mismo se enseñó como tocar el piano, la guitarra, y los tambores. También de graduó del Blackrock College y nunca asistió a una universidad.",
       "instructor_changed": [
-        "dormí -> dormía",
-        "dolió -> dolía",
-        "estuvo -> estaba"
+        "tuve -> tenía"
+      ],
+      "level": "heritage",
+      "l1": [
+        "en",
+        "es"
+      ]
+    },
+    {
+      "i": 82,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Antes de este viaje, nunca me había estado mareado, y no tuve la medicina para mareado. Pero, cuando el barco comenzó a moverse, sabía estaría mareado.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 83,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Estaba muy emocionada de salir con ella porque éramos las mejores amigas en nuestra escuela secundaria. Pasamos todos los días juntos cuando estábamos en la escuela secundaria y nos fuimos a casa juntos tomando el mismo autobús.",
+      "instructor_changed": [
+        "fuimos -> íbamos"
       ],
       "level": "B1",
       "l1": [
@@ -3487,22 +2108,1388 @@
       ]
     },
     {
-      "i": 198,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "La presentación tuvo que tomar todo el período de la clase e incluyó historia, idioma, cultura, comida, educación y más. Y valió un gran porcentaje de nuestras calificaciones finales.",
+      "i": 84,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "Ella está no simpática con su familia y grita cuando ella no quiere hacer algo que su familia quiere hacer. ¡También, Kylie Jenner recién tenía un bebe y ella es solamente uno año mayor que mí!",
       "instructor_changed": [
-        "tuvo -> tenía",
-        "valió -> valía"
+        "tenía -> tuvo"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 85,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Por las horas proximas, yo buscé para Buttercup con mi familia. Nosotros ponemos letreros que dije, “PERRO PERDIDO.",
+      "instructor_changed": [
+        "dije -> decían"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 86,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Para el desayuno tomaría zumo de naranja y un cruasán y para el almuerzo un sándwich con queso y jamón.La cena fue pasta o algo diferente.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 87,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "En facto, esta mecadore fue el tamaño perfecto por Maya. “Sientate”, dijo Abuelo Antony.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 88,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Compró muchos ingredientes frescos como el queso, la leche, la carne de res, el pollo, las cebollas, los tomates, las zanahorias, la lechuga, las papas, y los champiñones. Pedí a mi mamá ir a casa porque quise ir a la casa y comer las fresas.",
+      "instructor_changed": [
+        "quise -> quería"
+      ],
+      "level": "A2",
+      "l1": [
+        "en",
+        "other"
+      ]
+    },
+    {
+      "i": 89,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Cuando abrí mis ojos, sin mover un músculo, sentí que mis brazos estaban cruzadas sobre mi pecho. Cuando yo era una niña, mi mamá siempre me dijo que no me duerma boca arriba y con mis brazos cruzados porque dará una posibilidad que se me suba el muerto.",
+      "instructor_changed": [
+        "dijo -> decía"
+      ],
+      "level": "heritage",
+      "l1": []
+    },
+    {
+      "i": 90,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "La gente le escuchó al aviso de Michelle como comer más bien para improvar la salud. En total, Señor Obama hacía bien durante el tiempo como Presidente.",
+      "instructor_changed": [
+        "hacía -> hizo"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 91,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Yo no decía mi abuela porque yo tenía cinco años! Yo era irresponsable y quería jugar para mi amiga.",
+      "instructor_changed": [
+        "decía -> dije"
+      ],
+      "level": "A2",
+      "l1": []
+    },
+    {
+      "i": 92,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "”Después de nueva mesas, el parque fue construido. Las astronautas descubrieron que los animales fueron las extranjeras de otro planeta-- la tierra.",
+      "instructor_changed": [
+        "fueron -> eran"
+      ],
+      "level": "B1",
+      "l1": [
+        "zh"
+      ]
+    },
+    {
+      "i": 93,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "¡Pero, uno perro estuvo allí! \"Por favor, no canta. Yo voy estar tu amigo si tú no canta nunca,\" dijo el perro.",
+      "instructor_changed": [
+        "estuvo -> estaba"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 94,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Cuando llegaron a su hotel, se sorprendieron con toda la vida salvaje que vieron. La biodiversidad fue asombrosa.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 95,
+      "prompt": "Describe la escena del fragmento de «The Kid», de Chaplin, que acabas de ver.",
+      "response": "Primero, el hombre encontró bebé en la calle. Después, el hombre intentaba que mirar a bebé padres o families.",
+      "instructor_changed": [
+        "intentaba -> intentó"
+      ],
+      "level": "B1",
+      "l1": [
+        "2"
+      ]
+    },
+    {
+      "i": 96,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "El arma se cayó y el hombre lo cogió, y el ladrón corrió muy rápido porque no quiso morir. Entonces, el hombre llamó a la policía con su teléfono celular, y llamó la mujer también porque ella corrió.",
+      "instructor_changed": [
+        "quiso -> quería"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 97,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Al principio, no le gustó y era un rebelde, pero finalmente creció y se unió al ejército. Ahora está contento de haber podido venir a Estados Unidos por las oportunidades que tuvo.",
+      "instructor_changed": [
+        "gustó -> gustaba"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 98,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "No estuvo enojado sino muy preocupado por nuestro estado. Le pedimos perdón y nos entendió.",
+      "instructor_changed": [
+        "estuvo -> estaba"
+      ],
+      "level": "heritage",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 99,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "Siempre busco tiempo para escribir una historia corta. Cuando fue una niña, escribía historias cortas durante mi tiempo libre.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 100,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "Mis ojos marrón y grandes, mi pelo largo y negro. Me encantó mi altura y la talla de mis pies.",
+      "instructor_changed": [
+        "encantó -> encantaba"
+      ],
+      "level": "heritage",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 101,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Sin embargo, nunca se sintió lonley cuando llevaba los pantalones en la cabeza. El mundo era sólo un gran par de jeans azules.",
+      "instructor_changed": [
+        "sintió -> sentía"
       ],
       "level": "B1",
       "l1": []
     },
     {
-      "i": 199,
+      "i": 102,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Desafortunadamente, no tomé el paraguas. Cuando el otro taxi llegó, estaba muy mojada y tuve frío.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "B1",
+      "l1": [
+        "zh"
+      ]
+    },
+    {
+      "i": 103,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "También tengo conexiones emocionales con esta cantadora. Mi mejor amigo me la presentó cuando yo tuve muchos problemas con mi familia.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 104,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Había una vez, hay una niña joven que fue a la casa de su abuelitos. La casa fue muy pequeña.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 105,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Paso un mes y yo seguía sin entender a mi maestra. Cuando ocupaba comunicarme con ella lo hacia a travez de una compañera que fue algo amable.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "heritage",
+      "l1": [
+        "es"
+      ]
+    },
+    {
+      "i": 106,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "De repente, las luces en el ascensor se oscurecieron y el ascensor estuve oscuro. Hay miles de conejos saltando en mi corazón.",
+      "instructor_changed": [
+        "estuve -> estaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "zh"
+      ]
+    },
+    {
+      "i": 107,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Yo fue al rooma de medico y estuve muy triste. Mis instructoras hablaron a nosotros, y fue muy inspiras.",
+      "instructor_changed": [
+        "estuve -> estaba"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 108,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Mi ultimo episodio era hace tres semanas.Desgraciadamente, no se si lo que experimente era parte de mi sueno o si era en la vida real.",
+      "instructor_changed": [
+        "era -> fue"
+      ],
+      "level": "heritage",
+      "l1": []
+    },
+    {
+      "i": 109,
       "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "No dije nada, Baby necesité a ser enfocado. El coche iba más que cien millas por hora.",
+      "response": "Por esta razón, mis primos y yo estábamos muy unidos y siempre jugàbamos. Salíamos a las calles a jugar al fútbol con los otros niños y nosotros fuimos a las tiendas a comprar tentempiés.",
+      "instructor_changed": [
+        "fuimos -> íbamos"
+      ],
+      "level": "B1",
+      "l1": [
+        "en",
+        "other"
+      ]
+    },
+    {
+      "i": 110,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "”“Maravilloso! Ven, ven rapidamente, mi nieta.” Dentro de la casa fue ordinaria también.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 111,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "No les dijieron mucho sobre su cita y supieron nada de ni la familia ni la edad de su cita. Cuando llegaron por la cita, cada uno pensaban que la otra persona era de su edad.",
+      "instructor_changed": [
+        "supieron -> sabía"
+      ],
+      "level": "heritage",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 112,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Pensé sobre que pude pintar. Solo hace un minuto que decidí a pintar unas nubes en el lienzo.",
+      "instructor_changed": [
+        "pude -> podía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 113,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Ella usó algún dinero para comprar la casa. La casa ella compró fue grande y bonita.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 114,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "En su casa ella vió que no había cerrado la ventana y por eso un grande mapache estaba en su cocina. Ella lo perseguía afuera con una escoba.",
+      "instructor_changed": [
+        "perseguía -> persiguió"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 115,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "Oprah Winfrey es de Kosciusko, Mississippi y nació 29 enero 1954. Ella no tenía un infancia feliz y experimentado mucho abuso de sus parientes masculino.",
+      "instructor_changed": [
+        "tenía -> tuvo"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 116,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Mira, no fui a eventos deportivos entonces, y todavía no. Una vez fui a uno solo para ver a un chico que me gustaba jugar al baloncesto.",
+      "instructor_changed": [
+        "fui -> iba"
+      ],
+      "level": "A1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 117,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "la comida estuve muy bien pero no nos dieron mucho pollo de naranja. fuimos el supermercado Safeway y compramos la comida para la semana.",
+      "instructor_changed": [
+        "estuve -> estaba"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 118,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "En el cielo, la luna sonría y las estrellas rieron. Todo el mundo estaba tranquilo.",
+      "instructor_changed": [
+        "rieron -> reían"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 119,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Yo pude a ignorar el dolor pero fue muy fuerte y empecé a llorar. Cuando nosotros llegábamos, mi papa me llevó dentro de el hospital.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 120,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Mi mente se mantuvo de esa manera por mucho tiempo hasta que la enfermedad en sí misma le daba una gran sacudida al mundo de mi familia y yo.Todo comenzó en el verano pasado cuando me enfermé por unas semanas.",
+      "instructor_changed": [
+        "daba -> dio"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 121,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Cuando ella era niña, ella recibió calificares buenos. Mi madre y mi padre se casaron cuando tuvieron veinticuatro años.",
+      "instructor_changed": [
+        "tuvieron -> tenían"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 122,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "Chance nació en 1993 en Chicago, y cantaba por muchos años en su niñez, pero él recibió reconocimiento, y se convirtió popular en 2013 cuando hizo su álbum que se llama “Acid Rap.” Hoy, muchas personas les gustan el porque a su álbum que se llama “Coloring Book,” pero me gusta su primer álbum “Acid Rap” mucho.",
+      "instructor_changed": [
+        "cantaba -> cantó"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 123,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Regresamos al punto y nos quedamos allá por casi veinte minutos. Nos preguntamos dónde estuvo el grupo y decidimos encontrarlos.",
+      "instructor_changed": [
+        "estuvo -> estaba"
+      ],
+      "level": "heritage",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 124,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Le encantó música, especialmente tocar un piano. Él quería ser un músico.",
+      "instructor_changed": [
+        "encantó -> encantaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "other"
+      ]
+    },
+    {
+      "i": 125,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Antes, ella no le gustaba comida de china. No sé porque, pero creo que fue porque nuestro familia son chinas.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 126,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Linda estuve en un lugar oscuro. Hay ruidos terribles y olores terribles en este lugar oscuro.",
+      "instructor_changed": [
+        "estuve -> estaba"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 127,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "No quiero entrar en detalles porque es un caja de Pandora que no quiero abrir. Pero todo lo que pase después de esto no era buena, y me considero este una parte en mi vida muy influyente pero en la misma vez muy aterrador.",
+      "instructor_changed": [
+        "era -> fue"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 128,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "”Maya pensaba que esa fue extraña, especialmente porque ella podía ver la cocina de su silla. De repente, la abuela llego.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 129,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Cuando, salió de la tienda, la camión hubo salido. El nino uso Google Maps para encontrar la tienda más cercana a él.",
+      "instructor_changed": [
+        "hubo -> había"
+      ],
+      "level": "B1",
+      "l1": [
+        "other"
+      ]
+    },
+    {
+      "i": 130,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "En una entrevista de Star Wars, Diego Luna dijo que no escondió su accento en la pelicula y los Latinos que vieron la pelicula les encantaban que su accento no erra escondià. Muchos piensan que la oportunidad que consiguió Diego es un indicio que otros puden hacer lo que él hice y tener gran influencia tambien.",
+      "instructor_changed": [
+        "encantaban -> encantó"
+      ],
+      "level": "B1",
+      "l1": [
+        "en",
+        "es"
+      ]
+    },
+    {
+      "i": 131,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Al final, llegué a casa. Sólo quise ducharme y acostarse.",
+      "instructor_changed": [
+        "quise -> quería"
+      ],
+      "level": "B1",
+      "l1": [
+        "zh"
+      ]
+    },
+    {
+      "i": 132,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "No obstante, mi madre había notado mi cansancio constante y se preocupó por mi, y en consecuencia se decidió que yo tuve que ir al médico. El próximo día después de su decisión, fuimos a la oficina del médico y me hicieron una prueba de la sangre.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 133,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Un día, había una araña que subió a un árbol, pero, seguía cayendo en arbustos. Un día decidió ir al gimnasio, y fortalecerse para que un día pudiera subir todo el camino hasta la cima del árbol.",
+      "instructor_changed": [
+        "subió -> subía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 134,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Mis piernas se movaron y ella me miró para el primero tiempo. Instamente, me sentía inseguro y estaba triste que no me vestía mejor para esa caminata.",
+      "instructor_changed": [
+        "sentía -> sentí"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 135,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Mi mamá compró los ingredientes y caminamos al coche. Canté en el coche porque tuve hambre.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "A2",
+      "l1": [
+        "en",
+        "other"
+      ]
+    },
+    {
+      "i": 136,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "Mas tarde en el future, Brad Pitt era decubierto. Pronto, Brad Pitt estaba actuando en muchos peliculas.",
+      "instructor_changed": [
+        "era -> fue"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 137,
+      "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
+      "response": "Si yo voy a Costa Rica, yo quiero voy con mis amigas. En el año pasado, yo fui a Toronto con mis amigas, y yo pienso que era muy divertido a viajar con mis amigas porque en años pasados, yo fui con mis padres.",
+      "instructor_changed": [
+        "era -> fue"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 138,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "El perro decidió quedarse en ese lugar, porque estar triste rodeado con otros, incluso las cucarachas, es mejor que estar triste y solo. El perro pensaba mucho en la vida que tuvo, y cuando lo hice, se puso deprimido.",
+      "instructor_changed": [
+        "hice -> hacía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 139,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Unos noches hasta hoy, tenía un sueño terrible. Esta pesadilla parecía demasiado real, y fue casi exactamente como mi realidad ahorita.",
+      "instructor_changed": [
+        "tenía -> tuve"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 140,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Después de colegió, nos fuimos a una otra ciudad y empezamos nuestras vidas nuevas. Mi mamá era una maestra de los niños pequeños, y te gustó su trabajo mucho, y era su pasión.",
+      "instructor_changed": [
+        "gustó -> gustaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 141,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Cuando era niña, me encantaba jugar deportes con él. Cuando yo vivía en nuestra casa yo pasé mucho tiempo con mi hermano.",
+      "instructor_changed": [
+        "pasé -> pasaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 142,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Ella fue simpatica pero tambien yo tenia mucho respecto para ella. Me recuerdo que cuando yo estaba enojada o triste, ella me consolaba.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 143,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "El dinero fue poquito, pero tienen garantía beneficios muy buenos. También, todos trabajadores en la oficina tienen guantes y bufandas gratis de la empresa.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 144,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Estos paseos eran buen ejericico pero muy relajante y me entusiasma que los pueda hacer otra vez este verano. El verano pasado era muy largo porque duró a partir del fin de mayo hasta el fin de septiembre.",
+      "instructor_changed": [
+        "era -> fue"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 145,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "También el padre de el bebe y Kylie Jenner no han estado una pareja por tiempo largo.Kylie no le gustó la escuela y no fue a la universidad después de la escuela secundaria.",
+      "instructor_changed": [
+        "gustó -> gustaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 146,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Una día, ella tocó la guitarra y un hombre que ella no conoció se habló con ella. El hombre pensó que la voz de ella era muy bonita.",
+      "instructor_changed": [
+        "conoció -> conocía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 147,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "Su clase me inspiró que continuar estudiar en universidad y también estudiar español. Mi pasión para español me sigue a un pasión de las idiomas y yo decidía que estudiar linguisticas.",
+      "instructor_changed": [
+        "decidía -> decidí"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 148,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "En escuela secundaria era un corredor, para mi equipo de campo traviesa, corrí mucho todos los días. Ahora no corro porque tuve un lesión de la pierna.",
+      "instructor_changed": [
+        "corrí -> corría"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 149,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Creo que mis favoritos cosas para hacer fue jugar en la arena, saltar de las estructuras altas y lo más importante, descendiendo el tobogán.Un día mi tía me visitó y me llevó al parque.",
+      "instructor_changed": [
+        "fue -> eran"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 150,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Yo tuve una gran presentación en clase para la que no podía llegar tarde. Yo montaba mi bicicleta muy rápido cuando de repente oía un golpe y se cayó de mi bicicleta.",
+      "instructor_changed": [
+        "oía -> oí"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 151,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Por eso, no podía terminar mi estación de ciclismo. También, no pude tomar mis examenes de AP.",
+      "instructor_changed": [
+        "podía -> pude"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 152,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "Cuando Isaac tuvo cinco meses, comenzó a vivir en Miami, Florida. Empezó a interpretar para el “Area Stage Company” de Miami Beach en 2000.",
+      "instructor_changed": [
+        "tuvo -> tenía"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 153,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "El parque hubo introducido los animales salvajes de otro planeta. Hace un año, los científicos de la NASA descubrieron las nuevas criaturas.",
+      "instructor_changed": [
+        "hubo -> había"
+      ],
+      "level": "B1",
+      "l1": [
+        "zh"
+      ]
+    },
+    {
+      "i": 154,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Pero en el comienzo, fuimos solamente amigos. No quería ser algo más porque yo tuve miedo.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 155,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "Nadaba en la playa y las piscinas porque hubo muchos piscinas! Me gusta pasar tiempo con mi familia, especialmente ahora. Cuando estoy en mi casa, me gusta cocinar con mi madre y ver las películas con mis padres.",
+      "instructor_changed": [
+        "hubo -> había"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 156,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Cuando los ojos grandes y las pestañas se combinan, siento que ella es muy bonita y graciosa. Mis padres pensaron la decisión si ellos quisieron a mi hermana mucho tiempo.",
+      "instructor_changed": [
+        "quisieron -> querían"
+      ],
+      "level": "B1",
+      "l1": [
+        "zh"
+      ]
+    },
+    {
+      "i": 157,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Esta vez, la camión paró enfrente de su casa. El niño todavía quiso helado pero ahora, su padres no le permitiría obtener helado.",
+      "instructor_changed": [
+        "quiso -> quería"
+      ],
+      "level": "B1",
+      "l1": [
+        "other"
+      ]
+    },
+    {
+      "i": 158,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "Cuando ella tuve 16 años, ella se hició parte de una banda famosa llamada \"The Bloods\". Durante la escuela secundaria, ella trabajó en un supermercado en Manhattan, y eso fue el último trabajo que ella tuvo antes de hacerse un stripper.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "heritage",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 159,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "El estaba en las fuerzas armadas y moría cuando era nueve años. Para que, mí máma y mí hermana eran todo con migo.",
+      "instructor_changed": [
+        "moría -> murió"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 160,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "Es difícil cuando ir a eventos públicos y con mis amigas y mi familia. En el pasado yo pude hacer cualquier cosa que yo quiera.",
+      "instructor_changed": [
+        "pude -> podía"
+      ],
+      "level": "heritage",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 161,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Enseño desde él por sus cuentos. Aunque me dice que no fue el más inteligente en su escuela, fue capaz sacar buenas notas.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 162,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Ella me dijo “no.” Esta fue el momento qu yo supe que necesité ir al hospital.",
       "instructor_changed": [
         "necesité -> necesitaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 163,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Primero, yo quería tener la fiesta en un hotel de la ciudad, pero a última hora, el hotel dijo que no podíamos tener la fiesta. Yo tuve comprar comida, bebidas, y decoraciones porque decidía tener la fiesta a mi casa.",
+      "instructor_changed": [
+        "decidía -> decidí"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 164,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "¡Más rapido! Él no puede escuchar a todo porque su musíca es muy ruidosa. No dije nada, Baby necesité a ser enfocado.",
+      "instructor_changed": [
+        "necesité -> necesitaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 165,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "Soy muy activo porque me encanta jugar los deportes. Primero, yo jugaba el fútbol para catorce años para tres diferentes equipos.",
+      "instructor_changed": [
+        "jugaba -> jugué"
+      ],
+      "level": "B1",
+      "l1": [
+        "en",
+        "other"
+      ]
+    },
+    {
+      "i": 166,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Mi madre era muy talentosa y le gustaba las pinturas. Después de una hora, terminé porque fue un lienzo pequeño y las nubes eran lindas.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 167,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Cuando yo estaba en ocho grado, mi profesora recibio una llamada para mi. Necesite salir temprano pero no tuve una cita con mi medico ni dentista.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 168,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Después de una semana, la familia le llamaba a los padres de Maya. Ellos estaban tan feliz de que Maya encontrara a Max.",
+      "instructor_changed": [
+        "llamaba -> llamó"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 169,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Hablábamos de cosas que nos importaban a los dos, nos acercamos mas en ese tiempo. Nos convertimos en mejor amigos y después de 2 años me di cuenta de que no te vi como un amigo, pero más que eso.",
+      "instructor_changed": [
+        "vi -> veía"
+      ],
+      "level": "A2",
+      "l1": [
+        "en",
+        "es"
+      ]
+    },
+    {
+      "i": 170,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "No le importaba si no tenía una gran familia porque tenía dos mejores amigos a los que también les gustaban los cómics de superhéroes y deseaba que también pudieran ser superhéroes. Sus amigos no llevaban pantalones sobre esta cabeza, pero también se vistieron de superhéroes.",
+      "instructor_changed": [
+        "vistieron -> vestían"
+      ],
+      "level": "B1",
+      "l1": []
+    },
+    {
+      "i": 171,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Ella vive solo a unas calles de donde yo vivo. Todos los días cuando salimos de la escuela ella iba a mi casa o yo a la de ella y platicábamos por varias horas y también veíamos películas y nuestros programas favoritos.",
+      "instructor_changed": [
+        "salimos -> salíamos"
+      ],
+      "level": "heritage",
+      "l1": [
+        "es"
+      ]
+    },
+    {
+      "i": 172,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Mi abuela y yo esperamos por 45 minutos, pero sabíamos que el otro avión salió en 1 hora y 25 minutos. Entonces, mi abuela y yo corrimos por el apuro en Japan, pidiendo para mi familia.",
+      "instructor_changed": [
+        "salió -> salía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 173,
+      "prompt": "Escribe un texto sobre una persona famosa.",
+      "response": "Él vuela de primera clase y es tratado el mejor. Messi era una vez pobre pero ahora rico.",
+      "instructor_changed": [
+        "era -> fue"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 174,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Una día, Craig quiso ir al parque y hablar con otros gatos. Ese noche, cuando su familia humano durmieron, Craig abrío la puerta y salío.",
+      "instructor_changed": [
+        "durmieron -> dormía"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 175,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Tenía muchas frazadas en mi cama, las ocupaba mucha espacio, por eso, las moví al piso. Debajo de mis frazadas, hubo una araña negra.",
+      "instructor_changed": [
+        "hubo -> había"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 176,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Ellá estuvo apenado y decidió a compensarnos. Este es un gran inconveniente para nosotros.",
+      "instructor_changed": [
+        "estuvo -> estaba"
+      ],
+      "level": "A2",
+      "l1": [
+        "zh"
+      ]
+    },
+    {
+      "i": 177,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Una historia terrible (y cómica) que me pasó a mí ocurrió cuando tenía once años. Estaba en escuela secundario, y tuve mucha tarea que necesitaba terminar para el proximo dia.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 178,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Primero recibío una carta en el correo dije que se quedara dentro. Luego notó una figura esperando cada día, en la escuela, escuché a alguien tirar cosas por la ventana, y tenía demasiado miedo para decirle a alguien.",
+      "instructor_changed": [
+        "dije -> decía"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 179,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Él estuvo allí con flores en sus manos. Me dijo, \"mi amor, perdón a me por favor.",
+      "instructor_changed": [
+        "estuvo -> estaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 180,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Empezamos a pasar en el mar, y fue muy emocionante y divertido. No obstante, el clima cambió muy rápido, y el guía se preocupó porque dijo que una tormenta estuvo viniendo.",
+      "instructor_changed": [
+        "estuvo -> estaba"
+      ],
+      "level": "heritage",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 181,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "El también tiene otros dos hijos que son mis medio hermanos que también conocí cuando tenia trece anos. Estuvo cerca y en mi vida hasta que tuve alrededor de dieciséis anos.",
+      "instructor_changed": [
+        "tuve -> tenía"
+      ],
+      "level": "A2",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 182,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Una historia terrible que yo tengo es cuando mi perro murió. El nombre de mi perro fue Lucky.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "A2",
+      "l1": [
+        "en",
+        "other"
+      ]
+    },
+    {
+      "i": 183,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Las vistas del mar, de los barcos de pesca, de las bandadas de gaviotas y de las estrellas que podían brillar sin contaminación lumínica--todas éstas no tuvieron comparación, y las fotos que sacamos no hacen justicia a ellas.El momento favorito que mi hermano y yo compartimos fue la vez que descubrimos un grupo de focas tomando el sol encima de la playa; en total, había entre diez o quince.",
+      "instructor_changed": [
+        "tuvieron -> tenía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 184,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "Alta Mar fue mi programa favorito porque era un género misterioso. Recientemente comencé el programa La Casa De Papel en Netflix y está ayudando a mi comprensión del español.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 185,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Ella trabajó para el American Heart Association cuando ella terminó escuela y hizo mucho dinero. Después de conocerse mi padre y casarse, ella pagó para las deudas porque mi padre las tuvo porque él estaba yendo a escuela de medicina y su residencia.",
+      "instructor_changed": [
+        "tuvo -> tenía"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 186,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Cuando era joven mi familia y yo mudamos mucho porque el trabajo de mi papa. Y por eso mi famila y yo estábamos muy cerca.",
+      "instructor_changed": [
+        "mudamos -> mudábamos"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 187,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "La tienda cerró a las once y media. Esto significaba que a menudo no nos íbamos hasta la medianoche o más tarde.",
+      "instructor_changed": [
+        "cerró -> cerraba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 188,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Ellos hablaron por horas, y es verdad que el fue un viudo también. Ellos son las personas que se mirando para.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 189,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Solo tenía media hora hasta que mi avión se vaya del aeropuerto pero el portón estaba en medio de donde los aviones aterrizaron asi que tenia que esperar hasta que un autobús llegará par que me lleve hasta alla. Llegué al portón faltando diez minutos hasta que aterriza el avión pero las puertas se cerraron cuando estaba caminando ahí.",
+      "instructor_changed": [
+        "aterrizaron -> aterrizaba"
+      ],
+      "level": "heritage",
+      "l1": [
+        "es"
+      ]
+    },
+    {
+      "i": 190,
+      "prompt": "Escribe un texto para describirte.",
+      "response": "Cuando volvía a Estado Unidos me sentía desesperado porque no sabia absolutamente nada de Ingles. No podia comunicarme y no entendía lo que los maestros me decían así que era frustrante.",
+      "instructor_changed": [
+        "volvía -> volví"
+      ],
+      "level": "heritage",
+      "l1": [
+        "es"
+      ]
+    },
+    {
+      "i": 191,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Más tarde, sus hermanastras descubrieron que ella fue la princesa en la fiesta ya que leyeron los correos electrónicos de su hermanita. Entonces los dos pretendieron ser la princesa y ir al chico que la quería encontrar a la princesa.",
+      "instructor_changed": [
+        "fue -> era"
+      ],
+      "level": "B1",
+      "l1": [
+        "other"
+      ]
+    },
+    {
+      "i": 192,
+      "prompt": "Escribe un texto sobre una historia bonita.",
+      "response": "Pagaban bien, le iban a dar su 401k, y cubrió a toda la familia con un buen seguro de salud. Desafortunadamente, mi padre tuvo un accidente con su camión y debido a que la compañía tenía expectativas muy altas para todos los conductores, despideron a mi padre.",
+      "instructor_changed": [
+        "cubrió -> cubría"
+      ],
+      "level": "B1",
+      "l1": [
+        "es"
+      ]
+    },
+    {
+      "i": 193,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "En las palabras del acusado, el chico estuvo muy nervioso. Además, el juguete que el acusado creó ser un arma estuvo en frente de los ojos y ha estado en la guerra y tiene una licencia de arma.",
+      "instructor_changed": [
+        "estuvo -> estaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 194,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "En mí vida, yo comenzaba con menos personas, pero hoy es diferente. Mí máma y hermana estan en la cima, pero muchas personas estan debajo.",
+      "instructor_changed": [
+        "comenzaba -> comenzó"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 195,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Desde que tuve asma en miedad temprana, sufrí mucho y siempre fui a hospital. Mi abuelo simpre estaba allí para mí cuando me sentí doloroso y lloré.",
+      "instructor_changed": [
+        "fui -> iba"
+      ],
+      "level": "B1",
+      "l1": [
+        "zh"
+      ]
+    },
+    {
+      "i": 196,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Cuando Maya miró el té, se dio cuenta de que era sangre.Maya echó la taza y entonces corría.",
+      "instructor_changed": [
+        "corría -> corrió"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 197,
+      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
+      "response": "Nos gustó ir al parque y comer el helado. Nuestras actividades favoritas inluyeron jugar a los bolos y montar nuestras bicicletas a 7/11.",
+      "instructor_changed": [
+        "gustó -> gustaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 198,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Lo sabía que necesité hacer reglas nuevas si yo fuera a seguir estando con él. No más mentiras, no más flirteando con otras chicas, no más diciendo a las mujeres que se veía bonita y atractiva.",
+      "instructor_changed": [
+        "necesité -> necesitaba"
+      ],
+      "level": "B1",
+      "l1": [
+        "en"
+      ]
+    },
+    {
+      "i": 199,
+      "prompt": "Escribe un texto sobre una historia terrible.",
+      "response": "Ellos tienen más o menos diez hijos, pues era muy difícil a organizar todas las personas, y necesitaron tomar dos coches grandes por el aeropuerto. Por la mañana, ellos despertaron muy tarde, aunque su vuelo fue muy temprano.",
+      "instructor_changed": [
+        "fue -> era"
       ],
       "level": "B1",
       "l1": [

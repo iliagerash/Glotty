@@ -1,20 +1,23 @@
 /**
- * Gives each instructor-corrected error in the training pool a taxonomy code,
- * with a governance judge (a, OpenAI, by default; --judge b for Gemini). The
- * instructor's correction decides that the item is wrong; the judge only says
- * why, from the taxonomy, and writes the one-sentence analysis the fine-tuned
- * evaluator learns to produce.
+ * Gives each instructor-corrected error in the training pool a code from its
+ * concept's approved taxonomy (the language pack's version, e.g. v2), with a
+ * governance judge (a, OpenAI, by default). The instructor's correction,
+ * checked by errors:verify, decides that the item is wrong; the judge only
+ * says why, and writes the one-sentence analysis the fine-tuned evaluator
+ * learns to produce. NONE when no code fits (the evaluator abstains on the
+ * diagnosis).
  *
- *   npm run train:codes [-- --judge a|b] [--concurrency 4]
+ *   npm run train:codes [-- --language es] [--corpus cowsl2h] [--judge a|b] [--concurrency 4]
  *   npm run train:codes -- --check 50 [--judge a]
  *
- * Reads data/train/cowsl2h-pool.jsonl, appends to data/train/codes.jsonl one
- * line per item as it completes, so an interrupted run resumes; each line
- * records which judge coded it.
+ * Reads data/train/<corpus>-pool.jsonl, appends to
+ * data/train/codes-<language>-<taxonomy>.jsonl one line per item as it
+ * completes, so an interrupted run resumes; each line records which judge
+ * coded it.
  *
  * --check N re-codes a fixed sample of N items that the other judge coded,
- * into data/train/codes-check.jsonl (also resumable), and reports how often
- * the two judges pick the same code. codes.jsonl is not changed.
+ * into codes-<language>-<taxonomy>-check.jsonl (also resumable), and reports
+ * how often the two judges pick the same code. The codes file is not changed.
  */
 import "dotenv/config";
 import crypto from "crypto";
@@ -22,15 +25,11 @@ import fs from "fs";
 import path from "path";
 import { parseArgs } from "util";
 import { z } from "zod";
-import { renderTaxonomy } from "@/lib/evaluator";
 import { governanceConfig, governedJson, type JudgeId } from "@/lib/governance";
+import { conceptTaxonomy, loadLanguage, type LanguagePack } from "@/lib/language";
 import { progress } from "@/lib/progress";
-import { taxonomyCodes } from "@/lib/taxonomy";
+import { renderCodes } from "@/lib/taxonomy";
 import type { PoolItem } from "./train-export";
-
-const POOL = path.join(process.cwd(), "data", "train", "cowsl2h-pool.jsonl");
-const OUT = path.join(process.cwd(), "data", "train", "codes.jsonl");
-const CHECK = path.join(process.cwd(), "data", "train", "codes-check.jsonl");
 
 type Coded = { id: string; diagnosis_code: string; coder: string };
 const readCoded = (file: string): Coded[] =>
@@ -50,26 +49,43 @@ const SCHEMA = {
 };
 const Result = z.object({ diagnosis_code: z.string(), error_span: z.string(), correction: z.string(), analysis: z.string() });
 
-const INSTRUCTIONS = `You are an expert Spanish teacher and applied linguist. You will receive a sentence pair written by an English-speaking learner of Spanish, the task prompt, and the change a Spanish instructor made to a preterite/imperfect verb or to por/para. The instructor's change is settled: the learner's form is wrong. Your job is to say why, using the taxonomy below.
+const instructions = (pack: LanguagePack, conceptName: string, codes: string) => `You are an expert ${pack.name} teacher and applied linguist. You will receive a short text written by a learner of ${pack.name}, the task prompt, and the change a teacher made to a ${conceptName} choice. The change is settled: the learner's form is wrong. Your job is to say why, using the codes below. Each code names a meaning contrast the learner got wrong in this response; it is not a guess about the learner's general strategy.
 
 Return:
-- diagnosis_code: the one code from the taxonomy that best explains why the learner chose the wrong form; UNKNOWN if none fits. Read each code's "Is NOT this code" examples before choosing.
+- diagnosis_code: the one code that best names the contrast the learner got wrong here; NONE if none fits. Read each code's "Is NOT this code" examples before choosing.
 - error_span: the learner's wrong word(s), copied exactly from the response.
-- correction: the instructor's form(s).
-- analysis: 1-2 sentences in English, as a teacher would explain it: the target form, the meaning the learner intended, and why that meaning needs the corrected form. Do not mention the instructor.
+- correction: the teacher's form(s).
+- analysis: 1-2 sentences in English, as a teacher would explain it: the target form, the meaning the learner intended, and why that meaning needs the corrected form. Do not mention the teacher.
 
-## Diagnostic taxonomy
+## Codes for ${conceptName}
 
-${renderTaxonomy()}`;
+${codes}`;
 
 async function main() {
   const { values } = parseArgs({
-    options: { judge: { type: "string", default: "a" }, concurrency: { type: "string", default: "4" }, check: { type: "string" } },
+    options: {
+      language: { type: "string", default: "es" },
+      corpus: { type: "string", default: "cowsl2h" },
+      judge: { type: "string", default: "a" },
+      concurrency: { type: "string", default: "4" },
+      check: { type: "string" },
+    },
   });
   if (values.judge !== "a" && values.judge !== "b") throw new Error("--judge must be a or b");
   const config = governanceConfig(values.judge as JudgeId);
-  const codes = new Set(taxonomyCodes());
-  const pool = fs.readFileSync(POOL, "utf-8").trim().split("\n").map((l) => JSON.parse(l) as PoolItem);
+  const pack = loadLanguage(values.language!);
+  // Per concept: its codes and the instructions that list them.
+  const concepts = new Map(
+    pack.concepts.map((c) => {
+      const codes = conceptTaxonomy(pack, c.key);
+      return [c.key, { valid: new Set(codes.map((t) => t.code)), instructions: instructions(pack, c.name, renderCodes(codes)) }];
+    }),
+  );
+  const dir = path.join(process.cwd(), "data", "train");
+  const POOL = path.join(dir, `${values.corpus}-pool.jsonl`);
+  const OUT = path.join(dir, `codes-${pack.code}-${pack.taxonomy}.jsonl`);
+  const CHECK = path.join(dir, `codes-${pack.code}-${pack.taxonomy}-check.jsonl`);
+  const pool = fs.readFileSync(POOL, "utf-8").trim().split("\n").map((l) => JSON.parse(l) as PoolItem).filter((p) => p.language === pack.code);
   const out = values.check ? CHECK : OUT;
   const done = new Set(readCoded(out).map((c) => c.id));
   const coded = readCoded(OUT);
@@ -84,7 +100,7 @@ async function main() {
       )
     : null;
   const todo = pool.filter((p) => p.kind === "error" && !done.has(p.id) && (!sample || sample.has(p.id)));
-  console.log(`${sample ? "Re-coding" : "Coding"} ${todo.length} errors with ${config.ref} (${done.size} already done) into ${path.relative(process.cwd(), out)}.`);
+  console.log(`${sample ? "Re-coding" : "Coding"} ${todo.length} errors with ${config.ref} against taxonomy ${pack.taxonomy} (${done.size} already done) into ${path.relative(process.cwd(), out)}.`);
 
   let next = 0;
   let failed = 0;
@@ -98,15 +114,15 @@ async function main() {
           name: "train_code",
           jsonSchema: SCHEMA,
           schema: Result,
-          instructions: INSTRUCTIONS,
+          instructions: concepts.get(item.concept)!.instructions,
           input: JSON.stringify({
             prompt: item.prompt,
             response: item.response,
             instructor_changed: item.findings.map((f) => `${f.from} -> ${f.to}`),
           }),
         });
-        const code = codes.has(data.diagnosis_code) ? data.diagnosis_code : "UNKNOWN";
-        fs.appendFileSync(out, JSON.stringify({ id: item.id, ...data, diagnosis_code: code, coder: config.ref }) + "\n");
+        const code = concepts.get(item.concept)!.valid.has(data.diagnosis_code) ? data.diagnosis_code : "NONE";
+        fs.appendFileSync(out, JSON.stringify({ id: item.id, concept: item.concept, ...data, diagnosis_code: code, taxonomy: pack.taxonomy, coder: config.ref }) + "\n");
         bar.tick();
       } catch (err) {
         failed++;

@@ -1,0 +1,1004 @@
+[
+ {
+  "n": 40,
+  "per_change": [
+   {
+    "from": "hicimos",
+    "to": "hacíamos",
+    "verdict": "clear_error",
+    "reason": "Habitual action in childhood framed by 'cuando éramos niñas, siempre' requires imperfect."
+   }
+  ]
+ },
+ {
+  "n": 18,
+  "per_change": [
+   {
+    "from": "miraron",
+    "to": "miraban",
+    "verdict": "clear_error",
+    "reason": "Repeated/habitual looking parallel to 'paraban' and 'entendían'; preterite breaks the habitual frame."
+   }
+  ]
+ },
+ {
+  "n": 33,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "clear_error",
+    "reason": "Describes what a program offered (background description), so imperfect 'era'."
+   }
+  ]
+ },
+ {
+  "n": 1,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "clear_error",
+    "reason": "Reason/background for sleeping on the floor ('it was easier') is descriptive: 'era más fácil'."
+   }
+  ]
+ },
+ {
+  "n": 90,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "clear_error",
+    "reason": "Duration of a past stay takes por/durante (or nothing), not para."
+   }
+  ]
+ },
+ {
+  "n": 46,
+  "per_change": [
+   {
+    "from": "tuvo",
+    "to": "tenía",
+    "verdict": "clear_error",
+    "reason": "Age at the time of an event is always imperfect: 'cuando tenía 28 años'."
+   }
+  ]
+ },
+ {
+  "n": 34,
+  "per_change": [
+   {
+    "from": "tuvo",
+    "to": "tenía",
+    "verdict": "clear_error",
+    "reason": "Background reason (he had work there) is a state: 'porque tenía trabajo'."
+   }
+  ]
+ },
+ {
+  "n": 25,
+  "per_change": [
+   {
+    "from": "tuve",
+    "to": "tenía",
+    "verdict": "clear_error",
+    "reason": "Physical state parallel to 'estaba muy mojada' is background: 'tenía frío'."
+   }
+  ]
+ },
+ {
+  "n": 22,
+  "per_change": [
+   {
+    "from": "empezábamos",
+    "to": "empezamos",
+    "verdict": "clear_error",
+    "reason": "Starting the hike is a single foregrounded event in the narrative: 'empezamos'."
+   }
+  ]
+ },
+ {
+  "n": 49,
+  "per_change": [
+   {
+    "from": "fueron",
+    "to": "eran",
+    "verdict": "clear_error",
+    "reason": "Identity/state discovered (that the animals were aliens) takes imperfect: 'eran'."
+   }
+  ]
+ },
+ {
+  "n": 58,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "acceptable",
+    "reason": "'Actividades por hacer' (things still to be done) is idiomatic and natural."
+   }
+  ]
+ },
+ {
+  "n": 43,
+  "per_change": [
+   {
+    "from": "tenía",
+    "to": "tuvo",
+    "verdict": "clear_error",
+    "reason": "A dated, completed event (emergency surgery in May 2000) needs preterite."
+   }
+  ]
+ },
+ {
+  "n": 2,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "clear_error",
+    "reason": "Revealing what an object was (identity/description) takes imperfect: 'la pistola era un juguete'."
+   }
+  ]
+ },
+ {
+  "n": 79,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "'Importante para la cultura' (important to/for); 'por' gives a strained 'because of' reading."
+   }
+  ]
+ },
+ {
+  "n": 39,
+  "per_change": [
+   {
+    "from": "fueron",
+    "to": "eran",
+    "verdict": "acceptable",
+    "reason": "Summative evaluation of a bounded period ('los días en el hospital fueron aburridos') is natural preterite."
+   }
+  ]
+ },
+ {
+  "n": 67,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Recipient/beneficiary of something made: 'para su madre'."
+   }
+  ]
+ },
+ {
+  "n": 11,
+  "per_change": [
+   {
+    "from": "tuve",
+    "to": "tenía",
+    "verdict": "clear_error",
+    "reason": "Reason expressed as an ongoing state: 'porque tenía hambre'."
+   }
+  ]
+ },
+ {
+  "n": 68,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "acceptable",
+    "reason": "'Tenían planes vagos por unos años' reads naturally as duration (por = durante); para is not required."
+   }
+  ]
+ },
+ {
+  "n": 17,
+  "per_change": [
+   {
+    "from": "supe",
+    "to": "sabía",
+    "verdict": "clear_error",
+    "reason": "Not knowing the difference is a state; 'supe' means 'found out'."
+   }
+  ]
+ },
+ {
+  "n": 81,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "clear_error",
+    "reason": "'Famoso por' (famous for/because of) is fixed; para is wrong."
+   }
+  ]
+ },
+ {
+  "n": 72,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "acceptable",
+    "reason": "'Regalo para nuestro aniversario' (gift for the occasion) is natural; por is an alternative."
+   }
+  ]
+ },
+ {
+  "n": 61,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Purpose/goal of studying: 'estudiar para mis clases'."
+   }
+  ]
+ },
+ {
+  "n": 26,
+  "per_change": [
+   {
+    "from": "sentía",
+    "to": "sintió",
+    "verdict": "acceptable",
+    "reason": "'Hasta que se sentía enferma todo el tiempo' describes the resulting ongoing state; imperfect is natural with 'todo el tiempo'."
+   }
+  ]
+ },
+ {
+  "n": 23,
+  "per_change": [
+   {
+    "from": "hacía",
+    "to": "hizo",
+    "verdict": "acceptable",
+    "reason": "Imperfect can present the questioning as ongoing/simultaneous with the police going after the men; natural narrative backgrounding."
+   }
+  ]
+ },
+ {
+  "n": 6,
+  "per_change": [
+   {
+    "from": "era",
+    "to": "fue",
+    "verdict": "acceptable",
+    "reason": "'Mi cosa favorita del fin de semana era mi perrito' is a descriptive statement; both era and fue are used."
+   }
+  ]
+ },
+ {
+  "n": 53,
+  "per_change": [
+   {
+    "from": "vivía",
+    "to": "viví",
+    "verdict": "clear_error",
+    "reason": "Bounded total duration ('no ... por solo algunas semanas') of a completed stay requires preterite."
+   }
+  ]
+ },
+ {
+  "n": 59,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "unclear",
+    "reason": "'Por sí misma' (on her own) is grammatical but intended meaning (for herself) is uncertain from garbled text."
+   }
+  ]
+ },
+ {
+  "n": 48,
+  "per_change": [
+   {
+    "from": "tenía",
+    "to": "tuvo",
+    "verdict": "clear_error",
+    "reason": "Giving birth is a completed event: 'recién tuvo un bebé'."
+   }
+  ]
+ },
+ {
+  "n": 62,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "acceptable",
+    "reason": "'Jugar por el equipo nacional' (represent) is widely used, especially in Latin American sports usage."
+   }
+  ]
+ },
+ {
+  "n": 74,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "acceptable",
+    "reason": "'Compré una bicicleta para mi cumpleaños' is natural (occasion/destination)."
+   }
+  ]
+ },
+ {
+  "n": 57,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Deadline/target time: 'para el verano'."
+   }
+  ]
+ },
+ {
+  "n": 30,
+  "per_change": [
+   {
+    "from": "hablaba",
+    "to": "habló",
+    "verdict": "acceptable",
+    "reason": "Imperfect sets an ongoing scene (grandma was talking with mom) alongside 'estaban preocupados'."
+   }
+  ]
+ },
+ {
+  "n": 21,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "clear_error",
+    "reason": "Scheduled time as background ('aunque su vuelo era muy temprano') takes imperfect."
+   }
+  ]
+ },
+ {
+  "n": 78,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Recipients of cooking: 'para mi familia'."
+   }
+  ]
+ },
+ {
+  "n": 32,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "unclear",
+    "reason": "Depends on whether it describes him (era) or sums up a closed period (fue); context insufficient."
+   }
+  ]
+ },
+ {
+  "n": 14,
+  "per_change": [
+   {
+    "from": "teníamos",
+    "to": "tuvimos",
+    "verdict": "acceptable",
+    "reason": "'Teníamos que subir al metro' (obligation framing the plan) is common native narrative usage."
+   }
+  ]
+ },
+ {
+  "n": 4,
+  "per_change": [
+   {
+    "from": "tuve",
+    "to": "tenía",
+    "verdict": "clear_error",
+    "reason": "Reason state parallel to 'no quería': 'porque tenía miedo'."
+   }
+  ]
+ },
+ {
+  "n": 45,
+  "per_change": [
+   {
+    "from": "reí",
+    "to": "reía",
+    "verdict": "clear_error",
+    "reason": "Habitual frame 'siempre cuando pasaba tiempo' parallel to 'tenía' requires imperfect."
+   }
+  ]
+ },
+ {
+  "n": 77,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "clear_error",
+    "reason": "'Famoso por su trabajo'."
+   }
+  ]
+ },
+ {
+  "n": 50,
+  "per_change": [
+   {
+    "from": "comenzaba",
+    "to": "comenzó",
+    "verdict": "clear_error",
+    "reason": "Starting out is a single past beginning; 'comenzaba' with no habitual/background reading is wrong (should be comencé)."
+   }
+  ]
+ },
+ {
+  "n": 82,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "clear_error",
+    "reason": "Duration of stay: 'por/durante una semana', not para."
+   }
+  ]
+ },
+ {
+  "n": 24,
+  "per_change": [
+   {
+    "from": "hicimos",
+    "to": "hacíamos",
+    "verdict": "acceptable",
+    "reason": "'Cada actividad que hicimos' over a bounded trip is a natural totalizing preterite."
+   }
+  ]
+ },
+ {
+  "n": 83,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "clear_error",
+    "reason": "Exchange/payment: 'pagar por los asientos'."
+   }
+  ]
+ },
+ {
+  "n": 41,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "clear_error",
+    "reason": "Opinion about a general state, under 'pensaba': 'pensaba que era raro'."
+   }
+  ]
+ },
+ {
+  "n": 52,
+  "per_change": [
+   {
+    "from": "necesité",
+    "to": "necesitaba",
+    "verdict": "clear_error",
+    "reason": "Realizing a need: the need is a state, 'supe que necesitaba ir'."
+   }
+  ]
+ },
+ {
+  "n": 38,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "unclear",
+    "reason": "Meaning of 'la situación fue muy realístico' is unclear; aspect choice cannot be judged confidently."
+   }
+  ]
+ },
+ {
+  "n": 64,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "acceptable",
+    "reason": "'Era por una mejor oportunidad' (motive, in pursuit of) is natural, cf. 'emigrar por una vida mejor'."
+   }
+  ]
+ },
+ {
+  "n": 71,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "acceptable",
+    "reason": "'Trabaja mucho por mi familia' (for the sake of) is natural."
+   }
+  ]
+ },
+ {
+  "n": 44,
+  "per_change": [
+   {
+    "from": "ganaron",
+    "to": "ganaban",
+    "verdict": "clear_error",
+    "reason": "Habitual parallel to 'siempre trabajaban duro': 'no ganaban mucho dinero'."
+   }
+  ]
+ },
+ {
+  "n": 60,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "clear_error",
+    "reason": "Doing something in memory/for the sake of a deceased person: 'trabajar por él'; 'para él' implies an employer."
+   }
+  ]
+ },
+ {
+  "n": 89,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "unclear",
+    "reason": "'Activista para el movimiento' is unnatural, but 'activista por el movimiento por...' is also awkward ('del movimiento' expected)."
+   }
+  ]
+ },
+ {
+  "n": 37,
+  "per_change": [
+   {
+    "from": "pensó",
+    "to": "pensaba",
+    "verdict": "acceptable",
+    "reason": "'Pensó que sería bueno decirle' = she thought/decided at that moment; natural preterite."
+   }
+  ]
+ },
+ {
+  "n": 66,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "acceptable",
+    "reason": "'Un boleto ... para su cumpleaños' (occasion) is natural."
+   }
+  ]
+ },
+ {
+  "n": 35,
+  "per_change": [
+   {
+    "from": "hizo",
+    "to": "hacía",
+    "verdict": "acceptable",
+    "reason": "'Me hizo sentir incómoda' (on that occasion) is natural; imperfect is an alternative."
+   }
+  ]
+ },
+ {
+  "n": 85,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "clear_error",
+    "reason": "'Amor por los deportes' is required."
+   }
+  ]
+ },
+ {
+  "n": 27,
+  "per_change": [
+   {
+    "from": "sentaron",
+    "to": "sentaban",
+    "verdict": "clear_error",
+    "reason": "Habitual description of the summer ('crecía cada día') calls for 'se sentaban'."
+   }
+  ]
+ },
+ {
+  "n": 19,
+  "per_change": [
+   {
+    "from": "fuimos",
+    "to": "íbamos",
+    "verdict": "clear_error",
+    "reason": "Habitual childhood activity parallel to 'salíamos', 'jugábamos'."
+   }
+  ]
+ },
+ {
+  "n": 73,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Purpose: 'estudio mucho para la clase'."
+   }
+  ]
+ },
+ {
+  "n": 70,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "unclear",
+    "reason": "'Para siempre' is wrong (future), but 'por siempre' is not the natural fix either ('desde siempre'); both off."
+   }
+  ]
+ },
+ {
+  "n": 36,
+  "per_change": [
+   {
+    "from": "estaba",
+    "to": "estuvo",
+    "verdict": "acceptable",
+    "reason": "Background state before 'decidió' with 'por mucho tiempo' is commonly imperfect in narrative; preterite also fine."
+   }
+  ]
+ },
+ {
+  "n": 3,
+  "per_change": [
+   {
+    "from": "pudo",
+    "to": "podía",
+    "verdict": "acceptable",
+    "reason": "'No pudo comer nada' (failed to eat on that occasion) is natural."
+   }
+  ]
+ },
+ {
+  "n": 15,
+  "per_change": [
+   {
+    "from": "quise",
+    "to": "quería",
+    "verdict": "clear_error",
+    "reason": "Reason/desire as state: 'porque quería'; 'quise' = tried/decided."
+   }
+  ]
+ },
+ {
+  "n": 63,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "acceptable",
+    "reason": "'Hacer cambios por los grupos minoritarios' (on behalf of) is acceptable alongside para."
+   }
+  ]
+ },
+ {
+  "n": 86,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Purpose/destination: 'comida para el viaje'."
+   }
+  ]
+ },
+ {
+  "n": 88,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Experiencer: 'aterrador para estas personas'."
+   }
+  ]
+ },
+ {
+  "n": 87,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Destination/purpose: 'las cosas para la casa'."
+   }
+  ]
+ },
+ {
+  "n": 29,
+  "per_change": [
+   {
+    "from": "consideraba",
+    "to": "consideré",
+    "verdict": "acceptable",
+    "reason": "Habitual self-perception through childhood naturally takes imperfect."
+   }
+  ]
+ },
+ {
+  "n": 16,
+  "per_change": [
+   {
+    "from": "gustó",
+    "to": "gustaba",
+    "verdict": "clear_error",
+    "reason": "Habitual liking/description: 'le gustaba correr'."
+   }
+  ]
+ },
+ {
+  "n": 80,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "acceptable",
+    "reason": "'El mejor hotel para el precio' (considering the price) is acceptable; 'por el precio' also fine."
+   }
+  ]
+ },
+ {
+  "n": 55,
+  "per_change": [
+   {
+    "from": "necesité",
+    "to": "necesitaba",
+    "verdict": "clear_error",
+    "reason": "State of need under 'sabía': 'sabía que necesitaba'."
+   }
+  ]
+ },
+ {
+  "n": 76,
+  "per_change": [
+   {
+    "from": "para",
+    "to": "por",
+    "verdict": "clear_error",
+    "reason": "Exchange: 'vender por dinero'."
+   }
+  ]
+ },
+ {
+  "n": 31,
+  "per_change": [
+   {
+    "from": "estaba",
+    "to": "estuve",
+    "verdict": "acceptable",
+    "reason": "'Cuando estaba allí' as background frame is natural."
+   },
+   {
+    "from": "era",
+    "to": "fue",
+    "verdict": "acceptable",
+    "reason": "'Era un sentimiento increíble' (description of the feeling) is natural; fue also fine."
+   }
+  ]
+ },
+ {
+  "n": 9,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "clear_error",
+    "reason": "Identity revealed in 'descubrieron que...' takes imperfect: 'ella era la princesa'."
+   }
+  ]
+ },
+ {
+  "n": 54,
+  "per_change": [
+   {
+    "from": "ocurrió",
+    "to": "ocurría",
+    "verdict": "clear_error",
+    "reason": "'Cada miércoles' habitual: 'ocurría'."
+   }
+  ]
+ },
+ {
+  "n": 56,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Purpose: 'estudiar para las clases'."
+   }
+  ]
+ },
+ {
+  "n": 12,
+  "per_change": [
+   {
+    "from": "encontraron",
+    "to": "encontraban",
+    "verdict": "clear_error",
+    "reason": "Repeated: 'en todos los lugares adonde iban' -> 'encontraban'."
+   }
+  ]
+ },
+ {
+  "n": 5,
+  "per_change": [
+   {
+    "from": "estuvo",
+    "to": "estaba",
+    "verdict": "clear_error",
+    "reason": "'Como siempre' habitual state: 'estaba solo'."
+   }
+  ]
+ },
+ {
+  "n": 28,
+  "per_change": [
+   {
+    "from": "quiso",
+    "to": "quería",
+    "verdict": "acceptable",
+    "reason": "'Quiso no hacer caso' = tried to ignore it (attempt), natural preterite meaning."
+   }
+  ]
+ },
+ {
+  "n": 65,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "acceptable",
+    "reason": "'Jugaba por (la selección de) Estados Unidos' (representing) is natural."
+   }
+  ]
+ },
+ {
+  "n": 8,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "acceptable",
+    "reason": "'Fue mi programa favorito' as a bounded past period is natural."
+   }
+  ]
+ },
+ {
+  "n": 75,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "acceptable",
+    "reason": "'Luchar por + infinitivo' is the standard construction."
+   }
+  ]
+ },
+ {
+  "n": 47,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "clear_error",
+    "reason": "'Empecé a ver que era tan especial': perceived characteristics are imperfect."
+   },
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "clear_error",
+    "reason": "'Era muy inteligente': characteristic description."
+   }
+  ]
+ },
+ {
+  "n": 13,
+  "per_change": [
+   {
+    "from": "estuvo",
+    "to": "estaba",
+    "verdict": "clear_error",
+    "reason": "Unbounded emotional state as background to 'decidió': 'estaba apenada'."
+   }
+  ]
+ },
+ {
+  "n": 69,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "acceptable",
+    "reason": "'Funeral por mi abuelo' is natural (cf. 'misa por')."
+   }
+  ]
+ },
+ {
+  "n": 10,
+  "per_change": [
+   {
+    "from": "fueron",
+    "to": "eran",
+    "verdict": "acceptable",
+    "reason": "Identifying what was seen ('fueron lo que vi') aligns with preterite 'vi'."
+   }
+  ]
+ },
+ {
+  "n": 7,
+  "per_change": [
+   {
+    "from": "gritaban",
+    "to": "gritaron",
+    "verdict": "acceptable",
+    "reason": "Ongoing action interrupted ('gritaban hasta que la madre entró') is natural."
+   }
+  ]
+ },
+ {
+  "n": 84,
+  "per_change": [
+   {
+    "from": "por",
+    "to": "para",
+    "verdict": "clear_error",
+    "reason": "Relative to an occasion/purpose: 'tarde para su primer día'."
+   }
+  ]
+ },
+ {
+  "n": 51,
+  "per_change": [
+   {
+    "from": "fue",
+    "to": "era",
+    "verdict": "clear_error",
+    "reason": "Description and reason under 'me dijo que': 'su pelo era corto porque era fácil'."
+   }
+  ]
+ },
+ {
+  "n": 20,
+  "per_change": [
+   {
+    "from": "llegaba",
+    "to": "llegué",
+    "verdict": "clear_error",
+    "reason": "Single arrival event in narrative: 'cuando llegué'."
+   }
+  ]
+ },
+ {
+  "n": 42,
+  "per_change": [
+   {
+    "from": "dije",
+    "to": "decía",
+    "verdict": "clear_error",
+    "reason": "Content of a letter is described with imperfect: 'una carta que decía'."
+   }
+  ]
+ }
+]

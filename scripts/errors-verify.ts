@@ -6,10 +6,12 @@
  * learner's form is a clear error, acceptable as written, or unclear. It can
  * only remove error labels, never add one.
  *
+ *   npm run errors:verify [-- --no-apply]       (every anchor-<language>-* set and the cowsl2h pool)
  *   npm run errors:verify -- --sets anchor-es-pret_imp,anchor-es-pret_imp-dev [--pool cowsl2h] [--concurrency 4]
  *
- * Verdicts are cached in data/verify/<language>.jsonl (resumable), then
- * applied: an item whose changes are all clear errors stays an error; all
+ * Verdicts are cached in data/verify/<language>.jsonl (resumable). Before
+ * applying, the run prints its agreement with the Claude audit sample
+ * (data/verify/audit-*); --no-apply stops there. Then they are applied: an item whose changes are all clear errors stays an error; all
  * acceptable, it becomes a correct example (the note keeps the instructor's
  * change); unclear or mixed, it is removed from the label set or pool (the
  * gold item itself stays). Label sets are anchor-<language>-<concept>[-dev];
@@ -47,13 +49,21 @@ const SCHEMA = {
   },
 };
 
-const instructions = (language: string, concept: string) => `You are an experienced teacher of ${language} as a foreign language. A learner wrote the response below to the prompt; an instructor then changed some ${concept} choices. Instructors sometimes change a form that was already acceptable, as a matter of style or preference. For each change, judge only the ${concept} choice, nothing else in the sentence:
-- clear_error: the learner's form is wrong on the natural reading of this response and prompt; a careful native teacher would mark it.
-- acceptable: the learner's form is natural, acceptable ${language} here, even if the instructor's form is also good or better. Not merely possible under a strained reading.
+/**
+ * Bump when the instructions change. v1 was too lenient on preterite/imperfect
+ * (Claude audit, data/verify/audit-claude.md): its "error" verdicts were
+ * reliable and are kept; everything else is judged again.
+ */
+const PROMPT_VERSION = 2;
+
+const instructions = (language: string, concept: string, guidance?: string) => `You are an experienced teacher of ${language} as a foreign language. A learner wrote the response below to the prompt; an instructor then changed some ${concept} choices. Instructors sometimes change a form that was already acceptable, as a matter of style or preference. For each change, judge only the ${concept} choice, nothing else in the sentence:
+- clear_error: on the most natural reading of the whole response and prompt, the learner's form is wrong; a careful native teacher would mark it.
+- acceptable: a careful native teacher would leave the learner's form unmarked here. It is not enough that some reading can be constructed for it: if the context (frame words, the forms around it, the prompt) points to the instructor's form, the learner's form is a clear_error. If you would say the instructor's form "fits better", "is more natural" or "more clearly expresses" the meaning, that is a clear_error, not acceptable.
 - unclear: the intended meaning is too unclear to decide, or the learner's form and the correction are both off.
+${guidance ? `\nFor ${concept} specifically: ${guidance}\n` : ""}
 Return one entry per change, in the order given, with a one-sentence reason.`;
 
-type Verdict = { key: string; changes: z.infer<typeof Result>["changes"]; verdict: "error" | "acceptable" | "drop"; verifier: string };
+type Verdict = { key: string; changes: z.infer<typeof Result>["changes"]; verdict: "error" | "acceptable" | "drop"; verifier: string; prompt_version?: number };
 type Change = { from: string; to: string };
 type Job = { key: string; concept: string; prompt: string; response: string; changes: Change[] };
 
@@ -68,18 +78,35 @@ const changesFromNotes = (notes = ""): Change[] =>
 
 async function main() {
   const { values } = parseArgs({
-    options: { sets: { type: "string" }, pool: { type: "string" }, language: { type: "string", default: "es" }, judge: { type: "string", default: "a" }, concurrency: { type: "string", default: "4" } },
+    options: {
+      sets: { type: "string" },
+      pool: { type: "string" },
+      language: { type: "string", default: "es" },
+      judge: { type: "string", default: "a" },
+      concurrency: { type: "string", default: "4" },
+      "no-apply": { type: "boolean", default: false },
+    },
   });
-  if (!values.sets && !values.pool) throw new Error("Give --sets <label sets> and/or --pool <corpus>");
+  if (!values.sets && !values.pool) {
+    // Default: every anchor set of the language, and the COWS-L2H training pool.
+    const dir = path.join(process.cwd(), "data", "gold", "model_labels");
+    values.sets = fs.readdirSync(dir).filter((f) => f.startsWith(`anchor-${values.language}-`) && f.endsWith(".jsonl")).map((f) => f.replace(/\.jsonl$/, "")).join(",");
+    values.pool = "cowsl2h";
+    console.log(`Sets: ${values.sets}; pool: ${values.pool}.`);
+  }
   if (values.judge !== "a" && values.judge !== "b") throw new Error("--judge must be a or b");
   const config = governanceConfig(values.judge as JudgeId);
   const pack = loadLanguage(values.language!);
   const conceptName = (key: string) => pack.concepts.find((c) => c.key === key)?.name ?? key;
+  const guidance = (key: string) => pack.concepts.find((c) => c.key === key)?.verify_guidance;
   const cacheFile = path.join(process.cwd(), "data", "verify", `${pack.code}.jsonl`);
   fs.mkdirSync(path.dirname(cacheFile), { recursive: true });
+  // The cache is append-only; the last verdict for a key wins.
   const cache = new Map<string, Verdict>(
     fs.existsSync(cacheFile) ? fs.readFileSync(cacheFile, "utf-8").trim().split("\n").filter(Boolean).map((l) => [JSON.parse(l).key, JSON.parse(l)]) : [],
   );
+  // A verdict is current if it was made with this prompt version, or is an "error" from an earlier one (those were reliable).
+  const current = (v?: Verdict) => !!v && ((v.prompt_version ?? 1) === PROMPT_VERSION || v.verdict === "error");
 
   // Collect every corrected error to check, keyed by item and concept (an item can be in two concepts' sets).
   const items = new Map(readItems().map((i) => [i.id, i]));
@@ -100,8 +127,8 @@ async function main() {
     jobs.set(`${p.id}|${p.concept}`, { key: `${p.id}|${p.concept}`, concept: p.concept, prompt: p.prompt, response: p.response, changes: p.findings });
   }
 
-  const todo = [...jobs.values()].filter((j) => !cache.has(j.key));
-  console.log(`${jobs.size} corrected errors to verify (${jobs.size - todo.length} cached) with ${config.ref}.`);
+  const todo = [...jobs.values()].filter((j) => !current(cache.get(j.key)));
+  console.log(`${jobs.size} corrected errors to verify (${jobs.size - todo.length} already current) with ${config.ref}, prompt v${PROMPT_VERSION}.`);
   const bar = progress(todo.length, "verified");
   let next = 0;
   let failed = 0;
@@ -114,11 +141,11 @@ async function main() {
           name: "verify_correction",
           jsonSchema: SCHEMA,
           schema: Result,
-          instructions: instructions(pack.name, conceptName(job.concept)),
+          instructions: instructions(pack.name, conceptName(job.concept), guidance(job.concept)),
           input: JSON.stringify({ prompt: job.prompt, response: job.response, changes: job.changes }),
         });
         if (data.changes.length !== job.changes.length) throw new Error(`expected ${job.changes.length} verdicts, got ${data.changes.length}`);
-        const v: Verdict = { key: job.key, changes: data.changes, verdict: itemVerdict(data.changes), verifier: config.ref };
+        const v: Verdict = { key: job.key, changes: data.changes, verdict: itemVerdict(data.changes), verifier: config.ref, prompt_version: PROMPT_VERSION };
         fs.appendFileSync(cacheFile, JSON.stringify(v) + "\n");
         cache.set(job.key, v);
         bar.tick();
@@ -134,6 +161,11 @@ async function main() {
   if (failed) {
     console.error(`${failed} failed; nothing applied. Re-run to retry them.`);
     process.exitCode = 1;
+    return;
+  }
+  auditAgreement(cache);
+  if (values["no-apply"]) {
+    console.log("--no-apply: verdicts cached, label sets and pool unchanged.");
     return;
   }
 
@@ -171,6 +203,31 @@ async function main() {
     }
     fs.writeFileSync(poolFile, out.map((p) => JSON.stringify(p)).join("\n") + "\n");
     console.log(`pool: ${tally.error} errors kept, ${tally.acceptable} now correct, ${tally.drop} removed. ${out.length} items.`);
+  }
+}
+
+/**
+ * Agreement with the Claude audit (data/verify/audit-*.json): the auditor's
+ * blind item verdicts on a fixed sample, compared with the current ones.
+ */
+function auditAgreement(cache: Map<string, Verdict>) {
+  const dir = path.join(process.cwd(), "data", "verify");
+  const sampleFile = path.join(dir, "audit-sample.json");
+  const claudeFile = path.join(dir, "audit-claude-verdicts.json");
+  if (!fs.existsSync(sampleFile) || !fs.existsSync(claudeFile)) return;
+  const sample: { n: number; key: string; concept: string }[] = JSON.parse(fs.readFileSync(sampleFile, "utf-8"));
+  const claude = new Map<number, Verdict["changes"]>(
+    JSON.parse(fs.readFileSync(claudeFile, "utf-8")).map((c: { n: number; per_change: Verdict["changes"] }) => [c.n, c.per_change]),
+  );
+  for (const concept of [...new Set(sample.map((s) => s.concept))]) {
+    const rows = sample.filter((s) => s.concept === concept && cache.has(s.key) && claude.has(s.n));
+    const table = new Map<string, number>();
+    for (const s of rows) {
+      const k = `${cache.get(s.key)!.verdict} / ${itemVerdict(claude.get(s.n)!)}`;
+      table.set(k, (table.get(k) ?? 0) + 1);
+    }
+    const agree = rows.filter((s) => cache.get(s.key)!.verdict === itemVerdict(claude.get(s.n)!)).length;
+    console.log(`Audit sample, ${concept}: agreement ${agree}/${rows.length}; current / auditor: ${[...table].map(([k, v]) => `${k} ${v}`).join(", ")}`);
   }
 }
 

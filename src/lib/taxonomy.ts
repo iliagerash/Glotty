@@ -21,6 +21,22 @@ export function loadTaxonomy(): TaxonomyCode[] {
   return taxonomy as TaxonomyCode[];
 }
 
+/** Codes as a model reads them: name, definition, examples and look-alikes. */
+export function renderCodes(codes: TaxonomyCode[]): string {
+  return codes
+    .map((t) =>
+      [
+        `### ${t.code}: ${t.name} (${t.domain})`,
+        t.definition,
+        t.positive_examples.length ? `Is this code: ${t.positive_examples.join(" | ")}` : "",
+        t.negative_examples.length ? `Is NOT this code: ${t.negative_examples.join(" | ")}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    )
+    .join("\n\n");
+}
+
 export function taxonomyCodes(): Set<string> {
   return new Set(loadTaxonomy().map((t) => t.code));
 }

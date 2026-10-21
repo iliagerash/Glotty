@@ -4,7 +4,7 @@ import path from "path";
 import { z } from "zod";
 import { completeStructured, type ChatMessage } from "@/lib/ai/gateway";
 import { resolveModel, type Tier } from "@/lib/ai/config";
-import { loadTaxonomy, MVP_CLUSTERS, TAXONOMY_PATH, taxonomyCodes } from "@/lib/taxonomy";
+import { loadTaxonomy, MVP_CLUSTERS, renderCodes, TAXONOMY_PATH, taxonomyCodes } from "@/lib/taxonomy";
 
 /**
  * The evaluator interface (§21–§26, §36): one learner response in, one
@@ -101,18 +101,7 @@ function systemPrompt(): { text: string; hash: string } {
 
 /** The taxonomy as the evaluator sees it; also used for model-labelling instructions. */
 export function renderTaxonomy(): string {
-  return loadTaxonomy()
-    .map((t) =>
-      [
-        `### ${t.code}: ${t.name} (${t.domain})`,
-        t.definition,
-        t.positive_examples.length ? `Is this code: ${t.positive_examples.join(" | ")}` : "",
-        t.negative_examples.length ? `Is NOT this code: ${t.negative_examples.join(" | ")}` : "",
-      ]
-        .filter(Boolean)
-        .join("\n"),
-    )
-    .join("\n\n");
+  return renderCodes(loadTaxonomy());
 }
 
 export function evaluatorVersion(modelRef: string): string {

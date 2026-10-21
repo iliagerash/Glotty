@@ -1,56 +1,62 @@
 {
   "drafted_by": "openai:gpt-6-luna#medium",
-  "drafted_at": "2026-10-21T15:12:51.098Z",
+  "drafted_at": "2026-10-21T18:15:45.652Z",
   "concept": "por_para",
-  "summary": "The codes capture local meaning contrasts visible in one response and its prompt: purpose versus cause, recipient/beneficiary versus acting on someone’s behalf, duration versus deadline, route versus destination, payment/exchange, and suitability or reference. Many supplied corrections are preferences, unclear in context, or not reliably Por-vs-para contrasts, so they are assigned NONE. Unlike v1, this taxonomy has no codes for a learner’s general English-for mapping or inferred strategy, and it does not turn every conventional phrase into a separate code.",
-  "left_out": "I left out global patterns such as English-for transfer, inconsistency across a learner’s history, avoidance, and lack of a stable system because they cannot be diagnosed from one response. I also left out a general fixed-expression code: items such as gracias por can be handled as conventional examples within the relevant meaning practice, not as evidence of a learner strategy. Several supplied changes appear preferential, unclear, or not actually a por/para contrast—especially some motion, votar por, buscar, and para/por occasion phrases—so those receive NONE rather than being forced into a code.",
+  "summary": "The seven codes capture local, prompt-supported contrasts: purpose/use versus cause or basis; recipient/employer versus support or acting for someone’s sake; duration versus deadline; payment or exchange; evaluative reference or suitability; and emotional or attitudinal objects. PRP.04 is limited to value given or received in exchange, not merit as the basis of praise. Following the review, emotion frames are separated from general cause/purpose, and support/advocacy is distinguished from a recipient. I did not add the review’s proposed governed-preposition/no-preposition code: those cases are not meaning contrasts between por and para, so they receive NONE. I also omitted route versus destination because this sample does not support a clear instance. Unlike v1, no code infers a learner-wide strategy or treats a correction as proof of error; uncertain or questionable targets are left unassigned.",
+  "left_out": "I left out global English-for transfer, inconsistent use across a learner’s history, avoidance, and any claim that a learner has no system; these are not diagnosable from one response. I also left out route versus destination because no supplied correction establishes that contrast clearly. Several corrections involving governed expressions or a different required preposition—such as preguntar por, esperar a/por, buscar a, razón para, and quedar por—are not coded: they do not identify a por-versus-para meaning contrast. Questionable targets and ambiguous relations receive NONE rather than being treated as learner errors.",
   "taxonomy": [
     {
       "code": "PRP.01",
-      "name": "Purpose or goal versus cause or basis",
-      "definition": "Use when the context clearly expresses a forward-looking purpose, intended result, or reason for doing something (para), but the learner uses por; or a cause, motive, stimulus, or basis (por), but the learner uses para. Includes emotional reactions to a stimulus and a basis for being famous, grateful, or rewarded. Do not use for a direct recipient/beneficiary, payment or exchange, or a person who is the standard for an evaluation.",
+      "name": "Purpose or intended use versus cause or basis",
+      "definition": "Use when para marks an action’s goal or an item’s intended use, but the learner uses por; or when por marks a cause, motive, basis, or passive agent, but the learner uses para. Do not use for emotional or attitudinal frames (PRP.06), evaluative predicates (PRP.05), recipients or support for someone (PRP.02), or a relation determined by a neighbouring word rather than this meaning contrast.",
       "positive_examples": [
-        "Estudio por las clases [para las clases]: the classes are the purpose/context of study.",
-        "Estoy emocionada para ver [por ver] a mi familia: seeing them is the stimulus.",
-        "Es famoso para sus películas [por sus películas]: the films are the basis of his fame."
+        "Volvimos a la tienda por buscarlo [para buscarlo]: searching is the goal.",
+        "Un tazón de café es importante por escalar rocas [para escalar rocas]: the activity is what it is useful for.",
+        "Es famoso para sus películas [por sus películas]: the films are the basis of his fame.",
+        "La política y la ciencia son afectadas para nuestra historia [por nuestra historia]: the history is the agent or cause."
       ],
       "negative_examples": [
-        "Compré un regalo por mi madre [para mi madre]: the mother is the recipient, not the cause.",
-        "Pagué para el libro [por el libro]: the phrase expresses payment, not purpose."
+        "Estoy emocionada para ver a mi familia [por ver]: an emotional frame, PRP.06.",
+        "Este tamaño es perfecto por Maya [para Maya]: suitability, PRP.05.",
+        "Compró ropa por su padre [para su padre]: the father is the recipient, PRP.02."
       ],
-      "distinguishing_probe": "Choose: «Lo hizo ___ la tormenta» (cause) / «Viajó ___ aprender» (purpose).",
-      "intervention_family": "cause_vs_purpose_contrast",
+      "distinguishing_probe": "Choose the contrast in context: «Se quedó en casa ___ la lluvia» (cause) / «Volvió ___ buscar las llaves» (purpose). Then distinguish an emotion frame: «Está agradecida ___ tu ayuda».",
+      "intervention_family": "cause_basis_vs_goal_practice",
       "domain": "es.sem.por_para"
     },
     {
       "code": "PRP.02",
-      "name": "Recipient or beneficiary versus acting on someone’s behalf",
-      "definition": "Use when a person or group is clearly the intended recipient or beneficiary of an item or action (para), but the learner uses por; or context clearly means doing something in someone’s place/on their behalf (por), but the learner uses para. Do not use for a general motive, a goal, suitability/reference, or an unclear phrase such as trabajar por alguien without enough context.",
+      "name": "Recipient or employer versus support or acting for someone’s sake",
+      "definition": "Use when para identifies the recipient, beneficiary, audience, employer, or team, but the learner uses por; or when por means in support of, for the sake of, in place of, or in honour of someone or a cause, but the learner uses para. For actions involving family or friends, use only when the context clearly establishes the intended relation; otherwise abstain. Do not use for an item’s purpose or intended use (PRP.01), payment (PRP.04), or an emotional attitude toward someone (PRP.06).",
       "positive_examples": [
-        "Compré un perro por mi madre [para mi madre]: she is the intended beneficiary.",
-        "Cocinaba desayuno por nuestra familia [para nuestra familia]: the family is who the breakfast is for.",
-        "Trabajé para él [por él]: when the context explicitly means acting in his place."
+        "Quiero comprar una casa y un perro por mi madre [para mi madre]: she is the intended beneficiary.",
+        "Trabajan por S.H.I.E.L.D. [para S.H.I.E.L.D.]: the organization is the employer.",
+        "Cocinaba desayuno por nuestra familia [para nuestra familia]: the family is the intended recipient.",
+        "Hago todo para mi papá [por mi papá]: the context presents the action as being for his sake."
       ],
       "negative_examples": [
-        "Estudio por mi familia [para mi familia only if they are recipients]: if they are the motive, this is a cause/motive contrast.",
-        "Este tamaño es perfecto por Maya [para Maya]: this is suitability/reference, not receipt."
+        "La medicina es por las pulgas [para las pulgas]: intended use, PRP.01.",
+        "Estoy agradecido para mi familia [por mi familia]: emotional attitude, PRP.06.",
+        "Vendió los autógrafos para dinero [por dinero]: exchange, PRP.04."
       ],
-      "distinguishing_probe": "Contrast «Compré flores ___ Ana» (Ana receives them) with «Fui ___ Ana porque estaba enferma» (I went in her place).",
-      "intervention_family": "recipient_vs_behalf_practice",
+      "distinguishing_probe": "Contrast «Compré flores ___ Ana» when Ana receives them with «Voté ___ Ana» when expressing support for her candidacy.",
+      "intervention_family": "recipient_vs_support_practice",
       "domain": "es.sem.por_para"
     },
     {
       "code": "PRP.03",
-      "name": "Duration or time span versus deadline",
-      "definition": "Use when a clearly stated length of time or period over which an event lasts calls for por (or a duration expression), but the learner uses para; or a clearly stated due date/deadline calls for para, but the learner uses por. Do not use for an approximate date, holiday occasion, or a phrase where duration versus deadline is not established.",
+      "name": "Duration span versus deadline or target time",
+      "definition": "Use when the context clearly gives a length of time or span over which something lasts, but the learner uses para instead of por or another suitable duration expression; or when a deadline or target time calls for para but the learner uses por. Accept durante, desde hace, or no preposition when those are the natural correction. Do not use for frequency, approximate occasions, or an unclear time relation.",
       "positive_examples": [
-        "Practiqué el fútbol para siete años [por siete años]: a length of time.",
-        "Estuve allí para tres años [por tres años]: a time span.",
-        "Quiero estar lista por el verano [para el verano]: a target time/deadline."
+        "Ella ha estado en mi vida para dos años [por dos años / durante dos años]: a duration.",
+        "He estudiado español para cinco años [por cinco años / durante cinco años]: a duration.",
+        "Quiero estar delgada por el verano [para el verano]: the summer is the target time.",
+        "Estaba emocionada para mi graduación [por mi graduación]: the graduation is the relevant target occasion."
       ],
       "negative_examples": [
-        "El informe es para el viernes: a deadline, correctly marked.",
-        "Nos vimos por Navidad: the occasion may allow more than one framing; do not code without clearer context."
+        "El informe es para el viernes: para correctly marks a deadline.",
+        "Nos vimos por Navidad: an occasion reading does not by itself establish a duration/deadline error.",
+        "Voy cuatro días a la semana: frequency, not a duration contrast."
       ],
       "distinguishing_probe": "Choose: «Vivió allí ___ tres años» (duration) / «Entrega el trabajo ___ el viernes» (deadline).",
       "intervention_family": "duration_vs_deadline_practice",
@@ -58,52 +64,58 @@
     },
     {
       "code": "PRP.04",
-      "name": "Route or transit versus destination",
-      "definition": "Use when the prompt clearly establishes movement through/along a route or area (por), versus movement toward a final destination (para), and the learner selects the other preposition. Do not use for a phrase that merely names a place after caminar or ir, since that can require a different construction or may be underspecified.",
+      "name": "Payment or exchange",
+      "definition": "Use when the intended relation is a price paid, money received in exchange, or value offered as a reward in return for something, normally marked by por, but the learner uses para. Do not use for merit or blame as the basis of a judgment (PRP.01), a recipient (PRP.02), or an unclear statement about having money.",
       "positive_examples": [
-        "Pasamos para Córdoba [por Córdoba] antes de llegar a Sevilla: Córdoba is on the route.",
-        "Salimos por Madrid [para Madrid] como destino final: Madrid is the destination."
+        "Pagaría para los asientos [por los asientos]: payment for the seats.",
+        "Vender los autógrafos para dinero [por dinero]: money received in exchange.",
+        "Ofrecían cuarenta mil dólares para su captura [por su captura]: a bounty offered in exchange for the capture."
       ],
       "negative_examples": [
-        "Fuimos a Granada para visitar la Alhambra: para marks purpose, not destination-versus-route.",
-        "Caminó por la biblioteca: por can correctly describe movement through a place."
+        "Ella recibió premios para su trabajo [por su trabajo]: por gives the basis or merit for recognition, PRP.01.",
+        "Compré un regalo para mi hermano: para marks the recipient, PRP.02.",
+        "No tiene dinero para su trabajo: without clearer context, the intended relation is uncertain."
       ],
-      "distinguishing_probe": "Choose: «Para llegar a Sevilla, pasamos ___ Córdoba» versus «El tren sale ___ Sevilla, su destino final».",
-      "intervention_family": "route_vs_destination_practice",
+      "distinguishing_probe": "Choose: «Te vendo la bicicleta ___ cien euros» (exchange) / «Compré la bicicleta ___ mi hermana» (recipient).",
+      "intervention_family": "payment_exchange_frames",
       "domain": "es.sem.por_para"
     },
     {
       "code": "PRP.05",
-      "name": "Price, payment, or exchange",
-      "definition": "Use when the intended relation is a price paid, payment for something, a reward, or an exchange (por), but the learner uses para. Do not use for the recipient of a purchase, the purpose of buying, or an ambiguous phrase about money without a clear transaction.",
+      "name": "Evaluative reference or suitability",
+      "definition": "Use when para marks the person, group, or purpose with respect to which something is suitable, beneficial, difficult, important, late, or an advantage, but the learner uses por. Do not use when para expresses the goal of an action (PRP.01), when the person receives something (PRP.02), or when an emotion is directed toward someone or something (PRP.06).",
       "positive_examples": [
-        "Pagaría para los asientos [por los asientos]: payment for the seats.",
-        "Vender los autógrafos para dinero [por dinero]: money received in exchange.",
-        "Ofrecían cuarenta mil dólares para su captura [por su captura]: a reward for the capture."
+        "Es una ventaja por mí [para mí]: the advantage is evaluated with respect to the speaker.",
+        "El tamaño perfecto por Maya [para Maya]: the size suits Maya.",
+        "No son sencillas por él [para él]: the difficulty is evaluated from his point of view.",
+        "Llegó tarde por su primer día [para su primer día]: the timing is relative to the event."
       ],
       "negative_examples": [
-        "Compré un libro para mi hermano: the brother is the recipient.",
-        "Compré un libro para estudiar: studying is the purpose."
+        "Estoy triste por él: por can correctly mark the person who prompts the sadness, PRP.06 rather than an evaluation.",
+        "Volvió para estudiar: this is an action goal, PRP.01.",
+        "Compré ropa para Maya: Maya is the recipient, PRP.02."
       ],
-      "distinguishing_probe": "Choose: «Te vendo la bicicleta ___ cien euros» (price/exchange) / «Compré la bicicleta ___ mi hermana» (recipient).",
-      "intervention_family": "payment_and_exchange_frames",
+      "distinguishing_probe": "Choose: «Este ejercicio es difícil ___ los principiantes» (evaluation) / «Lo castigaron ___ mentir» (cause).",
+      "intervention_family": "evaluative_reference_practice",
       "domain": "es.sem.por_para"
     },
     {
       "code": "PRP.06",
-      "name": "Suitability or reference point",
-      "definition": "Use when para marks what is suitable, beneficial, difficult, important, or true from a stated person’s or thing’s point of view, but the learner uses por. Do not use when the person is simply a recipient, or when por clearly marks the cause or stimulus of an emotion.",
+      "name": "Emotion or attitude toward an object",
+      "definition": "Use when an emotion or attitude toward a person, event, action, or thing is expressed with a learner’s para where the intended Spanish frame uses por (for example, agradecido por, emocionado por, triste por, tener miedo por, tener respeto por). Do not use for a cause that is not the object of an emotion or attitude (PRP.01), a beneficiary (PRP.02), or an evaluative predicate such as difícil para (PRP.05). Other Spanish frames, such as emocionado de, may also be acceptable; do not code an acceptable alternative.",
       "positive_examples": [
-        "Es una ventaja por mí [para mí]: the advantage is evaluated with respect to the speaker.",
-        "Era el tamaño perfecto por Maya [para Maya]: it suited Maya.",
-        "Es bueno por la salud [para la salud]: it is beneficial for health."
+        "Estoy emocionada para ver a mi familia [por ver a mi familia]: anticipation directed toward the event.",
+        "Mi familia está emocionada para mí [por mí]: the emotion is concern or happiness for the speaker.",
+        "Tengo mucho respeto para ella [por ella]: respect toward a person.",
+        "Gracias para escuchar [por escuchar]: gratitude for the act."
       ],
       "negative_examples": [
-        "Estoy triste por mi amiga: she is the stimulus/cause of sadness, not a reference standard.",
-        "Compré ropa para mi madre: she is the recipient, not the evaluation point."
+        "Se quedó en casa por la lluvia: por marks a cause, PRP.01.",
+        "Compró una casa para su madre: para marks a recipient, PRP.02.",
+        "Es difícil para mí: para marks an evaluative reference, PRP.05."
       ],
-      "distinguishing_probe": "Choose: «Es difícil ___ mí» (reference/experiencer) versus «Estoy triste ___ mí» meaning ‘because of myself’ (cause).",
-      "intervention_family": "suitability_and_reference_practice",
+      "distinguishing_probe": "Choose: «Estoy agradecida ___ tu ayuda» / «Estudié ___ conseguir un trabajo»; the first is an attitude frame, the second a purpose.",
+      "intervention_family": "emotion_attitude_por_frames",
       "domain": "es.sem.por_para"
     }
   ],
@@ -111,992 +123,527 @@
     {
       "i": 0,
       "code": "PRP.03",
-      "why": "Summer is the target time."
+      "why": "Target time: para el verano."
     },
     {
       "i": 1,
-      "code": "PRP.02",
-      "why": "Juguetes are intended for him."
+      "code": "PRP.06",
+      "why": "Gratitude toward the language."
     },
     {
       "i": 2,
-      "code": "PRP.02",
-      "why": "Team affiliation/representation is intended."
-    },
-    {
-      "i": 3,
-      "code": "PRP.01",
-      "why": "Language is the basis of gratitude."
-    },
-    {
-      "i": 4,
-      "code": "PRP.02",
-      "why": "Team affiliation/representation is intended."
-    },
-    {
-      "i": 5,
       "code": "PRP.01",
       "why": "Films are the basis of fame."
     },
     {
-      "i": 6,
+      "i": 3,
       "code": "PRP.02",
       "why": "Mother is the intended beneficiary."
     },
     {
-      "i": 7,
+      "i": 4,
       "code": "NONE",
-      "why": "Por sí mismo is plausible as written."
+      "why": "Self-love wording and target are unclear."
+    },
+    {
+      "i": 5,
+      "code": "PRP.01",
+      "why": "Harry Potter is the reason/theme for the visit."
+    },
+    {
+      "i": 6,
+      "code": "PRP.02",
+      "why": "Organization is the employer."
+    },
+    {
+      "i": 7,
+      "code": "PRP.04",
+      "why": "Painting is offered in return for help."
     },
     {
       "i": 8,
       "code": "NONE",
-      "why": "Birthday occasion allows both framings."
+      "why": "Reason noun governs the construction; not a clear contrast."
     },
     {
       "i": 9,
       "code": "NONE",
-      "why": "Harry Potter relation is unclear."
+      "why": "Preguntar por is a governed frame, not this contrast."
     },
     {
       "i": 10,
-      "code": "PRP.02",
-      "why": "Organization is whom they work for."
+      "code": "PRP.03",
+      "why": "June 10 is the target date for the tickets."
     },
     {
       "i": 11,
-      "code": "PRP.05",
-      "why": "Painting is offered in exchange for help."
+      "code": "PRP.04",
+      "why": "Seats are what the speaker would pay for."
     },
     {
       "i": 12,
       "code": "PRP.01",
-      "why": "Intended reason/purpose of wanting specialties."
+      "why": "Things are intended for use in the house."
     },
     {
       "i": 13,
       "code": "NONE",
-      "why": "Meaning of family phrase is unclear."
+      "why": "Razones para is a noun construction, not a clear meaning contrast."
     },
     {
       "i": 14,
-      "code": "PRP.03",
-      "why": "Para siempre marks the intended time horizon."
+      "code": "PRP.01",
+      "why": "The Beatles are the basis of his fame."
     },
     {
       "i": 15,
       "code": "PRP.01",
-      "why": "Fear is about the mother’s life."
+      "why": "Searching is the goal of returning."
     },
     {
       "i": 16,
-      "code": "NONE",
-      "why": "Meaning of preguntó para su hijo is unclear."
+      "code": "PRP.05",
+      "why": "Genial is evaluated with respect to society."
     },
     {
       "i": 17,
-      "code": "PRP.03",
-      "why": "June 10 is the intended travel date."
+      "code": "PRP.02",
+      "why": "The magazine is the employer."
     },
     {
       "i": 18,
-      "code": "PRP.05",
-      "why": "Seats are what the money buys."
-    },
-    {
-      "i": 19,
-      "code": "PRP.02",
-      "why": "Things are intended for the house."
-    },
-    {
-      "i": 20,
-      "code": "NONE",
-      "why": "Por esto can be acceptable here."
-    },
-    {
-      "i": 21,
-      "code": "PRP.01",
-      "why": "The Beatles are the basis of fame."
-    },
-    {
-      "i": 22,
-      "code": "PRP.03",
-      "why": "Date is the intended travel date."
-    },
-    {
-      "i": 23,
-      "code": "PRP.01",
-      "why": "Searching is the purpose of returning."
-    },
-    {
-      "i": 24,
-      "code": "PRP.06",
-      "why": "Goodness is evaluated for society."
-    },
-    {
-      "i": 25,
-      "code": "NONE",
-      "why": "Correction and intended relation are unclear."
-    },
-    {
-      "i": 26,
-      "code": "PRP.02",
-      "why": "Magazine is the organization she worked for."
-    },
-    {
-      "i": 27,
       "code": "PRP.03",
       "why": "Many hours is a duration."
     },
     {
-      "i": 28,
-      "code": "PRP.01",
-      "why": "Excitement is about the family member."
+      "i": 19,
+      "code": "PRP.06",
+      "why": "Family is the object of the emotion."
     },
     {
-      "i": 29,
-      "code": "PRP.02",
-      "why": "Team affiliation/representation is intended."
-    },
-    {
-      "i": 30,
+      "i": 20,
       "code": "PRP.03",
       "why": "Three years is a duration."
     },
     {
-      "i": 31,
+      "i": 21,
       "code": "PRP.01",
-      "why": "Crossing is the purpose of waiting."
+      "why": "Crossing is the intended purpose of waiting."
+    },
+    {
+      "i": 22,
+      "code": "PRP.01",
+      "why": "Rain is the cause of staying in."
+    },
+    {
+      "i": 23,
+      "code": "PRP.06",
+      "why": "Nervousness is directed toward starting."
+    },
+    {
+      "i": 24,
+      "code": "PRP.02",
+      "why": "The action is done for the father's sake."
+    },
+    {
+      "i": 25,
+      "code": "PRP.02",
+      "why": "The child is the intended recipient of the toys."
+    },
+    {
+      "i": 26,
+      "code": "PRP.05",
+      "why": "Advantage is evaluated with respect to the speaker."
+    },
+    {
+      "i": 27,
+      "code": "PRP.05",
+      "why": "Importance is evaluated relative to rock climbing."
+    },
+    {
+      "i": 28,
+      "code": "PRP.01",
+      "why": "Studying is preparation for classes."
+    },
+    {
+      "i": 29,
+      "code": "PRP.02",
+      "why": "She shops for herself as beneficiary."
+    },
+    {
+      "i": 30,
+      "code": "PRP.01",
+      "why": "The crime is the basis for imprisonment."
+    },
+    {
+      "i": 31,
+      "code": "PRP.02",
+      "why": "Family members are intended recipients of the clothes."
     },
     {
       "i": 32,
-      "code": "PRP.01",
-      "why": "Preparation is directed toward the application."
+      "code": "NONE",
+      "why": "The relation between film and character is unclear; likely needs sobre."
     },
     {
       "i": 33,
-      "code": "PRP.06",
-      "why": "The chair’s fit is evaluated for Maya."
+      "code": "PRP.02",
+      "why": "Women are the intended audience."
     },
     {
       "i": 34,
-      "code": "PRP.02",
-      "why": "Magazine is the organization she worked for."
+      "code": "PRP.06",
+      "why": "Respect is directed toward her."
     },
     {
       "i": 35,
       "code": "NONE",
-      "why": "Para mí is acceptable for beneficiary here."
+      "why": "Quedar por is a lexical frame, not a clear contrast here."
     },
     {
       "i": 36,
-      "code": "NONE",
-      "why": "The relation to rain is unclear."
+      "code": "PRP.05",
+      "why": "The price is evaluated relative to a student."
     },
     {
       "i": 37,
-      "code": "PRP.01",
-      "why": "Starting the process is the emotional stimulus."
+      "code": "PRP.04",
+      "why": "Hotel value is related to the price paid."
     },
     {
       "i": 38,
-      "code": "PRP.02",
-      "why": "Doing it on his behalf is intended."
+      "code": "PRP.06",
+      "why": "Excitement is directed toward going out."
     },
     {
       "i": 39,
-      "code": "PRP.02",
-      "why": "Toys are intended for him."
+      "code": "PRP.03",
+      "why": "A few days is a duration."
     },
     {
       "i": 40,
       "code": "PRP.06",
-      "why": "Advantage is evaluated with respect to the speaker."
-    },
-    {
-      "i": 41,
-      "code": "PRP.06",
-      "why": "Coffee’s usefulness for climbing is intended."
-    },
-    {
-      "i": 42,
-      "code": "PRP.01",
       "why": "Feelings are directed toward him."
     },
     {
+      "i": 41,
+      "code": "PRP.02",
+      "why": "Doing something for their sake."
+    },
+    {
+      "i": 42,
+      "code": "PRP.06",
+      "why": "Desesperado por is an emotional frame."
+    },
+    {
       "i": 43,
-      "code": "PRP.01",
-      "why": "Classes are the intended context/purpose of study."
+      "code": "PRP.06",
+      "why": "Excitement is directed toward seeing her future."
     },
     {
       "i": 44,
-      "code": "PRP.03",
-      "why": "Years of practice is duration."
+      "code": "PRP.01",
+      "why": "The medicine is intended to treat fleas and ticks."
     },
     {
       "i": 45,
       "code": "PRP.02",
-      "why": "Family is the intended beneficiary of the work."
+      "why": "Girls and boys are the intended audience."
     },
     {
       "i": 46,
-      "code": "PRP.01",
-      "why": "Films are the basis of fame."
+      "code": "PRP.05",
+      "why": "Importance is evaluated relative to the culture."
     },
     {
       "i": 47,
-      "code": "PRP.02",
-      "why": "Clothes are intended for herself."
+      "code": "PRP.01",
+      "why": "The scope is what the speaker can trust her with."
     },
     {
       "i": 48,
-      "code": "PRP.01",
-      "why": "The crime is the basis/cause of imprisonment."
+      "code": "NONE",
+      "why": "At the parade likely needs en; para target is questionable."
     },
     {
       "i": 49,
-      "code": "PRP.02",
-      "why": "Clothes are intended for family members."
+      "code": "PRP.01",
+      "why": "Homework is intended for the class."
     },
     {
       "i": 50,
-      "code": "NONE",
-      "why": "Meaning of a film por su carácter is unclear."
+      "code": "PRP.03",
+      "why": "A long time is a duration."
     },
     {
       "i": 51,
-      "code": "PRP.02",
-      "why": "The internet company is intended for women."
+      "code": "PRP.05",
+      "why": "Expectations are evaluated with respect to herself."
     },
     {
       "i": 52,
-      "code": "PRP.01",
-      "why": "Respect is directed toward her."
+      "code": "PRP.06",
+      "why": "Excitement is directed toward the future."
     },
     {
       "i": 53,
-      "code": "PRP.06",
-      "why": "Expectations are evaluated for herself."
+      "code": "PRP.01",
+      "why": "Visiting the Alhambra is the purpose."
     },
     {
       "i": 54,
-      "code": "NONE",
-      "why": "Queda mucho por aprender is a different construction."
+      "code": "PRP.06",
+      "why": "Fear is concern for the father."
     },
     {
       "i": 55,
-      "code": "NONE",
-      "why": "Pasión por is a lexical collocation, not a clear contrast here."
+      "code": "PRP.06",
+      "why": "Excitement is directed toward seeing family and gifts."
     },
     {
       "i": 56,
-      "code": "NONE",
-      "why": "Work para él is not uniquely interpretable."
+      "code": "PRP.01",
+      "why": "Studying is for the class."
     },
     {
       "i": 57,
-      "code": "PRP.06",
-      "why": "Affordability is evaluated for a student."
+      "code": "PRP.05",
+      "why": "Late is evaluated relative to the first workday."
     },
     {
       "i": 58,
-      "code": "PRP.01",
-      "why": "Emotion is experienced on their behalf."
+      "code": "NONE",
+      "why": "Por la noche is not clearly a duration contrast here."
     },
     {
       "i": 59,
-      "code": "PRP.05",
-      "why": "Price is the exchange/value relation."
+      "code": "PRP.01",
+      "why": "Eating is the intended purpose of the toast."
     },
     {
       "i": 60,
       "code": "PRP.01",
-      "why": "The phrase expresses a reason/purpose."
+      "why": "The interruption is the basis for the judgment."
     },
     {
       "i": 61,
-      "code": "PRP.03",
-      "why": "Many years is duration."
+      "code": "PRP.01",
+      "why": "Drinking beer is the purpose of going to pubs."
     },
     {
       "i": 62,
       "code": "PRP.05",
-      "why": "Payment for everything is intended."
+      "why": "The year is evaluated from a student's perspective."
     },
     {
       "i": 63,
-      "code": "PRP.02",
-      "why": "House and dog are intended for the mother."
+      "code": "PRP.03",
+      "why": "Many years is a duration."
     },
     {
       "i": 64,
-      "code": "PRP.01",
-      "why": "Going out is the emotional stimulus."
+      "code": "PRP.06",
+      "why": "Respect is directed toward her."
     },
     {
       "i": 65,
-      "code": "PRP.03",
-      "why": "Several days is the duration of the vacation."
+      "code": "PRP.02",
+      "why": "Minority groups are the intended beneficiaries."
     },
     {
       "i": 66,
-      "code": "PRP.01",
-      "why": "Feelings are directed toward him."
-    },
-    {
-      "i": 67,
-      "code": "PRP.01",
-      "why": "Respect is directed toward her."
-    },
-    {
-      "i": 68,
-      "code": "NONE",
-      "why": "Relation of doing nothing to them is unclear."
-    },
-    {
-      "i": 69,
-      "code": "PRP.01",
-      "why": "Not missing the flight is the source of desperation."
-    },
-    {
-      "i": 70,
-      "code": "PRP.01",
-      "why": "Seeing the future is the emotional stimulus."
-    },
-    {
-      "i": 71,
-      "code": "PRP.01",
-      "why": "Medicine is intended to treat/prevent fleas."
-    },
-    {
-      "i": 72,
-      "code": "PRP.02",
-      "why": "The children are the intended audience/beneficiaries."
-    },
-    {
-      "i": 73,
-      "code": "PRP.06",
-      "why": "Importance is evaluated for the culture."
-    },
-    {
-      "i": 74,
-      "code": "PRP.01",
-      "why": "Family and future are motives for study."
-    },
-    {
-      "i": 75,
-      "code": "NONE",
-      "why": "Confiar por cualquier cosa is unclear/nonstandard."
-    },
-    {
-      "i": 76,
-      "code": "PRP.01",
-      "why": "Words are the cause of feeling bad."
-    },
-    {
-      "i": 77,
-      "code": "NONE",
-      "why": "Performance relation to the parade is unclear."
-    },
-    {
-      "i": 78,
-      "code": "PRP.01",
-      "why": "Songs are the basis of being known."
-    },
-    {
-      "i": 79,
-      "code": "PRP.01",
-      "why": "Classes are the intended context of the homework."
-    },
-    {
-      "i": 80,
-      "code": "PRP.02",
-      "why": "House is intended for the family."
-    },
-    {
-      "i": 81,
-      "code": "PRP.06",
-      "why": "Advantage is evaluated for the speaker."
-    },
-    {
-      "i": 82,
-      "code": "PRP.03",
-      "why": "Four days per week describes frequency/duration."
-    },
-    {
-      "i": 83,
-      "code": "PRP.01",
-      "why": "Establishing a connection is the intended goal."
-    },
-    {
-      "i": 84,
-      "code": "PRP.03",
-      "why": "Mucho tiempo is duration."
-    },
-    {
-      "i": 85,
-      "code": "NONE",
-      "why": "Queda mucho por aprender is a different construction."
-    },
-    {
-      "i": 86,
-      "code": "NONE",
-      "why": "Schedule phrase is too unclear to establish a contrast."
-    },
-    {
-      "i": 87,
-      "code": "PRP.02",
-      "why": "Lesson plan is prepared for the students."
-    },
-    {
-      "i": 88,
-      "code": "PRP.06",
-      "why": "Expectations are evaluated for herself."
-    },
-    {
-      "i": 89,
-      "code": "NONE",
-      "why": "Schedule phrase is too unclear to establish a contrast."
-    },
-    {
-      "i": 90,
-      "code": "PRP.01",
-      "why": "Future is the emotional stimulus."
-    },
-    {
-      "i": 91,
-      "code": "PRP.01",
-      "why": "Visiting is the purpose of going to Granada."
-    },
-    {
-      "i": 92,
-      "code": "PRP.01",
-      "why": "Fear is about the father."
-    },
-    {
-      "i": 93,
-      "code": "PRP.01",
-      "why": "The Beatles are the basis of fame."
-    },
-    {
-      "i": 94,
-      "code": "PRP.01",
-      "why": "Seeing family and gifts is the stimulus."
-    },
-    {
-      "i": 95,
-      "code": "PRP.06",
-      "why": "Goodness is evaluated for society."
-    },
-    {
-      "i": 96,
-      "code": "PRP.02",
-      "why": "Company is intended for women."
-    },
-    {
-      "i": 97,
-      "code": "PRP.02",
-      "why": "Family is the intended beneficiary of work."
-    },
-    {
-      "i": 98,
-      "code": "NONE",
-      "why": "Correction targets are unclear; prom is an occasion."
-    },
-    {
-      "i": 99,
-      "code": "PRP.01",
-      "why": "Class is the intended context of study."
-    },
-    {
-      "i": 100,
-      "code": "NONE",
-      "why": "First-day relation is not clearly a deadline or purpose."
-    },
-    {
-      "i": 101,
-      "code": "PRP.03",
-      "why": "The night is a time span."
-    },
-    {
-      "i": 102,
-      "code": "PRP.01",
-      "why": "Eating is the purpose of the toast."
-    },
-    {
-      "i": 103,
-      "code": "PRP.03",
-      "why": "Toda la noche expresses duration; other change unclear."
-    },
-    {
-      "i": 104,
-      "code": "PRP.01",
-      "why": "Seeing family and gifts is the stimulus."
-    },
-    {
-      "i": 105,
-      "code": "PRP.01",
-      "why": "Interrupting is the basis for the criticism."
-    },
-    {
-      "i": 106,
-      "code": "PRP.01",
-      "why": "The story is the cause of the feeling."
-    },
-    {
-      "i": 107,
-      "code": "PRP.05",
-      "why": "Money is offered as a reward for capture."
-    },
-    {
-      "i": 108,
-      "code": "PRP.01",
-      "why": "Drinking is the purpose of going to pubs."
-    },
-    {
-      "i": 109,
-      "code": "PRP.06",
-      "why": "The year is evaluated with respect to a student."
-    },
-    {
-      "i": 110,
-      "code": "PRP.03",
-      "why": "Many years is duration."
-    },
-    {
-      "i": 111,
-      "code": "PRP.01",
-      "why": "Respect is directed toward her."
-    },
-    {
-      "i": 112,
-      "code": "PRP.05",
-      "why": "Seats are what the money buys."
-    },
-    {
-      "i": 113,
-      "code": "PRP.02",
-      "why": "Minority groups are intended beneficiaries."
-    },
-    {
-      "i": 114,
-      "code": "PRP.06",
-      "why": "Affordability is evaluated for a student."
-    },
-    {
-      "i": 115,
-      "code": "PRP.02",
-      "why": "Space is intended for an animal."
-    },
-    {
-      "i": 116,
       "code": "PRP.03",
       "why": "Two minutes is a duration."
     },
     {
-      "i": 117,
-      "code": "PRP.01",
-      "why": "Seeing her future is the emotional stimulus."
-    },
-    {
-      "i": 118,
-      "code": "PRP.06",
-      "why": "Difficulty is evaluated for him."
-    },
-    {
-      "i": 119,
-      "code": "PRP.02",
-      "why": "Family is the intended recipient of cooking."
-    },
-    {
-      "i": 120,
-      "code": "PRP.02",
-      "why": "Family and neighbors are intended recipients."
-    },
-    {
-      "i": 121,
-      "code": "NONE",
-      "why": "The corrections do not identify a clear por/para error."
-    },
-    {
-      "i": 122,
-      "code": "NONE",
-      "why": "The corrections do not identify a clear por/para error."
-    },
-    {
-      "i": 123,
-      "code": "PRP.01",
-      "why": "Medicine is intended to treat/prevent fleas."
-    },
-    {
-      "i": 124,
-      "code": "PRP.02",
-      "why": "School is the organization she works for."
-    },
-    {
-      "i": 125,
+      "i": 67,
       "code": "PRP.05",
-      "why": "Money is the proceeds of a sale."
+      "why": "Simplicity is evaluated relative to him."
     },
     {
-      "i": 126,
-      "code": "PRP.01",
-      "why": "He is the stimulus of sadness."
-    },
-    {
-      "i": 127,
-      "code": "PRP.01",
-      "why": "Visiting is the purpose of going to Granada."
-    },
-    {
-      "i": 128,
-      "code": "PRP.01",
-      "why": "Gracias por marks what one is thankful for."
-    },
-    {
-      "i": 129,
+      "i": 68,
       "code": "PRP.02",
-      "why": "The newspaper is the organization she wrote for."
+      "why": "The family is the intended recipient of the cooking."
     },
     {
-      "i": 130,
+      "i": 69,
       "code": "PRP.02",
-      "why": "S.H.I.E.L.D. is the organization they work for."
+      "why": "Fighting is for the sake of a better life."
     },
     {
-      "i": 131,
-      "code": "NONE",
-      "why": "Required by/for classes and magazine is ambiguous."
+      "i": 70,
+      "code": "PRP.04",
+      "why": "Money is received in exchange for autographs."
     },
     {
-      "i": 132,
+      "i": 71,
+      "code": "PRP.06",
+      "why": "Sadness is directed toward him."
+    },
+    {
+      "i": 72,
+      "code": "PRP.06",
+      "why": "Gratitude is for the act of listening."
+    },
+    {
+      "i": 73,
+      "code": "PRP.04",
+      "why": "The phrase concerns paying for everything."
+    },
+    {
+      "i": 74,
+      "code": "PRP.01",
+      "why": "Reasons are the basis for fame."
+    },
+    {
+      "i": 75,
+      "code": "PRP.03",
+      "why": "The whole night is a time span."
+    },
+    {
+      "i": 76,
+      "code": "PRP.02",
+      "why": "The family is the intended recipient of breakfast."
+    },
+    {
+      "i": 77,
+      "code": "PRP.06",
+      "why": "Gratitude toward the people."
+    },
+    {
+      "i": 78,
+      "code": "PRP.01",
+      "why": "The purchases are intended for the house."
+    },
+    {
+      "i": 79,
+      "code": "PRP.02",
+      "why": "Students are the intended audience/beneficiaries."
+    },
+    {
+      "i": 80,
       "code": "PRP.05",
-      "why": "Payment for everything is intended."
+      "why": "The size is evaluated for Maya."
     },
     {
-      "i": 133,
-      "code": "PRP.01",
-      "why": "Reasons are the basis of fame."
-    },
-    {
-      "i": 134,
-      "code": "NONE",
-      "why": "Holiday occasion allows more than one framing."
-    },
-    {
-      "i": 135,
-      "code": "PRP.01",
-      "why": "The class is required for the major."
-    },
-    {
-      "i": 136,
-      "code": "PRP.01",
-      "why": "Warming up is the intended purpose."
-    },
-    {
-      "i": 137,
-      "code": "PRP.01",
-      "why": "Homework is for the class."
-    },
-    {
-      "i": 138,
+      "i": 81,
       "code": "PRP.03",
-      "why": "Summer is the target time."
+      "why": "Almost a year is a duration."
     },
     {
-      "i": 139,
-      "code": "PRP.03",
-      "why": "Toda la noche is a duration."
-    },
-    {
-      "i": 140,
-      "code": "PRP.02",
-      "why": "Family is the intended recipient of breakfast."
-    },
-    {
-      "i": 141,
-      "code": "PRP.01",
-      "why": "Establishing a connection is the goal."
-    },
-    {
-      "i": 142,
-      "code": "PRP.01",
-      "why": "Others are the grounds of gratitude."
-    },
-    {
-      "i": 143,
-      "code": "PRP.01",
-      "why": "Children’s future is the motive/basis for work."
-    },
-    {
-      "i": 144,
-      "code": "PRP.02",
-      "why": "Purchases are intended for the house."
-    },
-    {
-      "i": 145,
-      "code": "PRP.01",
-      "why": "Work is the basis for the awards."
-    },
-    {
-      "i": 146,
-      "code": "PRP.01",
-      "why": "Class is the intended context of study."
-    },
-    {
-      "i": 147,
+      "i": 82,
       "code": "NONE",
-      "why": "Para mí is correct; the question phrase is unclear."
+      "why": "Por una mejor oportunidad can express the motive; target unclear."
     },
     {
-      "i": 148,
-      "code": "PRP.02",
-      "why": "Lesson plan is prepared for the students."
-    },
-    {
-      "i": 149,
-      "code": "PRP.06",
-      "why": "The chair’s fit is evaluated for Maya."
-    },
-    {
-      "i": 150,
-      "code": "PRP.03",
-      "why": "Almost a year is duration."
-    },
-    {
-      "i": 151,
-      "code": "NONE",
-      "why": "Por can describe movement through these places."
-    },
-    {
-      "i": 152,
-      "code": "NONE",
-      "why": "Para ellos is acceptable for intended beneficiaries."
-    },
-    {
-      "i": 153,
-      "code": "NONE",
-      "why": "Two changes express different contrasts in one response."
-    },
-    {
-      "i": 154,
+      "i": 83,
       "code": "PRP.01",
-      "why": "A better opportunity is the intended goal."
+      "why": "The better life is the intended goal."
     },
     {
-      "i": 155,
-      "code": "PRP.06",
-      "why": "Better for his life is a suitability/reference relation."
-    },
-    {
-      "i": 156,
-      "code": "PRP.01",
-      "why": "Seeing family and gifts is the emotional stimulus."
-    },
-    {
-      "i": 157,
-      "code": "PRP.06",
-      "why": "Decisions are considered with respect to her life."
-    },
-    {
-      "i": 158,
-      "code": "PRP.03",
-      "why": "Two years is duration."
-    },
-    {
-      "i": 159,
-      "code": "PRP.01",
-      "why": "Warming up is the intended purpose."
-    },
-    {
-      "i": 160,
-      "code": "PRP.06",
-      "why": "Goodness is evaluated for physical/mental health."
-    },
-    {
-      "i": 161,
-      "code": "PRP.06",
-      "why": "The story is evaluated from a boy’s perspective."
-    },
-    {
-      "i": 162,
-      "code": "PRP.01",
-      "why": "Things to do expresses intended purpose."
-    },
-    {
-      "i": 163,
-      "code": "PRP.01",
-      "why": "Medicine is intended for the stomach problem."
-    },
-    {
-      "i": 164,
-      "code": "NONE",
-      "why": "Esperar por ellos is not a clear target contrast."
-    },
-    {
-      "i": 165,
-      "code": "PRP.01",
-      "why": "Work is the basis for the awards."
-    },
-    {
-      "i": 166,
-      "code": "NONE",
-      "why": "Money-for-work meaning is unclear."
-    },
-    {
-      "i": 167,
-      "code": "NONE",
-      "why": "Family phrase and intended meaning are unclear."
-    },
-    {
-      "i": 168,
-      "code": "PRP.01",
-      "why": "Words are the cause of feeling bad."
-    },
-    {
-      "i": 169,
-      "code": "NONE",
-      "why": "Playing for a team and for years are both plausible."
-    },
-    {
-      "i": 170,
-      "code": "PRP.01",
-      "why": "Language is the basis of gratitude."
-    },
-    {
-      "i": 171,
-      "code": "NONE",
-      "why": "Response contains distinct suitability and purpose contrasts."
-    },
-    {
-      "i": 172,
-      "code": "NONE",
-      "why": "Buscar Buttercup takes a direct object; correction is unclear."
-    },
-    {
-      "i": 173,
-      "code": "NONE",
-      "why": "Por nada is plausible; intended meaning is unclear."
-    },
-    {
-      "i": 174,
-      "code": "PRP.02",
-      "why": "Family and neighbors are intended recipients."
-    },
-    {
-      "i": 175,
-      "code": "PRP.03",
-      "why": "Years of practice is duration."
-    },
-    {
-      "i": 176,
-      "code": "PRP.01",
-      "why": "Shared history is the basis/cause of effects."
-    },
-    {
-      "i": 177,
-      "code": "NONE",
-      "why": "Birthday occasion permits either framing."
-    },
-    {
-      "i": 178,
-      "code": "PRP.01",
-      "why": "He is the stimulus of sadness."
-    },
-    {
-      "i": 179,
-      "code": "PRP.02",
-      "why": "Clothes are intended for the family members."
-    },
-    {
-      "i": 180,
-      "code": "PRP.01",
-      "why": "Interrupting is the basis for the criticism."
-    },
-    {
-      "i": 181,
-      "code": "NONE",
-      "why": "Pedir/preguntar ayuda does not establish this contrast."
-    },
-    {
-      "i": 182,
-      "code": "NONE",
-      "why": "Votar por is a lexicalized candidate-choice construction."
-    },
-    {
-      "i": 183,
-      "code": "NONE",
-      "why": "Votar por is a lexicalized candidate-choice construction."
-    },
-    {
-      "i": 184,
-      "code": "NONE",
-      "why": "No tiene dinero para su trabajo has unclear intended meaning."
-    },
-    {
-      "i": 185,
-      "code": "PRP.02",
-      "why": "Work is explicitly on his behalf."
-    },
-    {
-      "i": 186,
-      "code": "PRP.03",
-      "why": "Five years is duration."
-    },
-    {
-      "i": 187,
+      "i": 84,
       "code": "PRP.05",
-      "why": "Money is offered as a reward for capture."
+      "why": "Her life is the reference for evaluating the decisions."
     },
     {
-      "i": 188,
+      "i": 85,
+      "code": "PRP.03",
+      "why": "Two years is a duration."
+    },
+    {
+      "i": 86,
+      "code": "PRP.01",
+      "why": "Warming up and gaining energy are purposes."
+    },
+    {
+      "i": 87,
       "code": "PRP.02",
-      "why": "Purchases are intended for the house."
+      "why": "The story is intended for the boy as audience."
     },
     {
-      "i": 189,
+      "i": 88,
+      "code": "PRP.01",
+      "why": "The medicine is intended for the stomach."
+    },
+    {
+      "i": 89,
       "code": "NONE",
-      "why": "Harry Potter relation is unclear."
+      "why": "Esperar por ellos is not a clear por/para meaning contrast."
     },
     {
-      "i": 190,
+      "i": 90,
+      "code": "PRP.01",
+      "why": "Her work is the basis for the awards."
+    },
+    {
+      "i": 91,
+      "code": "NONE",
+      "why": "Money for versus received for the work is unclear."
+    },
+    {
+      "i": 92,
+      "code": "PRP.05",
+      "why": "Kindness is evaluated for a family of four."
+    },
+    {
+      "i": 93,
+      "code": "PRP.06",
+      "why": "Sadness is about the words spoken."
+    },
+    {
+      "i": 94,
+      "code": "NONE",
+      "why": "Buscar Buttercup takes a different construction; por target is questionable."
+    },
+    {
+      "i": 95,
+      "code": "PRP.02",
+      "why": "Family is the intended recipient of the food."
+    },
+    {
+      "i": 96,
+      "code": "PRP.01",
+      "why": "History is the agent or cause of the effects."
+    },
+    {
+      "i": 97,
+      "code": "PRP.02",
+      "why": "The speaker supports the candidate."
+    },
+    {
+      "i": 98,
+      "code": "NONE",
+      "why": "Work for him could mean employer or acting for his sake."
+    },
+    {
+      "i": 99,
+      "code": "PRP.03",
+      "why": "Five years is a duration."
+    },
+    {
+      "i": 100,
+      "code": "PRP.04",
+      "why": "Money is offered in exchange for capture."
+    },
+    {
+      "i": 101,
       "code": "PRP.01",
       "why": "Songs are the basis of being known."
     },
     {
-      "i": 191,
-      "code": "PRP.03",
-      "why": "Two years is duration."
+      "i": 102,
+      "code": "PRP.06",
+      "why": "Fear is concern for her life."
     },
     {
-      "i": 192,
-      "code": "PRP.03",
-      "why": "Almost a year is duration."
-    },
-    {
-      "i": 193,
+      "i": 103,
       "code": "PRP.01",
-      "why": "Fear is about the mother’s life."
+      "why": "The death is the basis for blame."
     },
     {
-      "i": 194,
-      "code": "PRP.01",
-      "why": "The dog’s death is the basis/cause of blame."
-    },
-    {
-      "i": 195,
-      "code": "NONE",
-      "why": "Por can describe movement through these places."
-    },
-    {
-      "i": 196,
+      "i": 104,
       "code": "PRP.02",
       "why": "The mother is the intended beneficiary."
-    },
-    {
-      "i": 197,
-      "code": "PRP.02",
-      "why": "Family is the intended beneficiary of the work."
     }
   ],
   "sample": [
@@ -1114,30 +661,6 @@
     },
     {
       "i": 1,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Cuando, yo era nino, el compraba juguetes por mi. Mi juguete favorito estaba desde el.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 2,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Durante su carrera en fútbol, ella juego en 42 juegos de fútbol. Ella jugaba por los Estados Unidos mujeres equipo nacional hace 17 años y recibió FIFA’s mundo jugador del año.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 3,
       "prompt": "Escribe un texto para describirte.",
       "response": "Español me ha presentado a una cultura completamente diferente, que nunca hubiera conocido, y por eso estoy muy agradecido no solo para el idioma sino a que mis padres nos enviaron a mis hermanas y yo a una escuela primaria bilingüe. Por último, quiero exponer unas cosas más para tener en cuenta sobre mí.",
       "instructor_changed": [
@@ -1149,19 +672,7 @@
       ]
     },
     {
-      "i": 4,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Ella jugaba por los Estados Unidos mujeres equipo nacional hace 17 años y recibió FIFA’s mundo jugador del año. Madurando, su papa era un piloto en la fuerza aérea, y jugando fútbol era muy difícil porque ella mueve casas y barrios mucho, pero su hermano era muy simpatica y ayuda ella y practica con ella mucho.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 5,
+      "i": 2,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Tom Cruise es un actor estadounidense. Él es famoso para sus películas de acción.",
       "instructor_changed": [
@@ -1173,7 +684,7 @@
       ]
     },
     {
-      "i": 6,
+      "i": 3,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Ella y yo somos muy buenas amigas. Yo quiero comprar una casa grande y un perro por mi madre.",
       "instructor_changed": [
@@ -1185,7 +696,7 @@
       ]
     },
     {
-      "i": 7,
+      "i": 4,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Cree en el amor, pero no creía en el amor por sí mismo. Ocultó su dolor trabajando y gastando dinero en cosas que lo distrajeran de su soledad.",
       "instructor_changed": [
@@ -1197,19 +708,7 @@
       ]
     },
     {
-      "i": 8,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Aquí es una historia pequeña que yo pienso describir mi: un mes hace, más o menos, mi amiga tuvo una fiesta para su cumpleaños. Ella y cinco otros bebían cervezas y fumaban, mientras me sentía en la mesa comía hummus y un grande tazón de frutas.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 9,
+      "i": 5,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Ella quiere visitar Estudios Universales para Harry Potter. Ella también quiere visitar Europa.",
       "instructor_changed": [
@@ -1221,7 +720,7 @@
       ]
     },
     {
-      "i": 10,
+      "i": 6,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Todos ellos trabajan por S.H.I.E.D. está en Neuva York, U.S.A. Señor Stark está comprometido con su novia. Su novia se llama Pepper.",
       "instructor_changed": [
@@ -1233,7 +732,7 @@
       ]
     },
     {
-      "i": 11,
+      "i": 7,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "La tienda estaba muy preocupada y había muchos clientes y una línea larga. Cuándo el dueño la vio, él estaba muy feliz y la ofreció una pintura gratis para su ayuda.",
       "instructor_changed": [
@@ -1245,7 +744,7 @@
       ]
     },
     {
-      "i": 12,
+      "i": 8,
       "prompt": "Escribe un texto para describirte.",
       "response": "La razón por querer tener dos especialidades es porque espero poder ser una abogada de inmigración en el futuro.En describirme, yo diría que soy apasionada, trabajadora y sensible.",
       "instructor_changed": [
@@ -1257,43 +756,7 @@
       ]
     },
     {
-      "i": 13,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Pienso que los dos razones son porque somos tan juntos y amables por una familia de cuarto. Una de las otras personas en mi vida que no puedo vivir sin ella es mi mejor amiga \"Soap\".",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 14,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Thomas estaba en la casa de su novia donde vivía y recibió una llamada que cambiara su vida por siempre. Cuando Thomas respondió a la llamada, su jefe le dijo -Hola, Thomas.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 15,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Nosotros fuimos al hospital para ver mi mamá. Ahora mi mamá está bien, pero en el momento yo tenía miedo para la vida de mi madre.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 16,
+      "i": 9,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Jamás necesitaba enmendar sus ropas viejas. El hombre solo preguntó para su menor hijo.",
       "instructor_changed": [
@@ -1305,7 +768,7 @@
       ]
     },
     {
-      "i": 17,
+      "i": 10,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "Por la mañana, yo pagaré cincos pasajes de avión por el décimo de junio en el verano. Si el avión aterrizo a tiempo, nosotros llegaremos en Alaska.",
       "instructor_changed": [
@@ -1317,7 +780,7 @@
       ]
     },
     {
-      "i": 18,
+      "i": 11,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "Lo primero que haría es asegurarme que sería durante la temporada de fútbol, especialmente durante el clásico. Como esto es una sola oportunidad de la vida, yo pagaría para los asientos más cerca para tener la mejor experiencia. Luego, el próximo destino sería París, Francia, en cual visitará el Torre Eiffel y luego a un restaurante de cinco estrellas para tomar café caro y probar la comida rica.",
       "instructor_changed": [
@@ -1329,7 +792,7 @@
       ]
     },
     {
-      "i": 19,
+      "i": 12,
       "prompt": "Escribe un texto para describirte.",
       "response": "Tomé mucho tiempo para obtener todos los cosas por la casa, pero nosotros terminamos. Espero que puedo ir a España el proximo verano para estudiar algo.",
       "instructor_changed": [
@@ -1341,7 +804,7 @@
       ]
     },
     {
-      "i": 20,
+      "i": 13,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Hay muchas razones por esto. Primero, mi abuela es una persona fantastica.",
       "instructor_changed": [
@@ -1353,7 +816,7 @@
       ]
     },
     {
-      "i": 21,
+      "i": 14,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "El es muy famoso para The Beatles. Paul McCartney toca el guitarra.",
       "instructor_changed": [
@@ -1365,19 +828,7 @@
       ]
     },
     {
-      "i": 22,
-      "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
-      "response": "Segundo, voy a crear un plan para la día de viaje. Por la mañana, yo pagaré cincos pasajes de avión por el décimo de junio en el verano.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 23,
+      "i": 15,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Sentí lástima por ella. Nosotros volvimos a la tienda por buscarlo.",
       "instructor_changed": [
@@ -1389,7 +840,7 @@
       ]
     },
     {
-      "i": 24,
+      "i": 16,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Pero, lo siento, porque Ellen no es una persona me cae bien porque ella es muy fuerte y una persona muy genial por la sociedad. Ella me gusta porque simplemente porque ella es muy cómica.",
       "instructor_changed": [
@@ -1401,19 +852,7 @@
       ]
     },
     {
-      "i": 25,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Luego en diciembre volvimos a visitarme para Navidad. Ya que hemos estado planeando para mí para visitarlo y ver su lado del mundo en agosto.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 26,
+      "i": 17,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Ella estaba sorprendida porque su arte es muy hermosa. Ella compró dos pinturas y decidió que iba a ayudarle con su publicidad porque trabajaba por una revisa.",
       "instructor_changed": [
@@ -1425,7 +864,7 @@
       ]
     },
     {
-      "i": 27,
+      "i": 18,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Cuando llegamos, nosotros fuimos a la playa a nadar para muchas horas. A la playa, también jugamos al fútbol con otra gente y fue muy divertido.",
       "instructor_changed": [
@@ -1438,7 +877,7 @@
       ]
     },
     {
-      "i": 28,
+      "i": 19,
       "prompt": "Escribe un texto para describirte.",
       "response": "Estoy emocionada y nerviosa pero mi familia sólo está emocionada para mi. Después de la graduación quiero viajar a España y Grecia.",
       "instructor_changed": [
@@ -1450,19 +889,7 @@
       ]
     },
     {
-      "i": 29,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Madurando, su papa era un piloto en la fuerza aérea, y jugando fútbol era muy difícil porque ella mueve casas y barrios mucho, pero su hermano era muy simpatica y ayuda ella y practica con ella mucho. Cuando solamente tiene 15 años, ella era la primara jugador a jugar por el equipo nacional en historia.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 30,
+      "i": 20,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Es posible que el fray no tenia razón para perdido en la selva, porque fue aquí para tres años y era perdido. No fue un buen situacion, porque la lengua de los indígenas no ayudan.",
       "instructor_changed": [
@@ -1474,7 +901,7 @@
       ]
     },
     {
-      "i": 31,
+      "i": 21,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Mientras yo estaba esperando por cruzar la calle, yo miré por la calle y yo vi mi hombre simple. Él me veyó y inmediatamente él empezó a correr a mi.",
       "instructor_changed": [
@@ -1486,56 +913,7 @@
       ]
     },
     {
-      "i": 32,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "En preparacion por la aplicacion, trabajo como un investigador en un laboratorio de metalloendocrinologia. Vamos a publicar un reporte en las semanas proximas y tambien voy a presentar en una conferencia de investigacion.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 33,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "En facto, esta mecadore fue el tamaño perfecto por Maya. “Sientate”, dijo Abuelo Antony.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 34,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Ella compró dos pinturas y decidió que iba a ayudarle con su publicidad porque trabajaba por una revisa. Ella le dijo de su trabajo y él estaba muy emocionado.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 35,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Por eso mi hermana siempre va ser la persona mas especial en mi vida. Ella hacía mucho para mí y todavía hace mucho para mí aunque no lo tenga que hacer.",
-      "instructor_changed": [
-        "para -> por",
-        "para -> por"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 36,
+      "i": 22,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Pero me quedé en el dormitorio para a la lluvia y el mal aire. Vi una película, pero esta película fue aburrida.",
       "instructor_changed": [
@@ -1547,7 +925,7 @@
       ]
     },
     {
-      "i": 37,
+      "i": 23,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Fue mi primer año en la universidad y estaba muy nerviosa para empezar el proceso de adaptarme al cambio. Por eso, fui a una librería debido a que los libros son mi hogar fuera de la casa.",
       "instructor_changed": [
@@ -1559,7 +937,7 @@
       ]
     },
     {
-      "i": 38,
+      "i": 24,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Yo lo hago todo para mi Papá porque el se levanta a las cinco de la mañana todos los días para tradajar. El se aguanta los gritos y las críticas de mi mamá y continuar de amar la.",
       "instructor_changed": [
@@ -1571,7 +949,7 @@
       ]
     },
     {
-      "i": 39,
+      "i": 25,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Sabe coquetear y aprendió de él.Cuando, yo era nino, el compraba juguetes por mi.",
       "instructor_changed": [
@@ -1583,7 +961,7 @@
       ]
     },
     {
-      "i": 40,
+      "i": 26,
       "prompt": "Escribe un texto para describirte.",
       "response": "Estudio económica porque quiero entender los eventos que ocurrió en todo el mundo. Quiero trabajar en una empresa internacional porque me encanta conocer la gente diferente y puedo hablar tres lenguas que es una ventaja por mí.",
       "instructor_changed": [
@@ -1595,7 +973,7 @@
       ]
     },
     {
-      "i": 41,
+      "i": 27,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Me gusta escalar rocas porque es difícil y divertido. Un tazo de café es importante por escalar rocas porque Usted necesita estar valiente y tener energía.",
       "instructor_changed": [
@@ -1607,19 +985,7 @@
       ]
     },
     {
-      "i": 42,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Desde allí hablamos y pasamos tiempo juntos mucho, pero después de algunos meses una de mis amigas íntimas me dijo la peor noticia. Ella me informó que tenía sentimientos para él también.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 43,
+      "i": 28,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Yo corro al gimnasio cuando yo no estudio por las clases. El año pasado, mi amiga y yo, vamos al parquet.",
       "instructor_changed": [
@@ -1631,44 +997,7 @@
       ]
     },
     {
-      "i": 44,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Practiqué el kung fu para diecitres años, el fútbol para siete años, y el atletismo para cuatro años. A mi me gusta más el kung fu.",
-      "instructor_changed": [
-        "para -> por",
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 45,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Mi abuelo no tenía una educación bien porque nadie fue a la escuela en su pueblo y en su tiempo. Todas las personas fue a los campos para trabajar por su familia en la granja, incluyendo mi abuelo.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 46,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Él es famoso para sus películas de acción. Él no es alto, pero es guapo y fuerte.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 47,
+      "i": 29,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Cuando ella comparando ropa por si misma ella le gusta vestidos, faldas y suerteras. Mi mama es muy persona favorita en todo al mundo porque ella siempre piensa que otros personas antes de si misma.",
       "instructor_changed": [
@@ -1680,7 +1009,7 @@
       ]
     },
     {
-      "i": 48,
+      "i": 30,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "La semana pasado yo leí un libro sobre un hombre quien fue a prisión para un crimen que no lo hizo se llama, “The Sun Does Shine.” Mi amiga me habló sobre el libro.",
       "instructor_changed": [
@@ -1692,7 +1021,7 @@
       ]
     },
     {
-      "i": 49,
+      "i": 31,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Mi mama tiene muchos amigas y ellas fueron tiendas todos al fin de semanas. Cuando comparando me mama le gusta compra ropa por mi papa, mi y mi hermano.",
       "instructor_changed": [
@@ -1704,7 +1033,7 @@
       ]
     },
     {
-      "i": 50,
+      "i": 32,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Anos después, ella tiene una película por su carácter solo que se llama \"Finding Dory.\" En estas películas, Ellen dije unas frases memorables como \"Solo sigue nadando.",
       "instructor_changed": [
@@ -1716,7 +1045,7 @@
       ]
     },
     {
-      "i": 51,
+      "i": 33,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Por su club del libro, muchos autores quien el público no conoció convirtieron famosos. En 1999 ella empezó Oxygen Media, una compañía de internet por mujeres.",
       "instructor_changed": [
@@ -1728,7 +1057,7 @@
       ]
     },
     {
-      "i": 52,
+      "i": 34,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Aunque yo fue muy dificil para ensenar, mi madre siempre tenia paciencia conmigo. Ella fue simpatica pero tambien yo tenia mucho respecto para ella.",
       "instructor_changed": [
@@ -1740,19 +1069,7 @@
       ]
     },
     {
-      "i": 53,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Estoy puede ser algo bueno, pero malo a la misma vez considerando que algunas veces tengo expectativas muy altas por mí misma. Finalmente, deseo que todos los afectados por el virus se mejoren y todos podremos regresar a nuestras vidas normales, alrededor de todos nuestros amigos y familiares.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 54,
+      "i": 35,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Hoy en día todavía hay dificultades y queda mucho para aprender sobre la enfermedad, pero la diabetes nunca me va a contener de conseguir mis sueños. En realidad, recibir este diagnostico me ha demostrado lo fuerte que soy en enfrentar ese problema con éxito.",
       "instructor_changed": [
@@ -1764,32 +1081,7 @@
       ]
     },
     {
-      "i": 55,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Además de esto, tengo una pasión para la medicina preventiva, especialmente entre los jóvenes. Quiero perseguir mi meta de hacer un impacto en las vidas de los niños en areas subrepresentados donde la obesidad es un problema prevalante.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en",
-        "other"
-      ]
-    },
-    {
-      "i": 56,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Todavía creo que eso se queda conmigo hoy. Un par de semanas después, fui a Ecuador en un viaje misionero e hice todo lo posible para trabajar para él, y las cosas que amaba.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 57,
+      "i": 36,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "Mi mama es miembro de una membrecía de viajes y me sale más barato a mi viajar a estos lugares, pero de todos modos es demasiado dinero por un estudiante de colegio.Para el verano del 2018 estoy planeando un viaje con mi novio y si todo sale bien vamos a ir a Riviera Maya.",
       "instructor_changed": [
@@ -1802,19 +1094,7 @@
       ]
     },
     {
-      "i": 58,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "El no enseña su emocion mucho, pero cuando el sonríe es lo mejor para nosotros. Yo lo hago todo para mi Papá porque el se levanta a las cinco de la mañana todos los días para tradajar.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 59,
+      "i": 37,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "Cuando encuentras el lugar que te gusta, puedes decidir la fecha que quieres ir, y al mismo tiempo tomar en cuenta lol tiempos que va más gente o si es un tiempo cuando hay eventos especiales. Cuando tienes las fechas, puedes a mirar cuales hoteles están disponible y comparar los precios para que consigues el mejor hotel para el precio.",
       "instructor_changed": [
@@ -1827,56 +1107,7 @@
       ]
     },
     {
-      "i": 60,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Mi menta es poder estudiar español y recibir un titulo de especialidad mientras al mismo tiempo estudiar ciencia política. La razón por querer tener dos especialidades es porque espero poder ser una abogada de inmigración en el futuro.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 61,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Mis padres son divorciados, pero mi padre estaba saliendo una mujer para muchos de años, y nuestra familia era más grande en esto momento que ahora. Me gusta el ecoturismo porque pienso el medioambiente es muy hermosa.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "0"
-      ]
-    },
-    {
-      "i": 62,
-      "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
-      "response": "Una vacación perfecta en Argentina sería un viaje donde todos los gastos estuvieran pagados. Así podría disfrutar todos los monumentos y la variedad de alimentos que tienen para ofrecer sin tener que preocuparme de cómo voy a pagar para todo.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "heritage",
-      "l1": [
-        "en",
-        "es"
-      ]
-    },
-    {
-      "i": 63,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Yo quiero comprar una casa grande y un perro por mi madre. A nosotros nos gusta ir de compras, viajar a Europa, y caminar en el parque.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 64,
+      "i": 38,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Es muy emocionado para salir a película con yo después la pandemia de Covid-19. Mi gusto mucho mi cumpleaños de curto.",
       "instructor_changed": [
@@ -1888,7 +1119,7 @@
       ]
     },
     {
-      "i": 65,
+      "i": 39,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "Específicamente, en una día de la futuro, quiero ir a la ciudad de Nueva York para unos dí de vacacciónes porque me gusta la temporada de otoño. Ademas, tengo demasiado de amigos que viven en lugares cercas de la ciudad de Nueva York y quiero visitarlos porque hace como tres años que no los vi.",
       "instructor_changed": [
@@ -1901,7 +1132,7 @@
       ]
     },
     {
-      "i": 66,
+      "i": 40,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Ella me informó que tenía sentimientos para él también. Estaba desconsolada, cómo iba a escoger entre mi amiga y un hombre que he aprendido a amar.",
       "instructor_changed": [
@@ -1913,19 +1144,7 @@
       ]
     },
     {
-      "i": 67,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Ella fue simpatica pero tambien yo tenia mucho respecto para ella. Me recuerdo que cuando yo estaba enojada o triste, ella me consolaba.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 68,
+      "i": 41,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "No es bueno y es difícil escuchar porque yo no puedo hacer nada para ellos. Sin embargo, porque las clases son cancelados, muchos estudiantes van a sus cases ahora.",
       "instructor_changed": [
@@ -1937,7 +1156,7 @@
       ]
     },
     {
-      "i": 69,
+      "i": 42,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Todos estábamos desesperados para no perder el vuelo. De milagro llegamos antes de que se fuera el avión.",
       "instructor_changed": [
@@ -1949,7 +1168,7 @@
       ]
     },
     {
-      "i": 70,
+      "i": 43,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Parece chistoso pero estoy emocionada para ver como mi vida va hacer en 10 años. Cada vez que lo pienso me pongo feliz.",
       "instructor_changed": [
@@ -1961,7 +1180,7 @@
       ]
     },
     {
-      "i": 71,
+      "i": 44,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Un día nosotros le di la medicina por las pulgas y garrapatas. La medicina era una solución líquida que pusimos en la parte posterior de su cuello.",
       "instructor_changed": [
@@ -1973,7 +1192,7 @@
       ]
     },
     {
-      "i": 72,
+      "i": 45,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Otra cosa es Lebron no sabe su papa, cual es una común cosa para algunos hijos: Creo que él está un “role model” por chicas y chicos que quieren jugar un deporte. Él tiene algunos archivos de NBA también.",
       "instructor_changed": [
@@ -1985,7 +1204,7 @@
       ]
     },
     {
-      "i": 73,
+      "i": 46,
       "prompt": "Escribe un texto para describirte.",
       "response": "Bailar y cantar es muy importante por la cultura indígena de las islas de Hawái y del Oceanía. Cuando estaba allí, bailaba en un “halau,” que es un escuela de baile para los Hawaiians nativos.",
       "instructor_changed": [
@@ -1997,20 +1216,7 @@
       ]
     },
     {
-      "i": 74,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Ultimamente, me siento triste y estresado porque necessito ser bueno en mis clases pero mis clases son dificiles. Yo estudio para mi familia y para nuestro futuro.",
-      "instructor_changed": [
-        "para -> por",
-        "para -> por"
-      ],
-      "level": "A2",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 75,
+      "i": 47,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Estamos muy cerca y hablamos mucho, podría confiar en ella por casi cualquier cosa. Ella es mi mama, pero en la misma vez ella es mi mejor amiga.",
       "instructor_changed": [
@@ -2022,19 +1228,7 @@
       ]
     },
     {
-      "i": 76,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Me sentí mal para mis palabras yo usé. Pero, él usó palabras fuertes también.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 77,
+      "i": 48,
       "prompt": "Escribe un texto para describirte.",
       "response": "También yo he cantado por la parada en el Día de Independencia en mi puebo pequeño. En conclusión, soy una persona con una actitúd positiva y tengo un montón de intereses desde los deportes a la música.",
       "instructor_changed": [
@@ -2046,19 +1240,7 @@
       ]
     },
     {
-      "i": 78,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "\"Barney & Friends\" y \"Wizards of Waverly Place\" son sus primeras séries y está (but in past tense) en PBS y Disney Channel. Ella es conocido ahora para sus muchas cancións, como \"It Ain't Me\" con Kygo y \"Same Old Love.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 79,
+      "i": 49,
       "prompt": "Escribe un texto para describirte.",
       "response": "Para pasar tiempo, yo pinto atre, leo libros, veo videos o peliculas, y hago mi tarea. Tengo mucho tarea por la clase de psicologia y las ciencias de politicas.",
       "instructor_changed": [
@@ -2071,56 +1253,7 @@
       ]
     },
     {
-      "i": 80,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Cuando era niña, mi sueño estaba que estaba en un posición que podría comprar un casa por mi familia. Mi familia no tenían mucho dinero, y por eso fue muy difícil a hacer cosas divertidas todo el tiempo.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 81,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Quiero trabajar en una empresa internacional porque me encanta conocer la gente diferente y puedo hablar tres lenguas que es una ventaja por mí. Soy bajita y tengo pelo liso y negro.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A2",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 82,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Siempre hago ejercicio para cuatro o más días en la semana. Para mi descripción de mi personalidad, estoy simpática y amable.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en",
-        "other"
-      ]
-    },
-    {
-      "i": 83,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Fue realmente duro verlo luchando por establecer una conexión con sus compañeros y maestras. El resto de los voluntarios y yo nos reunimos y decidimos crear una actividad en la que ese estudiante pudiera estar interesado.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 84,
+      "i": 50,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "George y Lenny han estado amigos para mucho tiempo, pero George se está cansado con los errores de Lenny y quiere viaja y trabaja solo. Lenny hace muchos errores porque él tiene una discapacidad mental por eso Lenny no sabe comportamientos sociales apropiados.",
       "instructor_changed": [
@@ -2132,43 +1265,7 @@
       ]
     },
     {
-      "i": 85,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Sin embargo, me di cuenta de que todavía puedo vivir una vida normal y gratificante, y que tengo tantas redes increíbles de apoyo. Hoy en día todavía hay dificultades y queda mucho para aprender sobre la enfermedad, pero la diabetes nunca me va a contener de conseguir mis sueños.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 86,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Las chicas de mi equipo no estaban muy simpáticos y era muy difícil llevarse bien. Practicábamos mucho por los programas descansos y un tiempo específico, no podíamos lograr la acrobacia de animadores.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 87,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Yo tenía un numero cada vez mayor de estudiantes.Yo preparaba mi plan de clase por mis estudiantes.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 88,
+      "i": 51,
       "prompt": "Escribe un texto para describirte.",
       "response": "Siento que tengo poco tiempo para formar mi futuro, aunque apenas estoy empezando. Estoy puede ser algo bueno, pero malo a la misma vez considerando que algunas veces tengo expectativas muy altas por mí misma.",
       "instructor_changed": [
@@ -2180,19 +1277,7 @@
       ]
     },
     {
-      "i": 89,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Practicábamos mucho por los programas descansos y un tiempo específico, no podíamos lograr la acrobacia de animadores. Era un movimiento donde mis bases agarraron mis pies y me tiraron en el aire.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 90,
+      "i": 52,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Ahora este país tiene el peor presidente en la historia pero yo se que nuestra país será bien porque la publica es muy fuerte. Estoy emocionada para el futuro cuando puedo ser en un posición política y hacer cambios.",
       "instructor_changed": [
@@ -2204,7 +1289,7 @@
       ]
     },
     {
-      "i": 91,
+      "i": 53,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "Voy a practicar mi Español y comer la comida especial de España, como las tortillas Españas y las fruitas de Seville. Después, voy a Granada por visitar la Alhambra.",
       "instructor_changed": [
@@ -2216,7 +1301,7 @@
       ]
     },
     {
-      "i": 92,
+      "i": 54,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "No es solo yo que sentio esto mis hermanos tambien tenía miedo para mi papá. Ya mi papá está bien y con bueno salud con mi mamá estan trabajando, gracias por díos por esto.",
       "instructor_changed": [
@@ -2228,19 +1313,7 @@
       ]
     },
     {
-      "i": 93,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Paul McCartney es un musico muy famosa. El es muy famoso para The Beatles.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 94,
+      "i": 55,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Había recibido mi nuevo teléfono el día anterior, y mi seguro había expirado esa día. Me desperté en la mañana de Navidad sintiéndome bien, estaba muy emocionada para ver a mi familia y tampoco los regalos.",
       "instructor_changed": [
@@ -2252,54 +1325,7 @@
       ]
     },
     {
-      "i": 95,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Ella es muy exitosa y usa su fama para informar la publica a situaciones importantes del mundo, siempre con un poco comedia. Pero, lo siento, porque Ellen no es una persona me cae bien porque ella es muy fuerte y una persona muy genial por la sociedad.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 96,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "En 1999 ella empezó Oxygen Media, una compañía de internet por mujeres. Pronto después de Oxygen Media, ella también empezó su revista se llamaba O. Después de acabar del show de Oprah Winfrey, ella movió a su red propio, OWN.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 97,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Yo tengo dos hermanas y uno hermano. Mi mamá es la persona qui es muy especial en mi vida porque ella trabajar mucho por mi familia.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A2",
-      "l1": []
-    },
-    {
-      "i": 98,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Ella hacía mucho para mí y todavía hace mucho para mí aunque no lo tenga que hacer. En la preparatoria, mi hermana pago por mi primer celular y también mi vestido para prom.",
-      "instructor_changed": [
-        "para -> por",
-        "para -> por"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 99,
+      "i": 56,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Yo estudio mucho en la mañana y en la noche por la clase. Yo practico mucho en clase porque nosotros resolvemos las preguntas de la tarea.",
       "instructor_changed": [
@@ -2311,7 +1337,7 @@
       ]
     },
     {
-      "i": 100,
+      "i": 57,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Una mañana muy mala, una mujer se levantó muy tarde por su primer día en un trabajo nuevo. Por eso ella no tenía bastante tiempo para desayunar.",
       "instructor_changed": [
@@ -2323,7 +1349,7 @@
       ]
     },
     {
-      "i": 101,
+      "i": 58,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Dormimos en la casa de nuestra vecina para la noche. Desde entonces, dimos a él el nombre \"héroe.",
       "instructor_changed": [
@@ -2335,7 +1361,7 @@
       ]
     },
     {
-      "i": 102,
+      "i": 59,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "También, queríamos las tostadas de aguacate por comer. Mientras comíamos, nos reímos y hablamos.",
       "instructor_changed": [
@@ -2347,31 +1373,7 @@
       ]
     },
     {
-      "i": 103,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "La película estaba muy interesante, pero mi amiga estaba triste para toda la noche.El día siguiente, mi amiga volvimos a la tienda por comprar la nueve billetera.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 104,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Voy a graduarme esta primavera. Estoy emocionada y nerviosa pero mi familia sólo está emocionada para mi.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 105,
+      "i": 60,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Barack Obama reveló que prefiere Jay Z Kanye West. En abril de 2012, Barack Obama le dijo a 'The Atlantic' que él piensa que aunque Kanye West es un cantante muy talentoso, pero creo que todavía oeste es un jackass para interrumpir el discurso de Taylor Swift en los MTV Video Music Awards de 2009.",
       "instructor_changed": [
@@ -2383,31 +1385,7 @@
       ]
     },
     {
-      "i": 106,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Si, este es una historia terrible - sienta mal para mi. Mi esperanza no exista nunca más.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 107,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "A un memento, Minty fue querida por sus crímenes. Ofrecían hasta cuarenta mil dólares para su captura.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 108,
+      "i": 61,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "Mi familia y top van a visitar ese fabrica, todos de mis tíos, primos, y abuela. Nosotros también van a ir a los pubs por beber cerveza y hablar a el gente local.",
       "instructor_changed": [
@@ -2419,7 +1397,7 @@
       ]
     },
     {
-      "i": 109,
+      "i": 62,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "El ano por un estudiante es muy occupado y tiene mucho trabajo. Yo soy trabajadora, ambiciosa, y quero buenos grados.",
       "instructor_changed": [
@@ -2431,7 +1409,7 @@
       ]
     },
     {
-      "i": 110,
+      "i": 63,
       "prompt": "Escribe un texto para describirte.",
       "response": "Mi familia es muy pequeña. Mis padres son divorciados, pero mi padre estaba saliendo una mujer para muchos de años, y nuestra familia era más grande en esto momento que ahora.",
       "instructor_changed": [
@@ -2443,7 +1421,7 @@
       ]
     },
     {
-      "i": 111,
+      "i": 64,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Pero, ella tuvo muchos problemas en su vida pasada, pero ella resolvió los todos. Tengo mucho respeto para ella.",
       "instructor_changed": [
@@ -2455,19 +1433,7 @@
       ]
     },
     {
-      "i": 112,
-      "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
-      "response": "Luego, nos iríamos internacional a Barcelona, España. Lo primero que haría es asegurarme que sería durante la temporada de fútbol, especialmente durante el clásico. Como esto es una sola oportunidad de la vida, yo pagaría para los asientos más cerca para tener la mejor experiencia.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 113,
+      "i": 65,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Creo que ella es una persona famosa no solo porque ella es la esposa de el presidente de los Estados Unidos durante cuando Barack Obama fue el presidente sino tambien porque ella es una persona muy intellegente y simpatico. Ella fue muy activo durante su tiempo como la primera dama de los Estados Unidos y hace bien cambios por los grupos de minoria.",
       "instructor_changed": [
@@ -2479,32 +1445,7 @@
       ]
     },
     {
-      "i": 114,
-      "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
-      "response": "Estoy ahorrando dinero para poder ir a esta aventura, pero siempre es muy costoso. Mi mama es miembro de una membrecía de viajes y me sale más barato a mi viajar a estos lugares, pero de todos modos es demasiado dinero por un estudiante de colegio.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "heritage",
-      "l1": [
-        "en",
-        "es"
-      ]
-    },
-    {
-      "i": 115,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Cuando yo era joven yo quería un perro, pero nuestro casa es muy pequeña y no tenemos espacio por un animal grande. He vivido en la misma casa la mayor parte de mi vida.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 116,
+      "i": 66,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Tengo que tomar el autobús para dos minutos. Pero, cuando yo salgo mi casa, no veo el autobús.",
       "instructor_changed": [
@@ -2516,19 +1457,7 @@
       ]
     },
     {
-      "i": 117,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Cuando yo me imagino un cuento hermoso en mi cabeza visualizo a mi vida en el futuro. Parece chistoso pero estoy emocionada para ver como mi vida va hacer en 10 años.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 118,
+      "i": 67,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Yo sé que tiene problemas con ansiedad y miedos, y que siempre hay cosas que no son sencillas por él. Me enseña muchas cosas como hablando en español, nuevas músicas, arte, estilos de artistas, cultura, y más.",
       "instructor_changed": [
@@ -2540,7 +1469,7 @@
       ]
     },
     {
-      "i": 119,
+      "i": 68,
       "prompt": "Escribe un texto para describirte.",
       "response": "Todas en mi familia es muy inteligente. Mi madre tiene cocinar por la familia, y habla con mi hermana y yo.",
       "instructor_changed": [
@@ -2552,19 +1481,7 @@
       ]
     },
     {
-      "i": 120,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Este fin de semana mi padre mire el superbowl, quiere que los patriots perdin porque no le gusta Tom Brady. Después mirando el superbowl mi padre problamente cocine hamburguesas por mi familia y los vecinos.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 121,
+      "i": 69,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Mi mamá me apoyo y trabajo muchísimo para dar me los cosas que necesito. Mi papá me da el fuerza para seguir estudiando y para continuar peleando para una vida mejor.",
       "instructor_changed": [
@@ -2576,43 +1493,7 @@
       ]
     },
     {
-      "i": 122,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Mi papá me da el fuerza para seguir estudiando y para continuar peleando para una vida mejor. Mis hermanos me enseñaron como sonreír y me dieron la riza.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 123,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Nosotros tenemos muchos tiempos divertidos y le encantan. Un día nosotros le di la medicina por las pulgas y garrapatas.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 124,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Mi mama trabaja por la escuela primeria. Mi hermanos no trabajo y stay en la casa de mi mama.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 125,
+      "i": 70,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "Espero que los jugadores del fútbol y del beísbol en Gran Bretaña sean más mejor que los jugadores de estos deportes en el E.E.U.U. También, espero que obtengo los autógrafos de estos jugadores. Espero que puedo vender estos autógrafos para dinero en el mercado secondario.",
       "instructor_changed": [
@@ -2624,7 +1505,7 @@
       ]
     },
     {
-      "i": 126,
+      "i": 71,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Estuve muy triste para él porque es cierto que yo vaya a el mismo jardín de infancia a él. Traté de ser amable y dije \"creo que tú es un chico muy agradable pero no recuerdo nada en los años pasado.",
       "instructor_changed": [
@@ -2636,19 +1517,7 @@
       ]
     },
     {
-      "i": 127,
-      "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
-      "response": "Después, voy a Granada por visitar la Alhambra.Me gustaría mucho pasear el tiempo en Europa con mi esposo y relajarme en las paises lindas!",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 128,
+      "i": 72,
       "prompt": "Escribe un texto para describirte.",
       "response": "Tengo una grande familia.No se que mas decir pero gracias para escuchar/leer.",
       "instructor_changed": [
@@ -2660,44 +1529,7 @@
       ]
     },
     {
-      "i": 129,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "En la escuela secundaria yo escribí por el periódico de mi escuela. De verdad, estaba la jefa de redacción.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 130,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Con respecto a sus familia y amigos, sus mejores amigos son War Machine y Bruce Banner \"The Hulk\". Todos ellos trabajan por S.H.I.E.D. está en Neuva York, U.S.A. Señor Stark está comprometido con su novia.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A2",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 131,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Esta me parece una buena oportunidad de entrar en la carrera de publicación. Aunque me fascina el ingles, admito que debería leer más que los textos requeridos por mis clases (y por la revista); para aumentar mi vocabulario y entendimiento de mi propio idioma, tengo que buscar libros fuera de la clase.",
-      "instructor_changed": [
-        "por -> para",
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 132,
+      "i": 73,
       "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
       "response": "Así podría disfrutar todos los monumentos y la variedad de alimentos que tienen para ofrecer sin tener que preocuparme de cómo voy a pagar para todo. Durante me tiempo en Argentina visitaría al capital del país, Buenos Aries.",
       "instructor_changed": [
@@ -2710,7 +1542,7 @@
       ]
     },
     {
-      "i": 133,
+      "i": 74,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Hay muchas personas que están muy famosas y para muchas razones. Primero, hay son las personas que están bonitas.",
       "instructor_changed": [
@@ -2722,68 +1554,7 @@
       ]
     },
     {
-      "i": 134,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Por ejemplo, cuando tenemos fiestas para navidad me gust como nos reiunemos y platicamos todos. Mi familia es muy unida y nos apoyamos cuando encontramos dificultades.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 135,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Yo debo toma la clase por mi major. La clase de física comenzó este año y hace ocho semanas que tengo en la clase.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 136,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Durante las actividades en el invierno a veces yo bebo café por calentar y energía. Me gusta escalar rocas porque es difícil y divertido.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 137,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Tengo mucho tarea por la clase de psicologia y las ciencias de politicas. Algunas veces tengo un tiempo dificil con mi tarea.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A2",
-      "l1": [
-        "en",
-        "other"
-      ]
-    },
-    {
-      "i": 138,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Quiero estar delgada por el verano cuando voy al piscina. Quiero ser mucho más sensible de otras personas emociones.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "heritage",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 139,
+      "i": 75,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Cuando nosotros llegamos a casa, nosotros miramos la película con las palomitas de maíz. La película estaba muy interesante, pero mi amiga estaba triste para toda la noche.",
       "instructor_changed": [
@@ -2795,7 +1566,7 @@
       ]
     },
     {
-      "i": 140,
+      "i": 76,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Todas las mañanas ella cocinaba desayuno por nuestra familia. Su comida favorite es el omelette.",
       "instructor_changed": [
@@ -2807,19 +1578,7 @@
       ]
     },
     {
-      "i": 141,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Sin embargo, había un niño pequeño al que no le gustaba participar en ninguna de las actividades que trajimos, y no le gustaba socializar con el resto de su clase. Fue realmente duro verlo luchando por establecer una conexión con sus compañeros y maestras.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "heritage",
-      "l1": [
-        "es"
-      ]
-    },
-    {
-      "i": 142,
+      "i": 77,
       "prompt": "Escribe un texto para describirte.",
       "response": "Sin ellos, mi vida es aburrido y triste. Estoy muy agradecido para todos.",
       "instructor_changed": [
@@ -2831,19 +1590,7 @@
       ]
     },
     {
-      "i": 143,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Me hizo feliz escuchar que él está trabajando duro para el futuro de sus hijos. Me hizo darme cuenta de que ningún trabajo es demasiado pequeño y respetar a todos de la misma manera.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 144,
+      "i": 78,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Todos los días me Mama envía mensajes en el groupchat de mi familia y ella dice cosas como, \"Vean a mi almuerzo, yo cociné el pan tostado con aguacate y jugo fresco con las guavas que me compré ayer en al mercado de aire fresco.\" Y a veces por el segundo vez al día, \"Vean a mis compras por la casa que estuvieron vendando a Pier 1.",
       "instructor_changed": [
@@ -2855,43 +1602,7 @@
       ]
     },
     {
-      "i": 145,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Ella ha ganado varios premios para su trabajo, y creo que ella es muy deservada (deserving?) le las esas cosas.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 146,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Es uno cuento terrible porque no me gusta el viaje en esta clase no quiero una nota mal. Yo estudio mucho en la mañana y en la noche por la clase.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 147,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Para yo, ella es el regalo mejor de Dios. Cómo puedo preguntar para una hermana mejor?",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 148,
+      "i": 79,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Yo preparaba mi plan de clase por mis estudiantes. Mi vida era ocupada, pero divertido.",
       "instructor_changed": [
@@ -2903,7 +1614,7 @@
       ]
     },
     {
-      "i": 149,
+      "i": 80,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Hubo tres mecedoras pero una mecedora fue mas pequeña que la otras. En facto, esta mecadore fue el tamaño perfecto por Maya.",
       "instructor_changed": [
@@ -2915,7 +1626,7 @@
       ]
     },
     {
-      "i": 150,
+      "i": 81,
       "prompt": "Escribe un texto para describirte.",
       "response": "Es muy loco pensar que ya hemos estado en la cuarentena para casi un año. Para mí, es difícil no ver mis amigos y mi familia de otras partes, pero en un sentido, me gusta la cuarentena.",
       "instructor_changed": [
@@ -2927,44 +1638,7 @@
       ]
     },
     {
-      "i": 151,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Craig caminó por la biblioteca, y la tienda, y la piscina. Finalmente, Craig estuvo al parque del mercado al aire libre.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 152,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Amo mucho a mis amigos y a mi familia y yo haría cualquier cosa para ellos. Tengo dos hermanas menores y las encanta mucho.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 153,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Estoy segura con tu amor para mí porque yo leo tus cartas, veo tus regalos por mí, y estoy abrumada con amor. Quiero esta relación en mi futuro, porque estoy muy feliz cuando estoy contigo.",
-      "instructor_changed": [
-        "para -> por",
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 154,
+      "i": 82,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Les dijo que era por una mejor oportunidad. No quería que sus tres hijos tenian que crecer y trabajar en las granjas o hacer trabajo físico.",
       "instructor_changed": [
@@ -2976,7 +1650,7 @@
       ]
     },
     {
-      "i": 155,
+      "i": 83,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Fue alto, tuvo pelo rubio, y ojos azul. Ello vivió en el campo, pero soñó de algo mejor por su vida.",
       "instructor_changed": [
@@ -2988,19 +1662,7 @@
       ]
     },
     {
-      "i": 156,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Me desperté en la mañana de Navidad sintiéndome bien, estaba muy emocionada para ver a mi familia y tampoco los regalos. Ya había recibido mi mayor regalo, estaba muy alegrada por tener un teléfono.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 157,
+      "i": 84,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "A pesar de que ella nunca ir a la universidad, ella intenta a entender el estrés y la ansiedad. También, ella entiende mis decisiones por mi vida, incluso si ella no está en acuerdo con los.",
       "instructor_changed": [
@@ -3012,7 +1674,7 @@
       ]
     },
     {
-      "i": 158,
+      "i": 85,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Ella ha estado en mi vida para dos años. Han sido major años en mi vida.",
       "instructor_changed": [
@@ -3024,7 +1686,7 @@
       ]
     },
     {
-      "i": 159,
+      "i": 86,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Primero, yo necesito tres tazos de cafe.Durante las actividades en el invierno a veces yo bebo café por calentar y energía.",
       "instructor_changed": [
@@ -3036,20 +1698,7 @@
       ]
     },
     {
-      "i": 160,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Conozco no es bueno por mi salud física, pero es muy bueno por mi salud mental. Me siento más feliz cuando estoy afuera, bailando, con amigos o con la familia.",
-      "instructor_changed": [
-        "por -> para",
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 161,
+      "i": 87,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Cuando ella va a ir de comprar en la plaza, ella me hace una videollamada para preguntar mis opiniones en sus ropas.Dime que no es una bella historia por un chico gay.",
       "instructor_changed": [
@@ -3062,19 +1711,7 @@
       ]
     },
     {
-      "i": 162,
-      "prompt": "Escribe un texto sobre tu plan de vacaciones perfecto.",
-      "response": "Las vacaciones perfectas para mí serían una con muchas actividades por hacer. Me encantaría ir con mis amigos, mi familia o mi novio.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 163,
+      "i": 88,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Me sentí muy triste. Compré un medicina por su estómago.",
       "instructor_changed": [
@@ -3086,7 +1723,7 @@
       ]
     },
     {
-      "i": 164,
+      "i": 89,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "El maestro nos dijo que el resto de grupo quiso ir al baño y que tuvimos que quedarnos allá y esperar para ellos. Le dijimos que eso estuvo bien y que les esperaramos.",
       "instructor_changed": [
@@ -3098,7 +1735,7 @@
       ]
     },
     {
-      "i": 165,
+      "i": 90,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Ella es una buena actora y a mi me gustan sus películas. Ella ha ganado varios premios para su trabajo, y creo que ella es muy deservada (deserving?)",
       "instructor_changed": [
@@ -3110,7 +1747,7 @@
       ]
     },
     {
-      "i": 166,
+      "i": 91,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "El Presidente Trump es muy buen Presidente, él no es la mejor persona moralmente, pero él se preocupa por América. no tiene dinero para su trabajo, y trabaja largas horas.",
       "instructor_changed": [
@@ -3122,7 +1759,7 @@
       ]
     },
     {
-      "i": 167,
+      "i": 92,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Tambien fuimos a un montón de vacaciones juntos (especialmente a \"Disneyland\"), y estas vacaciones tienen muy buenos recuerdos. Pienso que los dos razones son porque somos tan juntos y amables por una familia de cuarto.",
       "instructor_changed": [
@@ -3134,7 +1771,7 @@
       ]
     },
     {
-      "i": 168,
+      "i": 93,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Antes de dejar, tuvimos una lucha grande sobre un tópico tonto. Me sentí mal para mis palabras yo usé.",
       "instructor_changed": [
@@ -3146,44 +1783,7 @@
       ]
     },
     {
-      "i": 169,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "Cuando solamente tiene 15 años, ella era la primara jugador a jugar por el equipo nacional en historia.Jugando fútbol tiene muchos riesgos porque es un deporte muy rapido y tiene mucho contacto entre los jugadores, pero Mia Hamm jugaba por muchos años.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 170,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Me ha convertido en un ser humano más consciente de mi mismo y me ha dado la oportunidad de tener más amigos. Español me ha presentado a una cultura completamente diferente, que nunca hubiera conocido, y por eso estoy muy agradecido no solo para el idioma sino a que mis padres nos enviaron a mis hermanas y yo a una escuela primaria bilingüe.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 171,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Un tazo de café es importante por escalar rocas porque Usted necesita estar valiente y tener energía. Cuando yo correr con mi perro nos gustamos a correr por una hora mínimo, prefiero dos o tres horas pero mi perro tiene un rió por beber agua.",
-      "instructor_changed": [
-        "por -> para",
-        "por -> para"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 172,
+      "i": 94,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Cada día, buscamos en los refugios de animales para Buttercup pero no tuvimos suerte. Desafortunamente, Buttercup fue asesinado por un coyote.",
       "instructor_changed": [
@@ -3195,19 +1795,7 @@
       ]
     },
     {
-      "i": 173,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Se quedó en la cama todo el día sin querer levantarse por nada. Perdió mucho peso y bebó mucho agua.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 174,
+      "i": 95,
       "prompt": "Escribe un texto sobre una persona especial en tu vida.",
       "response": "Después mirando el superbowl mi padre problamente cocine hamburguesas por mi familia y los vecinos. Mi padre le encanta cocinar y el cocinaba cada noche.",
       "instructor_changed": [
@@ -3219,20 +1807,7 @@
       ]
     },
     {
-      "i": 175,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Practiqué deportes toda mi vida, entonces tengo muchos músculos. Practiqué el kung fu para diecitres años, el fútbol para siete años, y el atletismo para cuatro años.",
-      "instructor_changed": [
-        "para -> por",
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "other"
-      ]
-    },
-    {
-      "i": 176,
+      "i": 96,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "La política, la ciencia, la protección del medioambiente y el acceso a la educación son afectados para nuestra historia compartida. Y en esa historia encontramos nuestras historias pequeñas pero importantes.",
       "instructor_changed": [
@@ -3244,81 +1819,7 @@
       ]
     },
     {
-      "i": 177,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Mi compañeros de trabajo son muy agradables, y estoy buenas amigas con algunos. Aquí es una historia pequeña que yo pienso describir mi: un mes hace, más o menos, mi amiga tuvo una fiesta para su cumpleaños.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 178,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Pude ver que él trabajó mucho sobre explanar la relación de nosotros, pero yo no recordé todavía. Estuve muy triste para él porque es cierto que yo vaya a el mismo jardín de infancia a él.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "zh"
-      ]
-    },
-    {
-      "i": 179,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Cuando comparando me mama le gusta compra ropa por mi papa, mi y mi hermano. Cuando ella comparando ropa por si misma ella le gusta vestidos, faldas y suerteras.",
-      "instructor_changed": [
-        "por -> para",
-        "por -> para"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 180,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "En abril de 2012, Barack Obama le dijo a 'The Atlantic' que él piensa que aunque Kanye West es un cantante muy talentoso, pero creo que todavía oeste es un jackass para interrumpir el discurso de Taylor Swift en los MTV Video Music Awards de 2009. Barack Obama es mi ispiracion y espero algún día seguir sus pasos.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 181,
-      "prompt": "Escribe un texto sobre una historia bonita.",
-      "response": "Kisa estaba muy triste y llevó su bebé muerto en sus brazos preguntando para ayuda de cada casa. Ella pidió ayuda a todos en el pueblo, hasta que ella encontró Buddha durante un sermón.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en",
-        "other"
-      ]
-    },
-    {
-      "i": 182,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Los dos son pejores para nuestro país. Sin embargo, yo voté para Biden por supuesto.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 183,
+      "i": 97,
       "prompt": "Escribe un texto para describirte.",
       "response": "Sin embargo, yo voté para Biden por supuesto. Me preocupo que el resultado de ese elección va a Supreme Court y ellos van a decidir Trump ganó el elección. Estoy aprendiendo mucho en mis clases este cuarto.",
       "instructor_changed": [
@@ -3330,19 +1831,7 @@
       ]
     },
     {
-      "i": 184,
-      "prompt": "Escribe un texto sobre una persona famosa.",
-      "response": "no tiene dinero para su trabajo, y trabaja largas horas. El Presidente Trump tiene el pelo rubio y es un poco gordo.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 185,
+      "i": 98,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Un par de semanas después, fui a Ecuador en un viaje misionero e hice todo lo posible para trabajar para él, y las cosas que amaba. Nunca lo olvidaré, y fue realmente terrible, la forma en que tuvo que morir tan pronto.",
       "instructor_changed": [
@@ -3354,7 +1843,7 @@
       ]
     },
     {
-      "i": 186,
+      "i": 99,
       "prompt": "Escribe un texto para describirte.",
       "response": "Yo he esudiado español para cinco años porque me encanta la idea que puedo comunicar con una otra población del mundo. Ójala que puedo viajar y estudiar en un país diferente durante mis años de universidad.",
       "instructor_changed": [
@@ -3366,7 +1855,7 @@
       ]
     },
     {
-      "i": 187,
+      "i": 100,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Ofrecían hasta cuarenta mil dólares para su captura. Las dos cosas que la sostenían fueron su pistola que sostenía a lado de su pie y su fe en dios.",
       "instructor_changed": [
@@ -3378,31 +1867,7 @@
       ]
     },
     {
-      "i": 188,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "\" Y a veces por el segundo vez al día, \"Vean a mis compras por la casa que estuvieron vendando a Pier 1.\" En conclusión nunca me siento sueño de oír cada cosa que mi Mama está haciendo porque ella es una persona muy importante en mi vida.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 189,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "A ella le gusta Harry Potter. Ella quiere visitar Estudios Universales para Harry Potter.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 190,
+      "i": 101,
       "prompt": "Escribe un texto sobre una persona famosa.",
       "response": "Ella es conocido ahora para sus muchas cancións, como \"It Ain't Me\" con Kygo y \"Same Old Love.\" Tiene muchas albums de los años pasas.",
       "instructor_changed": [
@@ -3414,31 +1879,7 @@
       ]
     },
     {
-      "i": 191,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Ella es la persona especial en mi vida porque Ella es muy interesante, paciente y cariñoso. Ella ha estado en mi vida para dos años.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 192,
-      "prompt": "Escribe un texto para describirte.",
-      "response": "Creo que si no estoy aceptado a ningún trabajo, voy a tomar clases durante el verano. Es muy loco pensar que ya hemos estado en la cuarentena para casi un año.",
-      "instructor_changed": [
-        "para -> por"
-      ],
-      "level": "heritage",
-      "l1": [
-        "4 or more"
-      ]
-    },
-    {
-      "i": 193,
+      "i": 102,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Ahora mi mamá está bien, pero en el momento yo tenía miedo para la vida de mi madre. Los doctores estaban en el cuarto de hospital de mi mamá y ella se veía débil.",
       "instructor_changed": [
@@ -3450,7 +1891,7 @@
       ]
     },
     {
-      "i": 194,
+      "i": 103,
       "prompt": "Escribe un texto sobre una historia terrible.",
       "response": "Yo culpé mi mamá para la muerte de mi perro por años después. Yo estaba triste por semanas y meses después esto incidente.",
       "instructor_changed": [
@@ -3462,33 +1903,9 @@
       ]
     },
     {
-      "i": 195,
-      "prompt": "Escribe un texto sobre una historia terrible.",
-      "response": "Ese noche, cuando su familia humano durmieron, Craig abrío la puerta y salío. Craig caminó por la biblioteca, y la tienda, y la piscina.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "A2",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 196,
+      "i": 104,
       "prompt": "Escribe un texto sobre una historia bonita.",
       "response": "Uno día la niña decidió que ella puede aprender a cocinar y hacer algo muy delicioso por su madre y ella estaría muy orgulloso. La niña tiene todo sus matiriales para cocinar un pastel de chocolate, el favarito de su madre.",
-      "instructor_changed": [
-        "por -> para"
-      ],
-      "level": "B1",
-      "l1": [
-        "en"
-      ]
-    },
-    {
-      "i": 197,
-      "prompt": "Escribe un texto sobre una persona especial en tu vida.",
-      "response": "Mi padre es un padre excelente porque le encanta le familia y trabaje grande horas por la familia. El le gusta ayuda todos tipos de personas con cualquier cosa.",
       "instructor_changed": [
         "por -> para"
       ],
