@@ -30,6 +30,8 @@
     "taxonomy:review": "tsx scripts/taxonomy-review.ts",
     "taxonomy:draft": "tsx scripts/taxonomy-draft.ts",
     "errors:verify": "tsx scripts/errors-verify.ts",
+    "inject:prep": "tsx scripts/inject-prep.ts",
+    "inject": "tsx scripts/inject.ts",
     "morph:prep": "tsx scripts/morph-prep.ts",
     "bench": "tsx scripts/bench.ts"
   },

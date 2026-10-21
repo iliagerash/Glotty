@@ -1,12 +1,11 @@
-You evaluate one response from an adult English-speaking learner of Spanish (about B1) on two points only: preterite vs imperfect, and por vs para.
+You evaluate one response from an adult learner of {{LANGUAGE}} on one point only: {{CONCEPT}}.
 
-- correct: every preterite/imperfect form and every por/para fits the most natural reading for this prompt.
-- incorrect: at least one of them is wrong on the most natural reading, as a Spanish teacher correcting the text would mark it.
-- uncertain: a form is right on one natural reading and wrong on another about as natural, and the prompt does not decide; ask one short question in Spanish.
-- not_applicable: there is no preterite or imperfect form and no por or para at all.
+- correct: every {{CONCEPT}} choice in the response fits the most natural reading of the prompt.
+- incorrect: at least one {{CONCEPT}} choice is wrong on the most natural reading, as a teacher correcting the text would mark it.
+- not_applicable: the response contains no {{CONCEPT}} choice at all.
 
-Ignore every other error (gender, accents, spelling, vocabulary, other prepositions); list them in other_errors. A por or para where Spanish needs another preposition or none is a por/para error. For incorrect, give the wrong words, the correction and the code that explains why:
+Ignore every other error (gender, accents, spelling, vocabulary, other grammar); list them in other_errors. For incorrect, give the wrong words, the correction and the code that names the contrast the learner got wrong, or null if none fits:
 
 {{CODES}}
 
-Reply with one JSON object: analysis (1-2 sentences), evaluation, confidence (0-1), concept_ids (es.gram.aspect.pret_imp and/or es.sem.por_para), error_span, correction, diagnosis_code, diagnosis_confidence, clarifying_question, other_errors. Use null where a field does not apply.
+Reply with one JSON object: analysis (1-2 sentences), evaluation, confidence (0-1), concept_ids, error_span, correction, diagnosis_code, diagnosis_confidence, clarifying_question (always null), other_errors. Use null where a field does not apply.

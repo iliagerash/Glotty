@@ -4,7 +4,13 @@
  *
  *   npm run bench -- [--models fast,strong,cloudflare:@cf/...] [--split dev|heldout|all]
  *                    [--against gold|intent|model:<name>] [--consensus <name>]
- *                    [--limit 50] [--concurrency 4]
+ *                    [--concept <key> [--language es]] [--limit 50] [--concurrency 4]
+ *
+ * --concept (Workflow v2) has the evaluator judge one concept of the
+ * language pack, as the per-concept anchor sets are labelled; a fine-tuned
+ * model ("<model>+<adapter>") needs it. Without --against it scores against
+ * that concept's anchor set for the split: anchor-<lang>-<key>-dev for dev,
+ * anchor-<lang>-<key> for heldout.
  *
  * --against intent scores against what the candidate generator *meant* to
  * produce. Use it only to screen models before annotation exists; the report
@@ -23,7 +29,7 @@ import "dotenv/config";
 import fs from "fs";
 import path from "path";
 import { parseArgs } from "util";
-import { evaluate, type EvaluationResult } from "@/lib/evaluator";
+import { evaluate, type ConceptFocus, type EvaluationResult } from "@/lib/evaluator";
 import { resolveModel } from "@/lib/ai/config";
 import {
   listAnnotators,
@@ -109,7 +115,7 @@ function agreementSection(
 
 const fmt = (v: number | null, digits = 3) => (v === null ? "n/a" : v.toFixed(digits));
 
-async function runModel(model: string, rows: Labeled[], concurrency: number, outDir: string) {
+async function runModel(model: string, rows: Labeled[], concurrency: number, outDir: string, concept?: ConceptFocus) {
   const results: Array<{ row: Labeled; result: EvaluationResult | null; error: string | null }> = [];
   let next = 0;
   const bar = progress(rows.length, model);
@@ -117,7 +123,7 @@ async function runModel(model: string, rows: Labeled[], concurrency: number, out
     while (next < rows.length) {
       const row = rows[next++];
       try {
-        const result = await evaluate({ prompt: row.item.prompt, response: row.item.response }, { model });
+        const result = await evaluate({ prompt: row.item.prompt, response: row.item.response }, { model, concept });
         results.push({ row, result, error: null });
         bar.tick();
       } catch (err) {
@@ -161,14 +167,18 @@ async function main() {
     options: {
       models: { type: "string", default: "fast,strong" },
       split: { type: "string", default: "dev" },
-      against: { type: "string", default: "gold" },
+      against: { type: "string" },
+      concept: { type: "string" },
+      language: { type: "string", default: "es" },
       limit: { type: "string" },
       concurrency: { type: "string", default: "4" },
       consensus: { type: "string" },
     },
   });
   const split = values.split as "dev" | "heldout" | "all";
-  const against = values.against!;
+  const concept: ConceptFocus | undefined = values.concept ? { language: values.language!, key: values.concept } : undefined;
+  if (concept && split === "all" && !values.against) throw new Error("--concept with --split all needs --against: there is no anchor set for all splits");
+  const against = values.against ?? (concept ? `model:anchor-${concept.language}-${concept.key}${split === "dev" ? "-dev" : ""}` : "gold");
   if (against !== "gold" && against !== "intent" && !against.startsWith("model:")) {
     console.error(`Unknown --against "${against}": use gold, intent or model:<name>`);
     process.exit(1);
@@ -239,7 +249,7 @@ async function main() {
 
   for (const model of models) {
     console.log(`Running ${model} on ${labeled.length} items...`);
-    const results = await runModel(model, labeled, Number(values.concurrency), outDir);
+    const results = await runModel(model, labeled, Number(values.concurrency), outDir, concept);
     const scored: ScoredRow[] = results.map(({ row, result }) => ({
       gold: row.gold,
       pred: result && { evaluation: result.evaluation, diagnosis_code: result.diagnosisCode },

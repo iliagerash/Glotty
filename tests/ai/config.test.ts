@@ -53,3 +53,10 @@ test("a tier ref without a suffix leaves the provider default effort", () => {
 test("rejects more than one effort suffix", () => {
   assert.throws(() => parseModelRef("cloudflare:@cf/x#low#high"), /reasoning effort/);
 });
+
+test("a model ref can carry a Workers AI adapter after +", () => {
+  const ref = "cloudflare:@cf/qwen/qwen2.5-coder-32b-instruct+glotty-evaluator-v1";
+  assert.deepEqual(parseModelRef(ref), { provider: "cloudflare", model: "@cf/qwen/qwen2.5-coder-32b-instruct", lora: "glotty-evaluator-v1", ref });
+  assert.throws(() => parseModelRef("openai-compat:gpt-x+adapter"), /only supported on cloudflare/);
+  assert.throws(() => parseModelRef("cloudflare:@cf/a/b+"), /Invalid adapter/);
+});

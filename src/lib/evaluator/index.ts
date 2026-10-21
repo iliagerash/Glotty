@@ -3,7 +3,9 @@ import fs from "fs";
 import path from "path";
 import { z } from "zod";
 import { completeStructured, type ChatMessage } from "@/lib/ai/gateway";
-import { resolveModel, type Tier } from "@/lib/ai/config";
+import { resolveModel, type ModelRef, type Tier } from "@/lib/ai/config";
+import { FT_PROMPT_ID, promptHash, systemPromptFt } from "@/lib/evaluator/ft";
+import { conceptTaxonomy, loadLanguage } from "@/lib/language";
 import { loadTaxonomy, MVP_CLUSTERS, renderCodes, TAXONOMY_PATH, taxonomyCodes } from "@/lib/taxonomy";
 
 /**
@@ -174,12 +176,39 @@ export function postProcess(
   };
 }
 
+/**
+ * One concept to judge (Workflow v2): the concept's key in the language pack.
+ * A fine-tuned model (a "+adapter" ref) gets the v8-ft prompt for the concept
+ * and its approved codes; any other model gets the long prompt plus a line
+ * telling it to judge only that concept, so per-concept labels compare.
+ */
+export interface ConceptFocus {
+  language: string;
+  key: string;
+}
+
+function promptFor(model: ModelRef, focus?: ConceptFocus): { text: string; version: string; codes: Set<string> } {
+  if (model.lora) {
+    if (!focus) throw new Error(`${model.ref} is a fine-tuned evaluator: pass the concept to judge`);
+    const pack = loadLanguage(focus.language);
+    const text = systemPromptFt(pack, focus.key);
+    const codes = new Set(conceptTaxonomy(pack, focus.key).map((t) => t.code));
+    return { text, version: `${FT_PROMPT_ID}:${focus.language}.${focus.key}+${promptHash(text)}`, codes };
+  }
+  const base = systemPrompt();
+  if (!focus) return { text: base.text, version: `${PROMPT_ID}+${base.hash}`, codes: taxonomyCodes() };
+  const spec = loadLanguage(focus.language).concepts.find((c) => c.key === focus.key);
+  if (!spec) throw new Error(`No concept "${focus.key}" in language ${focus.language}`);
+  const text = `${base.text}\n\n## This response\n\nJudge only ${spec.name.toLowerCase()} (${spec.cluster}). Ignore the other cluster entirely: an error there does not make this response incorrect.`;
+  return { text, version: `${PROMPT_ID}:${focus.language}.${focus.key}+${promptHash(text)}`, codes: taxonomyCodes() };
+}
+
 export async function evaluate(
   input: EvaluationInput,
-  opts: { model?: Tier | string; signal?: AbortSignal } = {},
+  opts: { model?: Tier | string; signal?: AbortSignal; concept?: ConceptFocus } = {},
 ): Promise<EvaluationResult> {
   const model = resolveModel(opts.model ?? "strong");
-  const prompt = systemPrompt();
+  const prompt = promptFor(model, opts.concept);
   const result = await completeStructured({
     model: model.ref,
     schema: ModelVerdictSchema,
@@ -195,8 +224,8 @@ export async function evaluate(
   });
 
   return {
-    ...postProcess(result.data, taxonomyCodes(), input.response),
-    evaluatorVersion: evaluatorVersion(model.ref),
+    ...postProcess(result.data, prompt.codes, input.response),
+    evaluatorVersion: `${prompt.version}~${POSTPROCESS_ID}-floor${INCORRECT_MIN_CONFIDENCE}@${model.ref}`,
     model: model.ref,
     latencyMs: result.latencyMs,
     usage: result.usage,

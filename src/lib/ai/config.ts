@@ -27,6 +27,8 @@ export interface ModelRef {
   model: string;
   /** Sent as `reasoning_effort` when set. Unset means the provider default. */
   reasoningEffort?: ReasoningEffort;
+  /** A Workers AI LoRA adapter (finetune name or id) applied to the model: "<model>+<adapter>". */
+  lora?: string;
   /** The full "<provider>:<model>" string, used in version tags and logs. */
   ref: string;
 }
@@ -83,16 +85,24 @@ export function parseModelRef(ref: string): ModelRef {
     throw new Error(`Invalid model reference "${ref}": expected "<provider>:<model>"`);
   }
   const provider = ref.slice(0, i);
-  const [model, effort, ...rest] = ref.slice(i + 1).split("#");
+  const [withLora, effort, ...rest] = ref.slice(i + 1).split("#");
   if (provider !== "cloudflare" && provider !== "openai-compat") {
     throw new Error(`Unknown provider "${provider}" in model reference "${ref}"`);
   }
   if (rest.length || (effort !== undefined && !REASONING_EFFORTS.includes(effort as ReasoningEffort))) {
     throw new Error(`Invalid reasoning effort in "${ref}": expected #${REASONING_EFFORTS.join("|#")}`);
   }
-  return effort === undefined
-    ? { provider, model, ref }
-    : { provider, model, reasoningEffort: effort as ReasoningEffort, ref };
+  // "<model>+<adapter>": a Workers AI LoRA adapter on the base model.
+  const [model, lora, ...more] = withLora.split("+");
+  if (more.length || lora === "") throw new Error(`Invalid adapter in "${ref}": expected "<model>+<adapter>"`);
+  if (lora && provider !== "cloudflare") throw new Error(`Adapters ("+${lora}") are only supported on cloudflare models: "${ref}"`);
+  return {
+    provider,
+    model,
+    ...(lora ? { lora } : {}),
+    ...(effort === undefined ? {} : { reasoningEffort: effort as ReasoningEffort }),
+    ref,
+  };
 }
 
 /**

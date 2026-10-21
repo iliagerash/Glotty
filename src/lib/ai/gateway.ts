@@ -96,6 +96,63 @@ function endpointFor(model: ModelRef): Endpoint {
   };
 }
 
+/**
+ * The prompt text a chat template turns messages into. A LoRA adapter on
+ * Workers AI runs in raw mode, so the prompt must be in the template it was
+ * trained with (notebooks/train_evaluator_lora.ipynb applies the base
+ * model's own template). Only templates in use are here; others fail loudly.
+ */
+export function chatTemplate(model: string, messages: ChatMessage[]): string {
+  if (/qwen/i.test(model)) {
+    // ChatML, as Qwen2.5's tokenizer renders it when a system message is given.
+    return messages.map((m) => `<|im_start|>${m.role}\n${m.content}<|im_end|>\n`).join("") + "<|im_start|>assistant\n";
+  }
+  throw new Error(`No chat template for "${model}": add it to chatTemplate before using an adapter on it`);
+}
+
+/** A Workers AI model with a LoRA adapter: the native /ai/run endpoint, raw mode. */
+async function callLora(model: ModelRef, opts: Omit<CompletionOptions, "model">): Promise<CompletionResult> {
+  const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
+  const token = process.env.CLOUDFLARE_API_TOKEN;
+  if (!accountId || !token) throw new GatewayError("CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN must be set", model.ref);
+  const body = {
+    prompt: chatTemplate(model.model, opts.messages),
+    raw: true,
+    lora: model.lora,
+    temperature: opts.temperature ?? 0,
+    max_tokens: opts.maxTokens ?? 1024,
+  };
+  const started = performance.now();
+  let res: Response;
+  try {
+    res = await fetch(`https://api.cloudflare.com/client/v4/accounts/${accountId}/ai/run/${model.model}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: JSON.stringify(body),
+      signal: opts.signal,
+    });
+  } catch (err) {
+    throw new GatewayError(`Request failed: ${(err as Error).message}`, model.ref);
+  }
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new GatewayError(`HTTP ${res.status}: ${detail.slice(0, 500)}`, model.ref, res.status);
+  }
+  const json = (await res.json()) as {
+    result?: { response?: string | object; usage?: { prompt_tokens?: number; completion_tokens?: number } };
+  };
+  const response = json.result?.response;
+  const text = response && typeof response === "object" ? JSON.stringify(response) : (response ?? "");
+  if (!text) throw new GatewayError("Empty completion from the adapter", model.ref, res.status);
+  return {
+    text,
+    model,
+    latencyMs: Math.round(performance.now() - started),
+    usage: { inputTokens: json.result?.usage?.prompt_tokens ?? null, outputTokens: json.result?.usage?.completion_tokens ?? null },
+    finishReason: null,
+  };
+}
+
 /** Models that rejected `response_format` once; we stop sending it to them. */
 const noResponseFormat = new Set<string>();
 
@@ -104,6 +161,7 @@ async function callChat(
   opts: Omit<CompletionOptions, "model">,
   responseFormat?: object,
 ): Promise<CompletionResult> {
+  if (model.lora) return callLora(model, opts);
   const endpoint = endpointFor(model);
   const body: Record<string, unknown> = {
     model: model.model,

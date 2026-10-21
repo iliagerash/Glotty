@@ -130,3 +130,26 @@ test("fails on truncated JSON instead of retrying into the same limit", async ()
   );
   assert.equal(calls.length, 1);
 });
+
+test("a model with an adapter goes to /ai/run in raw mode with the chat template", async () => {
+  let url = "";
+  let sent: Record<string, unknown> = {};
+  globalThis.fetch = (async (u: string, init: RequestInit) => {
+    url = u;
+    sent = JSON.parse(init.body as string);
+    return new Response(JSON.stringify({ result: { response: '{"verdict":"yes"}' }, success: true }), { status: 200 });
+  }) as typeof fetch;
+  const r = await completeStructured({
+    ...opts,
+    messages: [
+      { role: "system", content: "S" },
+      { role: "user", content: "U" },
+    ],
+    model: "cloudflare:@cf/qwen/qwen-test+my-adapter",
+  });
+  assert.deepEqual(r.data, { verdict: "yes" });
+  assert.match(url, /\/ai\/run\/@cf\/qwen\/qwen-test$/);
+  assert.equal(sent.raw, true);
+  assert.equal(sent.lora, "my-adapter");
+  assert.equal(sent.prompt, "<|im_start|>system\nS<|im_end|>\n<|im_start|>user\nU<|im_end|>\n<|im_start|>assistant\n");
+});
