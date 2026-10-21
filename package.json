@@ -28,6 +28,8 @@
     "train:codes": "tsx scripts/train-codes.ts",
     "train:build": "tsx scripts/train-build.ts",
     "taxonomy:review": "tsx scripts/taxonomy-review.ts",
+    "taxonomy:draft": "tsx scripts/taxonomy-draft.ts",
+    "errors:verify": "tsx scripts/errors-verify.ts",
     "morph:prep": "tsx scripts/morph-prep.ts",
     "bench": "tsx scripts/bench.ts"
   },

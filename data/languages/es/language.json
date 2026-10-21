@@ -8,18 +8,35 @@
       "cluster": "es.gram.aspect.pret_imp",
       "name": "Preterite vs imperfect",
       "detector": "feature-swap",
-      "pos": ["VERB", "AUX"],
-      "require": { "VerbForm": "Fin", "Mood": "Ind" },
+      "pos": [
+        "VERB",
+        "AUX"
+      ],
+      "require": {
+        "VerbForm": "Fin",
+        "Mood": "Ind"
+      },
       "feature": "Tense",
-      "values": ["Past", "Imp"]
+      "values": [
+        "Past",
+        "Imp"
+      ],
+      "code_prefix": "ASP"
     },
     {
       "key": "por_para",
       "cluster": "es.sem.por_para",
       "name": "Por vs para",
       "detector": "word-swap",
-      "words": ["por", "para"],
-      "exclude_pos": ["VERB", "AUX"]
+      "words": [
+        "por",
+        "para"
+      ],
+      "exclude_pos": [
+        "VERB",
+        "AUX"
+      ],
+      "code_prefix": "PRP"
     }
   ]
 }

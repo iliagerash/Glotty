@@ -12,6 +12,8 @@ export interface FeatureSwapSpec {
   key: string;
   cluster: string;
   name: string;
+  /** Prefix of the concept's taxonomy codes, e.g. "ASP" for ASP.01. */
+  code_prefix: string;
   detector: "feature-swap";
   pos: string[];
   /** Features every target token must have (e.g. VerbForm=Fin, Mood=Ind). */
@@ -25,6 +27,8 @@ export interface WordSwapSpec {
   key: string;
   cluster: string;
   name: string;
+  /** Prefix of the concept's taxonomy codes, e.g. "ASP" for ASP.01. */
+  code_prefix: string;
   detector: "word-swap";
   words: string[];
   /** Parts of speech that are never targets (e.g. "para" as a form of parar). */

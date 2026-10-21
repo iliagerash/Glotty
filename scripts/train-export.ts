@@ -8,8 +8,12 @@
  * Training students only (studentSplit), so no student is in an anchor set.
  * Wider than the anchor sets on purpose: every level and every L1, all of an
  * essay's corrections (an item they label differently is left out), and an
- * error in the context sentence counts (relaxed labelling). For each concept
- * of the corpus's language, keeps every error and a deterministic sample of
+ * error in the context sentence counts. Within an essay, items never share a
+ * sentence (each sentence is in two overlapping windows), so each correction
+ * appears once; errors are chosen before correct items. Error items with more
+ * than one correction are left out: the evaluator gives one code per
+ * response, so they have no single right answer. For each concept of the
+ * corpus's language, keeps every error and a deterministic sample of
  * --correct items with untouched target forms. Writes
  * data/train/<corpus>-pool.jsonl.
  */
@@ -51,8 +55,18 @@ function main() {
   for (const concept of Object.values(conceptsFor(source.language))) {
     const bar = progress(essays.length, `${concept.key}: reading training essays`);
     const byKey = new Map<string, PoolItem>();
+    let multi = 0;
     for (const e of essays) {
-      for (const c of candidates(e, concept)) {
+      // Errors first, then correct items, each in hash order; skip windows sharing a sentence.
+      const ordered = candidates(e, concept).sort((a, b) => (a.kind === b.kind ? hash(a.response).localeCompare(hash(b.response)) : a.kind === "error" ? -1 : 1));
+      const usedSentences = new Set<number>();
+      for (const c of ordered) {
+        if (usedSentences.has(c.sentence) || usedSentences.has(c.sentence - 1)) continue;
+        if (c.kind === "error" && c.findings.length > 1) {
+          multi++;
+          continue;
+        }
+        usedSentences.add(c.sentence).add(c.sentence - 1);
         const key = normalizeResponse(c.response);
         if (goldResponses.has(key) || byKey.has(key)) continue;
         byKey.set(key, {
@@ -77,7 +91,7 @@ function main() {
     const errors = all.filter((p) => p.kind === "error");
     const correct = all.filter((p) => p.kind === "correct").sort((a, b) => hash(a.id).localeCompare(hash(b.id))).slice(0, Number(values.correct));
     pool.push(...errors, ...correct);
-    console.log(`${concept.key}: ${errors.length} errors, ${correct.length} correct (of ${all.length - errors.length}).`);
+    console.log(`${concept.key}: ${errors.length} errors, ${correct.length} correct (of ${all.length - errors.length}); ${multi} items with several corrections left out.`);
   }
 
   fs.mkdirSync(path.dirname(POOL), { recursive: true });

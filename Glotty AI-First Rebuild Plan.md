@@ -433,7 +433,7 @@ kimi against the anchor (run once): accuracy 0.462, precision on INCORRECT 1.000
 
 **Workflow v2 (from 2026-10-21).** The critical path is a fine-tuned evaluator measured on native-corrected learner text.
 
-- [ ] Step 1: morphological analysis (spaCy); aspect and por/para detectors rewritten on it; anchor sets and training pool rebuilt.
+- [x] Step 1 (2026-10-21): spaCy annotation of all 5,382 COWS-L2H essays (`tools/morph/annotate.py`); concepts as specs in the Spanish language pack, read by generic feature-swap and word-swap detectors; COWS-L2H behind a corpus adapter; students split 25/15/60 (held-out/dev/train), v1-tuned students kept out of held-out, v1 items not reused. Anchor sets (English L1, B1): `anchor-es-pret_imp` 44 errors + 44 correct, `anchor-es-por_para` 22 + 22 (held-out); `-dev` 50 + 50 and 36 + 36. Training pool (all levels and L1s): 482 aspect errors, 198 por/para errors, 450 correct each. The held-out por/para set is small: wide error bars.
 - [ ] Step 2: taxonomy v2 as contrasts (OpenAI drafts from real errors, Claude reviews, Illia approves).
 - [ ] Step 3: re-code the training pool with OpenAI against taxonomy v2.
 - [ ] Step 4: error injection from Tatoeba, filtered by OpenAI.

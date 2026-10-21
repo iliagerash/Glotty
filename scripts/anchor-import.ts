@@ -21,7 +21,7 @@ import { parseArgs } from "util";
 import { candidates, corpus as getCorpus, studentSplit, type Candidate } from "@/lib/corpora";
 import { conceptsFor } from "@/lib/gold/concepts";
 import { progress } from "@/lib/progress";
-import { addItems, itemIdFor, readItems, writeModelLabels, type Annotation, type GoldItem } from "@/lib/gold/store";
+import { addItems, itemIdFor, normalizeResponse, readItems, writeModelLabels, type Annotation, type GoldItem } from "@/lib/gold/store";
 
 /**
  * Deterministic sample, ordered by a hash. Items of one essay may not share a
@@ -62,11 +62,19 @@ function main() {
   const set = `anchor-${source.language}-${concept.key}${values.split === "dev" ? "-dev" : ""}`;
 
   const split = studentSplit(source);
+  // A sentence that is already a gold item from elsewhere (a v1 anchor set, another
+  // import) is skipped: reusing it would carry over its split and its history.
+  // Items with the same origin are this import's own, so re-running is safe.
+  const existing = new Map(readItems().map((i) => [normalizeResponse(i.response), i.origin]));
+  const fresh = (c: Candidate) => {
+    const origin = existing.get(normalizeResponse(c.response));
+    return origin === undefined || origin === source.origin(c.essay);
+  };
   const essays = source.readEssays().filter((e) => e.l1.includes(values.l1!) && e.level === values.level && split(e.student) === values.split);
   const bar = progress(essays.length, `reading ${values.split} essays`);
   const all: Candidate[] = [];
   for (const e of essays) {
-    all.push(...candidates(e, concept));
+    all.push(...candidates(e, concept).filter(fresh));
     bar.tick();
   }
   bar.done();
@@ -96,7 +104,7 @@ function main() {
     ...(values.split === "dev" ? { split: "dev" as const } : {}),
     created_at: now,
   }));
-  const fresh = addItems(items);
+  const added = addItems(items);
   const known = new Set(readItems().map((i) => i.id));
   const labels: Annotation[] = picked
     .map((c, k) => ({ c, id: items[k].id }))
@@ -112,7 +120,7 @@ function main() {
       annotated_at: now,
     }));
   writeModelLabels(set, labels);
-  console.log(`Added ${fresh.length} items; ${labels.length} labels in model_labels/${set}.jsonl.`);
+  console.log(`Added ${added.length} items; ${labels.length} labels in model_labels/${set}.jsonl.`);
 }
 
 main();

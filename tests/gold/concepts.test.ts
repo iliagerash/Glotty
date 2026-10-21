@@ -82,6 +82,7 @@ test("a new concept is a spec, not code: indicative vs subjunctive as a feature 
     key: "ind_sub",
     cluster: "es.gram.mood.ind_sub",
     name: "Indicative vs subjunctive",
+    code_prefix: "MOD",
     detector: "feature-swap",
     pos: ["VERB", "AUX"],
     require: { VerbForm: "Fin" },
