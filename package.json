@@ -24,6 +24,9 @@
     "gold:model-import": "tsx scripts/gold-model-import.ts",
     "gold:model-compare": "tsx scripts/gold-model-compare.ts",
     "anchor:import": "tsx scripts/anchor-import.ts",
+    "train:export": "tsx scripts/train-export.ts",
+    "train:codes": "tsx scripts/train-codes.ts",
+    "train:build": "tsx scripts/train-build.ts",
     "bench": "tsx scripts/bench.ts"
   },
   "dependencies": {

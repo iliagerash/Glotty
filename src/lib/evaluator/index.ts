@@ -119,7 +119,8 @@ export function evaluatorVersion(modelRef: string): string {
   return `${PROMPT_ID}+${systemPrompt().hash}~${POSTPROCESS_ID}-floor${INCORRECT_MIN_CONFIDENCE}@${modelRef}`;
 }
 
-function userMessage(input: EvaluationInput): string {
+/** The user turn the evaluator sends; also used to build fine-tuning examples. */
+export function userMessage(input: EvaluationInput): string {
   const lines: string[] = [];
   if (input.context?.length) {
     lines.push("Earlier in the conversation:");
