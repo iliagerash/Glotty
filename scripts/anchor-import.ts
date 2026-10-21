@@ -21,7 +21,7 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 import { parseArgs } from "util";
-import { alignBySentence, sentences, targetChanges, untouchedTargets, type Finding } from "@/lib/gold/anchor";
+import { alignBySentence, readCsv, sentences, targetChanges, untouchedTargets, type Finding } from "@/lib/gold/anchor";
 import { addItems, itemIdFor, readItems, writeModelLabels, type Annotation, type GoldItem } from "@/lib/gold/store";
 
 const COURSES = /^SPA ?(3|21|22|23|24)(?!\d)/i;
@@ -46,31 +46,6 @@ interface Candidate {
   response: string;
   findings: Finding[];
   untouched: string[];
-}
-
-/** Minimal RFC 4180 CSV reader (quoted fields may hold commas and newlines). */
-function readCsv(file: string): Record<string, string>[] {
-  const text = fs.readFileSync(file, "utf-8");
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let field = "";
-  let quoted = false;
-  for (let k = 0; k < text.length; k++) {
-    const ch = text[k];
-    if (quoted) {
-      if (ch === '"' && text[k + 1] === '"') (field += '"'), k++;
-      else if (ch === '"') quoted = false;
-      else field += ch;
-    } else if (ch === '"') quoted = true;
-    else if (ch === ",") row.push(field), (field = "");
-    else if (ch === "\n" || ch === "\r") {
-      if (ch === "\r" && text[k + 1] === "\n") k++;
-      row.push(field), rows.push(row), (row = []), (field = "");
-    } else field += ch;
-  }
-  if (field || row.length) row.push(field), rows.push(row);
-  const [header, ...body] = rows;
-  return body.filter((r) => r.length > 1).map((r) => Object.fromEntries(header.map((h, k) => [h, r[k] ?? ""])));
 }
 
 function candidates(source: string): Candidate[] {
