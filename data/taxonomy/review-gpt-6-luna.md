@@ -1,0 +1,158 @@
+# Taxonomy review by openai:gpt-6-luna#medium
+
+Reviewed 2026-10-21 with `npm run taxonomy:review`. Evidence: 440 real instructor-corrected errors, 13 judge code splits, 24 generator/judge code splits.
+
+## Overall
+
+Not fit for training an evaluator or driving interventions in its current form. The evidence shows substantial label instability: judges and the generator repeatedly disagree on habituality versus background, on the two duration codes, and on several por/para relations. More importantly, several codes infer a learner's underlying strategy from a single error, or rely on aspectual rules that are not categorical. The three most important changes are: (1) remove or merge codes that cannot be distinguished from one response, especially PI.03/PI.08 and the global-trait codes PI.06/PI.07/PP.06; (2) define codes by the semantic contrast actually licensed by the prompt, rather than by a presumed learner strategy or an unreliable trigger word; and (3) audit the gold corrections and permit abstention when context does not establish a unique target. The evidence itself is noisy: some instructor corrections are debatable or appear to impose one possible aspectual framing, so counts and examples should not be treated as validated labels.
+
+## Codes
+
+| Code | Verdict | Clarity | Documented | One response? | Overlaps | Real errors |
+| --- | --- | --- | --- | --- | --- | --- |
+| PI.01 | rewrite | 2 | yes | yes | PI.02, PI.04, PI.05, PI.06, PI.07, PI.08 | 139 |
+| PI.02 | drop | 1 | partly | no | PI.01, PI.06, PI.07 | 5 |
+| PI.03 | merge → PI.08 | 2 | yes | yes | PI.08, PI.01 | 4 |
+| PI.04 | rewrite | 3 | yes | yes | PI.01, PI.06, PI.07 | 66 |
+| PI.05 | rewrite | 3 | yes | yes | PI.01, PI.03, PI.08 | 46 |
+| PI.06 | drop | 2 | partly | no | PI.01, PI.04, PI.07 | 2 |
+| PI.07 | drop | 1 | partly | no | PI.01, PI.04, PI.05 | 12 |
+| PI.08 | merge → PI.03 | 2 | yes | yes | PI.03, PI.01 | 10 |
+| PP.01 | rewrite | 3 | yes | yes | PP.05, PP.06 | 30 |
+| PP.02 | rewrite | 2 | yes | yes | PP.03 | 2 |
+| PP.03 | rewrite | 3 | yes | yes | PP.06, PP.02 | 39 |
+| PP.04 | rewrite | 3 | yes | yes |  | 21 |
+| PP.05 | rewrite | 3 | yes | yes | PP.01 | 9 |
+| PP.06 | drop | 1 | partly | no | PP.01, PP.02, PP.03, PP.04, PP.05, PP.07 | 19 |
+| PP.07 | rewrite | 2 | partly | yes | PP.03, PP.04 | 3 |
+| UNKNOWN | rewrite | 3 | no | yes | PI.01, PI.03, PI.04, PI.05, PI.08, PP.01, PP.02, PP.03, PP.04, PP.05, PP.07 | 33 |
+
+### PI.01: rewrite
+
+Background-versus-foreground is a real aspectual contrast, but the current definition is too broad and overlaps with habituality, state verbs, and boundedness. Some examples are not unambiguously wrong: a completed event can be narrated in the preterite even when it also supplies context. The high count and judge disagreement on 'Cuando fui joven, jugué...' show that habituality and narrative background are being confused.
+
+**Proposed:** Background state/action marked as bounded event — Use only when the prompt and response clearly establish that a past state or ongoing background action holds at a reference time, but the learner presents it as a completed bounded event with the preterite. Do not use for recurring habits, state-verb meaning shifts, or cases where the narrative framing is underdetermined.
+
+### PI.02: drop
+
+A temporal adverb such as ayer, anoche, or una vez does not itself force the preterite, but the code attributes a specific mechanical strategy that usually cannot be inferred from one choice. The supplied examples are not reliable evidence of that strategy: 'de repente' favors a sudden event but does not force the preterite in every context, and 'una noche' does not explain the aspect choice. The door example is better described as a state/background error.
+
+### PI.03: merge
+
+A durative verb does not by itself require the imperfect; the relevant contrast is whether the event is viewed as bounded or ongoing/habitual. This overlaps directly with PI.08, and judges repeatedly split the same duration examples between the two. Several examples with hasta que can naturally support an imperfect ongoing event, so the instructor's preferred preterite is not always uniquely required.
+
+**Proposed:** Duration and boundedness contrast — Use when a learner chooses the imperfect for an event or state that the prompt clearly presents as a completed, bounded whole, or chooses the preterite for one clearly ongoing/unbounded at the reference time. The diagnostic evidence is the event framing, not the verb's inherent duration or the mere presence of a duration phrase.
+
+### PI.04: rewrite
+
+Habitual past mapped to the preterite is a useful, documented contrast, but the definition overstates that recurring actions 'require' the imperfect. A bounded series can be presented as a completed whole, and examples such as fui todos los días can be acceptable under a closed-period reading. The prompt must establish an unbounded routine rather than merely contain a frequency expression.
+
+**Proposed:** Habitual past framed as a completed event — Use when the prompt clearly presents an ongoing past routine or repeated customary activity, but the learner uses the preterite in a way that treats it as a bounded event or bounded series. Do not use for a quantified set of completed occurrences or a routine deliberately summarized as a closed period.
+
+### PI.05: rewrite
+
+Aspectual shifts in verbs such as saber, conocer, querer, and poder are real, but the code bundles different lexical meanings and several possible error directions. Forms like quise can express a decision or desire in context, and pude can express a successful achievement or a failed attempt depending on construction. The evaluator needs a clear intended meaning, not just a listed verb.
+
+**Proposed:** State-verb aspectual meaning contrast — Use only when context clearly establishes a continuing state or a change/onset/attempt meaning for a state verb, and the learner's aspect selects the other interpretation. Identify the relevant verb and intended reading; otherwise abstain rather than infer the misconception.
+
+### PI.06: drop
+
+Narrative flattening describes a pattern across a narrative, not a distinct explanation for one error. A response with several preterites may be a valid sequence of foreground events, and a response with one preterite background clause is not evidence that the learner flattens narratives. The two examples also contain several separate errors that could receive different local diagnoses.
+
+### PI.07: drop
+
+English-Spanish aspect transfer is plausible in this learner population, but a single form does not establish that transfer caused the error. The definition also bundles two different mappings and the examples often fit ordinary aspect or habituality errors just as well. The judge disagreements provide no stable way to distinguish this code from the local aspect codes.
+
+### PI.08: merge
+
+A duration phrase does not automatically make an event bounded, and imperfect forms can be appropriate for a state or activity lasting a stated period when viewed internally. The evidence repeatedly shows judges splitting the same examples between PI.03 and PI.08. Some supplied examples, including 'estaba enfermo durante tres días', are context-sensitive rather than categorically wrong.
+
+**Proposed:** Duration and boundedness contrast — Use when a learner chooses the imperfect for an event or state that the prompt clearly presents as a completed, bounded whole, or chooses the preterite for one clearly ongoing/unbounded at the reference time. The diagnostic evidence is the event framing, not the verb's inherent duration or the mere presence of a duration phrase.
+
+### PP.01: rewrite
+
+Recipient and behalf/substitution are useful contrasts, but 'beneficiary' is too broad: it can describe either a recipient or someone benefited by an action. Some examples are pragmatic and can allow more than one reading. The definition should specify the intended relation and distinguish it from an economic exchange, which belongs elsewhere.
+
+**Proposed:** Recipient versus behalf/substitution — Use when context clearly means an item or action is intended for a recipient (para) but the learner uses por, or clearly means acting in someone's place/on someone's behalf (por) but the learner uses para. Do not use for price, trade, or an ambiguous beneficiary relation.
+
+### PP.02: rewrite
+
+Route versus destination is a useful spatial contrast, but some examples do not establish the intended trajectory. 'Caminamos para el parque' can mean movement toward the park, while 'por el balón' means pursuit and is not simply transit through a route. The code needs a prompt that makes path versus endpoint explicit.
+
+**Proposed:** Route/transit versus destination — Use when context clearly marks movement through or along a route/space (por) versus movement toward a final destination (para), and the learner selects the other preposition. Do not use for pursuit of an object or an underspecified motion phrase.
+
+### PP.03: rewrite
+
+Cause/reason versus purpose is a productive contrast, especially por versus para before an infinitive, but the current definition describes it as a temporal vector and excludes other common reasons or bases. Some phrases with por plus infinitive can be causal or motivational, so context matters. Several generator examples assigned to PP.06 are ordinary purpose/cause errors and belong here if the intended meaning is clear.
+
+**Proposed:** Cause/reason versus purpose/goal — Use when por expresses the cause, motive, or basis for an event, or para expresses the intended goal or purpose, and the learner selects the other preposition. Require contextual evidence for the intended relation; do not infer it from por/para plus an infinitive alone.
+
+### PP.04: rewrite
+
+Duration versus deadline is a useful contrast, but the evidence includes a likely overgeneralization: 'por Navidad' can mean around/at Christmas, while 'para Navidad' can mean by Christmas. A prompt intending a period during a holiday may require a different phrasing, not a simple por/para substitution. Regional preferences for duration expressions also need to be considered.
+
+**Proposed:** Duration span versus deadline — Use when the prompt clearly asks for a length of time over which an event lasts (commonly por or durante) but the learner uses para as a deadline, or asks for a due date/deadline (para) but the learner uses por. Exclude approximate calendar-time meanings unless the prompt makes the contrast explicit.
+
+### PP.05: rewrite
+
+Economic exchange and price are useful por meanings, but 'substitution' duplicates PP.01. Examples involving offers or payment need to make the transaction relation clear; some forms can instead mean something is intended for a purpose. The definition should be limited to exchange, price, or reward.
+
+**Proposed:** Price, payment, and exchange — Use when the intended relation is an amount paid, a price, or something given in exchange/reward for something else, normally marked by por, but the learner uses para. Do not use for acting on someone's behalf or for a recipient.
+
+### PP.06: drop
+
+An undifferentiated English-for mapping is a possible cross-linguistic tendency, not a single-response diagnosis. The code explicitly requires a battery and 'erratic switching', which the use case does not provide. It also absorbs errors that have more specific local meanings; the high judge disagreement and generator mismatches show it is functioning as a catch-all rather than a distinct misconception.
+
+### PP.07: rewrite
+
+Formulaic collocations are useful to teach, but the present code claims the learner is treating them as rule-derived without evidence of that process. Its examples are separate lexical items and some are not fixed expressions in the same way. The code can identify a wrong conventional collocation from one response, but not the learner's underlying strategy.
+
+**Proposed:** Por/para formulaic collocation error — Use when the erroneous preposition occurs in a conventionalized expression whose choice is best learned as a lexical collocation (for example, gracias por or para siempre), and the intended expression is clear. Code the incorrect chunk, not an inferred compositional strategy.
+
+### UNKNOWN: rewrite
+
+A residual human-review category is necessary, but it is not a misconception and cannot explain why the learner chose the form. Treating it as an ordinary code risks assigning an intervention with no diagnostic basis. The listed unknown aspect examples are not necessarily errors: several preterite/imperfect contrasts depend on discourse framing, and some instructor corrections are debatable.
+
+**Proposed:** ABSTAIN—insufficient or uncoded evidence — Use only when an error is established but the response and prompt do not support one specific misconception code, or when the intended meaning/target is ambiguous. Do not update the learner model or assign misconception-specific practice; send the case for review.
+
+## Missing misconceptions
+
+### Imperfect for a clearly bounded or inchoative event
+
+The learner uses the imperfect for a single, completed foreground event or onset that the prompt clearly presents as bounded, such as a specific beginning, occurrence, or sequential narrative event. Keep this distinct from habituality and from background-versus-foreground errors only when the prompt makes the event's bounded onset explicit.
+
+Example: De repente, mi hermana empezaba a gritar. Intended: De repente, mi hermana empezó a gritar.
+
+This pattern is prominent in the unknown errors: empezaba/empezó, nacía/nací, miraba/miró, and other bounded narrative events. Existing codes do not directly capture it, and evaluators otherwise overuse PI.01 or UNKNOWN.
+
+### Retrospective evaluation or closed past episode framed with the imperfect
+
+The learner uses the imperfect for a summary evaluation or state explicitly presented as the outcome or characterization of a completed episode, where the prompt supports a bounded reading and the preterite is intended.
+
+Example: Lo que vi era una locura. Intended in a clearly bounded retrospective summary: Lo que vi fue una locura.
+
+Several unknown examples and evidence annotations invoke this contrast (fue/era, no fue así/no era así). It is not always a categorical correction, so this code should be used only with an explicit discourse context and validated judgments.
+
+### Por for reason, basis, or association
+
+The learner uses para where por marks the reason, basis, or association explaining a quality or status, rather than a forward-looking goal. This may be included under a broadened PP.03 if the taxonomy does not need a separate intervention.
+
+Example: Es muy famoso para The Beatles. Intended: Es muy famoso por The Beatles.
+
+Real errors repeatedly show por-based explanations such as fame or association, while PP.03 currently focuses mostly on cause versus infinitive purpose. These cases are incorrectly sent to PP.06 or UNKNOWN and need a clear local diagnosis.
+
+### Pursuit or object sought with por
+
+The learner uses para for movement or effort in pursuit of an object, where por marks what someone is trying to obtain or catch. Distinguish this from a spatial route and a destination.
+
+Example: Corríamos para el balón. Intended: Corríamos por el balón.
+
+This occurs in the real-error evidence, but it is not well described by route versus destination; treating the ball as a destination gives the evaluator the wrong contrast.
+
+### No error / acceptable aspectual or prepositional variant
+
+A necessary evaluator outcome when the learner's form is acceptable under a plausible reading, regional usage, or discourse framing, or when the correction is not uniquely licensed by the prompt.
+
+Example: Unbounded routine: Cuando fui joven, jugué al fútbol todos los fines de semana; depending on the intended framing, the preterite may summarize a closed period, while the imperfect presents the routine as habitual.
+
+The provided evidence contains corrections whose target is not uniquely determined, including duration, background state, and closed-period readings. Without an explicit no-error/uncertain option, the evaluator will manufacture a misconception and contaminate the learner model.

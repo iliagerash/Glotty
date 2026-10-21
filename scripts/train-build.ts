@@ -16,6 +16,7 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 import { userMessage } from "@/lib/evaluator";
+import { conceptsFor } from "@/lib/gold/concepts";
 import { loadTaxonomy } from "@/lib/taxonomy";
 import { readItems, readModelLabels } from "@/lib/gold/store";
 import type { PoolItem } from "./train-export";
@@ -29,15 +30,12 @@ export function systemPromptFt(): string {
   return fs.readFileSync(path.join(process.cwd(), "prompts", "evaluator", "v8-ft.md"), "utf-8").replace("{{CODES}}", codes).trim();
 }
 
-const PRET_IMP = "es.gram.aspect.pret_imp";
-const POR_PARA = "es.sem.por_para";
-const isPorPara = (w: string) => /^(por|para)$/i.test(w);
 
 interface Code { id: string; diagnosis_code: string; error_span: string; correction: string; analysis: string }
 
 function verdict(p: PoolItem, code?: Code) {
-  if (p.kind === "unchanged") {
-    const concepts = [...new Set(p.untouched.map((w) => (isPorPara(w) ? POR_PARA : PRET_IMP)))];
+  const concepts = [conceptsFor(p.language)[p.concept].cluster];
+  if (p.kind === "correct") {
     return {
       analysis: `The target forms (${[...new Set(p.untouched)].join(", ")}) fit the most natural reading of the response.`,
       evaluation: "correct",
@@ -51,7 +49,6 @@ function verdict(p: PoolItem, code?: Code) {
       other_errors: [],
     };
   }
-  const concepts = [...new Set(p.findings.map((f) => (f.kind === "por_para" ? POR_PARA : PRET_IMP)))];
   return {
     analysis: code!.analysis,
     evaluation: "incorrect",
@@ -77,7 +74,7 @@ function main() {
       { role: "assistant", content: JSON.stringify(answer) },
     ],
   });
-  const usable = pool.filter((p) => p.kind === "unchanged" || codes.has(p.id));
+  const usable = pool.filter((p) => p.kind === "correct" || codes.has(p.id));
   const toVal = (essay: string) => crypto.createHash("sha256").update(essay).digest().readUInt32BE(0) / 0x1_0000_0000 < 0.1;
   const train = usable.filter((p) => !toVal(p.essay)).map((p) => example(p, verdict(p, codes.get(p.id))));
   const val = usable.filter((p) => toVal(p.essay)).map((p) => example(p, verdict(p, codes.get(p.id))));

@@ -38,6 +38,7 @@ import {
   type Annotation,
   type GoldItem,
 } from "@/lib/gold/store";
+import { progress } from "@/lib/progress";
 import { taxonomyCodes } from "@/lib/taxonomy";
 
 const EVALUATIONS = ["correct", "incorrect", "uncertain", "not_applicable"] as const;
@@ -131,22 +132,22 @@ async function main() {
     const done = readModelLabelsIfAny(runName);
     const todo = toLabel.filter((i) => !done.has(i.id));
     let next = 0;
-    let finished = 0;
+    const bar = progress(todo.length, `run ${r}`);
     async function worker() {
       while (next < todo.length) {
         const item = todo[next++];
         try {
           appendModelLabels(runName, [await labelOne(config, item, runName, instructions, codes)]);
+          bar.tick();
         } catch (err) {
           failed++;
-          console.error(`  run ${r} ${item.id}: ${(err as Error).message.slice(0, 300)}`);
+          console.error(`\n  run ${r} ${item.id}: ${(err as Error).message.slice(0, 300)}`);
+          bar.tick(false);
         }
-        finished++;
-        if (finished % 10 === 0 || finished === todo.length) process.stdout.write(`  run ${r}: ${finished}/${todo.length}\r`);
       }
     }
     await Promise.all(Array.from({ length: Math.min(Number(values.concurrency), todo.length) }, worker));
-    process.stdout.write("\n");
+    bar.done();
   }
 
   // Combine the runs. Only items every run labelled are combined.

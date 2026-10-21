@@ -1,10 +1,10 @@
 # Glotty AI-First Rebuild Plan
 
-Oct 19, 2026 · updated Oct 20, 2026 · @Illia Herashchenko
+Oct 19, 2026 · updated Oct 21, 2026 · @Illia Herashchenko
 
-Glotty is being rebuilt so that a measured LLM evaluator comes first, and nothing is built on top of it until it passes the §25 gates. Steps 0–2 are done. Step 2 is measured against the two-judge gold: on held-out, kimi-k2.6 passes three of the four §25 gates and fails precision on INCORRECT (0.818).
+Glotty is being rebuilt so that a measured LLM evaluator comes first, and nothing is built on top of it until it passes the §25 gates. Steps 0–1 are done; step 2 is being redone under **Workflow v2** (below): the evaluator is measured on native-corrected learner text, where every model tried so far falls well short (kimi-k2.6: accuracy 0.46 on the held-out anchor set), and a fine-tuned evaluator is being prepared.
 
-> **No humans in the loop (decided 2026-10-20).** Two judge models from different families (OpenAI and Google) generate and label the gold set; gold is where both agree. Inter-judge agreement replaces inter-annotator agreement, judge disagreements become "uncertain" instead of going to an adjudicator, and native-corrected learner corpora replace the native-speaker check as the anchor to real Spanish. Every gate below is measured against that gold. This is a deliberate divergence from §24–§25, recorded in the concept check.
+> **Superseded by Workflow v2 (2026-10-21).** Kept for the record: **No humans in the loop (decided 2026-10-20).** Two judge models from different families (OpenAI and Google) generate and label the gold set; gold is where both agree. Inter-judge agreement replaces inter-annotator agreement, judge disagreements become "uncertain" instead of going to an adjudicator, and native-corrected learner corpora replace the native-speaker check as the anchor to real Spanish. Every gate below is measured against that gold. This is a deliberate divergence from §24–§25, recorded in the concept check.
 
 > **Where this comes from.** The session where the plan was first proposed (session\_01LC2ewUc9hmqQxJ55PMB4UP) no longer exists, so its transcript can't be retrieved. This plan is rebuilt from what that session left in the repo: `REVIEW.md` (its "Suggested path back"), the README status table, the rebuild commit (2998fa0), and `Glotty_Concept.md` §21–§26 and §49. Wording from the original conversation that never reached the repo is lost.
 
@@ -33,8 +33,68 @@ The LLM writes everything the learner reads and interprets everything the learne
 - **Provider-agnostic.** Product code asks for a tier (`fast`, `strong`), never a model. Tiers map to model refs through the environment.
 - **Versioned labels.** Every judgement records `evaluator_version` (prompt hash + taxonomy + model ref), so history can be re-scored later.
 - **Raw evidence is immutable.** The `events` table is append-only, enforced by a trigger. Conclusions live in derived, versioned tables.
-- **Abstain rather than accuse.** A false "you're wrong" is the worst error (§23). An "incorrect" verdict below 0.7 confidence becomes UNCERTAIN, and unmapped codes become UNKNOWN.
+- **Abstain rather than accuse.** A false "you're wrong" is the worst error (§23). An "incorrect" verdict below the confidence floor becomes an abstention (`uncertain`, set in code, never by the model), and unmapped codes become UNKNOWN.
 - **Policy lives in code.** Rules like the abstention threshold sit in post-processing, not in the prompt.
+
+## Workflow v2 (decided 2026-10-21)
+
+The first round showed that a gold set written and labelled by two LLM judges overstates the evaluator: kimi-k2.6 scored 0.96 accuracy on synthetic held-out items and 0.46 on native-corrected learner sentences. It also cost too much (Gemini is out for budget reasons) and does not scale to the many grammar concepts still to come. A taxonomy review (`data/taxonomy/review-gpt-6-luna.md`) found that several codes guess a learner's strategy, which one response cannot show. Workflow v2 replaces the two-judge process for every concept, the existing two included.
+
+**Principles**
+
+1. **Real learner text is the reference.** Native-corrected learner writing is the benchmark; synthetic data is for training and probes only.
+2. **The evaluator says what one response shows; the learner model infers the misconception.** Per response: correct / incorrect / not applicable, the wrong span, the correction and a coarse *contrast* code. Patterns across responses (L1 transfer, no system at all) are inferred by deterministic code in the learner model (step 5), in line with "the LLM proposes and reads; the code decides".
+3. **One pipeline for every concept.** A new concept is a repeat run of the same steps, not a new project.
+4. **Measure before building.** A screening set for development, a held-out set reported once, gates, abstention.
+
+**Roles**
+
+| Role | Who |
+| --- | --- |
+| Main judge and generator: explanations, codes, filtering injected errors, gap-filling labels | OpenAI (gpt-6-luna, `GLOTTY_GOVERNANCE_MODEL`) |
+| Second opinion: taxonomy and guideline reviews, spot audits of OpenAI's labels | Claude, through a fresh sub-agent that has not seen the answers |
+| Product evaluator | Workers AI, fine-tuned per concept family (LoRA on `qwen2.5-coder-32b-instruct`) |
+| Ground truth | Instructor corrections in COWS-L2H |
+| Retired | Gemini (judge b); the two-judge synthetic consensus as gold; manual overrides; inter-judge κ as a gate |
+
+**Data per concept**
+
+1. **Morphology layer.** A morphological analyser (spaCy) tags tense, mood, gender and so on; each concept's detector is a short rule over those tags, replacing hand-written suffix rules (which mistook conditionals and futures for imperfects and preterites).
+2. **COWS-L2H, mined per concept,** into three sets that never share an essay: `anchor-<concept>-dev` (screening and tuning), `anchor-<concept>` (held-out, reported once), and a training pool, filled out with OpenAI's explanations and codes.
+3. **Error injection** from native text (Tatoeba, Universal Dependencies treebanks): swap the target form in a correct sentence, the original is the correction; OpenAI filters out swaps that are still acceptable Spanish; balanced against correct sentences; training only.
+4. **LLM-written items** only as probes for specific edge cases. CEDEL2 (CC BY-NC) is an optional later source of realistic uncorrected input; this is a hobby project, so non-commercial licences are acceptable for now.
+
+**Languages, corpora and L1 (decided 2026-10-21).** Nothing in the pipeline is tied to Spanish or to English speakers:
+
+- **Language packs:** `data/languages/<code>/language.json` holds the spaCy model and the concept specs. A concept is a spec for one of two generic detectors over Universal Dependencies features: *feature-swap* (same lemma, one feature changed: preterite/imperfect is `Tense: Past↔Imp`, indicative/subjunctive `Mood: Ind↔Sub`, gender `Gender: Masc↔Fem`) or *word-swap* (one word of a set replaced by another: por/para, ser/estar). Only an unusual concept needs code (`src/lib/gold/concepts.ts`).
+- **Corpus adapters:** `src/lib/corpora/` maps each learner corpus to essays with native corrections, student, L1 (ISO codes) and a CEFR level. COWS-L2H is the first adapter; another corpus or language is another adapter.
+- **L1 is a parameter,** never a constant: anchor sets are built per L1 and level (`--l1 en --level B1`), training pools keep every L1, and L1-specific interpretation (transfer patterns) belongs to the learner model. The evaluator prompt and feedback language still assume Spanish and English speakers; they become templates when a second language or L1 arrives.
+
+**Taxonomy per concept, bottom-up**
+
+OpenAI clusters a sample of real corrected errors into contrasts and drafts the codes; Claude reviews; Illia reads; the version is frozen. Codes must be readable from one response and lead to different practice. ABSTAIN (today's UNKNOWN) means no learner-model update.
+
+**Evaluator per concept family**
+
+1. Baseline: benchmark the current evaluator on the screening anchors.
+2. Fine-tune: training set (corpus pool + injected errors + explanations), LoRA on Kaggle (2 × T4, `notebooks/train_evaluator_lora.ipynb`), upload to Workers AI.
+3. Calibrate the abstention floor on the screening anchors; p95 latency ≤ 20 s.
+4. Report once on the held-out anchors.
+
+**Labels: no "uncertain" class (decided 2026-10-21).** Instructor corrections never say "ambiguous", so the model outputs only correct, incorrect or not applicable. Abstention still exists, set in code by the confidence floor; it is not a label the model learns.
+
+**Gates.** Primary: on the held-out real-text anchors — accuracy, precision on INCORRECT, uncertain (abstention) rate, contrast top-1. The precision bar is left open until the first measurement on the new data (the old 0.95 may not be realistic on real text); the others keep their §25 values for now (accuracy ≥ 0.90, abstention ≤ 0.15, contrast top-1 ≥ 0.65). The synthetic gold is kept as a secondary regression check. Label reliability is measured as OpenAI's agreement with the instructors, replacing inter-judge κ.
+
+**Steps for the two current concepts (preterite/imperfect, por/para)**
+
+1. Morphological analysis; rewrite the aspect and por/para detectors on it; rebuild both anchor sets and the training pool.
+2. Taxonomy v2 as contrasts: OpenAI drafts from the ~440 real errors, Claude reviews, Illia approves.
+3. Re-code the training pool with OpenAI against taxonomy v2.
+4. Error injection for both concepts from Tatoeba, filtered by OpenAI.
+5. Build the training set, train on Kaggle, upload; measure on the screening anchors, then once on the held-out anchors.
+6. Write the pipeline as a per-concept checklist with commands, so the next concept (for example ser/estar, already annotated in COWS-L2H) is a repeat run.
+
+Long-running scripts are run by Illia, and every one shows progress (done/total, elapsed, ETA).
 
 ## Build order and status
 
@@ -55,7 +115,7 @@ Each step's exit criterion is a measurement or a structural guarantee, not a dem
 | --- | --- | --- |
 | 0. Remove fakes | Delete the simulated evaluator, scripted journey, demo dashboards and fake default user. Make `events` append-only. | Nothing in the codebase produces a label without a real model call. Done. |
 | 1. Model gateway | `src/lib/ai`: tiers, Cloudflare Workers AI + any OpenAI-compatible endpoint, zod-validated output, one retry on invalid JSON | Unit tests against a mocked fetch; every candidate model answers `ai:ping`. Done. |
-| 2. Evaluator | `prompts/evaluator/v4.md` (earlier versions kept for traceability), taxonomy with negative examples, abstention, UNKNOWN; gold tooling (two-judge generation and labelling, consensus, dev/held-out split, bench) | All six §25 gates pass on the held-out judge-consensus set. Built, not yet measured. |
+| 2. Evaluator | Evaluator prompt (`prompts/evaluator/`), taxonomy, abstention, UNKNOWN; anchor sets from native-corrected learner text; fine-tuned evaluator (Workflow v2) | The gates pass on the held-out native-corrected anchor set (Workflow v2). Measured under v1: fails on real learner text. |
 | 3. Items + sync path | Generated items stored with answer keys and distinguishing probes; sync evaluation by key matching (§22) | Sync path p95 under 200 ms with no LLM call. |
 | 4. Conversation + async labels | LLM conversation turns; evaluation moved to a background queue; versioned `labels` table (events → labels → learner state) | The learner never waits on the LLM; any label can be re-scored by version. |
 | 5. Learner model | Built from labels: §16 weights (uncertain ≈ 0.1), ordering constraint flagged rather than clamped, pooled prior (§17) | Learner state reproducible from events by replay; real gate inputs. |
@@ -67,6 +127,8 @@ The demo dashboards stay frozen until steps 1–6 pass.
 > **Proposed design.** The sections from here to the data-flow diagram are my proposal for finishing step 2 and building steps 3–7. They follow `Glotty_Concept.md` and what is already in the repo, but they are not recovered from the lost session. Section references (§) point to the concept doc.
 
 ## Finishing step 2: from screen to passing gates
+
+> **Superseded by Workflow v2 (2026-10-21).** Kept for the record of how v1 was run.
 
 Step 2 is done when one model and prompt version passes all six §25 gates on the held-out judge-consensus set. The binding constraint is the gold set, not the model.
 
@@ -369,7 +431,16 @@ kimi against the anchor (run once): accuracy 0.462, precision on INCORRECT 1.000
 
 ## Open decisions and next actions
 
-The critical path is the two-judge gold set. No model choice is final until it exists and meets the inter-judge bar.
+**Workflow v2 (from 2026-10-21).** The critical path is a fine-tuned evaluator measured on native-corrected learner text.
+
+- [ ] Step 1: morphological analysis (spaCy); aspect and por/para detectors rewritten on it; anchor sets and training pool rebuilt.
+- [ ] Step 2: taxonomy v2 as contrasts (OpenAI drafts from real errors, Claude reviews, Illia approves).
+- [ ] Step 3: re-code the training pool with OpenAI against taxonomy v2.
+- [ ] Step 4: error injection from Tatoeba, filtered by OpenAI.
+- [ ] Step 5: train (Kaggle), upload (Workers AI), measure on the screening anchors, report once on the held-out anchors; set the precision bar from the first measurement.
+- [ ] Step 6: per-concept pipeline checklist.
+
+**Workflow v1 (to 2026-10-20), kept for the record.** The critical path was the two-judge gold set.
 
 - [x] Rename the secret `CLOUDFLARE_AI_TOKEN` to `CLOUDFLARE_API_TOKEN` in the cloud environment. Done: `CLOUDFLARE_API_TOKEN` is set.
 - [x] Pick fast and strong tiers: fast = `gpt-oss-20b#low`, strong = `kimi-k2.6#none`, set through the environment (no built-in defaults).

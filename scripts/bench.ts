@@ -47,6 +47,7 @@ import {
   type Label,
   type ScoredRow,
 } from "@/lib/gold/metrics";
+import { progress } from "@/lib/progress";
 
 interface Labeled {
   item: GoldItem;
@@ -111,22 +112,22 @@ const fmt = (v: number | null, digits = 3) => (v === null ? "n/a" : v.toFixed(di
 async function runModel(model: string, rows: Labeled[], concurrency: number, outDir: string) {
   const results: Array<{ row: Labeled; result: EvaluationResult | null; error: string | null }> = [];
   let next = 0;
-  let done = 0;
+  const bar = progress(rows.length, model);
   async function worker() {
     while (next < rows.length) {
       const row = rows[next++];
       try {
         const result = await evaluate({ prompt: row.item.prompt, response: row.item.response }, { model });
         results.push({ row, result, error: null });
+        bar.tick();
       } catch (err) {
         results.push({ row, result: null, error: `${(err as Error).name}: ${(err as Error).message}` });
+        bar.tick(false);
       }
-      done++;
-      if (done % 10 === 0 || done === rows.length) process.stdout.write(`  ${model}: ${done}/${rows.length}\r`);
     }
   }
   await Promise.all(Array.from({ length: Math.min(concurrency, rows.length) }, worker));
-  process.stdout.write("\n");
+  bar.done();
 
   const file = path.join(outDir, `${model.replace(/[^a-zA-Z0-9.-]+/g, "_")}.jsonl`);
   fs.writeFileSync(

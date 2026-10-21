@@ -1,118 +1,82 @@
 /**
- * Imports anchor items from COWS-L2H (UC Davis Corpus of Written Spanish, L2
- * and Heritage Speakers; Apache-2.0, https://github.com/ucdaviscl/cowsl2h):
- * learner sentences whose label comes from an instructor's correction, not
- * from a model (src/lib/gold/anchor.ts).
+ * Builds a concept's anchor sets from a learner corpus (Workflow v2):
+ * learner sentences labelled by a native corrector, not by a model.
  *
- *   npm run anchor:import -- --source <cowsl2h clone> [--per-kind 40] [--set anchor-cowsl2h]
- *                            [--split dev] [--dry-run]
+ *   npm run anchor:import -- --concept <key> --split heldout|dev
+ *       [--corpus cowsl2h] [--l1 en] [--level B1] [--per-kind 40] [--dry-run]
  *
- * Keeps essays by English-L1 students in the courses closest to B1 (SPA 3,
- * 21-24) that have at least one correction. Each item is a learner sentence
- * with the one before it as context; only the second sentence may carry the
- * change. Samples --per-kind items of each kind (por/para changed, aspect
- * changed, unchanged target forms), deterministically. Items are added to
- * items.jsonl with source "learner" (so they are held-out unless --split
- * pins them, e.g. a screening set in dev) and the labels are written as the
- * set model_labels/<set>.jsonl. Essays already used by an earlier import are
- * skipped, so sets never share an essay.
+ * The corpus adapter (src/lib/corpora) gives its essays with corrections and
+ * the target language; the concept comes from that language's pack
+ * (data/languages/<code>/language.json). Students are split once per corpus
+ * (studentSplit): held-out students give model_labels/anchor-<lang>-<key>.jsonl,
+ * dev students give anchor-<lang>-<key>-dev.jsonl. Only students with --l1
+ * among their first languages, at --level. Each item is a learner sentence
+ * with the one before it as context, labelled as a whole (labelWindow).
+ * Samples up to --per-kind errors and as many correct items as errors
+ * found, deterministically; items of one essay never share a sentence. Items are source
+ * "learner"; dev items are pinned to dev.
  */
 import crypto from "crypto";
-import fs from "fs";
-import path from "path";
 import { parseArgs } from "util";
-import { alignBySentence, readCsv, sentences, targetChanges, untouchedTargets, type Finding } from "@/lib/gold/anchor";
+import { candidates, corpus as getCorpus, studentSplit, type Candidate } from "@/lib/corpora";
+import { conceptsFor } from "@/lib/gold/concepts";
+import { progress } from "@/lib/progress";
 import { addItems, itemIdFor, readItems, writeModelLabels, type Annotation, type GoldItem } from "@/lib/gold/store";
 
-const COURSES = /^SPA ?(3|21|22|23|24)(?!\d)/i;
-const PROMPTS: Record<string, string> = {
-  famous: "Escribe un texto sobre una persona famosa.",
-  vacation: "Escribe un texto sobre tu plan de vacaciones perfecto.",
-  special: "Escribe un texto sobre una persona especial en tu vida.",
-  terrible: "Escribe un texto sobre una historia terrible.",
-  yourself: "Escribe un texto para describirte.",
-  beautiful: "Escribe un texto sobre una historia bonita.",
-  place_you_dislike: "Escribe un texto sobre un lugar que no te gusta.",
-  chaplin: "Describe la escena del fragmento de «The Kid», de Chaplin, que acabas de ver.",
-};
-
-type Kind = "por_para" | "aspect" | "unchanged";
-interface Candidate {
-  kind: Kind;
-  essayId: string;
-  topic: string;
-  quarter: string;
-  course: string;
-  response: string;
-  findings: Finding[];
-  untouched: string[];
-}
-
-function candidates(source: string): Candidate[] {
+/**
+ * Deterministic sample, ordered by a hash. Items of one essay may not share a
+ * sentence: each sentence is in two overlapping windows, so this counts each
+ * error once while keeping separate errors of the same essay.
+ */
+function sample(list: Candidate[], n: number): Candidate[] {
+  const key = (c: Candidate) => crypto.createHash("sha256").update(`${c.essay.id}|${c.response}`).digest("hex");
+  const used = new Set<string>();
   const out: Candidate[] = [];
-  for (const file of fs.readdirSync(path.join(source, "csv")).filter((f) => f.endsWith(".csv"))) {
-    for (const r of readCsv(path.join(source, "csv", file))) {
-      if (!COURSES.test(r.course ?? "") || !/english/i.test(r["l1 language"] ?? "")) continue;
-      const corrected = (r.corrected1 ?? "").trim();
-      const essay = (r.essay ?? "").trim();
-      if (!corrected || !essay) continue;
-      const topic = (r.prompt ?? "").trim();
-      if (!PROMPTS[topic]) continue;
-      const sents = sentences(essay);
-      const ops = alignBySentence(sents, corrected);
-      const changes = ops.map(targetChanges);
-      for (let k = 1; k < sents.length; k++) {
-        const prev = changes[k - 1];
-        const cur = changes[k];
-        // Context sentence must be clean; current sentence must be readable.
-        if (prev.findings.length || prev.unreadable || cur.unreadable) continue;
-        const response = `${sents[k - 1]} ${sents[k]}`;
-        // Fragments, anonymisation tags (*FIRST_NAME*, *CITY*) and long passages are skipped.
-        if (response.length > 400 || response.includes("*")) continue;
-        if (sents[k - 1].split(" ").length < 4 || sents[k].split(" ").length < 4) continue;
-        const base = { essayId: r.id, topic, quarter: r.quarter, course: r.course, response, untouched: untouchedTargets(ops[k]) };
-        if (cur.findings.length) {
-          const kind: Kind = cur.findings.some((f) => f.kind === "por_para") ? "por_para" : "aspect";
-          out.push({ ...base, kind, findings: cur.findings });
-        } else if (base.untouched.length) {
-          out.push({ ...base, kind: "unchanged", findings: [] });
-        }
-      }
-    }
+  for (const c of [...list].sort((a, b) => key(a).localeCompare(key(b)))) {
+    const sentences = [`${c.essay.id}:${c.sentence - 1}`, `${c.essay.id}:${c.sentence}`];
+    if (sentences.some((s) => used.has(s))) continue;
+    sentences.forEach((s) => used.add(s));
+    out.push(c);
+    if (out.length === n) break;
   }
   return out;
-}
-
-/** Deterministic sample: order by a hash, at most one item per essay per kind. */
-function sample(list: Candidate[], n: number): Candidate[] {
-  const key = (c: Candidate) => crypto.createHash("sha256").update(`${c.essayId}|${c.response}`).digest("hex");
-  const seen = new Set<string>();
-  return [...list]
-    .sort((a, b) => key(a).localeCompare(key(b)))
-    .filter((c) => !seen.has(c.essayId) && !!seen.add(c.essayId))
-    .slice(0, n);
 }
 
 function main() {
   const { values } = parseArgs({
     options: {
-      source: { type: "string" },
+      concept: { type: "string" },
+      split: { type: "string", default: "heldout" },
+      corpus: { type: "string", default: "cowsl2h" },
+      l1: { type: "string", default: "en" },
+      level: { type: "string", default: "B1" },
       "per-kind": { type: "string", default: "40" },
-      set: { type: "string", default: "anchor-cowsl2h" },
-      split: { type: "string" },
       "dry-run": { type: "boolean", default: false },
     },
   });
-  const SET = values.set!;
-  if (values.split && values.split !== "dev" && values.split !== "heldout") throw new Error("--split must be dev or heldout");
-  if (!values.source) throw new Error("--source <path to a clone of ucdaviscl/cowsl2h> is required");
-  const used = new Set(readItems().flatMap((i) => i.origin?.match(/^COWS-L2H essay (\S+)/)?.[1] ?? []));
-  const all = candidates(values.source).filter((c) => !used.has(c.essayId));
-  if (used.size) console.log(`Skipping ${used.size} essays used by earlier imports.`);
-  const byKind = (k: Kind) => all.filter((c) => c.kind === k);
-  console.log(`Candidates: por/para ${byKind("por_para").length}, aspect ${byKind("aspect").length}, unchanged ${byKind("unchanged").length}`);
+  const source = getCorpus(values.corpus!);
+  const concepts = conceptsFor(source.language);
+  const concept = concepts[values.concept ?? ""];
+  if (!concept) throw new Error(`--concept must be one of ${Object.keys(concepts).join(", ")} (language ${source.language})`);
+  if (values.split !== "heldout" && values.split !== "dev") throw new Error("--split must be heldout or dev");
+  const set = `anchor-${source.language}-${concept.key}${values.split === "dev" ? "-dev" : ""}`;
+
+  const split = studentSplit(source);
+  const essays = source.readEssays().filter((e) => e.l1.includes(values.l1!) && e.level === values.level && split(e.student) === values.split);
+  const bar = progress(essays.length, `reading ${values.split} essays`);
+  const all: Candidate[] = [];
+  for (const e of essays) {
+    all.push(...candidates(e, concept));
+    bar.tick();
+  }
+  bar.done();
+  const errors = all.filter((c) => c.kind === "error");
+  const correct = all.filter((c) => c.kind === "correct");
+  console.log(`${source.language}/${concept.key}, ${values.split} students (${essays.length} essays): ${errors.length} error candidates, ${correct.length} correct candidates.`);
   const perKind = Number(values["per-kind"]);
-  const picked = (["por_para", "aspect", "unchanged"] as Kind[]).flatMap((k) => sample(byKind(k), perKind));
+  // Balanced: as many correct items as errors found, so a scarce concept isn't swamped by correct ones.
+  const pickedErrors = sample(errors, perKind);
+  const picked = [...pickedErrors, ...sample(correct, pickedErrors.length)];
 
   if (values["dry-run"]) {
     for (const c of picked) {
@@ -125,34 +89,30 @@ function main() {
   const now = new Date().toISOString();
   const items: GoldItem[] = picked.map((c) => ({
     id: itemIdFor("cows", c.response),
-    prompt: PROMPTS[c.topic],
+    prompt: c.essay.prompt,
     response: c.response,
     source: "learner",
-    origin: `COWS-L2H essay ${c.essayId} (${c.topic} ${c.quarter}, ${c.course})`,
-    ...(values.split ? { split: values.split as "dev" | "heldout" } : {}),
+    origin: source.origin(c.essay),
+    ...(values.split === "dev" ? { split: "dev" as const } : {}),
     created_at: now,
   }));
-  const fresh = new Set(addItems(items).map((i) => i.id));
+  const fresh = addItems(items);
   const known = new Set(readItems().map((i) => i.id));
   const labels: Annotation[] = picked
     .map((c, k) => ({ c, id: items[k].id }))
     .filter(({ id }) => known.has(id))
     .map(({ c, id }) => ({
       item_id: id,
-      annotator: SET,
-      evaluation: c.kind === "unchanged" ? "correct" : "incorrect",
-      // The corpus does not say which misconception caused an error.
+      annotator: set,
+      evaluation: c.kind === "correct" ? "correct" : "incorrect",
       diagnosis_code: null,
       confidence: 3,
-      notes:
-        c.kind === "unchanged"
-          ? `instructor kept: ${c.untouched.join(", ")}`
-          : `instructor corrected: ${c.findings.map((f) => `${f.from} -> ${f.to}`).join("; ")}`,
-      rationale: `COWS-L2H essay ${c.essayId}, correction 1 (graduate Spanish instructor).`,
+      notes: c.kind === "correct" ? `instructor kept: ${c.untouched.join(", ")}` : `instructor corrected: ${c.findings.map((f) => `${f.from} -> ${f.to}`).join("; ")}`,
+      rationale: `${source.name} essay ${c.essay.id}, ${concept.key}, native correction${c.essay.corrections.length > 1 ? "s (all agree)" : ""}.`,
       annotated_at: now,
     }));
-  writeModelLabels(SET, labels);
-  console.log(`Added ${fresh.size} items; ${labels.length} labels in model_labels/${SET}.jsonl.`);
+  writeModelLabels(set, labels);
+  console.log(`Added ${fresh.length} items; ${labels.length} labels in model_labels/${set}.jsonl.`);
 }
 
 main();

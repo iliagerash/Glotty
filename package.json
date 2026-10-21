@@ -27,6 +27,8 @@
     "train:export": "tsx scripts/train-export.ts",
     "train:codes": "tsx scripts/train-codes.ts",
     "train:build": "tsx scripts/train-build.ts",
+    "taxonomy:review": "tsx scripts/taxonomy-review.ts",
+    "morph:prep": "tsx scripts/morph-prep.ts",
     "bench": "tsx scripts/bench.ts"
   },
   "dependencies": {

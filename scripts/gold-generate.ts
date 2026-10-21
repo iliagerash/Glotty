@@ -19,6 +19,7 @@ import { z } from "zod";
 import { completeStructured } from "@/lib/ai/gateway";
 import { governanceConfig, governedJson, type JudgeId } from "@/lib/governance";
 import { resolveModel } from "@/lib/ai/config";
+import { waiting } from "@/lib/progress";
 import { loadTaxonomy, type TaxonomyCode } from "@/lib/taxonomy";
 import { addItems, appendGeneratorIntent, itemIdFor, type GoldItem } from "@/lib/gold/store";
 
@@ -151,8 +152,8 @@ async function main() {
     const topics = Array.from({ length: perCode }, (_, i) => TOPICS[(n * perCode + i) % TOPICS.length]);
     try {
       const prompt = instructions(code, perCode, topics, kinds);
-      const { data: raw } = judge
-        ? await governedJson({
+      const call: Promise<{ data: z.infer<typeof Batch> }> = judge
+        ? governedJson({
             config: judge,
             name: "gold_candidates",
             jsonSchema: BATCH_SCHEMA,
@@ -160,7 +161,7 @@ async function main() {
             instructions: "Follow the task below exactly and return the items through the given JSON schema.",
             input: prompt,
           })
-        : await completeStructured({
+        : completeStructured({
             model: model.ref,
             schema: Batch,
             schemaName: "gold_candidates",
@@ -168,6 +169,7 @@ async function main() {
             temperature: 0.9,
             maxTokens: 8000,
           });
+      const { data: raw } = await waiting(`${code.code} (${n + 1}/${codes.length})`, call);
       // The kind fixes the label; an item whose label disagrees with its own kind is dropped.
       const expected: Record<Kind, [string, string | null]> = {
         error: ["incorrect", code.code],

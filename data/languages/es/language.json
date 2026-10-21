@@ -1,0 +1,25 @@
+{
+  "code": "es",
+  "name": "Spanish",
+  "spacy_model": "es_core_news_lg",
+  "concepts": [
+    {
+      "key": "pret_imp",
+      "cluster": "es.gram.aspect.pret_imp",
+      "name": "Preterite vs imperfect",
+      "detector": "feature-swap",
+      "pos": ["VERB", "AUX"],
+      "require": { "VerbForm": "Fin", "Mood": "Ind" },
+      "feature": "Tense",
+      "values": ["Past", "Imp"]
+    },
+    {
+      "key": "por_para",
+      "cluster": "es.sem.por_para",
+      "name": "Por vs para",
+      "detector": "word-swap",
+      "words": ["por", "para"],
+      "exclude_pos": ["VERB", "AUX"]
+    }
+  ]
+}
