@@ -45,6 +45,12 @@ test("returns validated data and sends a json_schema response_format", async () 
   assert.equal(calls[0].model, "@cf/test/a");
 });
 
+test("accepts a reply whose content is already a parsed object", async () => {
+  mockReplies({ body: { choices: [{ message: { content: { verdict: "no" } } }] } });
+  const r = await completeStructured({ ...opts, model: "cloudflare:@cf/test/obj" });
+  assert.deepEqual(r.data, { verdict: "no" });
+});
+
 test("retries once with the validation error, then succeeds", async () => {
   mockReplies(chat('{"verdict":"maybe"}'), chat('{"verdict":"no"}'));
   const r = await completeStructured({ ...opts, model: "cloudflare:@cf/test/b" });

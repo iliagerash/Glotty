@@ -147,12 +147,14 @@ async function callChat(
     choices?: Array<{
       finish_reason?: string | null;
       // Workers AI uses `reasoning` for some models and `reasoning_content` for others.
-      message?: { content?: string | null; reasoning?: string | null; reasoning_content?: string | null };
+      message?: { content?: string | object | null; reasoning?: string | null; reasoning_content?: string | null };
     }>;
     usage?: { prompt_tokens?: number; completion_tokens?: number };
   };
   const choice = json.choices?.[0];
-  const text = choice?.message?.content ?? "";
+  // Some models (qwen2.5-coder) return a json_schema reply as an already-parsed object.
+  const content = choice?.message?.content;
+  const text = content && typeof content === "object" ? JSON.stringify(content) : (content ?? "");
   const finishReason = choice?.finish_reason ?? null;
   if (!text) {
     const reasoning = choice?.message?.reasoning || choice?.message?.reasoning_content;
