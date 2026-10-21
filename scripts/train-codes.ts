@@ -1,13 +1,14 @@
 /**
  * Gives each instructor-corrected error in the training pool a taxonomy code,
- * with governance judge b (Gemini). The instructor's correction decides that
+ * with a governance judge (b, Gemini, by default; --judge a for OpenAI). The instructor's correction decides that
  * the item is wrong; the judge only says why, from the taxonomy, and writes
  * the one-sentence analysis the fine-tuned evaluator learns to produce.
  *
- *   npm run train:codes [-- --concurrency 4]
+ *   npm run train:codes [-- --judge a|b] [--concurrency 4]
  *
  * Reads data/train/cowsl2h-pool.jsonl, appends to data/train/codes.jsonl one
- * line per item as it completes, so an interrupted run resumes.
+ * line per item as it completes, so an interrupted run resumes; each line
+ * records which judge coded it.
  */
 import "dotenv/config";
 import fs from "fs";
@@ -15,7 +16,7 @@ import path from "path";
 import { parseArgs } from "util";
 import { z } from "zod";
 import { renderTaxonomy } from "@/lib/evaluator";
-import { governanceConfig, governedJson } from "@/lib/governance";
+import { governanceConfig, governedJson, type JudgeId } from "@/lib/governance";
 import { taxonomyCodes } from "@/lib/taxonomy";
 import type { PoolItem } from "./train-export";
 
@@ -48,8 +49,9 @@ Return:
 ${renderTaxonomy()}`;
 
 async function main() {
-  const { values } = parseArgs({ options: { concurrency: { type: "string", default: "4" } } });
-  const config = governanceConfig("b");
+  const { values } = parseArgs({ options: { judge: { type: "string", default: "b" }, concurrency: { type: "string", default: "4" } } });
+  if (values.judge !== "a" && values.judge !== "b") throw new Error("--judge must be a or b");
+  const config = governanceConfig(values.judge as JudgeId);
   const codes = new Set(taxonomyCodes());
   const pool = fs.readFileSync(POOL, "utf-8").trim().split("\n").map((l) => JSON.parse(l) as PoolItem);
   const done = new Set(fs.existsSync(OUT) ? fs.readFileSync(OUT, "utf-8").trim().split("\n").filter(Boolean).map((l) => JSON.parse(l).id) : []);
